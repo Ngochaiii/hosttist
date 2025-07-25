@@ -25,7 +25,7 @@
                                         Dịch vụ {{ $category->name }}
                                     @endif
                                 </p>
-                                <a href="{{route('pricing.index')}}">
+                                <a href="{{ route('pricing.index') }}">
                                     Xem thêm
                                     <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
                                 </a>
@@ -363,7 +363,229 @@
     </section>
 
     <!-- price section -->
+    {{-- tính năng nổi bật  --}}
+    <div class="section-internal-feature-sever">
+        <div class="container">
+            <h2 class="title-section text-center">
+                <span class="slogan-section text-center d-block">Outstanding Features</span>
+                When Buying Affordable VPS Vietnam at HOSTIST
+            </h2>
 
+            <!-- OpenStack Cloud VPS Technology -->
+            <div class="content-internal-feature-sever">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="img position-relative">
+                            <img class="rtbs" src="https://nhanhoa.com/templates/images/v2/vps/vps-cau-hinh-manh-me.png"
+                                alt="Superior Technology">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="content">
+                            <h3 class="title-section text-left">Superior OpenStack Cloud VPS Technology</h3>
+                            <div class="info">
+                                <p>OpenStack, combined with CEPH – advanced storage solution. This is a core technology
+                                    trusted by major global technology corporations such as IBM, Cisco, Dell, HP, Red Hat,
+                                    OVH and Rackspace. Therefore, Vietnam VPS rental service at HOSTIST always ensures high
+                                    performance, stability and reliability, meeting storage needs and operating system of
+                                    every business of all sizes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Powerful VPS Cloud Infrastructure -->
+            <div class="content-internal-feature-sever">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="content content-text-right">
+                            <h3 class="title-section text-left">Powerful VPS Cloud Infrastructure</h3>
+                            <div class="info">
+                                <p>With powerful server infrastructure from Dell, IBM, Cisco and HP combined with Enterprise
+                                    SSD storage solutions, HOSTIST is committed to delivering professional virtual server
+                                    services that meet international standards. HOSTIST system operates 24/7 stably,
+                                    ensuring customer data is always secure and protected.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="img position-relative">
+                            <img class="rtbs" src="https://nhanhoa.com/templates/images/v2/vps/vps-thiet-ke-toi-uu.png"
+                                alt="Powerful Infrastructure">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TIER 3 Standard Datacenter -->
+            <div class="content-internal-feature-sever">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="img position-relative">
+                            <img class="rtbs" src="https://nhanhoa.com/templates/images/v2/vps/vps-backup-hang-tuan.png"
+                                alt="TIER 3 Standard Datacenter">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="content">
+                            <h3 class="title-section text-left">TIER 3 Standard Virtual Server Datacenter</h3>
+                            <div class="info">
+                                <p>With server systems located at leading Datacenters such as Viettel, FPT, CMC,... When
+                                    renting affordable VPS from HOSTIST, customers can easily choose the location for their
+                                    Cloud VPS server, ensuring proximity to their target customers, thereby reducing latency
+                                    and increasing access speed, enhancing customer experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maximum Uptime & Safe Redundancy -->
+            <div class="content-internal-feature-sever">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="content content-text-right">
+                            <h3 class="title-section text-left">Maximum Uptime & Safe Redundancy</h3>
+                            <div class="info">
+                                <p>VPS Cloud system applies N+1 redundant architecture for all network equipment and
+                                    servers, with high availability and quick recovery capability in case of incidents.
+                                    Proactive monitoring mechanisms help detect and quickly resolve issues, minimizing Cloud
+                                    VPS service downtime to the maximum extent.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="img position-relative">
+                            <img class="rtbs" src="https://nhanhoa.com/templates/images/v2/vps/vps-ipv4-ipv6.png"
+                                alt="Safe Redundancy - Maximum Uptime">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- High Flexibility -->
+            <div class="content-internal-feature-sever">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="img position-relative">
+                            <img class="rtbs" src="https://nhanhoa.com/images/vps/tinh-linh-hoat-cao.png"
+                                alt="High Availability">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-12">
+                        <div class="content">
+                            <h3 class="title-section text-left">High Flexibility</h3>
+                            <div class="info">
+                                <p>With an intuitive management interface, you can easily customize Cloud VPS virtual server
+                                    configurations even without extensive technical expertise. Scaling up or down resources
+                                    becomes simpler, helping you flexibly meet changing business needs.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- Kết thúc tính năng nổi bật  --}}
+    {{-- ly do chọn  --}}
+
+    <section class="section-why-cloud">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1 class="main-title">Why You Should Rent Affordable Cloud VPS in HOSTIST</h1>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- Quick Setup -->
+                <div class="col-lg-4 col-md-4 col-6 mb-3">
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <h3 class="feature-title text-center">Quick Setup in 5 Minutes</h3>
+                        <p class="feature-text">
+                            With pre-installed templates and applications, you can activate and set up Cloud VPS in just 5
+                            minutes. Based on a website template, you can go live immediately.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- High Performance -->
+                <div class="col-lg-4 col-md-4 col-6 mb-3">
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="feature-title text-center">High-Performance Host Infrastructure</h3>
+                        <p class="feature-text">
+                            HOSTIST develops VPS Cloud on high-performance host clusters, using equipment from leading
+                            brands like IBM, DELL, CISCO, HP and located in Vietnam's leading TIER3 standard data centers.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- High Performance Specs -->
+                <div class="col-lg-4 col-md-4 col-6 mb-3">
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-cog"></i>
+                        </div>
+                        <h3 class="feature-title text-center">High Performance</h3>
+                        <p class="feature-text">
+                            Servers equipped with the same SSD Enterprise storage, combined with high-speed internet
+                            connection, ensuring stable service operation and bringing optimal experience to users.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Multi-layer Security -->
+                <div class="col-lg-4 col-md-4 col-6 mb-3">
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3 class="feature-title text-center">Multi-layer Security</h3>
+                        <p class="feature-text">
+                            Servers are protected by two layers of firewall: Datacenter firewall and integrated Cloud
+                            platform firewall, preventing most external threats from DDoS attacks.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Smart Management Software -->
+                <div class="col-lg-4 col-md-4 col-6 mb-3">
+                    <div class="feature-card highlight-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-toggle-on"></i>
+                        </div>
+                        <h3 class="feature-title text-center">Smart Management Software</h3>
+                        <p class="feature-text">
+                            Direct Cloud VPS management interface allows you to easily perform operations and manage your
+                            server efficiently through an intuitive process.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 24/7/365 Support -->
+                <div class="col-lg-4 col-md-4 col-6 mb-3">
+                    <div class="feature-card">
+                        <div class="icon-wrapper">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3 class="feature-title text-center">24/7/365 Support</h3>
+                        <p class="feature-text">
+                            HOSTIST technical team operates continuously and is always ready to support customers
+                            24/7/365. We solve every issue to ensure the best experience with Cloud VPS service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{-- kết thúc section  --}}
     <!-- client section -->
     <section class="client_section ">
         <div class="container">
@@ -541,6 +763,10 @@
 
 @push('header_css')
     <style>
+        .price_section .price_container .box .detail-box {
+            width: 100% !important;
+        }
+
         .price_container .box {
             transition: all 0.3s ease;
             border-radius: 10px;
@@ -688,6 +914,147 @@
         @media (max-width: 768px) {
             .price_container .box.featured {
                 transform: none;
+            }
+        }
+    </style>
+    <!-- CSS Styles for Cloud VPS Features -->
+    <style>
+        .section-why-cloud {
+            background: #f1fafa;
+        }
+
+        .feature-card {
+            border: 1px solid #4abab9;
+            padding: 20px 10px;
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 2rem;
+            height: 100%;
+            transition: transform 0.3s ease;
+
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon-wrapper {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4abab9, #5ca0b4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .icon-wrapper i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .highlight-card {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border: 2px solid #4a90a4;
+        }
+
+        .main-title {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 3rem;
+        }
+
+        .feature-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-text {
+            color: #555;
+            line-height: 1.6;
+        }
+    </style>
+    <!-- CSS Styles for VPS Vietnam Features -->
+    <style>
+        .section-internal-feature-sever {
+            background: #F7FCFC;
+            padding: 60px 0;
+        }
+
+        .title-section {
+            color: #2c3e50;
+            font-weight: 700;
+            margin-bottom: 3rem;
+            line-height: 1.2;
+        }
+
+        .slogan-section {
+            color: #17a2b8;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-internal-feature-sever {
+            margin-bottom: 4rem;
+        }
+
+        .content-internal-feature-sever:last-child {
+            margin-bottom: 0;
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .content-text-right {
+            text-align: left;
+        }
+
+        .content .title-section {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-align: left !important;
+        }
+
+        .info p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .img {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .img img,
+        .rtbs {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .title-section {
+                font-size: 1.8rem;
+            }
+
+            .content .title-section {
+                font-size: 1.5rem;
+            }
+
+            .info p {
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 1.5rem 1rem;
             }
         }
     </style>
