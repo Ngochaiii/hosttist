@@ -7,12 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Config;
 use App\Models\Customers;
 use App\Mail\DepositRequest;
-use App\Mail\DepositRequestAdmin;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use App\Models\Deposit;
 use App\Models\deposits;
 
 class WalletController extends Controller
@@ -20,48 +18,25 @@ class WalletController extends Controller
     /**
      * Hiển thị trang nạp tiền
      */
-    public function deposit()
+    public function deposit(Request $request)
     {
-        // Lấy thông tin cấu hình
+        $locale = $this->getLocale($request);
         $config = Config::current();
+        $customer = $this->getOrCreateCustomer();
 
-        // Lấy thông tin khách hàng
-        $user = Auth::user();
-        $customer = $user->customer;
-
-        // Kiểm tra và tạo customer nếu chưa có
-        if (!$customer) {
-            $customer = new Customers();
-            $customer->user_id = $user->id;
-            $customer->company_name = $user->name; // Mặc định lấy tên từ user
-            $customer->status = 'active';
-            $customer->source = 'website';
-            $customer->balance = 0; // Số dư ban đầu
-            $customer->save();
-
-            // Refresh user để lấy thông tin customer mới tạo
-            $user->refresh();
-            $customer = $user->customer;
-        }
-
-        // Mốc nạp tiền
-        $depositAmounts = [
-            5 => 5000000,  // 5 triệu
-            10 => 10000000, // 10 triệu
-            15 => 15000000, // 15 triệu
+        $data = [
+            'config' => $config,
+            'customer' => $customer,
+            'depositAmounts' => $this->getDepositAmounts($locale),
+            'minDeposit' => 100000, // Hard code vì chưa có field
+            'maxDeposit' => 100000000,
+            'locale' => $locale,
+            'paymentMethods' => $this->getPaymentMethods($locale),
+            'currency' => $this->getCurrency($locale),
+            'usdRate' => 24000
         ];
 
-        // Min/Max deposit từ cấu hình
-        $minDeposit = $config->min_deposit_amount ?? 100000;
-        $maxDeposit = $config->max_deposit_amount ?? 100000000;
-
-        return view('source.web.wallet.deposit', compact(
-            'config',
-            'customer',
-            'depositAmounts',
-            'minDeposit',
-            'maxDeposit'
-        ));
+        return view('source.web.wallet.deposit', $data);
     }
 
     /**
@@ -69,197 +44,320 @@ class WalletController extends Controller
      */
     public function processDeposit(Request $request)
     {
-        $request->validate([
-            'amount' => 'required|numeric|min:100000',
-            'payment_method' => 'required|in:bank,momo,zalopay',
-            'agree_terms' => 'required|accepted'
-        ]);
-
-        // Lấy thông tin cấu hình
+        $this->validateDepositRequest($request);
+        
+        $locale = $this->getLocale($request);
+        $customer = $this->getOrCreateCustomer();
         $config = Config::current();
 
-        // Kiểm tra giới hạn nạp tiền
-        $minDeposit = $config->min_deposit_amount ?? 100000;
-        $maxDeposit = $config->max_deposit_amount ?? 100000000;
-
-        if ($request->amount < $minDeposit || $request->amount > $maxDeposit) {
-            return back()->withErrors([
-                'amount' => "Số tiền nạp phải từ " . number_format($minDeposit) . " đ đến " . number_format($maxDeposit) . " đ"
-            ])->withInput();
-        }
-
-        // Lấy thông tin khách hàng
-        $user = Auth::user();
-        if (!$user || !$user->email) {
-            return back()->withErrors(['email' => 'Không thể xác định email người dùng'])->withInput();
-        }
-
-        $customer = $user->customer;
-        if (!$customer) {
-            return back()->withErrors(['customer' => 'Không tìm thấy thông tin khách hàng'])->withInput();
-        }
-
+        // Tính toán số tiền
+        $amounts = $this->calculateAmounts($request->amount, $request->payment_method);
+        
         // Tạo mã giao dịch
-        $transactionCode = 'DEP' . time() . Str::random(5);
+        $transactionCode = $this->generateTransactionCode();
+        
+        // Lấy thông tin thanh toán - sử dụng fields có sẵn hoặc hard code
+        $paymentInfo = $this->getPaymentInfo($config, $request->payment_method, $customer);
+        
+        // Tạo deposit data đầy đủ cho session và email
+        $depositData = $this->createDepositData($transactionCode, $amounts, $request, $customer, $paymentInfo, $locale, $config);
+        
+        // Lưu vào database
+        $this->saveDeposit($transactionCode, $amounts, $request, $customer->id, $paymentInfo);
+        
+        // Gửi email
+        $this->sendDepositEmail($depositData, Auth::user()->email);
+        
+        // Lưu session
+        session(['deposit_data' => $depositData]);
 
-        // Tính toán số tiền nạp và tiền thưởng (nếu có)
-        $originalAmount = $request->amount;
-        $finalAmount = $originalAmount;
-        $bonusAmount = 0;
-
-        // Kiểm tra điều kiện thưởng: nạp từ 10 triệu trở lên được thưởng 5%
-        if ($originalAmount >= 10000000) {
-            $bonusAmount = round($originalAmount * 5 / 100);
-            $finalAmount = $originalAmount + $bonusAmount;
-
-            // Log để theo dõi
-            Log::info("Tiền thưởng nạp tiền: Gốc: {$originalAmount}, Thưởng 5%: {$bonusAmount}, Tổng: {$finalAmount}");
-        }
-
-        // Chuẩn bị dữ liệu email
-        $depositData = [
-            'transaction_code' => $transactionCode,
-            'amount' => $originalAmount,
-            'payment_method' => $request->payment_method,
-            'customer_name' => $user->name,
-            'customer_email' => $user->email,
-            'customer_id' => $customer->id,
-            'date' => now()->format('d/m/Y H:i:s'),
-            'note_format' => $config->deposit_note_format ? str_replace('{customer_id}', $customer->id, $config->deposit_note_format) : "NapTien{$customer->id}",
-        ];
-
-        // Thêm thông tin thưởng nếu có
-        if ($bonusAmount > 0) {
-            $depositData['bonus_amount'] = $bonusAmount;
-            $depositData['bonus_percent'] = 5;
-            $depositData['final_amount'] = $finalAmount;
-        }
-
-        // Thêm thông tin chi tiết dựa vào phương thức thanh toán
-        $paymentDetails = [];
-
-        switch ($request->payment_method) {
-            case 'bank':
-                $depositData['bank_info'] = [
-                    'bank_name' => $config->company_bank_name,
-                    'account_number' => $config->company_bank_account_number,
-                    'account_name' => $config->company_bank_account_name,
-                    'branch' => $config->company_bank_branch,
-                ];
-
-                $paymentDetails = [
-                    'bank_name' => $config->company_bank_name,
-                    'account_number' => $config->company_bank_account_number,
-                    'account_name' => $config->company_bank_account_name,
-                    'branch' => $config->company_bank_branch,
-                ];
-
-                if ($config->company_bank_qr_code) {
-                    $depositData['qr_code_url'] = url('storage/' . $config->company_bank_qr_code);
-                }
-                break;
-
-            case 'momo':
-                $depositData['momo_info'] = [
-                    'phone' => $config->momo_phone_number,
-                    'account_name' => $config->momo_account_name,
-                ];
-
-                $paymentDetails = [
-                    'phone' => $config->momo_phone_number,
-                    'account_name' => $config->momo_account_name,
-                ];
-
-                if ($config->momo_qr_code) {
-                    $depositData['qr_code_url'] = url('storage/' . $config->momo_qr_code);
-                }
-                break;
-
-            case 'zalopay':
-                $depositData['zalopay_info'] = [
-                    'phone' => $config->zalopay_phone_number,
-                    'account_name' => $config->zalopay_account_name,
-                ];
-
-                $paymentDetails = [
-                    'phone' => $config->zalopay_phone_number,
-                    'account_name' => $config->zalopay_account_name,
-                ];
-
-                if ($config->zalopay_qr_code) {
-                    $depositData['qr_code_url'] = url('storage/' . $config->zalopay_qr_code);
-                }
-                break;
-        }
-
-        // Thêm thông tin về tiền thưởng vào payment_details
-        if ($bonusAmount > 0) {
-            $paymentDetails['original_amount'] = $originalAmount;
-            $paymentDetails['bonus_amount'] = $bonusAmount;
-            $paymentDetails['bonus_percent'] = 5;
-        }
-
-        // Lưu yêu cầu nạp tiền vào database
-        $deposit = deposits::create([
-            'transaction_code' => $transactionCode,
-            'customer_id' => $customer->id,
-            'amount' => $finalAmount, // Lưu tổng số tiền đã cộng thưởng
-            'payment_method' => $request->payment_method,
-            'note' => $depositData['note_format'],
-            'status' => 'pending',
-            'payment_details' => $paymentDetails,
-        ]);
-
-        // Kiểm tra email người dùng có hợp lệ không
-        if (filter_var($user->email, FILTER_VALIDATE_EMAIL)) {
-            // Gửi email cho khách hàng
-            try {
-                Mail::to($user->email)->send(new DepositRequest($depositData));
-            } catch (\Exception $e) {
-                // Log lỗi để debug
-                Log::error('Lỗi gửi email cho khách hàng: ' . $e->getMessage());
-            }
-        } else {
-            Log::warning('Email khách hàng không hợp lệ: ' . $user->email);
-        }
-
-        // Kiểm tra email admin có hợp lệ không
-        $adminEmail = config('mail.admin_email');
-        if ($adminEmail && filter_var($adminEmail, FILTER_VALIDATE_EMAIL)) {
-            // Gửi email cho admin
-            try {
-                Mail::to($adminEmail)->send(new DepositRequestAdmin($depositData));
-            } catch (\Exception $e) {
-                // Log lỗi để debug
-                Log::error('Lỗi gửi email cho admin: ' . $e->getMessage());
-            }
-        } else {
-            Log::warning('Email admin không hợp lệ hoặc không được cấu hình: ' . $adminEmail);
-        }
-
-        // Chuyển hướng với thông báo thành công
-        return redirect()->route('deposit.success', ['code' => $transactionCode])
-            ->with('deposit_data', $depositData);
+        return redirect()->route('deposit.success', ['code' => $transactionCode]);
     }
 
     /**
-     * Hiển thị trang thành công
+     * Trang thành công
      */
     public function depositSuccess(Request $request)
     {
-        // Kiểm tra xem có dữ liệu session không
+        $code = $request->code;
+        
         if (!session()->has('deposit_data')) {
-            return redirect()->route('deposit');
+            return redirect()->route('deposit')->with('error', 'Session đã hết hạn');
         }
 
         $depositData = session('deposit_data');
-        $code = $request->code;
-
-        // Kiểm tra mã giao dịch
+        
         if ($depositData['transaction_code'] !== $code) {
-            return redirect()->route('deposit');
+            return redirect()->route('deposit')->with('error', 'Mã giao dịch không hợp lệ');
         }
 
         return view('source.web.wallet.deposit_success', compact('depositData'));
+    }
+
+    /**
+     * Kiểm tra trạng thái giao dịch
+     */
+    public function checkDepositStatus(Request $request, $code)
+    {
+        $customer = Auth::user()->customer;
+        $deposit = deposits::where('transaction_code', $code)
+            ->where('customer_id', $customer->id)
+            ->first();
+
+        if (!$deposit) {
+            return response()->json([
+                'success' => false, 
+                'message' => 'Không tìm thấy giao dịch'
+            ], 404);
+        }
+
+        $statusInfo = $this->getStatusInfo($deposit);
+
+        return response()->json([
+            'success' => true,
+            'data' => $statusInfo
+        ]);
+    }
+
+    // ===== PRIVATE HELPER METHODS =====
+
+    private function getLocale(Request $request): string
+    {
+        $locale = $request->get('lang', session('locale', 'vi'));
+        session(['locale' => $locale]);
+        return $locale;
+    }
+
+    private function getOrCreateCustomer(): Customers
+    {
+        $user = Auth::user();
+        $customer = $user->customer;
+
+        if (!$customer) {
+            $customer = Customers::create([
+                'user_id' => $user->id,
+                'company_name' => $user->name,
+                'status' => 'active',
+                'source' => 'website',
+                'balance' => 0
+            ]);
+            $user->refresh();
+        }
+
+        return $customer;
+    }
+
+    private function getDepositAmounts(string $locale): array
+    {
+        return $locale === 'vi' ? [
+            5 => 5000000,    // 5 triệu
+            10 => 10000000,  // 10 triệu
+            15 => 15000000,  // 15 triệu
+        ] : [
+            100 => 100,      // $100
+            500 => 500,      // $500
+            1000 => 1000,    // $1000
+        ];
+    }
+
+    private function getPaymentMethods(string $locale): array
+    {
+        $methods = [];
+
+        if ($locale === 'vi') {
+            $methods['bank'] = ['name' => 'Chuyển khoản ngân hàng', 'icon' => 'fas fa-university'];
+            $methods['momo'] = ['name' => 'Ví MoMo', 'icon' => 'fas fa-wallet'];
+            $methods['zalopay'] = ['name' => 'ZaloPay', 'icon' => 'fas fa-wallet'];
+        }
+
+        // International methods
+        $methods['paypal'] = ['name' => 'PayPal', 'icon' => 'fab fa-paypal'];
+        $methods['crypto'] = ['name' => $locale === 'vi' ? 'Tiền điện tử' : 'Cryptocurrency', 'icon' => 'fab fa-bitcoin'];
+
+        return $methods;
+    }
+
+    private function getCurrency(string $locale): array
+    {
+        return $locale === 'vi' 
+            ? ['code' => 'VND', 'symbol' => 'đ'] 
+            : ['code' => 'USD', 'symbol' => '$'];
+    }
+
+    private function validateDepositRequest(Request $request): void
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'payment_method' => 'required|in:bank,momo,zalopay,paypal,crypto',
+            'agree_terms' => 'required|accepted'
+        ]);
+    }
+
+    private function calculateAmounts(float $originalAmount, string $paymentMethod): array
+    {
+        $usdRate = 24000;
+        
+        // Convert to VND if needed
+        $amountVND = in_array($paymentMethod, ['paypal', 'crypto']) 
+            ? $originalAmount * $usdRate 
+            : $originalAmount;
+
+        // Calculate bonus (5% for amounts >= 10M VND)
+        $bonusAmount = $amountVND >= 10000000 ? round($amountVND * 0.05) : 0;
+        $finalAmount = $amountVND + $bonusAmount;
+
+        return [
+            'original' => $originalAmount,
+            'vnd' => $amountVND,
+            'bonus' => $bonusAmount,
+            'bonus_percent' => $bonusAmount > 0 ? 5 : 0,
+            'final' => $finalAmount,
+            'exchange_rate' => $usdRate
+        ];
+    }
+
+    private function generateTransactionCode(): string
+    {
+        return 'DEP' . time() . Str::random(5);
+    }
+
+    /**
+     * Lấy payment info - sử dụng fields có sẵn hoặc hard code
+     */
+    private function getPaymentInfo(Config $config, string $paymentMethod, Customers $customer): array
+    {
+        $baseInfo = [
+            'payment_type' => $paymentMethod,
+            'customer_id' => $customer->id
+        ];
+
+        return match($paymentMethod) {
+            'bank' => array_merge($baseInfo, [
+                // Sử dụng fields có sẵn trong config hoặc hard code
+                'bank_name' => $config->company_bank_name ?? 'Ngân hàng Tiền Phong',
+                'account_number' => $config->company_bank_account_number ?? '69692648888',
+                'account_name' => $config->company_bank_account_name ?? 'NGUYEN VAN THIEN',
+                'branch' => $config->company_bank_branch ?? 'Cầu Giấy',
+            ]),
+            'momo' => array_merge($baseInfo, [
+                'phone' => $config->momo_phone_number ?? '0123456789',
+                'account_name' => $config->momo_account_name ?? 'NGUYEN VAN THIEN',
+            ]),
+            'zalopay' => array_merge($baseInfo, [
+                'phone' => $config->zalopay_phone_number ?? '0123456789',
+                'account_name' => $config->zalopay_account_name ?? 'NGUYEN VAN THIEN',
+            ]),
+            'paypal' => array_merge($baseInfo, [
+                'currency' => 'USD',
+                'paypal_email' => $config->paypal_email ?? 'your-paypal@email.com',
+            ]),
+            'crypto' => array_merge($baseInfo, [
+                'crypto_type' => 'bitcoin',
+                'wallet_address' => $config->crypto_wallet_address ?? '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+                'network' => 'Bitcoin Network'
+            ]),
+            default => $baseInfo
+        };
+    }
+
+    /**
+     * Tạo deposit data đầy đủ cho session và email
+     */
+    private function createDepositData(string $transactionCode, array $amounts, Request $request, Customers $customer, array $paymentInfo, string $locale, Config $config): array
+    {
+        return [
+            'transaction_code' => $transactionCode,
+            'amount' => $amounts['original'],
+            'amount_vnd' => $amounts['vnd'],
+            'final_amount' => $amounts['final'],
+            'bonus_amount' => $amounts['bonus'],
+            'bonus_percent' => $amounts['bonus_percent'],
+            'currency' => $locale === 'vi' ? 'VND' : 'USD',
+            'exchange_rate' => $amounts['exchange_rate'],
+            'payment_method' => $request->payment_method,
+            'payment_info' => $paymentInfo,
+            'customer_name' => Auth::user()->name,
+            'customer_email' => Auth::user()->email,
+            'customer_id' => $customer->id,
+            'date' => now()->format('d/m/Y H:i:s'),
+            'note_format' => "DEP{$customer->id}",
+            'locale' => $locale,
+            'config' => $config // Truyền config để component access QR
+        ];
+    }
+
+    /**
+     * Lưu vào database - chỉ dùng columns có sẵn
+     */
+    private function saveDeposit(string $transactionCode, array $amounts, Request $request, int $customerId, array $paymentInfo): void
+    {
+        $paymentDetails = array_merge($paymentInfo, [
+            'original_amount' => $amounts['original'],
+            'bonus_amount' => $amounts['bonus'],
+            'bonus_percent' => $amounts['bonus_percent'],
+            'exchange_rate' => $amounts['exchange_rate'],
+            'locale' => session('locale', 'vi'),
+            'expires_at' => now()->addMinutes(30)->toDateTimeString()
+        ]);
+
+        deposits::create([
+            'transaction_code' => $transactionCode,
+            'customer_id' => $customerId,
+            'amount' => $amounts['final'],
+            'payment_method' => $request->payment_method,
+            'note' => "DEP{$customerId}",
+            'status' => 'pending',
+            'payment_details' => $paymentDetails,
+        ]);
+    }
+
+    private function sendDepositEmail(array $depositData, string $email): void
+    {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            try {
+                Mail::to($email)->send(new DepositRequest($depositData));
+            } catch (\Exception $e) {
+                Log::error('Email sending failed: ' . $e->getMessage());
+            }
+        }
+    }
+
+    private function getStatusInfo(deposits $deposit): array
+    {
+        $paymentDetails = $deposit->payment_details;
+        $expiresAt = isset($paymentDetails['expires_at']) 
+            ? \Carbon\Carbon::parse($paymentDetails['expires_at']) 
+            : $deposit->created_at->addMinutes(30);
+        
+        $isExpired = $expiresAt->isPast() && $deposit->status === 'pending';
+        
+        $statusColors = [
+            'pending' => 'warning',
+            'approved' => 'success', 
+            'rejected' => 'danger'
+        ];
+
+        $statusTexts = [
+            'pending' => 'Chờ thanh toán',
+            'approved' => 'Đã duyệt',
+            'rejected' => 'Bị từ chối'
+        ];
+
+        return [
+            'status' => $deposit->status,
+            'status_color' => $statusColors[$deposit->status] ?? 'secondary',
+            'status_text' => $statusTexts[$deposit->status] ?? 'Không xác định',
+            'is_expired' => $isExpired
+        ];
+    }
+
+    /**
+     * Switch language
+     */
+    public function switchLanguage(Request $request)
+    {
+        $locale = $request->get('locale', 'vi');
+        session(['locale' => $locale]);
+        return redirect()->back();
     }
 }

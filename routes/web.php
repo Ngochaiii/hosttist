@@ -71,12 +71,18 @@ Route::group([
 
     // routes/web.php
 
-    // Wallet routes (yêu cầu đăng nhập)
-    Route::group(['prefix' => 'wallet'], function () {
-        Route::get('/deposit', [WalletController::class, 'deposit'])->name('deposit');
-        Route::post('/deposit/process', [WalletController::class, 'processDeposit'])->name('deposit.process');
-        Route::get('/deposit/success/{code}', [WalletController::class, 'depositSuccess'])->name('deposit.success');
-    });
+
+Route::group(['prefix' => 'wallet'], function () {
+    Route::get('/deposit', [WalletController::class, 'deposit'])->name('deposit');
+    Route::post('/deposit/process', [WalletController::class, 'processDeposit'])->name('deposit.process');
+    Route::get('/deposit/success/{code}', [WalletController::class, 'depositSuccess'])->name('deposit.success');
+    
+    // AJAX check status
+    Route::get('/deposit/status/{code}', [WalletController::class, 'checkDepositStatus'])->name('deposit.status');
+    
+    // Language switcher
+    Route::get('/language/{locale}', [WalletController::class, 'switchLanguage'])->name('language.switch');
+});
 
 
     // Các routes liên quan đến giỏ hàng

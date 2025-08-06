@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categories;
+use App\Models\Products;
 use App\Repositories\ProductsRepository;
 use App\Repositories\CategoriesRepository;
 
@@ -41,7 +42,12 @@ class HomepageController extends Controller
 
         // Lấy danh sách tất cả các danh mục
         $categories = Categories::where('status', 'active')->get();
-
+        $featuredProducts = Products::forSale()
+            ->where('is_featured', true)
+            ->with('category')
+            ->orderBy('sort_order')
+            ->limit(6)
+            ->get();
         // Phần hosting solutions giữ nguyên
         $hostingSolutions = collect();
         foreach ($categories as $category) {
@@ -64,7 +70,8 @@ class HomepageController extends Controller
         $compacts = [
             'services' => $services,
             'hostingSolutions' => $hostingSolutions,
-            'categories' => $categories
+            'categories' => $categories,
+            'featuredProducts' => $featuredProducts
         ];
 
         return view('source.web.homepage.homepage', $compacts);
