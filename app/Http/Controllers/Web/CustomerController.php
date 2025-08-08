@@ -94,159 +94,156 @@ class CustomerController extends Controller
     }
 
     /**
- * Hiển thị lịch sử đơn hàng đã thanh toán
- */
-public function showOrders()
-{
-    $user = Auth::user();
-    $customer = $user->customer;
+     * Hiển thị lịch sử đơn hàng đã thanh toán
+     */
+    public function showOrders()
+    {
+        $user = Auth::user();
+        $customer = $user->customer;
 
-    if (!$customer) {
-        return redirect()->route('customer.profile')->with('error', 'Vui lòng cập nhật thông tin khách hàng trước.');
-    }
-
-    // Lấy các đơn hàng đã hoàn thành hoặc đang xử lý
-    $orders = Orders::with(['items.product']) // Eager load items and products
-        ->where('customer_id', $customer->id)
-        ->whereIn('status', ['completed', 'processing']) // Đơn hàng đã xử lý hoặc hoàn thành
-        ->orderBy('created_at', 'desc')
-        ->paginate(10);
-
-    // Xử lý thông tin domain và tính ngày hết hạn cho mỗi đơn hàng
-    foreach ($orders as $order) {
-        // Tìm các domain trong order_items
-        $domains = [];
-
-        // Mặc định lấy ngày hết hạn dựa trên ngày tạo đơn hàng + 1 năm (nếu không tìm thấy giá trị khác)
-        $orderDate = $order->completed_at ?? $order->created_at;
-        $expirationDate = \Carbon\Carbon::parse($orderDate)->addYear();
-
-        // Debug log
-        \Illuminate\Support\Facades\Log::info("Processing order #{$order->order_number}");
-
-        foreach ($order->items as $item) {
-            // Lấy thông tin domain từ nhiều nguồn
-            $domain = null;
-
-            // 1. Kiểm tra trong column domain
-            if (!empty($item->domain)) {
-                $domain = $item->domain;
-            } else {
-                // 2. Kiểm tra trong options
-                $options = json_decode($item->options, true) ?: [];
-                if (!empty($options['domain'])) {
-                    $domain = $options['domain'];
-                } elseif ($item->product_id) {
-                    // 3. Kiểm tra trong meta_data của sản phẩm
-                    $product = $item->product;
-                    if ($product) {
-                        // Kiểm tra kiểu dữ liệu của meta_data
-                        $metaData = [];
-                        if (is_string($product->meta_data)) {
-                            $metaData = json_decode($product->meta_data, true) ?: [];
-                        } else if (is_array($product->meta_data)) {
-                            $metaData = $product->meta_data;
-                        }
-
-                        $domain = $metaData['domain'] ?? null;
-                    }
-                }
-            }
-
-            // Nếu có domain và là SSL hoặc domain, thêm vào danh sách
-            if ($domain && $item->product && ($item->product->type == 'ssl' || $item->product->type == 'domain')) {
-                $domains[] = $domain;
-            }
-
-            // Tính ngày hết hạn dựa trên thông tin sản phẩm
-            $durationYears = null;
-
-            // Log product type
-            \Illuminate\Support\Facades\Log::info("Item #{$item->id} - Product Type: " . ($item->product ? $item->product->type : 'No product'));
-
-            // Try multiple sources for duration
-            if ($item->product) {
-                // 1. Check directly on the item
-                if (!is_null($item->duration)) {
-                    $durationYears = (int)$item->duration;
-                    \Illuminate\Support\Facades\Log::info("Found duration in item: $durationYears");
-                }
-                // 2. Check product options
-                elseif (!empty($options['duration_years'])) {
-                    $durationYears = (int)$options['duration_years'];
-                    \Illuminate\Support\Facades\Log::info("Found duration in options: $durationYears");
-                }
-                elseif (!empty($options['duration'])) {
-                    $durationYears = (int)$options['duration'];
-                    \Illuminate\Support\Facades\Log::info("Found duration in options: $durationYears");
-                }
-                // 3. Check in meta_data
-                elseif (isset($metaData['duration_years'])) {
-                    $durationYears = (int)$metaData['duration_years'];
-                    \Illuminate\Support\Facades\Log::info("Found duration in meta_data: $durationYears");
-                }
-                elseif (isset($metaData['duration'])) {
-                    $durationYears = (int)$metaData['duration'];
-                    \Illuminate\Support\Facades\Log::info("Found duration in meta_data: $durationYears");
-                }
-                // 4. Use quantity as years for domains and SSL
-                elseif (in_array($item->product->type, ['ssl', 'domain', 'hosting'])) {
-                    $durationYears = (int)$item->quantity;
-                    \Illuminate\Support\Facades\Log::info("Using quantity as duration: $durationYears");
-                }
-                // 5. Check for expiry_date directly in options or meta
-                elseif (!empty($options['expiry_date'])) {
-                    try {
-                        $itemExpirationDate = \Carbon\Carbon::parse($options['expiry_date']);
-                        if ($itemExpirationDate->gt($expirationDate)) {
-                            $expirationDate = $itemExpirationDate;
-                            \Illuminate\Support\Facades\Log::info("Found expiry_date in options: " . $expirationDate->format('Y-m-d'));
-                        }
-                    } catch (\Exception $e) {
-                        \Illuminate\Support\Facades\Log::error("Error parsing expiry_date: " . $e->getMessage());
-                    }
-                }
-                elseif (isset($metaData['expiry_date'])) {
-                    try {
-                        $itemExpirationDate = \Carbon\Carbon::parse($metaData['expiry_date']);
-                        if ($itemExpirationDate->gt($expirationDate)) {
-                            $expirationDate = $itemExpirationDate;
-                            \Illuminate\Support\Facades\Log::info("Found expiry_date in meta_data: " . $expirationDate->format('Y-m-d'));
-                        }
-                    } catch (\Exception $e) {
-                        \Illuminate\Support\Facades\Log::error("Error parsing expiry_date: " . $e->getMessage());
-                    }
-                }
-
-                // Calculate expiration date if we found a duration
-                if ($durationYears) {
-                    try {
-                        $startDate = $order->completed_at ?? $order->created_at;
-                        $itemExpirationDate = \Carbon\Carbon::parse($startDate)->addYears($durationYears);
-
-                        \Illuminate\Support\Facades\Log::info("Calculated expiration: " . $itemExpirationDate->format('Y-m-d'));
-
-                        // We want to use the furthest expiration date for the order
-                        if ($itemExpirationDate->gt($expirationDate)) {
-                            $expirationDate = $itemExpirationDate;
-                            \Illuminate\Support\Facades\Log::info("Updated order expiration to: " . $expirationDate->format('Y-m-d'));
-                        }
-                    } catch (\Exception $e) {
-                        \Illuminate\Support\Facades\Log::error("Error calculating expiration: " . $e->getMessage());
-                    }
-                }
-            }
+        if (!$customer) {
+            return redirect()->route('customer.profile')->with('error', 'Vui lòng cập nhật thông tin khách hàng trước.');
         }
 
-        // Thêm thông tin domains và ngày hết hạn vào đơn hàng
-        $order->domains = array_unique($domains);
-        $order->expiration_date = $expirationDate;
+        // Lấy các đơn hàng đã hoàn thành hoặc đang xử lý
+        $orders = Orders::with(['items.product']) // Eager load items and products
+            ->where('customer_id', $customer->id)
+            ->whereIn('status', ['completed', 'processing']) // Đơn hàng đã xử lý hoặc hoàn thành
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
-        \Illuminate\Support\Facades\Log::info("Final expiration for order #{$order->order_number}: " . $expirationDate->format('Y-m-d'));
+        // Xử lý thông tin domain và tính ngày hết hạn cho mỗi đơn hàng
+        foreach ($orders as $order) {
+            // Tìm các domain trong order_items
+            $domains = [];
+
+            // Mặc định lấy ngày hết hạn dựa trên ngày tạo đơn hàng + 1 năm (nếu không tìm thấy giá trị khác)
+            $orderDate = $order->completed_at ?? $order->created_at;
+            $expirationDate = \Carbon\Carbon::parse($orderDate)->addYear();
+
+            // Debug log
+            \Illuminate\Support\Facades\Log::info("Processing order #{$order->order_number}");
+
+            foreach ($order->items as $item) {
+                // Lấy thông tin domain từ nhiều nguồn
+                $domain = null;
+
+                // 1. Kiểm tra trong column domain
+                if (!empty($item->domain)) {
+                    $domain = $item->domain;
+                } else {
+                    // 2. Kiểm tra trong options
+                    $options = json_decode($item->options, true) ?: [];
+                    if (!empty($options['domain'])) {
+                        $domain = $options['domain'];
+                    } elseif ($item->product_id) {
+                        // 3. Kiểm tra trong meta_data của sản phẩm
+                        $product = $item->product;
+                        if ($product) {
+                            // Kiểm tra kiểu dữ liệu của meta_data
+                            $metaData = [];
+                            if (is_string($product->meta_data)) {
+                                $metaData = json_decode($product->meta_data, true) ?: [];
+                            } else if (is_array($product->meta_data)) {
+                                $metaData = $product->meta_data;
+                            }
+
+                            $domain = $metaData['domain'] ?? null;
+                        }
+                    }
+                }
+
+                // Nếu có domain và là SSL hoặc domain, thêm vào danh sách
+                if ($domain && $item->product && ($item->product->type == 'ssl' || $item->product->type == 'domain')) {
+                    $domains[] = $domain;
+                }
+
+                // Tính ngày hết hạn dựa trên thông tin sản phẩm
+                $durationYears = null;
+
+                // Log product type
+                \Illuminate\Support\Facades\Log::info("Item #{$item->id} - Product Type: " . ($item->product ? $item->product->type : 'No product'));
+
+                // Try multiple sources for duration
+                if ($item->product) {
+                    // 1. Check directly on the item
+                    if (!is_null($item->duration)) {
+                        $durationYears = (int)$item->duration;
+                        \Illuminate\Support\Facades\Log::info("Found duration in item: $durationYears");
+                    }
+                    // 2. Check product options
+                    elseif (!empty($options['duration_years'])) {
+                        $durationYears = (int)$options['duration_years'];
+                        \Illuminate\Support\Facades\Log::info("Found duration in options: $durationYears");
+                    } elseif (!empty($options['duration'])) {
+                        $durationYears = (int)$options['duration'];
+                        \Illuminate\Support\Facades\Log::info("Found duration in options: $durationYears");
+                    }
+                    // 3. Check in meta_data
+                    elseif (isset($metaData['duration_years'])) {
+                        $durationYears = (int)$metaData['duration_years'];
+                        \Illuminate\Support\Facades\Log::info("Found duration in meta_data: $durationYears");
+                    } elseif (isset($metaData['duration'])) {
+                        $durationYears = (int)$metaData['duration'];
+                        \Illuminate\Support\Facades\Log::info("Found duration in meta_data: $durationYears");
+                    }
+                    // 4. Use quantity as years for domains and SSL
+                    elseif (in_array($item->product->type, ['ssl', 'domain', 'hosting'])) {
+                        $durationYears = (int)$item->quantity;
+                        \Illuminate\Support\Facades\Log::info("Using quantity as duration: $durationYears");
+                    }
+                    // 5. Check for expiry_date directly in options or meta
+                    elseif (!empty($options['expiry_date'])) {
+                        try {
+                            $itemExpirationDate = \Carbon\Carbon::parse($options['expiry_date']);
+                            if ($itemExpirationDate->gt($expirationDate)) {
+                                $expirationDate = $itemExpirationDate;
+                                \Illuminate\Support\Facades\Log::info("Found expiry_date in options: " . $expirationDate->format('Y-m-d'));
+                            }
+                        } catch (\Exception $e) {
+                            \Illuminate\Support\Facades\Log::error("Error parsing expiry_date: " . $e->getMessage());
+                        }
+                    } elseif (isset($metaData['expiry_date'])) {
+                        try {
+                            $itemExpirationDate = \Carbon\Carbon::parse($metaData['expiry_date']);
+                            if ($itemExpirationDate->gt($expirationDate)) {
+                                $expirationDate = $itemExpirationDate;
+                                \Illuminate\Support\Facades\Log::info("Found expiry_date in meta_data: " . $expirationDate->format('Y-m-d'));
+                            }
+                        } catch (\Exception $e) {
+                            \Illuminate\Support\Facades\Log::error("Error parsing expiry_date: " . $e->getMessage());
+                        }
+                    }
+
+                    // Calculate expiration date if we found a duration
+                    if ($durationYears) {
+                        try {
+                            $startDate = $order->completed_at ?? $order->created_at;
+                            $itemExpirationDate = \Carbon\Carbon::parse($startDate)->addYears($durationYears);
+
+                            \Illuminate\Support\Facades\Log::info("Calculated expiration: " . $itemExpirationDate->format('Y-m-d'));
+
+                            // We want to use the furthest expiration date for the order
+                            if ($itemExpirationDate->gt($expirationDate)) {
+                                $expirationDate = $itemExpirationDate;
+                                \Illuminate\Support\Facades\Log::info("Updated order expiration to: " . $expirationDate->format('Y-m-d'));
+                            }
+                        } catch (\Exception $e) {
+                            \Illuminate\Support\Facades\Log::error("Error calculating expiration: " . $e->getMessage());
+                        }
+                    }
+                }
+            }
+
+            // Thêm thông tin domains và ngày hết hạn vào đơn hàng
+            $order->domains = array_unique($domains);
+            $order->expiration_date = $expirationDate;
+
+            \Illuminate\Support\Facades\Log::info("Final expiration for order #{$order->order_number}: " . $expirationDate->format('Y-m-d'));
+        }
+
+        return view('source.web.profile.orders', compact('user', 'customer', 'orders'));
     }
-
-    return view('source.web.profile.orders', compact('user', 'customer', 'orders'));
-}
     /**
      * Hiển thị chi tiết đơn hàng
      */
@@ -296,7 +293,16 @@ public function showOrders()
                 // Check raw database value
                 $rawProduct = \App\Models\Products::select('meta_data')->where('id', $item->product->id)->first();
                 if ($rawProduct) {
-                    \Illuminate\Support\Facades\Log::info('Raw Meta Data from DB: ' . ($rawProduct->meta_data ?? 'NULL'));
+                    $metaDataForLog = $rawProduct->meta_data;
+
+                    // Chuyển đổi an toàn sang string để log
+                    if (is_array($metaDataForLog) || is_object($metaDataForLog)) {
+                        $metaDataForLog = json_encode($metaDataForLog);
+                    } elseif ($metaDataForLog === null) {
+                        $metaDataForLog = 'NULL';
+                    }
+
+                    \Illuminate\Support\Facades\Log::info('Raw Meta Data from DB: ' . $metaDataForLog);
                 }
             } else {
                 \Illuminate\Support\Facades\Log::info('No product associated with this item');

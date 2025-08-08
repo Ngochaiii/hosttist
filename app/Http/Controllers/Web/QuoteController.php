@@ -516,7 +516,7 @@ class QuoteController extends Controller
             <div class='logo-section'>
                 <div class='logo'>LOGO</div>
                 <div>
-                    <div class='company-info'>" . ($config->company_name ?? 'CÔNG TY TNHH TMDV QUẢNG CÁO VÀ TỔ CHỨC SỰ KIỆN PHƯƠNG NAM') . "</div>
+                    <div class='company-info'>" . ($config->company_name ?? 'Hosttist Company') . "</div>
                     <div style='font-size: 10px; color: #666;'>Technology Solutions</div>
                 </div>
             </div>
@@ -533,9 +533,9 @@ class QuoteController extends Controller
             <div class='company-box'>
                 <h3>BÊN CUNG CẤP DỊCH VỤ</h3>
                 <div class='company-details-content'>
-                    <strong>" . ($config->company_name ?? 'CÔNG TY TNHH TMDV QUẢNG CÁO VÀ TỔ CHỨC SỰ KIỆN PHƯƠNG NAM') . "</strong><br>
-                    Địa chỉ: " . ($config->company_address ?? '45/11 Bành Văn Trân , Phường 7 , Quận Tân Bình ,Thành Phố Hồ Chí Minh') . "<br>
-                    Điện thoại: " . ($config->support_phone ?? '0919 985 473') . "<br>
+                    <strong>" . ($config->company_name ?? 'Hosttist Company') . "</strong><br>
+                    Địa chỉ: " . ($config->company_address ?? '5335 Gate Pkwy, 2nd Floor, Jacksonville, FL 32256') . "<br>
+                    Điện thoại: " . ($config->support_phone ?? '') . "<br>
                     Email: " . ($config->support_email ?? 'supposthostit@gmail.com') . "<br>
                 </div>
             </div>
@@ -543,12 +543,12 @@ class QuoteController extends Controller
             <div class='company-box'>
                 <h3>KHÁCH HÀNG</h3>
                 <div class='company-details-content'>
-                    <strong>" . ($user->name ?? 'NISSAN HẢI PHÒNG') . "</strong><br><br>
-                    Địa chỉ: " . ($user->address ?? '189 đường Hùng Vương (đường Hà Nội) Sở Dầu, Hồng Bàng, Hải Phòng') . "<br>
-                    Điện thoại: " . ($user->phone ?? '024.3795.1555') . "<br>
+                    <strong>" . ($user->name ?? '') . "</strong><br><br>
+                    Địa chỉ: " . ($user->address ?? '') . "<br>
+                    Điện thoại: " . ($user->phone ?? '') . "<br>
                     Fax: <br>
                     Email: " . ($user->email ?? '') . "<br>
-                    Website: " . ($user->website ?? 'www.nissanhaiphong.net') . "
+                    Website: " . ($user->website ?? '') . "
                 </div>
             </div>
         </div>
