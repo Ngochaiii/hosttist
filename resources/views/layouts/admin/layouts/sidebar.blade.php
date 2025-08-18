@@ -151,9 +151,16 @@
                   </li>
                   <li class="nav-header">Cashback</li>
                   <li class="nav-item">
-                      <a href="{{route('cashback.index')}}" class="nav-link">
+                      <a href="{{ route('cashback.index') }}" class="nav-link">
                           <i class="nav-icon fas fa-ellipsis-h"></i>
                           <p>Cashback</p>
+                      </a>
+                  </li>
+                  <li class="nav-header">Người dùng</li>
+                  <li class="nav-item">
+                      <a href="{{ route('user.index') }}" class="nav-link">
+                          <i class="nav-icon fas fa-ellipsis-h"></i>
+                          <p>Users</p>
                       </a>
                   </li>
               </ul>

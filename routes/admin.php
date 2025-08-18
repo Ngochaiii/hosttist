@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -79,6 +80,12 @@ Route::group([
         Route::get('/', [CashbackAdminController::class, 'index'])->name('cashback.index');
         Route::post('/{id}/approve', [CashbackAdminController::class, 'approve'])->name('cashback.approve');
         Route::post('/{id}/reject', [CashbackAdminController::class, 'reject'])->name('cashback.reject');
-            Route::post('/{id}/process', [CashbackAdminController::class, 'markProcessed'])->name('cashback.process');
+        Route::post('/{id}/process', [CashbackAdminController::class, 'markProcessed'])->name('cashback.process');
+    });
+
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', [UserController::class, 'index'])->name('user.index');
+        Route::post('/{id}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
+        // BỎ "/users" thừa trong route reset-password
     });
 });
