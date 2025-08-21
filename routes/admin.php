@@ -86,6 +86,5 @@ Route::group([
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::post('/{id}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
-        // BỎ "/users" thừa trong route reset-password
     });
 });
