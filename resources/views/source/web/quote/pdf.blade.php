@@ -188,16 +188,6 @@
             background: #e9ecef;
         }
 
-        .tech-specs {
-            background-color: #fff;
-            padding: 15px;
-            border: 1px solid #e9ecef;
-            margin: 20px 0;
-            font-size: 11px;
-            line-height: 1.6;
-            border-radius: 4px;
-        }
-
         .payment-info {
             display: flex;
             gap: 20px;
@@ -223,65 +213,21 @@
             padding: 8px 0;
         }
 
-        .payment-details .amount {
-            font-size: 16px;
-            color: #dc3545;
-            font-weight: bold;
-        }
-
-        .payment-details .reference {
-            font-weight: bold;
-            color: #28a745;
-        }
-
         .qr-section {
             flex: 0 0 200px;
             text-align: center;
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border: 2px dashed #dee2e6;
         }
 
         .qr-code {
             width: 150px;
             height: 150px;
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 10px;
-            font-size: 10px;
-            color: #6c757d;
-            text-align: center;
-            line-height: 1.3;
-            flex-direction: column;
+            margin: 0 auto;
         }
 
-        .qr-instructions {
-            font-size: 10px;
-            color: #666;
-            margin-top: 10px;
-            line-height: 1.4;
-        }
-
-        .payment-highlight {
-            background: #e3f2fd;
-            padding: 12px;
-            border-radius: 4px;
-            margin: 15px 0;
-            border-left: 4px solid #2196f3;
-            font-size: 11px;
-        }
-
-        .footer-note {
-            font-size: 9px;
-            color: #666;
-            margin-top: 10px;
-            text-align: center;
-            font-style: italic;
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .footer {
@@ -298,25 +244,6 @@
                 max-width: none;
                 padding: 10px;
             }
-            
-            body {
-                font-size: 10px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .payment-info {
-                flex-direction: column !important;
-            }
-            
-            .qr-section {
-                flex: none !important;
-                margin-top: 20px;
-            }
-            
-            .company-details {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
@@ -326,24 +253,35 @@
             <div class="logo-section">
                 <div class="logo">LOGO</div>
                 <div>
-                    <div class="company-info">CÔNG TY CỦA BỌN TÔI</div>
+                    <div class="company-info">{{ $config->company_name ?? 'CÔNG TY CỦA BẠN' }}</div>
                     <div style="font-size: 10px; color: #666;">Technology Solutions</div>
                 </div>
             </div>
             
+            @if($config && $config->company_tax_code)
             <div class="stamp">
-                <div>MST: 0123456789</div>
+                <div>MST: {{ $config->company_tax_code }}</div>
                 <div style="margin: 5px 0;">★★★</div>
-                <div>CÔNG TY TNHH</div>
-                <div>CÔNG NGHỆ VÀ DỊCH VỤ</div>
-                <div>VIỆT NAM</div>
+                <div>{{ strtoupper($config->company_name ?? 'CÔNG TY') }}</div>
             </div>
+            @endif
 
             <div class="quote-title">
-                <h1>BÁO GIÁ</h1>
+                <h1>
+                    @if(isset($invoice))
+                        HÓA ĐƠN
+                    @else
+                        BÁO GIÁ
+                    @endif
+                </h1>
                 <div class="quote-date">
-                    NGÀY TẠO: 29/05/2025<br>
-                    HIỆU LỰC: 30 ngày
+                    @if(isset($invoice))
+                        MÃ: {{ $invoice->invoice_number }}<br>
+                    @else
+                        MÃ: {{ $quoteNumber }}<br>
+                    @endif
+                    NGÀY TẠO: {{ $quoteDate }}<br>
+                    HẾT HẠN: {{ $expireDate }}
                 </div>
             </div>
         </div>
@@ -352,104 +290,134 @@
             <div class="company-box">
                 <h3>BÊN CUNG CẤP DỊCH VỤ</h3>
                 <div class="company-details-content">
-                    <strong>CÔNG TY TNHH TMDV XD VÀ VC NGUYỄN TUẤN</strong><br>
-                    Đại diện: Nguyễn Văn A (Mr.)<br>
-                    Địa chỉ: Số 140 Nguyễn Văn Khối, Phường 8, Quận Gò Vấp, TP HCM<br>
-                    Điện thoại: 0123456789<br>
-                    Fax: 028.3xxx.xxxx<br>
-                    Email: support@company.com<br>
-                    Website: www.company.com
+                    <strong>{{ $config->company_name ?? 'CÔNG TY TNHH DỊCH VỤ' }}</strong><br>
+                    @if($config->company_address)
+                        Địa chỉ: {{ $config->company_address }}<br>
+                    @endif
+                    @if($config->support_phone)
+                        Điện thoại: {{ $config->support_phone }}<br>
+                    @endif
+                    @if($config->support_email)
+                        Email: {{ $config->support_email }}<br>
+                    @endif
+                    @if($config->company_website)
+                        Website: {{ $config->company_website }}
+                    @endif
                 </div>
             </div>
 
             <div class="company-box">
                 <h3>KHÁCH HÀNG</h3>
                 <div class="company-details-content">
-                    <strong>CÔNG TY ABC</strong><br><br>
-                    Địa chỉ: 123 Đường ABC, Quận XYZ, TP HCM<br>
-                    Điện thoại: 0987654321<br>
-                    Fax: 028.3xxx.xxxx<br>
-                    Email: contact@abc.com<br>
-                    Website: www.abc.com
+                    <strong>{{ $user->name ?? 'KHÁCH HÀNG' }}</strong><br>
+                    @if($user->customer)
+                        @if($user->customer->company_name)
+                            Công ty: {{ $user->customer->company_name }}<br>
+                        @endif
+                        @if($user->customer->address)
+                            Địa chỉ: {{ $user->customer->address }}<br>
+                        @endif
+                    @endif
+                    @if($user->phone)
+                        Điện thoại: {{ $user->phone }}<br>
+                    @endif
+                    Email: {{ $user->email }}
                 </div>
             </div>
         </div>
 
         <div class="quotation-content">
             <div class="section-title">
-                NỘI DUNG: BÁO GIÁ DỊCH VỤ HOSTING VÀ CHỨNG THƯ SỐ SSL
+                NỘI DUNG: 
+                @if(isset($invoice))
+                    CHI TIẾT HÓA ĐƠN DỊCH VỤ
+                @else
+                    BÁO GIÁ DỊCH VỤ
+                @endif
             </div>
 
             <table class="quotation-table">
                 <thead>
                     <tr>
                         <th style="width: 60%;">SẢN PHẨM / DỊCH VỤ</th>
-                        <th style="width: 15%; text-align: center;">SỐ LƯỢNG</th>
+                        <th style="width: 15%; text-align: center;">THỜI HẠN</th>
                         <th style="width: 25%; text-align: right;">THÀNH TIỀN (VNĐ)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="item-details">
-                            <strong>Gói Hosting Business + SSL Certificate</strong><br>
-                            <div style="margin-top: 5px; color: #666; font-size: 9px;">
-                                • Gói: Business Hosting Package<br>
-                                • Tên miền: example.com<br>
-                                • Thời hạn: 1 năm<br>
-                                • SSL Certificate: Let's Encrypt (miễn phí)<br>
-                                • Disk space: 10GB SSD<br>
-                                • Bandwidth: Unlimited<br>
-                                • Email accounts: 50<br>
-                                • Database: 10 MySQL<br>
-                                • Control Panel: cPanel<br>
-                                • Backup hàng ngày: Có<br>
-                                • Hỗ trợ 24/7: Có
-                            </div>
-                        </td>
-                        <td>1</td>
-                        <td class="price-column">2,400,000</td>
-                    </tr>
-                    <tr>
-                        <td class="item-details">
-                            <strong>Dịch vụ thiết lập và cấu hình</strong><br>
-                            <div style="margin-top: 5px; color: #666; font-size: 9px;">
-                                • Cài đặt và cấu hình hosting<br>
-                                • Thiết lập SSL certificate<br>
-                                • Cấu hình email accounts<br>
-                                • Hỗ trợ migration dữ liệu<br>
-                                • Training sử dụng cPanel
-                            </div>
-                        </td>
-                        <td>1</td>
-                        <td class="price-column">500,000</td>
-                    </tr>
+                    @php
+                        $items = isset($invoice) ? $invoice->order->items : $cart->items;
+                    @endphp
+                    
+                    @foreach($items as $item)
+                        @php
+                            $options = json_decode($item->options, true) ?: [];
+                            $period = $options['period'] ?? $item->duration ?? 1;
+                            $productName = isset($item->product) ? $item->product->name : ($item->name ?? 'Sản phẩm');
+                            $domain = $item->domain ?? ($options['domain'] ?? null);
+                            
+                            // Get product details
+                            $productDetails = [];
+                            if(isset($item->product)) {
+                                if($item->product->type == 'ssl') {
+                                    $productDetails[] = "• Domain: " . ($domain ?: 'www.domain.com');
+                                    $productDetails[] = "• Loại SSL: " . $item->product->name;
+                                    $productDetails[] = "• Thời hạn: $period năm";
+                                }
+                                elseif($item->product->type == 'hosting') {
+                                    $productDetails[] = "• Domain: " . ($domain ?: 'www.nissan.net');
+                                    $productDetails[] = "• Dung lượng: " . ($item->product->disk_space ?? '10GB') . " SSD";
+                                    $productDetails[] = "• Băng thông: " . ($item->product->bandwidth ?? 'Unlimited');
+                                    $productDetails[] = "• Email: " . ($item->product->email_accounts ?? '50') . " tài khoản";
+                                    $productDetails[] = "• Database: " . ($item->product->databases ?? '10') . " MySQL";
+                                    $productDetails[] = "• Control Panel: cPanel";
+                                }
+                                elseif($item->product->type == 'vps') {
+                                    $productDetails[] = "• CPU: " . ($item->product->cpu_cores ?? '2') . " vCPU";
+                                    $productDetails[] = "• RAM: " . ($item->product->ram ?? '4') . "GB";
+                                    $productDetails[] = "• SSD: " . ($item->product->disk_space ?? '80') . "GB";
+                                    $productDetails[] = "• Băng thông: " . ($item->product->bandwidth ?? '2TB');
+                                    $productDetails[] = "• IP: 1 IPv4";
+                                    $productDetails[] = "• OS: " . ($item->product->os ?? 'CentOS/Ubuntu');
+                                }
+                            }
+                        @endphp
+                        <tr>
+                            <td class="item-details">
+                                <strong>{{ $productName }}</strong><br>
+                                @if(!empty($productDetails))
+                                    <div style="margin-top: 5px; color: #666; font-size: 9px; line-height: 1.4;">
+                                        {!! implode('<br>', $productDetails) !!}
+                                    </div>
+                                @elseif($domain)
+                                    <div style="margin-top: 5px; color: #666; font-size: 9px;">
+                                        • Domain: {{ $domain }}
+                                    </div>
+                                @endif
+                            </td>
+                            <td style="text-align: center;">{{ $period }} năm</td>
+                            <td class="price-column">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
+                        </tr>
+                    @endforeach
+                    
                     <tr class="total-section">
                         <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng</td>
-                        <td class="price-column">2,900,000</td>
+                        <td class="price-column">{{ number_format($subtotal, 0, ',', '.') }}</td>
                     </tr>
+                    
+                    @if($vatAmount > 0)
                     <tr class="total-section">
-                        <td colspan="2" style="text-align: right;">Giảm giá (10%)</td>
-                        <td class="price-column">290,000</td>
+                        <td colspan="2" style="text-align: right;">Thuế VAT {{ $vatRate }}%</td>
+                        <td class="price-column">{{ number_format($vatAmount, 0, ',', '.') }}</td>
                     </tr>
-                    <tr class="total-section">
-                        <td colspan="2" style="text-align: right; font-weight: bold;">Tổng sau giảm giá</td>
-                        <td class="price-column">2,610,000</td>
-                    </tr>
-                    <tr class="total-section">
-                        <td colspan="2" style="text-align: right;">Thuế VAT 10%</td>
-                        <td class="price-column">261,000</td>
-                    </tr>
+                    @endif
+                    
                     <tr class="total-row">
                         <td colspan="2" style="text-align: right; font-weight: bold; font-size: 11px;">TỔNG THANH TOÁN</td>
-                        <td class="price-column" style="font-weight: bold; font-size: 11px;">2,871,000</td>
+                        <td class="price-column" style="font-weight: bold; font-size: 11px;">{{ number_format($total, 0, ',', '.') }}</td>
                     </tr>
                 </tbody>
             </table>
-
-            <div class="footer-note">
-                <strong>Bằng chữ: Hai triệu tám trăm bảy mười một nghìn đồng./.strong><br>
-                (Báo giá đã bao gồm thuế giá trị gia tăng và các khoản thuế, phí khác liên quan)
-            </div>
 
             <div class="section-title">THÔNG TIN THANH TOÁN</div>
 
@@ -457,79 +425,77 @@
                 <div class="payment-details">
                     <table>
                         <tr>
-                            <td style="width: 35%; font-weight: bold; color: #495057;">Số tiền:</td>
-                            <td class="amount">2,871,000 VNĐ</td>
+                            <td style="width: 35%; font-weight: bold;">Số tiền:</td>
+                            <td style="color: #dc3545; font-weight: bold; font-size: 14px;">
+                                {{ number_format($total, 0, ',', '.') }} VNĐ
+                            </td>
+                        </tr>
+                        @if($config->company_bank_name)
+                        <tr>
+                            <td style="font-weight: bold;">Ngân hàng:</td>
+                            <td>{{ $config->company_bank_name }}</td>
+                        </tr>
+                        @endif
+                        @if($config->company_bank_account_number)
+                        <tr>
+                            <td style="font-weight: bold;">Số tài khoản:</td>
+                            <td style="font-weight: bold; color: #007bff;">{{ $config->company_bank_account_number }}</td>
+                        </tr>
+                        @endif
+                        @if($config->company_bank_account_name)
+                        <tr>
+                            <td style="font-weight: bold;">Chủ tài khoản:</td>
+                            <td>{{ $config->company_bank_account_name }}</td>
+                        </tr>
+                        @endif
+                        <tr>
+                            <td style="font-weight: bold;">Nội dung CK:</td>
+                            <td style="color: #28a745; font-weight: bold;">
+                                @if(isset($invoice))
+                                    ThanhToan{{ $invoice->invoice_number }}
+                                @else
+                                    {{ $quoteNumber }}
+                                @endif
+                            </td>
                         </tr>
                         <tr>
-                            <td style="font-weight: bold; color: #495057;">Ngân hàng:</td>
-                            <td>Ngân hàng ACB</td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold; color: #495057;">Số tài khoản:</td>
-                            <td style="font-weight: bold; color: #007bff;">218906666</td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold; color: #495057;">Chủ tài khoản:</td>
-                            <td>CÔNG TY TNHH TMDV XD VÀ VC NGUYỄN TUẤN</td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold; color: #495057;">Nội dung chuyển khoản:</td>
-                            <td class="reference">PAY-2025052901</td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold; color: #495057;">Hạn thanh toán:</td>
-                            <td style="color: #dc3545; font-weight: bold;">28/06/2025</td>
+                            <td style="font-weight: bold;">Hạn thanh toán:</td>
+                            <td style="color: #dc3545; font-weight: bold;">{{ $expireDate }}</td>
                         </tr>
                     </table>
-
-                    <div class="payment-highlight">
-                        <strong>💡 Thanh toán nhanh:</strong> Quét mã QR để thanh toán ngay qua ứng dụng ngân hàng hoặc sử dụng thông tin tài khoản bên trên.
-                    </div>
                 </div>
 
+                @if(isset($qrBase64))
                 <div class="qr-section">
                     <div class="qr-code">
-                        <div style="font-weight: bold; margin-bottom: 8px;">QR Code</div>
-                        <div>Ngân hàng: ACB</div>
-                        <div>TK: 218906666</div>
-                        <div style="margin-top: 5px; color: #dc3545; font-weight: bold;">2,871,000 VNĐ</div>
-                        <div style="margin-top: 5px; font-size: 9px;">Ref: PAY-2025052901</div>
+                        <img src="{{ $qrBase64 }}" alt="QR Code thanh toán">
                     </div>
-                    
-                    <div class="qr-instructions">
-                        <strong>📱 Cách thanh toán:</strong><br>
-                        1. Mở ứng dụng ngân hàng<br>
-                        2. Quét mã QR này<br>
-                        3. Kiểm tra thông tin<br>
-                        4. Xác nhận thanh toán
+                    <div style="margin-top: 10px; font-size: 10px; color: #666;">
+                        Quét mã QR để thanh toán nhanh
                     </div>
                 </div>
-            </div>
-
-            <div class="section-title">THÔNG SỐ KỸ THUẬT</div>
-
-            <div class="tech-specs">
-                <strong>Hosting Business Package:</strong><br>
-                • Hệ điều hành: Linux CentOS<br>
-                • Control Panel: cPanel/WHM<br>
-                • PHP: 5.6 - 8.2 (lựa chọn)<br>
-                • MySQL: 5.7+ / MariaDB<br>
-                • Disk Space: 10GB SSD<br>
-                • Bandwidth: Unlimited<br>
-                • Email Accounts: 50<br>
-                • Database: 10 MySQL<br>
-                • SSL Certificate: Let's Encrypt (miễn phí)<br>
-                • Backup: Hàng ngày tự động<br>
-                • Uptime: 99.9% guarantee<br>
-                • Bảo mật: Anti-DDoS, Firewall<br>
-                • Hỗ trợ: 24/7 qua ticket/email/phone
+                @endif
             </div>
         </div>
 
         <div class="footer">
             <p style="margin: 5px 0;"><strong>Cảm ơn quý khách đã tin tưởng dịch vụ của chúng tôi!</strong></p>
-            <p style="margin: 5px 0;">Mọi thắc mắc xin liên hệ: support@company.com | 0123456789</p>
-            <p style="margin: 5px 0;">Báo giá này có hiệu lực đến ngày 28/06/2025</p>
+            @if($config->support_email || $config->support_phone)
+            <p style="margin: 5px 0;">
+                Mọi thắc mắc xin liên hệ: 
+                {{ $config->support_email ?? '' }} 
+                @if($config->support_phone)
+                    | {{ $config->support_phone }}
+                @endif
+            </p>
+            @endif
+            <p style="margin: 5px 0;">
+                @if(isset($invoice))
+                    Hóa đơn này có hiệu lực đến ngày {{ $expireDate }}
+                @else
+                    Báo giá này có hiệu lực đến ngày {{ $expireDate }}
+                @endif
+            </p>
         </div>
     </div>
 </body>

@@ -94,7 +94,7 @@ class ConfigController extends Controller
             'company_bank_account_number' => 'nullable|string|max:50',
             'company_bank_account_name' => 'nullable|string|max:255',
             'company_bank_branch' => 'nullable|string|max:255',
-            'company_bank_qr_code' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'company_bank_qr_code' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'deposit_instruction' => 'nullable|string',
             'deposit_note_format' => 'nullable|string|max:255',
             'min_deposit_amount' => 'nullable|numeric|min:0',
