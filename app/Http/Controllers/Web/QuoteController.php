@@ -59,13 +59,13 @@ class QuoteController extends Controller
         $quoteDate = Carbon::now()->format('d/m/Y');
         $expireDate = Carbon::now()->addDays(10)->format('d/m/Y'); // Tăng thành 30 ngày như mẫu
         $subtotal = $cart->subtotal;
-        
+
         // Tính thuế và giảm giá
         $discount = $subtotal * 0; // Giảm giá 10%
         $afterDiscount = $subtotal - $discount;
         $vat = $afterDiscount * 0.10; // VAT 10%
         $total = $afterDiscount + $vat;
-        
+
         $validity = '30 days';
 
         try {
@@ -107,7 +107,6 @@ class QuoteController extends Controller
             });
 
             return back()->with('success', 'Đã gửi báo giá qua email thành công.');
-
         } catch (\Exception $e) {
             return back()->with('error', 'Lỗi khi gửi email: ' . $e->getMessage());
         }
@@ -127,7 +126,7 @@ class QuoteController extends Controller
         $quoteNumber = 'QUOTE-' . date('Ymd') . '-' . str_pad($cart->id, 4, '0', STR_PAD_LEFT);
         $quoteDate = Carbon::now()->format('d/m/Y');
         $expireDate = Carbon::now()->addDays(10)->format('d/m/Y');
-        
+
         $subtotal = $cart->subtotal;
         $discount = $subtotal * 0; // Giảm giá 10%
         $afterDiscount = $subtotal - $discount;
@@ -239,17 +238,30 @@ class QuoteController extends Controller
         if (!empty($config->company_bank_qr_code)) {
             // Sử dụng đường dẫn tuyệt đối cho PDF
             $qrCodePath = storage_path('app/public/' . $config->company_bank_qr_code);
-            
+
             if (file_exists($qrCodePath)) {
                 // Chuyển ảnh thành base64 để embed vào PDF
                 $imageData = base64_encode(file_get_contents($qrCodePath));
-                $imageMimeType = mime_content_type($qrCodePath);
-                
+
+                // Xác định MIME type thủ công dựa trên extension
+                $pathInfo = pathinfo($qrCodePath);
+                $extension = strtolower($pathInfo['extension'] ?? '');
+
+                $mimeTypes = [
+                    'jpg' => 'image/jpeg',
+                    'jpeg' => 'image/jpeg',
+                    'png' => 'image/png',
+                    'gif' => 'image/gif',
+                    'webp' => 'image/webp'
+                ];
+
+                $imageMimeType = $mimeTypes[$extension] ?? 'image/jpeg'; // default to jpeg
+
                 $qrCodeHtml = "
-                <img src='data:{$imageMimeType};base64,{$imageData}' 
-                     alt='Payment QR Code' 
-                     style='width: 150px; height: 150px; border: 2px solid #e9ecef; border-radius: 4px; margin: 0 auto 10px; display: block; object-fit: cover;'>
-                ";
+   <img src='data:{$imageMimeType};base64,{$imageData}'
+        alt='Payment QR Code'
+        style='width: 150px; height: 150px; border: 2px solid #e9ecef; border-radius: 4px; margin: 0 auto 10px; display: block; object-fit: cover;'>
+   ";
             } else {
                 // Hiển thị thông tin thanh toán nếu không có QR
                 $qrCodeHtml = "
@@ -667,13 +679,30 @@ class QuoteController extends Controller
     private function convertNumberToWords($number)
     {
         $ones = array(
-            '', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín',
-            'mười', 'mười một', 'mười hai', 'mười ba', 'mười bốn', 'mười lăm',
-            'mười sáu', 'mười bảy', 'mười tám', 'mười chín'
+            '',
+            'một',
+            'hai',
+            'ba',
+            'bốn',
+            'năm',
+            'sáu',
+            'bảy',
+            'tám',
+            'chín',
+            'mười',
+            'mười một',
+            'mười hai',
+            'mười ba',
+            'mười bốn',
+            'mười lăm',
+            'mười sáu',
+            'mười bảy',
+            'mười tám',
+            'mười chín'
         );
-        
+
         $tens = array('', '', 'hai mười', 'ba mười', 'bốn mười', 'năm mười', 'sáu mười', 'bảy mười', 'tám mười', 'chín mười');
-        
+
         if ($number < 20) {
             return $ones[$number];
         } elseif ($number < 100) {
@@ -685,7 +714,7 @@ class QuoteController extends Controller
         } elseif ($number < 1000000000) {
             return $this->convertNumberToWords(intval($number / 1000000)) . ' triệu ' . $this->convertNumberToWords($number % 1000000);
         }
-        
+
         return 'Số quá lớn';
     }
 
@@ -771,7 +800,6 @@ class QuoteController extends Controller
                 $techSpecs .= "
                 <li>Compatible with 99.999% of browsers and operating systems</li>
                 <li>Certificate warranty coverage of \$10,000 USD</li>";
-
             } elseif ($productType == 'hosting') {
                 $techSpecs = "
                 <li>Operating System: Linux</li>
@@ -783,7 +811,6 @@ class QuoteController extends Controller
                 <li>Anti-DDoS Protection</li>
                 <li>99.9% Uptime Guarantee</li>
                 <li>24/7 Technical Support</li>";
-
             } elseif ($productType == 'domain') {
                 $techSpecs = "
                 <li>Full DNS management</li>
@@ -793,7 +820,6 @@ class QuoteController extends Controller
                 <li>Custom nameservers</li>
                 <li>Domain lock against unauthorized transfers</li>
                 <li>Auto-renewal (optional)</li>";
-
             } else {
                 $techSpecs = "
                 <li>24/7 technical support</li>
