@@ -79,7 +79,11 @@ class ConfigController extends Controller
 
             $config = Config::current();
             if ($config && $config->company_bank_qr_code) {
-                Storage::delete('public/' . $config->company_bank_qr_code);
+                // Xóa file cũ thủ công
+                $oldFilePath = storage_path('app/public/' . $config->company_bank_qr_code);
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
             }
 
             // Upload thủ công không dùng store()
@@ -110,7 +114,11 @@ class ConfigController extends Controller
 
             $config = Config::current();
             if ($config && $config->momo_qr_code) {
-                Storage::delete('public/' . $config->momo_qr_code);
+                // Xóa file cũ thủ công
+                $oldFilePath = storage_path('app/public/' . $config->momo_qr_code);
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
             }
 
             // Upload thủ công không dùng store()
@@ -141,7 +149,11 @@ class ConfigController extends Controller
 
             $config = Config::current();
             if ($config && $config->zalopay_qr_code) {
-                Storage::delete('public/' . $config->zalopay_qr_code);
+                // Xóa file cũ thủ công
+                $oldFilePath = storage_path('app/public/' . $config->zalopay_qr_code);
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
             }
 
             // Upload thủ công không dùng store()
