@@ -81,8 +81,19 @@ class ConfigController extends Controller
             if ($config && $config->company_bank_qr_code) {
                 Storage::delete('public/' . $config->company_bank_qr_code);
             }
-            $path = $file->store('qrcodes', 'public');
-            $updateData['company_bank_qr_code'] = $path;
+
+            // Upload thủ công không dùng store()
+            $fileName = 'qr_bank_' . time() . '.' . $extension;
+            $destinationPath = storage_path('app/public/qrcodes');
+            
+            // Tạo thư mục nếu chưa có
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            // Di chuyển file
+            $file->move($destinationPath, $fileName);
+            $updateData['company_bank_qr_code'] = 'qrcodes/' . $fileName;
         }
 
         // Xử lý upload QR code MoMo
@@ -101,8 +112,19 @@ class ConfigController extends Controller
             if ($config && $config->momo_qr_code) {
                 Storage::delete('public/' . $config->momo_qr_code);
             }
-            $path = $file->store('qrcodes', 'public');
-            $updateData['momo_qr_code'] = $path;
+
+            // Upload thủ công không dùng store()
+            $fileName = 'qr_momo_' . time() . '.' . $extension;
+            $destinationPath = storage_path('app/public/qrcodes');
+            
+            // Tạo thư mục nếu chưa có
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            // Di chuyển file
+            $file->move($destinationPath, $fileName);
+            $updateData['momo_qr_code'] = 'qrcodes/' . $fileName;
         }
 
         // Xử lý upload QR code ZaloPay
@@ -121,8 +143,19 @@ class ConfigController extends Controller
             if ($config && $config->zalopay_qr_code) {
                 Storage::delete('public/' . $config->zalopay_qr_code);
             }
-            $path = $file->store('qrcodes', 'public');
-            $updateData['zalopay_qr_code'] = $path;
+
+            // Upload thủ công không dùng store()
+            $fileName = 'qr_zalopay_' . time() . '.' . $extension;
+            $destinationPath = storage_path('app/public/qrcodes');
+            
+            // Tạo thư mục nếu chưa có
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            // Di chuyển file
+            $file->move($destinationPath, $fileName);
+            $updateData['zalopay_qr_code'] = 'qrcodes/' . $fileName;
         }
 
         // Cập nhật cấu hình
