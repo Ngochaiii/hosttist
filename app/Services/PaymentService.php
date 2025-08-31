@@ -28,7 +28,7 @@ class PaymentService extends BaseService
      */
     public function approvePayment(Payments $payment, ?int $verifiedBy = null): array
     {
-        return $this->transaction(function() use ($payment, $verifiedBy) {
+        return $this->transaction(function () use ($payment, $verifiedBy) {
             // Validate payment
             $this->validatePaymentForApproval($payment);
 
@@ -43,7 +43,7 @@ class PaymentService extends BaseService
             // Update order status and provision services
             if ($payment->order) {
                 $payment->order->update(['status' => 'completed']);
-                
+
                 // Create provisions for service products
                 $provisionResults = $this->provisionService->createFromOrder($payment->order);
             }
@@ -77,7 +77,7 @@ class PaymentService extends BaseService
      */
     public function rejectPayment(Payments $payment, string $reason, ?int $verifiedBy = null): array
     {
-        return $this->transaction(function() use ($payment, $reason, $verifiedBy) {
+        return $this->transaction(function () use ($payment, $reason, $verifiedBy) {
             // Validate payment
             if ($payment->status !== 'pending') {
                 throw new Exception('Payment can only be rejected when status is pending');
@@ -111,20 +111,20 @@ class PaymentService extends BaseService
      * @return array
      * @throws Exception
      */
+    // Trong PaymentService - processWalletPayment() đã được fix
     public function processWalletPayment(Orders $order, Customers $customer): array
     {
-        return $this->transaction(function() use ($order, $customer) {
+        return $this->transaction(function () use ($order, $customer) {
             $amount = $order->total_amount;
 
-            // Check balance
+            // Kiểm tra số dư - nếu không đủ thì báo lỗi để redirect nạp tiền
             if (!$customer->hasBalance($amount)) {
                 throw new Exception('Insufficient wallet balance');
             }
 
-            // Deduct balance
-            $customer->updateBalance(-$amount);
+            // Trừ tiền từ ví và tạo payment completed luôn
+            $customer->decrement('balance', $amount);
 
-            // Create payment record
             $payment = $this->createPayment([
                 'order_id' => $order->id,
                 'invoice_id' => $order->invoice->id ?? null,
@@ -133,17 +133,24 @@ class PaymentService extends BaseService
                 'payment_method' => 'wallet',
                 'payment_date' => now(),
                 'transaction_id' => $this->generateTransactionId('WALLET'),
-                'status' => 'completed',
+                'status' => 'completed', // Completed luôn vì đã trừ tiền
                 'notes' => 'Wallet payment - Auto approved'
             ]);
 
-            // Auto-approve since it's wallet payment
-            $this->approvePayment($payment, Auth::id());
+            // Update order và invoice
+            $order->update(['status' => 'completed']);
+            if ($order->invoice) {
+                $order->invoice->update(['status' => 'paid']);
+            }
+
+            // Provision services
+            $provisionResults = $this->provisionService->createFromOrder($order);
 
             return [
                 'success' => true,
                 'payment' => $payment,
-                'new_balance' => $customer->fresh()->balance
+                'new_balance' => $customer->fresh()->balance,
+                'provisions' => $provisionResults ?? []
             ];
         });
     }
@@ -158,7 +165,7 @@ class PaymentService extends BaseService
      */
     public function createBankTransferPayment(Orders $order, array $bankDetails = []): array
     {
-        return $this->transaction(function() use ($order, $bankDetails) {
+        return $this->transaction(function () use ($order, $bankDetails) {
             $transactionCode = $this->generateTransactionId('PAY');
 
             $payment = $this->createPayment([
@@ -202,7 +209,10 @@ class PaymentService extends BaseService
     private function createPayment(array $paymentData): Payments
     {
         $this->validateRequired($paymentData, [
-            'order_id', 'amount', 'payment_method', 'status'
+            'order_id',
+            'amount',
+            'payment_method',
+            'status'
         ]);
 
         return Payments::create($paymentData);
@@ -303,8 +313,8 @@ class PaymentService extends BaseService
             'completed_count' => $query->where('status', 'completed')->count(),
             'failed_count' => $query->where('status', 'failed')->count(),
             'today_completed' => Payments::whereDate('payment_date', today())
-                                        ->where('status', 'completed')
-                                        ->sum('amount')
+                ->where('status', 'completed')
+                ->sum('amount')
         ];
     }
 
@@ -317,7 +327,7 @@ class PaymentService extends BaseService
     public function findByTransactionId(string $transactionId): ?Payments
     {
         return Payments::where('transaction_id', $transactionId)
-                      ->with(['order', 'invoice'])
-                      ->first();
+            ->with(['order', 'invoice'])
+            ->first();
     }
 }
