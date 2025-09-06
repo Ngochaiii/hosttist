@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\LogController;
 use App\Http\Controllers\Web\HomepageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -72,17 +73,17 @@ Route::group([
     // routes/web.php
 
 
-Route::group(['prefix' => 'wallet'], function () {
-    Route::get('/deposit', [WalletController::class, 'deposit'])->name('deposit');
-    Route::post('/deposit/process', [WalletController::class, 'processDeposit'])->name('deposit.process');
-    Route::get('/deposit/success/{code}', [WalletController::class, 'depositSuccess'])->name('deposit.success');
-    
-    // AJAX check status
-    Route::get('/deposit/status/{code}', [WalletController::class, 'checkDepositStatus'])->name('deposit.status');
-    
-    // Language switcher
-    Route::get('/language/{locale}', [WalletController::class, 'switchLanguage'])->name('language.switch');
-});
+    Route::group(['prefix' => 'wallet'], function () {
+        Route::get('/deposit', [WalletController::class, 'deposit'])->name('deposit');
+        Route::post('/deposit/process', [WalletController::class, 'processDeposit'])->name('deposit.process');
+        Route::get('/deposit/success/{code}', [WalletController::class, 'depositSuccess'])->name('deposit.success');
+
+        // AJAX check status
+        Route::get('/deposit/status/{code}', [WalletController::class, 'checkDepositStatus'])->name('deposit.status');
+
+        // Language switcher
+        Route::get('/language/{locale}', [WalletController::class, 'switchLanguage'])->name('language.switch');
+    });
 
 
     // Các routes liên quan đến giỏ hàng
@@ -125,5 +126,12 @@ Route::group(['prefix' => 'wallet'], function () {
     Route::group(['prefix' => 'cashback'], function () {
         Route::post('/register', [CashbackController::class, 'register'])->name('cashback.register');
         Route::get('/status', [CashbackController::class, 'getStatus'])->name('cashback.status');
+    });
+
+    Route::group(['prefix' => 'admin'], function () {
+        Route::group(['prefix' => 'logs'], function () {
+            Route::get('/', [LogController::class, 'index'])->name('admin.logs.index');
+            Route::get('/{id}', [LogController::class, 'show'])->name('admin.logs.show');
+        });
     });
 });

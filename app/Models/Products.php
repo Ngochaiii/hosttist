@@ -130,4 +130,27 @@ class Products extends Model
     {
         $this->attributes['options'] = is_array($value) ? json_encode($value) : $value;
     }
+
+    public function serviceProvisions()
+    {
+        return $this->hasMany(ServiceProvision::class, 'product_id');
+    }
+
+    public function provisionTemplates()
+    {
+        return $this->hasMany(ProvisionTemplate::class, 'product_id');
+    }
+
+    public function activeTemplates()
+    {
+        return $this->hasMany(ProvisionTemplate::class, 'product_id')
+            ->where('is_active', true);
+    }
+
+    public function defaultTemplate()
+    {
+        return $this->hasOne(ProvisionTemplate::class, 'product_id')
+            ->where('is_active', true)
+            ->orderBy('priority', 'desc');
+    }
 }

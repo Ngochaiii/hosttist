@@ -50,4 +50,20 @@ class Order_items extends Model
     {
         return json_decode($this->options, true) ?: [];
     }
+
+    public function serviceProvisions()
+    {
+        return $this->hasMany(ServiceProvision::class, 'order_item_id');
+    }
+
+    public function latestProvision()
+    {
+        return $this->hasOne(ServiceProvision::class, 'order_item_id')->latest();
+    }
+
+    public function completedProvisions()
+    {
+        return $this->hasMany(ServiceProvision::class, 'order_item_id')
+            ->where('provision_status', ServiceProvision::STATUS_COMPLETED);
+    }
 }

@@ -89,4 +89,33 @@ class Customers extends Model
     {
         return number_format($this->balance, 0, ',', '.') . ' đ';
     }
+
+    public function serviceProvisions()
+    {
+        return $this->hasMany(ServiceProvision::class, 'customer_id');
+    }
+
+    public function completedProvisions()
+    {
+        return $this->hasMany(ServiceProvision::class, 'customer_id')
+            ->where('provision_status', ServiceProvision::STATUS_COMPLETED);
+    }
+
+    public function pendingProvisions()
+    {
+        return $this->hasMany(ServiceProvision::class, 'customer_id')
+            ->where('provision_status', ServiceProvision::STATUS_PENDING);
+    }
+
+    public function provisionLogs()
+    {
+        return $this->hasManyThrough(
+            ProvisionLog::class,
+            ServiceProvision::class,
+            'customer_id', // Foreign key on provisions table
+            'provision_id', // Foreign key on logs table
+            'id', // Local key on customers table
+            'id' // Local key on provisions table
+        );
+    }
 }

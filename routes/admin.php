@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepositController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\ProvisionController;
 use App\Http\Controllers\Admin\UserController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
@@ -86,5 +87,23 @@ Route::group([
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', [UserController::class, 'index'])->name('user.index');
         Route::post('/{id}/reset-password', [UserController::class, 'resetPassword'])->name('users.reset-password');
+    });
+
+    // Thêm provisions routes
+    Route::group(['prefix' => 'provisions'], function () {
+        Route::get('/', [ProvisionController::class, 'index'])->name('admin.provisions.index');
+        Route::get('/pending', [ProvisionController::class, 'pending'])->name('admin.provisions.pending');
+        Route::get('/{id}', [ProvisionController::class, 'show'])->name('admin.provisions.show');
+
+        // ✅ THESE 2 ROUTES ARE FOR YOUR DYNAMIC FORMS:
+        Route::get('/{id}/form', [ProvisionController::class, 'showForm'])->name('admin.provisions.form');
+        Route::put('/{id}', [ProvisionController::class, 'update'])->name('admin.provisions.update');
+
+        Route::post('/{id}/start-processing', [ProvisionController::class, 'startProcessing'])->name('admin.provisions.start-processing');
+        Route::post('/{id}/complete', [ProvisionController::class, 'complete'])->name('admin.provisions.complete');
+        Route::post('/{id}/fail', [ProvisionController::class, 'fail'])->name('admin.provisions.fail');
+        Route::post('/{id}/retry', [ProvisionController::class, 'retry'])->name('admin.provisions.retry');
+        Route::post('/{id}/cancel', [ProvisionController::class, 'cancel'])->name('admin.provisions.cancel');
+        Route::post('/bulk-action', [ProvisionController::class, 'bulkAction'])->name('admin.provisions.bulk-action');
     });
 });

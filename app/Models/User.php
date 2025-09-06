@@ -81,4 +81,25 @@ class User extends Authenticatable
     {
         return $this->role === 'super_admin';
     }
+
+    public function provisionsHandled()
+    {
+        return $this->hasMany(ServiceProvision::class, 'provisioned_by');
+    }
+
+    public function provisionTemplatesCreated()
+    {
+        return $this->hasMany(ProvisionTemplate::class, 'created_by');
+    }
+
+    public function provisionLogs()
+    {
+        return $this->hasMany(ProvisionLog::class, 'performed_by');
+    }
+
+    public function recentProvisionActivity($days = 7)
+    {
+        return $this->hasMany(ProvisionLog::class, 'performed_by')
+            ->where('created_at', '>=', now()->subDays($days));
+    }
 }
