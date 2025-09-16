@@ -31,10 +31,6 @@ class PaymentService extends BaseService
         return $this->transaction(function () use ($payment, $verifiedBy) {
             // Validate payment
             $this->validatePaymentForApproval($payment);
-
-            // Update payment status
-            $this->updatePaymentStatus($payment, 'completed', $verifiedBy);
-
             // Update invoice status
             if ($payment->invoice) {
                 $payment->invoice->update(['status' => 'paid']);
@@ -57,11 +53,16 @@ class PaymentService extends BaseService
                 'amount' => $payment->amount,
                 'verified_by' => $verifiedBy
             ]);
+            $orderService = app(OrderService::class);
+            $provisions = [];
 
+            if ($payment->order) {
+                $provisions = $orderService->processCompletedOrder($payment->order);
+            }
             return [
                 'success' => true,
                 'payment' => $payment->fresh(),
-                'provisions' => $provisionResults ?? []
+                'provisions' => $provisions ?? []
             ];
         });
     }

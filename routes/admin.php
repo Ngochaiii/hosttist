@@ -106,4 +106,6 @@ Route::group([
         Route::post('/{id}/cancel', [ProvisionController::class, 'cancel'])->name('admin.provisions.cancel');
         Route::post('/bulk-action', [ProvisionController::class, 'bulkAction'])->name('admin.provisions.bulk-action');
     });
+    Route::post('/provisions/{id}/resend-email', [ProvisionController::class, 'resendEmail'])
+        ->name('admin.provisions.resend-email');
 });

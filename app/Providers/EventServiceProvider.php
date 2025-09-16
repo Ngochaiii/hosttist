@@ -18,6 +18,17 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        \App\Events\ProvisionCreated::class => [
+            \App\Listeners\SendProvisionNotifications::class . '@handleProvisionCreated',
+        ],
+
+        \App\Events\ProvisionCompleted::class => [
+            \App\Listeners\SendProvisionNotifications::class . '@handleProvisionCompleted',
+        ],
+
+        \App\Events\ProvisionFailed::class => [
+            \App\Listeners\SendProvisionNotifications::class . '@handleProvisionFailed',
+        ],
     ];
 
     /**

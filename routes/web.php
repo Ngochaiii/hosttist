@@ -20,15 +20,10 @@ use App\Http\Controllers\Web\WalletController;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
 */
 
+// ===== PUBLIC ROUTES =====
 Route::get('/', [HomepageController::class, 'index'])->name('homepage');
-
 Route::get('/service/{slug}', [HomepageController::class, 'detail'])->name('service.detail');
 
 // Authentication Routes
@@ -38,56 +33,83 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('regi
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::group(['prefix' => 'about-us'], function () {
-    Route::get('/', [AboutController::class, 'index'])->name('about.index');
-});
-Route::group(['prefix' => 'contacts'], function () {
-    Route::get('/', [ContactController::class, 'index'])->name('contact.index');
-});
+// Static Pages
+Route::get('/about-us', [AboutController::class, 'index'])->name('about.index');
+Route::get('/contacts', [ContactController::class, 'index'])->name('contact.index');
+Route::get('/price', [PricingController::class, 'index'])->name('pricing.index');
+
+// Services & Categories
 Route::group(['prefix' => 'services'], function () {
     Route::get('/', [ServiceController::class, 'index'])->name('services.index');
     Route::get('/{slug}', [HomepageController::class, 'detail'])->name('service.detail');
 });
-Route::group(['prefix' => 'price'], function () {
-    Route::get('/', [PricingController::class, 'index'])->name('pricing.index');
-});
 
-Route::group(['prefix' => 'category'], function () {
-    Route::get('/{categorySlug}', [HomepageController::class, 'category'])->name('category.detail');
-});
+Route::get('/category/{categorySlug}', [HomepageController::class, 'category'])->name('category.detail');
 
-// Frontend Routes (yêu cầu đăng nhập)
-Route::group([
-    'middleware' => ['frontend.auth']
-], function () {
-    // Customer Profile
+// ===== AUTHENTICATED ROUTES =====
+Route::group(['middleware' => ['frontend.auth']], function () {
+
+    // ===== CUSTOMER MANAGEMENT =====
     Route::group(['prefix' => 'customer'], function () {
         Route::get('/profile', [CustomerController::class, 'showProfile'])->name('customer.profile');
         Route::put('/profile/update', [CustomerController::class, 'updateProfile'])->name('customer.profile.update');
-        // Thêm các routes mới
         Route::get('/invoices', [CustomerController::class, 'showInvoices'])->name('customer.invoices');
         Route::get('/orders', [CustomerController::class, 'showOrders'])->name('customer.orders');
         Route::get('/orders/{id}', [CustomerController::class, 'showOrderDetail'])->name('customer.order.detail');
     });
 
-    // routes/web.php
+    // ===== CUSTOMER SERVICES PORTAL =====
+    Route::group(['prefix' => 'customer/services'], function () {
+        // Main services dashboard
+        Route::get('/', [ServiceController::class, 'index'])->name('customer.services.index');
 
+        // Service Provision routes (for services being provisioned)
+        Route::group(['prefix' => 'provision'], function () {
+            Route::get('/{id}', [ServiceController::class, 'showProvision'])
+                ->name('customer.services.provision.show')
+                ->where('id', '[0-9]+');
 
+            Route::get('/{id}/credentials', [ServiceController::class, 'provisionCredentials'])
+                ->name('customer.services.provision.credentials')
+                ->where('id', '[0-9]+');
+        });
+
+        // Customer Service routes (for active services)
+        Route::group(['prefix' => 'service'], function () {
+            Route::get('/{id}', [ServiceController::class, 'showService'])
+                ->name('customer.services.service.show')
+                ->where('id', '[0-9]+');
+
+            Route::get('/{id}/info', [ServiceController::class, 'serviceCredentials'])
+                ->name('customer.services.service.credentials')
+                ->where('id', '[0-9]+');
+
+            // Service management actions
+            Route::post('/{id}/renew', [ServiceController::class, 'renewService'])
+                ->name('customer.services.service.renew')
+                ->where('id', '[0-9]+');
+
+            Route::post('/{id}/cancel', [ServiceController::class, 'requestCancellation'])
+                ->name('customer.services.service.cancel')
+                ->where('id', '[0-9]+');
+        });
+        Route::get('/provision/{id}/ssl/{type}', [ServiceController::class, 'downloadSSL'])
+            ->name('customer.services.ssl.download')
+            ->where('id', '[0-9]+')
+            ->where('type', 'certificate|private_key|ca_bundle|all');
+    });
+
+    // ===== WALLET & PAYMENT =====
     Route::group(['prefix' => 'wallet'], function () {
         Route::get('/deposit', [WalletController::class, 'deposit'])->name('deposit');
         Route::post('/deposit/process', [WalletController::class, 'processDeposit'])->name('deposit.process');
         Route::get('/deposit/success/{code}', [WalletController::class, 'depositSuccess'])->name('deposit.success');
-
-        // AJAX check status
         Route::get('/deposit/status/{code}', [WalletController::class, 'checkDepositStatus'])->name('deposit.status');
-
-        // Language switcher
         Route::get('/language/{locale}', [WalletController::class, 'switchLanguage'])->name('language.switch');
     });
 
-
-    // Các routes liên quan đến giỏ hàng
-    Route::prefix('cart')->group(function () {
+    // ===== SHOPPING CART =====
+    Route::group(['prefix' => 'cart'], function () {
         Route::get('/', [CartController::class, 'index'])->name('cart.index');
         Route::post('/add', [CartController::class, 'addToCart'])->name('cart.add');
         Route::post('/update/{itemId}', [CartController::class, 'updateItem'])->name('cart.update');
@@ -95,39 +117,35 @@ Route::group([
         Route::post('/clear', [CartController::class, 'clearCart'])->name('cart.clear');
     });
 
-    // invoices
+    // ===== INVOICES =====
     Route::group(['prefix' => 'invoice'], function () {
         Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
+        Route::get('/{id}/download', [InvoiceController::class, 'downloadPdf'])->name('invoice.download');
+        Route::get('/{id}/payment', [InvoiceController::class, 'proceedToPayment'])->name('invoice.payment');
     });
 
-    // Báo giá và thanh toán
-    Route::group(['prefix' => 'quote'], function () {
-        // Hiển thị trang báo giá
-        Route::get('/', [InvoiceController::class, 'showQuote'])->name('quote');
+    // ===== ORDERS =====
+    Route::get('/order/{id}', [OrderController::class, 'showOrder'])->name('order.show');
 
-        // Thêm các routes cho báo giá
+    // ===== QUOTES & CHECKOUT =====
+    Route::group(['prefix' => 'quote'], function () {
+        Route::get('/', [InvoiceController::class, 'showQuote'])->name('quote');
         Route::get('/download', [QuoteController::class, 'downloadPdf'])->name('quote.download');
         Route::get('/email', [QuoteController::class, 'sendEmail'])->name('quote.email');
         Route::post('/email', [QuoteController::class, 'sendEmail'])->name('quote.email.post');
-
-        // Tiếp tục đến trang thanh toán
         Route::post('/proceed-to-payment', [InvoiceController::class, 'proceedToPayment'])->name('proceed.payment');
-        // Order routes - đã có nhưng cần di chuyển ra khỏi prefix quote
-
-        Route::get('/order/{id}', [OrderController::class, 'showOrder'])->name('order.show');
-
-        // Invoice download route - đã có nhưng cần di chuyển ra khỏi prefix quote
-        Route::get('/invoice/{id}/download', [InvoiceController::class, 'downloadPdf'])->name('invoice.download');
-        // Payment routes
-        Route::get('/invoice/{id}/payment', [InvoiceController::class, 'proceedToPayment'])->name('proceed.payment');
-        Route::get('/payment/process', [InvoiceController::class, 'proceedToPayment'])->name('process.payment');
     });
-    // Thêm routes cho hoàn tiền
+
+    // ===== PAYMENT PROCESSING =====
+    Route::get('/payment/process', [InvoiceController::class, 'proceedToPayment'])->name('process.payment');
+
+    // ===== CASHBACK =====
     Route::group(['prefix' => 'cashback'], function () {
         Route::post('/register', [CashbackController::class, 'register'])->name('cashback.register');
         Route::get('/status', [CashbackController::class, 'getStatus'])->name('cashback.status');
     });
 
+    // ===== ADMIN ROUTES =====
     Route::group(['prefix' => 'admin'], function () {
         Route::group(['prefix' => 'logs'], function () {
             Route::get('/', [LogController::class, 'index'])->name('admin.logs.index');

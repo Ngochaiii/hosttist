@@ -16,9 +16,15 @@
         <li class="nav-item {{ request()->routeIs('contact.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('contact.index') }}">Contact Us</a>
         </li>
-        {{-- <li class="nav-item {{ request()->routeIs('invoice.index') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('invoice.index') }}">Invoice</a>
-        </li> --}}
+        
+        @auth
+            <!-- Services menu cho customer đã đăng nhập -->
+            <li class="nav-item {{ request()->routeIs('customer.services.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('customer.services.index') }}">
+                    <i class="fa fa-server" aria-hidden="true"></i> My Services
+                </a>
+            </li>
+        @endauth
 
         @guest
             <!-- Hiển thị khi chưa đăng nhập -->
@@ -43,7 +49,17 @@
                     <a class="dropdown-item" href="{{ route('customer.profile') }}">
                         <i class="fa fa-user-circle" aria-hidden="true"></i> My Profile
                     </a>
+                    <a class="dropdown-item" href="{{ route('customer.services.index') }}">
+                        <i class="fa fa-server" aria-hidden="true"></i> My Services
+                    </a>
+                    <a class="dropdown-item" href="{{ route('customer.orders') }}">
+                        <i class="fa fa-shopping-bag" aria-hidden="true"></i> My Orders
+                    </a>
+                    <a class="dropdown-item" href="{{ route('customer.invoices') }}">
+                        <i class="fa fa-file-text" aria-hidden="true"></i> My Invoices
+                    </a>
                     @if (Auth::user()->role == 'admin' || Auth::user()->role == 'super_admin')
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
                             <i class="fa fa-dashboard" aria-hidden="true"></i> Admin Dashboard
                         </a>

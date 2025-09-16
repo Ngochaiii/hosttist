@@ -6,7 +6,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ServiceProvision;
 use App\Services\AuditLogService;
+use App\Services\ProvisionService;
 use Illuminate\Http\Request;
+use App\Services\{ProvisionEmailService};
 
 class ProvisionController extends Controller
 {
@@ -112,7 +114,7 @@ class ProvisionController extends Controller
         // Mark as viewed & log
         $provision->increment('view_count');
         $provision->update(['last_viewed_at' => now()]);
-        
+
         AuditLogService::log($id, 'viewed', [
             'view_count' => $provision->view_count
         ]);
@@ -124,22 +126,22 @@ class ProvisionController extends Controller
     {
         $provision = ServiceProvision::with(['customer', 'product', 'orderItem'])
             ->findOrFail($id);
-        
+
         // Log form access
         AuditLogService::logFormAccess($id, $provision->provision_type);
-        
+
         if (!in_array($provision->provision_status, ['pending', 'processing'])) {
             AuditLogService::logError($id, 'form_access_denied', 'Invalid status for form access', [
                 'current_status' => $provision->provision_status
             ]);
-            
+
             return redirect()->route('admin.provisions.show', $id)
                 ->with('error', 'Chỉ có thể chỉnh sửa provision đang chờ xử lý.');
         }
 
-        $formView = match($provision->provision_type) {
+        $formView = match ($provision->provision_type) {
             'ssl' => 'source.admin.provisions.forms.ssl',
-            'domain' => 'source.admin.provisions.forms.domain', 
+            'domain' => 'source.admin.provisions.forms.domain',
             'hosting' => 'source.admin.provisions.forms.hosting',
             default => 'source.admin.provisions.forms.hosting'
         };
@@ -151,10 +153,10 @@ class ProvisionController extends Controller
     {
         $provision = ServiceProvision::findOrFail($id);
         $oldStatus = $provision->provision_status;
-        
+
         // Validate
         $rules = $this->getValidationRules($provision->provision_type);
-        
+
         try {
             $request->validate($rules);
         } catch (\Exception $e) {
@@ -170,7 +172,7 @@ class ProvisionController extends Controller
         // Update provision data
         $provisionData = json_decode($provision->provision_data, true) ?: [];
         $newData = $this->processFormData($request, $provision->provision_type, $provisionData);
-        
+
         $provision->update([
             'provision_data' => json_encode($newData),
             'provision_notes' => $request->provision_notes,
@@ -185,9 +187,9 @@ class ProvisionController extends Controller
                 'delivery_status' => 'delivered',
                 'delivered_at' => now()
             ]);
-            
+
             AuditLogService::logStatusChange($id, $oldStatus, 'completed', 'Completed via form');
-            
+
             return redirect()->route('admin.provisions.show', $id)
                 ->with('success', 'Provision completed successfully!');
         }
@@ -209,7 +211,7 @@ class ProvisionController extends Controller
             AuditLogService::logError($id, 'start_processing_failed', 'Invalid status', [
                 'current_status' => $provision->provision_status
             ]);
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Chỉ có thể bắt đầu xử lý provision đang chờ.'
@@ -217,7 +219,7 @@ class ProvisionController extends Controller
         }
 
         $provision->update(['provision_status' => 'processing']);
-        
+
         AuditLogService::logStatusChange($id, $oldStatus, 'processing', 'Started processing');
 
         return response()->json([
@@ -229,32 +231,30 @@ class ProvisionController extends Controller
     public function complete(Request $request, $id)
     {
         $provision = ServiceProvision::findOrFail($id);
-        $oldStatus = $provision->provision_status;
 
         if (!in_array($provision->provision_status, ['pending', 'processing'])) {
-            AuditLogService::logError($id, 'complete_failed', 'Invalid status', [
-                'current_status' => $provision->provision_status
-            ]);
-            
             return response()->json([
                 'success' => false,
                 'message' => 'Provision không thể hoàn thành.'
             ]);
         }
 
-        $provision->update([
-            'provision_status' => 'completed',
-            'provisioned_by' => auth()->id(),
-            'provisioned_at' => now(),
-            'delivery_status' => 'delivered',
-            'delivered_at' => now()
+        // Sử dụng ProvisionService để mark completed và gửi email
+        $provisionService = app(ProvisionService::class);
+        $success = $provisionService->markProvisionCompleted($provision, [
+            'notes' => 'Completed via admin panel'
         ]);
 
-        AuditLogService::logStatusChange($id, $oldStatus, 'completed', 'Completed via quick action');
+        if ($success) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Hoàn thành provision thành công! Email đã được gửi.'
+            ]);
+        }
 
         return response()->json([
-            'success' => true,
-            'message' => 'Hoàn thành provision thành công!'
+            'success' => false,
+            'message' => 'Có lỗi xảy ra khi hoàn thành provision.'
         ]);
     }
 
@@ -263,18 +263,21 @@ class ProvisionController extends Controller
         $request->validate(['failure_reason' => 'required|string']);
 
         $provision = ServiceProvision::findOrFail($id);
-        $oldStatus = $provision->provision_status;
 
-        $provision->update([
-            'provision_status' => 'failed',
-            'failure_reason' => $request->failure_reason
-        ]);
+        // Sử dụng ProvisionService để mark failed và gửi email
+        $provisionService = app(ProvisionService::class);
+        $success = $provisionService->markProvisionFailed($provision, $request->failure_reason);
 
-        AuditLogService::logStatusChange($id, $oldStatus, 'failed', $request->failure_reason);
+        if ($success) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã đánh dấu provision thất bại. Email đã được gửi.'
+            ]);
+        }
 
         return response()->json([
-            'success' => true,
-            'message' => 'Đã đánh dấu provision thất bại.'
+            'success' => false,
+            'message' => 'Có lỗi xảy ra.'
         ]);
     }
 
@@ -287,7 +290,7 @@ class ProvisionController extends Controller
             AuditLogService::logError($id, 'retry_failed', 'Invalid status', [
                 'current_status' => $provision->provision_status
             ]);
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Chỉ có thể thử lại provision đã thất bại.'
@@ -316,7 +319,7 @@ class ProvisionController extends Controller
 
         if ($provision->provision_status === 'completed') {
             AuditLogService::logError($id, 'cancel_failed', 'Cannot cancel completed provision');
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Không thể hủy provision đã hoàn thành.'
@@ -402,6 +405,36 @@ class ProvisionController extends Controller
 
             default:
                 return $currentData;
+        }
+    }
+    // Thêm method mới để resend email:
+    public function resendEmail($id)
+    {
+        $provision = ServiceProvision::findOrFail($id);
+
+        try {
+            $success = $this->emailService->resendNotification($provision);
+
+            if ($success) {
+                AuditLogService::log($id, 'email_resent', ['admin_id' => auth()->id()]);
+
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Email thông báo đã được gửi lại.'
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không thể gửi email thông báo.'
+                ]);
+            }
+        } catch (\Exception $e) {
+            AuditLogService::logError($id, 'resend_email_failed', $e->getMessage());
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra khi gửi email.'
+            ]);
         }
     }
 }

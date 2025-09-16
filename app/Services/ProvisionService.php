@@ -6,9 +6,18 @@ use App\Models\{Orders, Order_items, Products, Customers};
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ServiceProvision;
+use App\Events\{ProvisionCreated, ProvisionCompleted, ProvisionFailed};
+use App\Services\ProvisionEmailService;
 
 class ProvisionService extends BaseService
 {
+    protected $emailService;
+    public function __construct()
+    {
+        $this->emailService = new ProvisionEmailService();
+    }
+
     /**
      * Handle specific provisioning logic based on product type
      *
@@ -29,6 +38,7 @@ class ProvisionService extends BaseService
                 $this->provisionDomain($service, $options);
                 break;
             case 'service':
+            case 'product':
                 $this->provisionGenericService($service, $options);
                 break;
         }
@@ -387,7 +397,7 @@ class ProvisionService extends BaseService
         }
 
         // Only provision certain product types
-        $provisionableTypes = ['ssl', 'domain', 'hosting', 'service'];
+        $provisionableTypes = ['ssl', 'domain', 'hosting', 'service' , 'product'];
         
         return in_array($item->product->type, $provisionableTypes);
     }
@@ -576,5 +586,294 @@ class ProvisionService extends BaseService
         }
 
         return $metaData;
+    }
+    /**
+     * Create new service provision with email notification
+     */
+    public function createServiceProvision(array $data): ServiceProvision
+    {
+        return $this->transaction(function() use ($data) {
+            // Create the provision
+            $provision = ServiceProvision::create([
+                'order_item_id' => $data['order_item_id'],
+                'product_id' => $data['product_id'],
+                'customer_id' => $data['customer_id'],
+                'provision_type' => $data['provision_type'],
+                'provision_status' => 'pending',
+                'provision_data' => $data['provision_data'] ?? null,
+                'priority' => $data['priority'] ?? 5,
+                'estimated_completion' => $data['estimated_completion'] ?? now()->addHours(24),
+                'provision_notes' => $data['notes'] ?? null,
+            ]);
+
+            // Fire event for email notifications
+            event(new ProvisionCreated($provision));
+
+            $this->logActivity('Service provision created', [
+                'provision_id' => $provision->id,
+                'customer_id' => $provision->customer_id,
+                'provision_type' => $provision->provision_type
+            ]);
+
+            return $provision;
+        });
+    }
+
+    /**
+     * Mark provision as completed with email notification
+     */
+    public function markProvisionCompleted(ServiceProvision $provision, array $data = []): bool
+    {
+        return $this->transaction(function() use ($provision, $data) {
+            $provision->update([
+                'provision_status' => 'completed',
+                'provisioned_at' => now(),
+                'provisioned_by' => auth()->id(),
+                'provision_notes' => $data['notes'] ?? $provision->provision_notes,
+                'provision_data' => array_merge($provision->provision_data ?? [], $data['provision_data'] ?? [])
+            ]);
+
+            // Fire event for email notifications
+            event(new ProvisionCompleted($provision));
+
+            $this->logActivity('Service provision completed', [
+                'provision_id' => $provision->id,
+                'customer_id' => $provision->customer_id,
+                'completed_by' => auth()->id()
+            ]);
+
+            return true;
+        });
+    }
+
+    /**
+     * Mark provision as failed with email notification
+     */
+    public function markProvisionFailed(ServiceProvision $provision, string $reason): bool
+    {
+        return $this->transaction(function() use ($provision, $reason) {
+            $provision->update([
+                'provision_status' => 'failed',
+                'failure_reason' => $reason,
+                'provisioned_by' => auth()->id(),
+                'provisioned_at' => now()
+            ]);
+
+            // Fire event for email notifications
+            event(new ProvisionFailed($provision));
+
+            $this->logActivity('Service provision failed', [
+                'provision_id' => $provision->id,
+                'customer_id' => $provision->customer_id,
+                'reason' => $reason,
+                'handled_by' => auth()->id()
+            ]);
+
+            return true;
+        });
+    }
+
+    /**
+     * Create service provisions from order - sửa lại method hiện có
+     */
+    public function createProvisionFromOrder(Orders $order): array
+    {
+        return $this->transaction(function() use ($order) {
+            $provisions = [];
+
+            foreach ($order->items as $item) {
+                if ($this->shouldCreateProvision($item)) {
+                    // Tạo service provision thay vì service product
+                    $provision = $this->createServiceProvision([
+                        'order_item_id' => $item->id,
+                        'product_id' => $item->product_id,
+                        'customer_id' => $order->customer_id,
+                        'provision_type' => $item->product->type,
+                        'provision_data' => json_decode($item->options, true),
+                        'estimated_completion' => now()->addHours(24), // 24h estimate
+                        'priority' => $this->calculatePriority($item->product->type)
+                    ]);
+
+                    $provisions[] = $provision;
+                }
+            }
+
+            return $provisions;
+        });
+    }
+
+    /**
+     * Calculate priority based on service type
+     */
+    private function calculatePriority(string $productType): int
+    {
+        return match($productType) {
+            'ssl' => 7,      // High priority
+            'hosting' => 6,   // Medium-high priority  
+            'domain' => 5,    // Normal priority
+            default => 5
+        };
+    }
+
+    /**
+     * Check if order item needs provision
+     */
+    private function shouldCreateProvision($item): bool
+    {
+        if (!$item->product) return false;
+        
+        // Create provisions for these product types
+        $provisionableTypes = ['ssl', 'domain', 'hosting', 'service'];
+        return in_array($item->product->type, $provisionableTypes);
+    }
+
+    /**
+     * Get provisions with filtering
+     */
+    public function getProvisions(array $filters = [])
+    {
+        $query = ServiceProvision::with(['customer.user', 'product', 'orderItem']);
+
+        if (isset($filters['status'])) {
+            $query->where('provision_status', $filters['status']);
+        }
+
+        if (isset($filters['type'])) {
+            $query->where('provision_type', $filters['type']);
+        }
+
+        if (isset($filters['customer_id'])) {
+            $query->where('customer_id', $filters['customer_id']);
+        }
+
+        if (isset($filters['date_from'])) {
+            $query->where('created_at', '>=', $filters['date_from']);
+        }
+
+        if (isset($filters['date_to'])) {
+            $query->where('created_at', '<=', $filters['date_to']);
+        }
+
+        return $query->orderBy('created_at', 'desc')->paginate(20);
+    }
+
+    /**
+     * Get provision statistics
+     */
+    public function getProvisionStats(): array
+    {
+        return [
+            'total' => ServiceProvision::count(),
+            'pending' => ServiceProvision::where('provision_status', 'pending')->count(),
+            'processing' => ServiceProvision::where('provision_status', 'processing')->count(),
+            'completed' => ServiceProvision::where('provision_status', 'completed')->count(),
+            'failed' => ServiceProvision::where('provision_status', 'failed')->count(),
+            'completed_today' => ServiceProvision::where('provision_status', 'completed')
+                ->whereDate('provisioned_at', today())->count(),
+            'pending_overdue' => ServiceProvision::where('provision_status', 'pending')
+                ->where('estimated_completion', '<', now())->count(),
+        ];
+    }
+
+    /**
+     * Process provision workflow - method để xử lý provision manual
+     */
+    public function processProvision(ServiceProvision $provision, array $data): bool
+    {
+        try {
+            // Update provision status to processing
+            $provision->update(['provision_status' => 'processing']);
+
+            // Process based on provision type
+            $success = match($provision->provision_type) {
+                'ssl' => $this->processSSLProvision($provision, $data),
+                'hosting' => $this->processHostingProvision($provision, $data),
+                'domain' => $this->processDomainProvision($provision, $data),
+                default => $this->processGenericProvision($provision, $data)
+            };
+
+            if ($success) {
+                $this->markProvisionCompleted($provision, $data);
+            } else {
+                $this->markProvisionFailed($provision, 'Processing failed');
+            }
+
+            return $success;
+
+        } catch (\Exception $e) {
+            $this->markProvisionFailed($provision, $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Process SSL provision
+     */
+    private function processSSLProvision(ServiceProvision $provision, array $data): bool
+    {
+        // Logic xử lý SSL certificate
+        // Ví dụ: generate certificate, validate domain, etc.
+        
+        $provisionData = $provision->provision_data ?? [];
+        $provisionData['ssl_data'] = [
+            'certificate' => $data['certificate'] ?? null,
+            'private_key' => isset($data['private_key']) ? encrypt($data['private_key']) : null,
+            'ca_bundle' => $data['ca_bundle'] ?? null,
+            'processed_at' => now()->toISOString()
+        ];
+
+        $provision->update(['provision_data' => $provisionData]);
+        return true;
+    }
+
+    /**
+     * Process hosting provision
+     */
+    private function processHostingProvision(ServiceProvision $provision, array $data): bool
+    {
+        // Logic tạo hosting account
+        $provisionData = $provision->provision_data ?? [];
+        $provisionData['hosting_data'] = [
+            'username' => $data['username'] ?? null,
+            'password' => isset($data['password']) ? encrypt($data['password']) : null,
+            'server_ip' => $data['server_ip'] ?? null,
+            'control_panel' => $data['control_panel'] ?? 'cpanel',
+            'processed_at' => now()->toISOString()
+        ];
+
+        $provision->update(['provision_data' => $provisionData]);
+        return true;
+    }
+
+    /**
+     * Process domain provision
+     */
+    private function processDomainProvision(ServiceProvision $provision, array $data): bool
+    {
+        // Logic đăng ký domain
+        $provisionData = $provision->provision_data ?? [];
+        $provisionData['domain_data'] = [
+            'domain_name' => $data['domain_name'] ?? null,
+            'registrar' => $data['registrar'] ?? null,
+            'nameservers' => $data['nameservers'] ?? [],
+            'processed_at' => now()->toISOString()
+        ];
+
+        $provision->update(['provision_data' => $provisionData]);
+        return true;
+    }
+
+    /**
+     * Process generic provision
+     */
+    private function processGenericProvision(ServiceProvision $provision, array $data): bool
+    {
+        $provisionData = $provision->provision_data ?? [];
+        $provisionData['service_data'] = array_merge($data, [
+            'processed_at' => now()->toISOString()
+        ]);
+
+        $provision->update(['provision_data' => $provisionData]);
+        return true;
     }
 }
