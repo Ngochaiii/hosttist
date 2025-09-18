@@ -41,7 +41,7 @@ class PaymentService extends BaseService
                 $payment->order->update(['status' => 'completed']);
 
                 // Create provisions for service products
-                $provisionResults = $this->provisionService->createFromOrder($payment->order);
+                // $provisionResults = $this->provisionService->createFromOrder($payment->order);
             }
 
             // Send confirmation email
@@ -145,7 +145,7 @@ class PaymentService extends BaseService
             }
 
             // Provision services
-            $provisionResults = $this->provisionService->createFromOrder($order);
+            // $provisionResults = $this->provisionService->createFromOrder($order);
 
             return [
                 'success' => true,

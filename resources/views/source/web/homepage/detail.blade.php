@@ -126,23 +126,59 @@
 
                                                     <!-- THÊM TRƯỜNG DOMAIN CHO SSL VÀ DOMAIN -->
                                                     @if ($product->type == 'ssl' || $product->type == 'domain')
-                                                    <div class="form-group mb-3">
-                                                        <label for="domain">Domain:</label>
-                                                        <input type="text" name="options[domain]" id="domain"
-                                                               class="form-control @error('options.domain') is-invalid @enderror"
-                                                               placeholder="example.com" required>
-                                                        <small class="form-text text-muted">
-                                                            @if($product->type == 'ssl')
-                                                            Nhập tên miền để cài đặt chứng chỉ SSL
-                                                            @elseif($product->type == 'domain')
-                                                            Nhập tên miền bạn muốn đăng ký/gia hạn
-                                                            @endif
-                                                        </small>
-                                                        @error('options.domain')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                        @enderror
-                                                    </div>
+                                                        <div class="form-group mb-3">
+                                                            <label for="domain">Domain:</label>
+                                                            <input type="text" name="options[domain]" id="domain"
+                                                                class="form-control @error('options.domain') is-invalid @enderror"
+                                                                placeholder="example.com" required>
+                                                            <small class="form-text text-muted">
+                                                                @if ($product->type == 'ssl')
+                                                                    Nhập tên miền để cài đặt chứng chỉ SSL
+                                                                @elseif($product->type == 'domain')
+                                                                    Nhập tên miền bạn muốn đăng ký/gia hạn
+                                                                @endif
+                                                            </small>
+                                                            @error('options.domain')
+                                                                <div class="invalid-feedback">{{ $message }}</div>
+                                                            @enderror
+                                                        </div>
                                                     @endif
+                                                    {{-- TRƯỜNG BẮT BUỘC THEO LOẠI DỊCH VỤ --}}
+
+                                                    {{-- VPS: yêu cầu nhập username muốn tạo --}}
+                                                    @if ($product->type == 'vps')
+                                                        <div class="form-group mb-3">
+                                                            <label for="vps_username">Username VPS (bắt buộc)</label>
+                                                            <input type="text" name="options[username]" id="vps_username"
+                                                                class="form-control" placeholder="vd: myuser" required>
+                                                            <small class="form-text text-muted">Username admin cho máy chủ
+                                                                VPS của bạn.</small>
+                                                        </div>
+                                                    @endif
+
+                                                    {{-- Web thiết kế: yêu cầu số điện thoại liên hệ --}}
+                                                    @if ($product->type == 'web_design' || $product->type == 'service')
+                                                        <div class="form-group mb-3">
+                                                            <label for="contact_phone">Số điện thoại liên hệ (bắt
+                                                                buộc)</label>
+                                                            <input type="tel" name="options[phone]" id="contact_phone"
+                                                                class="form-control" placeholder="09xxxxxxxx" required>
+                                                            <small class="form-text text-muted">Dùng để liên hệ xác nhận và
+                                                                lấy nội dung thiết kế.</small>
+                                                        </div>
+                                                    @endif
+
+                                                    {{-- Hosting (tuỳ chọn): domain chính nếu bạn muốn gom sẵn ở đây --}}
+                                                    @if ($product->type == 'hosting')
+                                                        <div class="form-group mb-3">
+                                                            <label for="primary_domain">Domain chính (tuỳ chọn)</label>
+                                                            <input type="text" name="options[domain]" id="primary_domain"
+                                                                class="form-control" placeholder="example.com">
+                                                            <small class="form-text text-muted">Nếu có sẵn tên miền, nhập để
+                                                                gán làm primary domain.</small>
+                                                        </div>
+                                                    @endif
+
 
                                                     <div class="form-check mb-3">
                                                         <input class="form-check-input" type="checkbox"

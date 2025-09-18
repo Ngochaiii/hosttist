@@ -48,12 +48,6 @@ class CategoryController extends Controller
         return view('source.admin.categories.create', compact('parentCategories'));
     }
 
-    /**
-     * Store a newly created category in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -66,6 +60,13 @@ class CategoryController extends Controller
         // Handle checkbox status
         $data['status'] = $request->has('status') ? 'active' : 'inactive';
 
+        // Handle meta_data for service type
+        $metaData = [];
+        if ($request->has('service_type') && !empty($request->service_type)) {
+            $metaData['service_type'] = $request->service_type;
+        }
+        $data['meta_data'] = !empty($metaData) ? json_encode($metaData) : null;
+
         // Handle image upload
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $path = $request->file('image')->store('categories', 'public');
@@ -76,6 +77,46 @@ class CategoryController extends Controller
             $category = $this->categoryRepository->validateAndCreate($data);
             return redirect()->route('admin.categories.index')
                 ->with('success', 'Danh mục đã được tạo thành công!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->all();
+
+        // Handle slug creation if empty
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['name']);
+        }
+
+        // Handle checkbox status
+        $data['status'] = $request->has('status') ? 'active' : 'inactive';
+
+        // Handle meta_data for service type
+        $metaData = [];
+        if ($request->has('service_type') && !empty($request->service_type)) {
+            $metaData['service_type'] = $request->service_type;
+        }
+        $data['meta_data'] = !empty($metaData) ? json_encode($metaData) : null;
+
+        // Handle image upload
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+            $category = $this->categoryRepository->find($id);
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+            $path = $request->file('image')->store('categories', 'public');
+            $data['image'] = $path;
+        }
+
+        try {
+            $category = $this->categoryRepository->validateAndUpdate($data, $id);
+            return redirect()->route('admin.categories.index')
+                ->with('success', 'Danh mục đã được cập nhật thành công!');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
@@ -110,49 +151,6 @@ class CategoryController extends Controller
             });
 
         return view('source.admin.categories.edit', compact('category', 'parentCategories'));
-    }
-
-    /**
-     * Update the specified category in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $data = $request->all();
-
-        // Handle slug creation if empty
-        if (empty($data['slug'])) {
-            $data['slug'] = Str::slug($data['name']);
-        }
-
-        // Handle checkbox status
-        $data['status'] = $request->has('status') ? 'active' : 'inactive';
-
-        // Handle image upload
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            // Delete old image
-            $category = $this->categoryRepository->find($id);
-            if ($category->image) {
-                Storage::disk('public')->delete($category->image);
-            }
-
-            // Upload new image
-            $path = $request->file('image')->store('categories', 'public');
-            $data['image'] = $path;
-        }
-
-        try {
-            $category = $this->categoryRepository->validateAndUpdate($data, $id);
-            return redirect()->route('admin.categories.index')
-                ->with('success', 'Danh mục đã được cập nhật thành công!');
-        } catch (\Exception $e) {
-            return redirect()->back()
-                ->withInput()
-                ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
-        }
     }
 
     /**
