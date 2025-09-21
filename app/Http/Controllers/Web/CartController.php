@@ -27,129 +27,89 @@ class CartController extends Controller
     /**
      * Thêm sản phẩm vào giỏ hàng
      */
+    // app/Http/Controllers/Web/CartController.php
+
     public function addToCart(Request $request)
     {
         try {
-            $request->validate([
-                'product_id' => 'required|exists:products,id',
-                'quantity' => 'required|integer|min:1',
-                'options' => 'nullable|array',
-                'custom_price' => 'nullable|numeric'
-            ]);
+            $product = Products::with('category')->findOrFail($request->product_id);
 
-            // Lấy thông tin sản phẩm
-            $product = Products::findOrFail($request->product_id);
+            // Validation cơ bản
             $rules = [
                 'product_id' => 'required|exists:products,id',
                 'quantity' => 'required|integer|min:1',
-                'options.period' => 'required|integer|in:1,2,3,5',
             ];
 
-            // Thêm validation cho domain dựa vào loại sản phẩm
-            if ($product->type == 'ssl' || $product->type == 'domain') {
-                $rules['options.domain'] = 'required|string|max:255|regex:/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](\.[a-zA-Z]{2,})+$/';
+            // Thêm validation cho dynamic fields từ category
+            if ($product->category && $product->category->hasServiceFields()) {
+                foreach ($product->category->getServiceFields() as $field) {
+                    if ($field['required'] ?? false) {
+                        $fieldKey = "options.{$field['name']}";
+                        $rules[$fieldKey] = 'required';
+
+                        // Thêm validation cụ thể theo loại
+                        if (isset($field['validation'])) {
+                            switch ($field['validation']) {
+                                case 'domain':
+                                    $rules[$fieldKey] .= '|regex:/^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](\.[a-zA-Z]{2,})+$/';
+                                    break;
+                                case 'phone_vn':
+                                    $rules[$fieldKey] .= '|regex:/^(0[3|5|7|8|9])+([0-9]{8})$/';
+                                    break;
+                                case 'url':
+                                    $rules[$fieldKey] .= '|url';
+                                    break;
+                            }
+                        }
+                    }
+                }
             }
 
-            $validated = $request->validate($rules, [
-                'options.domain.required' => 'Vui lòng nhập tên miền cho dịch vụ này',
-                'options.domain.regex' => 'Tên miền không hợp lệ'
-            ]);
+            $validated = $request->validate($rules);
 
-            // Kiểm tra sản phẩm có hợp lệ không
-            if ($product->customer_id || $product->product_status !== 'active') {
-                return back()->with('error', 'Sản phẩm không có sẵn để mua');
-            }
-
-            // Lấy hoặc tạo giỏ hàng
+            // Lấy giỏ hàng
             $cart = $this->getCart();
 
-            // Lấy thông tin thời hạn
+            // Chuẩn bị options với đầy đủ thông tin
             $options = $request->options ?? [];
+            $options['service_type'] = $product->category->getServiceType();
+
+            // Tính giá
             $period = $options['period'] ?? 1;
+            $price = ($product->sale_price ?? $product->price) * $period;
 
-            // Xác định giá theo thời hạn
-            if ($request->has('custom_price')) {
-                // Sử dụng giá từ form nếu có
-                $price = $request->custom_price;
-            } else {
-                // Tính giá dựa theo thời hạn nếu không có giá tùy chỉnh
-                $basePrice = $product->sale_price ?? $product->price;
-                $price = $basePrice * $period;
-            }
-
-            // Tạo tên sản phẩm với thông tin thời hạn
-            $productName = $product->name . " (" . $period . " năm)";
-
-            // Kiểm tra xem có mục nào trong giỏ hàng với cùng product_id không
+            // Tìm hoặc tạo cart item
             $existingItem = CartItem::where('cart_id', $cart->id)
                 ->where('product_id', $product->id)
                 ->first();
 
             if ($existingItem) {
-                // Kiểm tra xem gói thời hạn đã được thêm vào giỏ hàng chưa
-                $existingOptions = json_decode($existingItem->options, true) ?: [];
-                $existingPeriod = $existingOptions['period'] ?? null;
-
-                if ($existingPeriod == $period) {
-                    // Nếu đã có cùng thời hạn, cập nhật số lượng
-                    $existingItem->quantity += $request->quantity;
-                    $existingItem->subtotal = $price * $existingItem->quantity;
-                    $existingItem->total = $existingItem->subtotal;
-                    $existingItem->save();
-
-                    $message = 'Đã cập nhật số lượng sản phẩm trong giỏ hàng';
-                } else {
-                    // Nếu thời hạn khác, cập nhật thay thế thông tin cũ
-                    $existingItem->name = $productName;
-                    $existingItem->unit_price = $price;
-                    $existingItem->options = json_encode($options);
-                    $existingItem->quantity = $request->quantity;
-                    $existingItem->subtotal = $price * $existingItem->quantity;
-                    $existingItem->total = $existingItem->subtotal;
-                    $existingItem->save();
-
-                    $message = 'Đã cập nhật sản phẩm với thời hạn mới';
-                }
+                $existingItem->update([
+                    'quantity' => $existingItem->quantity + $request->quantity,
+                    'options' => json_encode($options),
+                    'subtotal' => $price * ($existingItem->quantity + $request->quantity),
+                    'total' => $price * ($existingItem->quantity + $request->quantity),
+                ]);
             } else {
-                // Tạo mới nếu chưa có sản phẩm này trong giỏ hàng
-                $cartItem = new CartItem([
+                CartItem::create([
                     'cart_id' => $cart->id,
                     'product_id' => $product->id,
-                    'name' => $productName,
+                    'name' => $product->name . " ({$period} năm)",
                     'quantity' => $request->quantity,
                     'unit_price' => $price,
                     'subtotal' => $price * $request->quantity,
                     'total' => $price * $request->quantity,
                     'options' => json_encode($options)
                 ]);
-                $cartItem->save();
-
-                $message = 'Đã thêm sản phẩm vào giỏ hàng';
             }
 
-            // Cập nhật tổng giỏ hàng
             $this->updateCartTotals($cart);
 
-            // Redirect với thông báo thành công
-            return redirect()->route('cart.index')->with('success', $message);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Xử lý lỗi validation
-            return back()->withErrors($e->validator)->withInput()->with('error', 'Vui lòng kiểm tra lại thông tin nhập vào');
-        } catch (\Illuminate\Database\QueryException $e) {
-            // Xử lý lỗi database
-            Log::error('Database error when adding to cart: ' . $e->getMessage());
-
-            // Kiểm tra nếu là lỗi ràng buộc duy nhất
-            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                // Xử lý trường hợp trùng lặp
-                return $this->handleDuplicateCartItem($request, $product);
-            }
-
-            return back()->with('error', 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại sau.');
+            return redirect()->route('cart.index')
+                ->with('success', 'Đã thêm vào giỏ hàng');
         } catch (\Exception $e) {
-            // Xử lý các lỗi khác
-            Log::error('Error adding to cart: ' . $e->getMessage());
-            return back()->with('error', 'Đã có lỗi xảy ra. Vui lòng thử lại sau.');
+            Log::error('Add to cart error: ' . $e->getMessage());
+            return back()->with('error', 'Không thể thêm vào giỏ hàng. Vui lòng thử lại.');
         }
     }
 

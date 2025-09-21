@@ -8,6 +8,9 @@ use Exception;
 use App\Models\ServiceProvision;
 use App\Services\ProvisionService;
 use App\Events\ProvisionCreated;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class OrderService extends BaseService
 {
@@ -24,37 +27,101 @@ class OrderService extends BaseService
      * @return array ['order' => Orders, 'invoice' => Invoices]
      * @throws Exception
      */
-    public function createFromCart(Cart $cart, int $customerId): array
+    // app/Services/OrderService.php
+
+    // app/Services/OrderService.php
+
+    public function createFromCart($cart, $customerId)
     {
-        return $this->transaction(function () use ($cart, $customerId) {
-            // Validate cart
-            $this->validateCart($cart);
-
-            // Validate customer
-            $customer = $this->validateCustomer($customerId);
-
-            // Create order
-            $order = $this->createOrder($cart, $customer);
-
-            // Create order items
-            $this->createOrderItems($order, $cart);
-
-            // Create invoice
-            $invoice = $this->createInvoice($order);
-
-            $this->logActivity('Order created from cart', [
-                'order_id' => $order->id,
-                'invoice_id' => $invoice->id,
+        DB::beginTransaction();
+        try {
+            // Tạo order
+            $order = \App\Models\Orders::create([
+                'order_number' => 'ORD' . time(),
                 'customer_id' => $customerId,
-                'total_amount' => $order->total_amount
+                'status' => 'pending',
+                'subtotal' => $cart->subtotal,
+                'total_amount' => $cart->total_amount,
+                'created_by' => auth()->id()
             ]);
 
-            return [
-                'success' => true,
-                'order' => $order,
-                'invoice' => $invoice
-            ];
-        });
+            // Lưu order items với thông tin chi tiết
+            foreach ($cart->items as $cartItem) {
+                $options = json_decode($cartItem->options, true) ?: [];
+
+                Order_items::create([
+                    'order_id' => $order->id,
+                    'product_id' => $cartItem->product_id,
+                    'name' => $cartItem->name,
+                    'quantity' => $cartItem->quantity,
+                    'price' => $cartItem->unit_price,
+                    'subtotal' => $cartItem->subtotal,
+                    'total' => $cartItem->total,
+                    'options' => $cartItem->options, // Giữ nguyên JSON
+                    'duration' => $options['period'] ?? null,
+                    'domain' => $options['domain'] ?? null
+                ]);
+
+                // Log để debug
+                Log::info('Order item created with options', [
+                    'order_id' => $order->id,
+                    'product_id' => $cartItem->product_id,
+                    'options' => $options
+                ]);
+            }
+
+            // Tạo invoice
+            $invoice = \App\Models\Invoices::create([
+                'invoice_number' => 'INV' . time(),
+                'order_id' => $order->id,
+                'customer_id' => $customerId,
+                'status' => 'pending',
+                'subtotal' => $order->subtotal,
+                'total_amount' => $order->total_amount,
+                'due_date' => \Carbon\Carbon::now()->addDays(7)
+            ]);
+
+            DB::commit();
+
+            return ['order' => $order, 'invoice' => $invoice, 'success' => true];
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Create order from cart failed: ' . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    private function createServiceProvision($orderItem, $options)
+    {
+        $serviceType = $options['service_type'] ?? null;
+
+        if (!$serviceType) return;
+
+        ServiceProvision::create([
+            'order_item_id' => $orderItem->id,
+            'product_id' => $orderItem->product_id,
+            'customer_id' => $orderItem->order->customer_id,
+            'provision_type' => $serviceType,
+            'provision_status' => 'pending',
+            'provision_data' => json_encode($options),
+            'priority' => $this->getProvisionPriority($serviceType)
+        ]);
+    }
+
+    private function getProvisionPriority($serviceType)
+    {
+        $priorities = [
+            'domain' => 1,
+            'ssl' => 2,
+            'hosting' => 3,
+            'vps' => 4,
+            'email' => 5,
+            'web_design' => 6,
+            'advertising' => 7,
+            'seo' => 8
+        ];
+
+        return $priorities[$serviceType] ?? 5;
     }
 
     /**

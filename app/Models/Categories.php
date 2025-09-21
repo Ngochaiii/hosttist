@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
 
 class Categories extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'name',
         'slug',
@@ -23,6 +24,7 @@ class Categories extends Model
     // Cast meta_data thành JSON
     protected $casts = [
         'meta_data' => 'array',
+        'sort_order' => 'integer',
     ];
 
     // Định nghĩa các loại dịch vụ và fields cần thiết
@@ -254,13 +256,28 @@ class Categories extends Model
     // Helper Methods
     public function getServiceType()
     {
+        // Nếu meta_data là string, decode nó
+        if (is_string($this->meta_data)) {
+            $metaData = json_decode($this->meta_data, true);
+            return $metaData['service_type'] ?? null;
+        }
+
+        // Nếu đã là array
         return $this->meta_data['service_type'] ?? null;
     }
 
     public function getServiceFields()
     {
         $type = $this->getServiceType();
-        return $type ? (self::SERVICE_TYPES[$type]['fields'] ?? []) : [];
+
+        // Debug để xem type là gì
+        Log::info('Service type: ' . $type);
+
+        if ($type && isset(self::SERVICE_TYPES[$type])) {
+            return self::SERVICE_TYPES[$type]['fields'] ?? [];
+        }
+
+        return [];
     }
 
     public function hasServiceFields()
@@ -273,4 +290,55 @@ class Categories extends Model
         $type = $this->getServiceType();
         return $type ? (self::SERVICE_TYPES[$type]['label'] ?? '') : '';
     }
+    /**
+     * Scope để lấy active categories
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('status', 'active');
+    }
+
+    /**
+     * Scope để lấy parent categories
+     */
+    public function scopeParents($query)
+    {
+        return $query->whereNull('parent_id');
+    }
+
+    /**
+     * Kiểm tra có thể xóa category không
+     */
+    public function canBeDeleted()
+    {
+        return $this->children()->count() == 0 && $this->products()->count() == 0;
+    }
+
+    /**
+     * Lấy full path của category (Parent > Child)
+     */
+    public function getFullPath()
+    {
+        if ($this->parent) {
+            return $this->parent->name . ' > ' . $this->name;
+        }
+        return $this->name;
+    }
+
+    /**
+     * Lấy all available service types
+     */
+    public static function getAvailableServiceTypes()
+    {
+        return array_keys(self::SERVICE_TYPES);
+    }
+
+    /**
+     * Validate service type
+     */
+    public static function isValidServiceType($type)
+    {
+        return in_array($type, self::getAvailableServiceTypes());
+    }
+    
 }

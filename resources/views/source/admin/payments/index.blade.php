@@ -77,13 +77,16 @@
                                             @php
                                                 // Lấy domain từ order_items
                                                 $domainItems = [];
-                                                if($payment->invoice && $payment->invoice->order) {
-                                                    $orderItems = \App\Models\Order_items::where('order_id', $payment->invoice->order->id)
+                                                if ($payment->invoice && $payment->invoice->order) {
+                                                    $orderItems = \App\Models\Order_items::where(
+                                                        'order_id',
+                                                        $payment->invoice->order->id,
+                                                    )
                                                         ->whereNotNull('domain')
                                                         ->get();
 
-                                                    foreach($orderItems as $item) {
-                                                        if(!empty($item->domain)) {
+                                                    foreach ($orderItems as $item) {
+                                                        if (!empty($item->domain)) {
                                                             $domainItems[] = $item->domain;
                                                         }
                                                     }
@@ -101,33 +104,75 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if($payment->invoice && $payment->invoice->order)
+                                                    @if ($payment->invoice && $payment->invoice->order)
                                                         @php
-                                                            $orderItems = \App\Models\Order_items::where('order_id', $payment->invoice->order->id)
-                                                                ->get();
+                                                            $orderItems = \App\Models\Order_items::where(
+                                                                'order_id',
+                                                                $payment->invoice->order->id,
+                                                            )->get();
                                                         @endphp
 
-                                                        @if($orderItems && $orderItems->count() > 0)
-                                                            @foreach($orderItems->take(2) as $item)
-                                                                <div>{{ $item->name }}</div>
-                                                            @endforeach
+                                                        @foreach ($orderItems as $item)
+                                                            <div class="mb-2">
+                                                                <strong>{{ $item->name }}</strong>
+                                                                @php
+                                                                    $options = json_decode($item->options, true) ?: [];
+                                                                @endphp
 
-                                                            @if($orderItems->count() > 2)
-                                                                <small class="text-muted">+{{ $orderItems->count() - 2 }} dịch vụ khác</small>
-                                                            @endif
-                                                        @else
-                                                            <span class="text-muted">N/A</span>
-                                                        @endif
-                                                    @else
-                                                        <span class="text-muted">N/A</span>
+                                                                @if (!empty($options))
+                                                                    <button type="button" class="btn btn-xs btn-info ml-2"
+                                                                        data-toggle="modal"
+                                                                        data-target="#optionsModal{{ $item->id }}">
+                                                                        <i class="fas fa-info-circle"></i> Chi tiết
+                                                                    </button>
+
+                                                                    <!-- Modal chi tiết -->
+                                                                    <div class="modal fade"
+                                                                        id="optionsModal{{ $item->id }}">
+                                                                        <div class="modal-dialog">
+                                                                            <div class="modal-content">
+                                                                                <div class="modal-header">
+                                                                                    <h5 class="modal-title">Thông tin dịch
+                                                                                        vụ: {{ $item->name }}</h5>
+                                                                                    <button type="button" class="close"
+                                                                                        data-dismiss="modal">
+                                                                                        <span>&times;</span>
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="modal-body">
+                                                                                    <table class="table table-sm">
+                                                                                        @foreach ($options as $key => $value)
+                                                                                            @if (!in_array($key, ['service_type']))
+                                                                                                <tr>
+                                                                                                    <th width="40%">
+                                                                                                        {{ ucfirst(str_replace('_', ' ', $key)) }}:
+                                                                                                    </th>
+                                                                                                    <td>
+                                                                                                        @if (is_bool($value))
+                                                                                                            {{ $value ? 'Có' : 'Không' }}
+                                                                                                        @else
+                                                                                                            {{ $value }}
+                                                                                                        @endif
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            @endif
+                                                                                        @endforeach
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            </div>
+                                                        @endforeach
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @foreach($domainItems as $domain)
+                                                    @foreach ($domainItems as $domain)
                                                         <span class="badge badge-info">{{ $domain }}</span><br>
                                                     @endforeach
 
-                                                    @if(count($domainItems) == 0)
+                                                    @if (count($domainItems) == 0)
                                                         <span class="text-muted">N/A</span>
                                                     @endif
                                                 </td>
@@ -188,11 +233,13 @@
                                                                         method="POST">
                                                                         @csrf
                                                                         <div class="modal-body">
-                                                                            <p>Bạn có chắc chắn muốn xác nhận thanh toán này?</p>
+                                                                            <p>Bạn có chắc chắn muốn xác nhận thanh toán
+                                                                                này?</p>
                                                                             <p><strong>Mã giao dịch:</strong>
                                                                                 {{ $payment->transaction_id }}</p>
                                                                             <p><strong>Mã hóa đơn:</strong>
-                                                                                {{ $payment->invoice->invoice_number ?? 'N/A' }}</p>
+                                                                                {{ $payment->invoice->invoice_number ?? 'N/A' }}
+                                                                            </p>
                                                                             <p><strong>Khách hàng:</strong>
                                                                                 {{ $payment->order->customer->user->name ?? 'Không có thông tin' }}
                                                                             </p>
@@ -201,16 +248,17 @@
                                                                                 đ</p>
 
                                                                             <!-- Hiển thị domain cho admin -->
-                                                                            @if(count($domainItems) > 0)
+                                                                            @if (count($domainItems) > 0)
                                                                                 <p><strong>Domain:</strong></p>
                                                                                 <ul>
-                                                                                    @foreach($domainItems as $domain)
+                                                                                    @foreach ($domainItems as $domain)
                                                                                         <li>{{ $domain }}</li>
                                                                                     @endforeach
                                                                                 </ul>
                                                                             @endif
 
-                                                                            <p class="text-success">Đơn hàng sẽ được chuyển sang trạng thái đang xử lý.</p>
+                                                                            <p class="text-success">Đơn hàng sẽ được chuyển
+                                                                                sang trạng thái đang xử lý.</p>
                                                                         </div>
                                                                         <div class="modal-footer">
                                                                             <button type="button" class="btn btn-secondary"
@@ -244,11 +292,13 @@
                                                                         method="POST">
                                                                         @csrf
                                                                         <div class="modal-body">
-                                                                            <p>Bạn có chắc chắn muốn từ chối thanh toán này?</p>
+                                                                            <p>Bạn có chắc chắn muốn từ chối thanh toán này?
+                                                                            </p>
                                                                             <p><strong>Mã giao dịch:</strong>
                                                                                 {{ $payment->transaction_id }}</p>
                                                                             <p><strong>Mã hóa đơn:</strong>
-                                                                                {{ $payment->invoice->invoice_number ?? 'N/A' }}</p>
+                                                                                {{ $payment->invoice->invoice_number ?? 'N/A' }}
+                                                                            </p>
                                                                             <p><strong>Khách hàng:</strong>
                                                                                 {{ $payment->order->customer->user->name ?? 'Không có thông tin' }}
                                                                             </p>
@@ -257,10 +307,10 @@
                                                                                 đ</p>
 
                                                                             <!-- Hiển thị domain cho admin -->
-                                                                            @if(count($domainItems) > 0)
+                                                                            @if (count($domainItems) > 0)
                                                                                 <p><strong>Domain:</strong></p>
                                                                                 <ul>
-                                                                                    @foreach($domainItems as $domain)
+                                                                                    @foreach ($domainItems as $domain)
                                                                                         <li>{{ $domain }}</li>
                                                                                     @endforeach
                                                                                 </ul>

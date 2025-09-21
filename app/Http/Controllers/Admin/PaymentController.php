@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Payments;
+use App\Models\Order_items;
+use App\Models\ServiceProvision;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Services\PaymentService;
 
@@ -17,320 +20,352 @@ class PaymentController extends Controller
     public function __construct(PaymentService $paymentService)
     {
         $this->paymentService = $paymentService;
-        Log::info("[PaymentController] Controller instantiated", [
-            'user_id' => auth()->id(),
-            'user_name' => auth()->user()->name ?? 'Unknown',
-            'service' => PaymentService::class,
-            'timestamp' => now()->toDateTimeString()
-        ]);
+    }
+
+    public function index(Request $request)
+    {
+        // Keep existing index method
+        $status = $request->get('status', 'pending');
+
+        $stats = $this->paymentService->getPaymentStats();
+
+        $payments = Payments::with(['invoice', 'order.customer.user'])
+            ->when($status, function ($query, $status) {
+                if ($status !== 'all') {
+                    return $query->where('status', $status);
+                }
+            })
+            ->latest()
+            ->paginate(10);
+
+        $counts = [
+            'all' => Payments::count(),
+            'pending' => Payments::where('status', 'pending')->count(),
+            'completed' => Payments::where('status', 'completed')->count(),
+            'failed' => Payments::where('status', 'failed')->count(),
+            'payments'=> $payments,
+        ];
+
+        return view('source.admin.payments.index', compact('payments', 'status', 'counts', 'stats'));
     }
 
     /**
-     * Display payment requests with stats
+     * Show provision form khi approve payment
      */
-    public function index(Request $request)
+    public function showProvisionForm($id)
     {
-        $requestId = uniqid('payment_index_');
-        Log::info("[{$requestId}] Payment index requested", [
-            'user_id' => Auth::id(),
-            'user_name' => Auth::user()->name ?? 'Unknown',
-            'request_params' => $request->all(),
-            'ip' => $request->ip(),
-            'user_agent' => $request->userAgent()
+        $requestId = uniqid('provision_form_');
+
+        Log::info("[{$requestId}] Showing provision form for payment", [
+            'payment_id' => $id,
+            'admin_id' => Auth::id()
         ]);
 
         try {
-            $status = $request->get('status', 'pending');
-            
-            Log::debug("[{$requestId}] Fetching payments data", [
-                'status_filter' => $status,
-                'page' => $request->get('page', 1)
-            ]);
+            $payment = Payments::with([
+                'invoice.order.items.product',
+                'order.customer.user'
+            ])->findOrFail($id);
 
-            // Use PaymentService for stats
-            $statsStart = microtime(true);
-            $stats = $this->paymentService->getPaymentStats();
-            $statsTime = microtime(true) - $statsStart;
-            
-            Log::debug("[{$requestId}] Payment stats retrieved", array_merge($stats, [
-                'execution_time_ms' => round($statsTime * 1000, 2)
-            ]));
+            // Kiểm tra payment status
+            if ($payment->status !== 'pending') {
+                return back()->with('error', 'Thanh toán đã được xử lý trước đó');
+            }
 
-            // Fetch payments with filtering
-            $paymentsStart = microtime(true);
-            $payments = Payments::with(['invoice', 'order.customer.user'])
-                ->when($status, function ($query, $status) {
-                    if ($status !== 'all') {
-                        return $query->where('status', $status);
+            // Lấy order items
+            $orderItems = [];
+            if ($payment->invoice && $payment->invoice->order) {
+                $orderItems = Order_items::where('order_id', $payment->invoice->order->id)
+                    ->with('product')
+                    ->get();
+            }
+
+            // Xác định product types cần provision
+            $needsProvision = false;
+            $productTypes = [];
+            foreach ($orderItems as $item) {
+                if ($item->product) {
+                    $type = $item->product->type;
+                    // Chỉ cần provision cho SSL, VPS, Hosting, Domain
+                    if (in_array($type, ['ssl', 'vps', 'hosting', 'domain'])) {
+                        $needsProvision = true;
+                        $productTypes[$type] = true;
                     }
-                })
-                ->latest()
-                ->paginate(10);
-            $paymentsTime = microtime(true) - $paymentsStart;
+                }
+            }
 
-            // Get status counts
-            $countsStart = microtime(true);
-            $counts = [
-                'all' => Payments::count(),
-                'pending' => Payments::where('status', 'pending')->count(),
-                'completed' => Payments::where('status', 'completed')->count(),
-                'failed' => Payments::where('status', 'failed')->count(),
-            ];
-            $countsTime = microtime(true) - $countsStart;
+            // Nếu không cần provision, approve luôn
+            if (!$needsProvision) {
+                return $this->approveDirectly($payment);
+            }
 
-            Log::info("[{$requestId}] Payment index data prepared successfully", [
-                'payments_count' => $payments->count(),
-                'total_pages' => $payments->lastPage(),
-                'current_page' => $payments->currentPage(),
-                'status_counts' => $counts,
-                'performance' => [
-                    'stats_time_ms' => round($statsTime * 1000, 2),
-                    'payments_query_time_ms' => round($paymentsTime * 1000, 2),
-                    'counts_time_ms' => round($countsTime * 1000, 2),
-                    'total_time_ms' => round(($statsTime + $paymentsTime + $countsTime) * 1000, 2)
-                ]
+            Log::info("[{$requestId}] Provision form prepared", [
+                'payment_id' => $payment->id,
+                'order_items_count' => count($orderItems),
+                'product_types' => array_keys($productTypes)
             ]);
 
-            return view('source.admin.payments.index', compact('payments', 'status', 'counts', 'stats'));
-
+            return view('source.admin.payments.provision-form', compact('payment', 'orderItems', 'productTypes'));
         } catch (\Exception $e) {
-            Log::error("[{$requestId}] Payment index failed", [
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString(),
-                'user_id' => Auth::id()
+            Log::error("[{$requestId}] Error showing provision form", [
+                'payment_id' => $id,
+                'error' => $e->getMessage()
             ]);
-            
-            return back()->with('error', 'Lỗi tải danh sách thanh toán: ' . $e->getMessage());
+
+            return back()->with('error', 'Lỗi hiển thị form: ' . $e->getMessage());
         }
     }
 
     /**
-     * Approve payment
+     * Approve payment với provision data
      */
-    public function approve(Request $request, $id)
+    public function approveWithProvision(Request $request, $id)
     {
-        $requestId = uniqid('payment_approve_');
-        Log::info("[{$requestId}] Payment approval requested", [
+        $requestId = uniqid('payment_approve_provision_');
+
+        Log::info("[{$requestId}] Payment approval with provision requested", [
             'payment_id' => $id,
-            'admin_id' => Auth::id(),
-            'admin_name' => Auth::user()->name ?? 'Unknown',
-            'admin_email' => Auth::user()->email ?? 'Unknown',
-            'ip' => $request->ip(),
-            'timestamp' => now()->toDateTimeString()
+            'admin_id' => Auth::id()
         ]);
 
         try {
-            // Load payment with relationships
-            $loadStart = microtime(true);
-            $payment = Payments::with(['invoice', 'order.customer.user'])->findOrFail($id);
-            $loadTime = microtime(true) - $loadStart;
-            
-            Log::info("[{$requestId}] Payment loaded for approval", [
-                'payment_id' => $payment->id,
-                'payment_number' => $payment->payment_number,
-                'amount' => $payment->amount,
-                'current_status' => $payment->status,
-                'payment_method' => $payment->payment_method,
-                'transaction_id' => $payment->transaction_id,
-                'customer_id' => $payment->order->customer_id ?? null,
-                'customer_name' => $payment->order->customer->user->name ?? 'Unknown',
-                'customer_email' => $payment->order->customer->user->email ?? 'Unknown',
-                'load_time_ms' => round($loadTime * 1000, 2)
-            ]);
+            DB::beginTransaction();
+
+            $payment = Payments::with([
+                'invoice.order.items.product',
+                'order.customer.user'
+            ])->findOrFail($id);
 
             // Validate payment status
             if ($payment->status !== 'pending') {
-                Log::warning("[{$requestId}] Attempted to approve non-pending payment", [
-                    'payment_id' => $payment->id,
-                    'current_status' => $payment->status,
-                    'admin_id' => Auth::id()
-                ]);
-                return back()->with('error', 'Thanh toán đã được xử lý trước đó (Trạng thái: ' . $payment->status . ')');
+                DB::rollback();
+                return back()->with('error', 'Thanh toán đã được xử lý trước đó');
             }
 
-            // Process approval using service
-            $approvalStart = microtime(true);
-            $result = $this->paymentService->approvePayment($payment, Auth::id());
-            $approvalTime = microtime(true) - $approvalStart;
+            // Update payment status
+            $payment->status = 'completed';
+            $payment->verified_by = Auth::id();
+            $payment->verified_at = now();
+            $payment->save();
 
-            if ($result['success']) {
-                Log::info("[{$requestId}] Payment approved successfully", [
-                    'payment_id' => $payment->id,
-                    'approved_by' => Auth::id(),
-                    'provisions_created' => count($result['provisions'] ?? []),
-                    'approval_time_ms' => round($approvalTime * 1000, 2),
-                    'new_payment_status' => $result['payment']->status ?? 'unknown'
-                ]);
-
-                return redirect()->route('admin.payments.index')
-                    ->with('success', 'Thanh toán đã được xác nhận và dịch vụ đã được cung cấp.');
-            } else {
-                Log::error("[{$requestId}] Payment approval failed (service returned false)", [
-                    'payment_id' => $payment->id,
-                    'result' => $result,
-                    'approval_time_ms' => round($approvalTime * 1000, 2)
-                ]);
-                return back()->with('error', 'Không thể xác nhận thanh toán. Vui lòng thử lại.');
+            // Update invoice
+            if ($payment->invoice) {
+                $payment->invoice->update(['status' => 'paid']);
             }
 
-        } catch (\Exception $e) {
-            Log::error("[{$requestId}] Payment approval exception", [
-                'payment_id' => $id,
-                'admin_id' => Auth::id(),
-                'error' => $e->getMessage(),
-                'error_type' => get_class($e),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString()
+            // Update order
+            if ($payment->order) {
+                $payment->order->update(['status' => 'processing']);
+            }
+
+            // Create provisions với data từ form
+            $provisions = [];
+            $orderItems = Order_items::where('order_id', $payment->invoice->order->id)
+                ->with('product')
+                ->get();
+
+            foreach ($orderItems as $item) {
+                if (!$item->product) continue;
+
+                $productType = $item->product->type;
+
+                // Chỉ tạo provision cho những loại cần
+                if (!in_array($productType, ['ssl', 'vps', 'hosting', 'domain'])) {
+                    continue;
+                }
+
+                $provisionData = $request->input('provision_data.' . $item->id, []);
+
+                // Xử lý data theo từng loại
+                $processedData = $this->processProvisionData($productType, $provisionData, $request, $item);
+
+                // Tạo provision record
+                $provision = ServiceProvision::create([
+                    'order_item_id' => $item->id,
+                    'product_id' => $item->product_id,
+                    'customer_id' => $payment->order->customer_id,
+                    'provision_type' => $productType,
+                    'provision_status' => 'completed', // Đánh dấu completed luôn vì đã có data
+                    'provision_data' => $processedData,
+                    'provisioned_by' => Auth::id(),
+                    'provisioned_at' => now(),
+                    'priority' => 5,
+                    'provision_notes' => $provisionData['notes'] ?? 'Provisioned via payment approval'
+                ]);
+
+                $provisions[] = $provision;
+
+                Log::info("[{$requestId}] Provision created", [
+                    'provision_id' => $provision->id,
+                    'product_type' => $productType,
+                    'order_item_id' => $item->id
+                ]);
+            }
+
+            DB::commit();
+
+            Log::info("[{$requestId}] Payment approved with provisions", [
+                'payment_id' => $payment->id,
+                'provisions_count' => count($provisions)
             ]);
 
-            return back()->with('error', 'Lỗi xử lý thanh toán: ' . $e->getMessage());
+            // Send notification emails
+            if ($payment->order && $payment->order->customer && $payment->order->customer->user) {
+                $this->sendProvisionEmail($payment, $provisions);
+            }
+
+            return redirect()->route('admin.payments.index')
+                ->with('success', 'Thanh toán đã được xác nhận và thông tin dịch vụ đã được cập nhật.');
+        } catch (\Exception $e) {
+            DB::rollback();
+
+            Log::error("[{$requestId}] Payment approval failed", [
+                'payment_id' => $id,
+                'error' => $e->getMessage()
+            ]);
+
+            return back()->with('error', 'Lỗi xử lý: ' . $e->getMessage());
         }
     }
 
     /**
-     * Reject payment with reason
+     * Process provision data theo product type
      */
-    public function reject(Request $request, $id)
+    private function processProvisionData($productType, $provisionData, Request $request, $item)
     {
-        $requestId = uniqid('payment_reject_');
-        Log::info("[{$requestId}] Payment rejection requested", [
-            'payment_id' => $id,
-            'admin_id' => Auth::id(),
-            'admin_name' => Auth::user()->name ?? 'Unknown',
-            'request_data' => $request->except(['_token']),
-            'ip' => $request->ip(),
-            'timestamp' => now()->toDateTimeString()
-        ]);
+        $data = [];
 
-        // Validate input
-        $validationStart = microtime(true);
-        $request->validate(['reason' => 'required|string|max:255']);
-        $validationTime = microtime(true) - $validationStart;
+        switch ($productType) {
+            case 'vps':
+                $data = [
+                    'server_ip' => $provisionData['server_ip'] ?? null,
+                    'username' => $provisionData['username'] ?? null,
+                    'password' => isset($provisionData['password']) ? encrypt($provisionData['password']) : null,
+                    'port' => $provisionData['port'] ?? 22,
+                    'os' => $provisionData['os'] ?? null,
+                    'root_password' => isset($provisionData['password']) ? encrypt($provisionData['password']) : null,
+                    'created_at' => now()->toISOString()
+                ];
+                break;
 
-        Log::debug("[{$requestId}] Input validation passed", [
-            'validation_time_ms' => round($validationTime * 1000, 2),
-            'reason_length' => strlen($request->input('reason'))
-        ]);
+            case 'hosting':
+                $data = [
+                    'cpanel_username' => $provisionData['cpanel_username'] ?? null,
+                    'cpanel_password' => isset($provisionData['cpanel_password']) ? encrypt($provisionData['cpanel_password']) : null,
+                    'server_name' => $provisionData['server_name'] ?? null,
+                    'nameservers' => $provisionData['nameservers'] ?? null,
+                    'ftp_username' => $provisionData['ftp_username'] ?? $provisionData['cpanel_username'] ?? null,
+                    'ftp_password' => isset($provisionData['ftp_password']) ? encrypt($provisionData['ftp_password']) : null,
+                    'created_at' => now()->toISOString()
+                ];
+                break;
 
+            case 'ssl':
+                $data = ['domain' => $item->domain];
+
+                // Handle file uploads
+                if ($request->hasFile("provision_data.{$item->id}.certificate_file")) {
+                    $certFile = $request->file("provision_data.{$item->id}.certificate_file");
+                    $certPath = $certFile->store('ssl_certificates/' . $item->id, 'private');
+                    $data['certificate_path'] = $certPath;
+                    $data['certificate'] = file_get_contents($certFile->getRealPath());
+                }
+
+                if ($request->hasFile("provision_data.{$item->id}.private_key_file")) {
+                    $keyFile = $request->file("provision_data.{$item->id}.private_key_file");
+                    $keyPath = $keyFile->store('ssl_certificates/' . $item->id, 'private');
+                    $data['private_key_path'] = $keyPath;
+                    $data['private_key'] = encrypt(file_get_contents($keyFile->getRealPath()));
+                }
+
+                if ($request->hasFile("provision_data.{$item->id}.ca_bundle_file")) {
+                    $caFile = $request->file("provision_data.{$item->id}.ca_bundle_file");
+                    $caPath = $caFile->store('ssl_certificates/' . $item->id, 'private');
+                    $data['ca_bundle_path'] = $caPath;
+                    $data['ca_bundle'] = file_get_contents($caFile->getRealPath());
+                }
+
+                $data['expiry_date'] = $provisionData['expiry_date'] ?? null;
+                $data['ssl_provider'] = $provisionData['ssl_provider'] ?? null;
+                $data['created_at'] = now()->toISOString();
+                break;
+
+            case 'domain':
+                $data = [
+                    'domain_name' => $item->domain,
+                    'registrar' => $provisionData['registrar'] ?? null,
+                    'nameservers' => $provisionData['nameservers'] ?? null,
+                    'expiry_date' => $provisionData['expiry_date'] ?? null,
+                    'auth_code' => $provisionData['auth_code'] ?? \Illuminate\Support\Str::random(16),
+                    'created_at' => now()->toISOString()
+                ];
+                break;
+
+            default:
+                $data = [
+                    'notes' => $provisionData['notes'] ?? 'Service activated',
+                    'created_at' => now()->toISOString()
+                ];
+        }
+
+        return $data;
+    }
+
+    /**
+     * Approve directly không cần provision
+     */
+    private function approveDirectly($payment)
+    {
         try {
-            // Load payment
-            $loadStart = microtime(true);
-            $payment = Payments::findOrFail($id);
-            $loadTime = microtime(true) - $loadStart;
-            
-            $reason = $request->input('reason');
+            $result = $this->paymentService->approvePayment($payment, Auth::id());
 
-            Log::info("[{$requestId}] Payment loaded for rejection", [
-                'payment_id' => $payment->id,
-                'payment_number' => $payment->payment_number,
-                'current_status' => $payment->status,
-                'amount' => $payment->amount,
-                'rejection_reason' => $reason,
-                'load_time_ms' => round($loadTime * 1000, 2)
-            ]);
-
-            // Validate payment can be rejected
-            if ($payment->status !== 'pending') {
-                Log::warning("[{$requestId}] Attempted to reject non-pending payment", [
-                    'payment_id' => $payment->id,
-                    'current_status' => $payment->status,
-                    'admin_id' => Auth::id()
-                ]);
-                return back()->with('error', 'Chỉ có thể từ chối thanh toán đang chờ xử lý (Trạng thái hiện tại: ' . $payment->status . ')');
+            if ($result['success']) {
+                return redirect()->route('admin.payments.index')
+                    ->with('success', 'Thanh toán đã được xác nhận.');
             }
 
-            // Process rejection using service
-            $rejectionStart = microtime(true);
-            $result = $this->paymentService->rejectPayment($payment, $reason, Auth::id());
-            $rejectionTime = microtime(true) - $rejectionStart;
-
-            Log::info("[{$requestId}] Payment rejected successfully", [
-                'payment_id' => $payment->id,
-                'rejected_by' => Auth::id(),
-                'reason' => $reason,
-                'rejection_time_ms' => round($rejectionTime * 1000, 2),
-                'result_success' => $result['success'] ?? false
-            ]);
-
-            return redirect()->route('admin.payments.index')
-                ->with('success', 'Thanh toán đã bị từ chối.');
-
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            Log::warning("[{$requestId}] Payment rejection validation failed", [
-                'payment_id' => $id,
-                'validation_errors' => $e->errors(),
-                'admin_id' => Auth::id()
-            ]);
-            
-            return back()->withErrors($e->errors())->withInput();
-
+            return back()->with('error', 'Không thể xác nhận thanh toán.');
         } catch (\Exception $e) {
-            Log::error("[{$requestId}] Payment rejection exception", [
-                'payment_id' => $id,
-                'reason' => $request->input('reason'),
-                'admin_id' => Auth::id(),
-                'error' => $e->getMessage(),
-                'error_type' => get_class($e),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
             return back()->with('error', 'Lỗi: ' . $e->getMessage());
         }
     }
 
     /**
-     * Show payment details
+     * Send provision email to customer
      */
-    public function show(Request $request, $id)
+    private function sendProvisionEmail($payment, $provisions)
     {
-        $requestId = uniqid('payment_show_');
-        Log::info("[{$requestId}] Payment details requested", [
-            'payment_id' => $id,
-            'admin_id' => Auth::id(),
-            'admin_name' => Auth::user()->name ?? 'Unknown'
-        ]);
+        // Implement email logic here
+        // You can use your existing EmailService
+    }
+
+    /**
+     * Original approve method - redirect to provision form
+     */
+    public function approve(Request $request, $id)
+    {
+        // Redirect to provision form instead of direct approval
+        return redirect()->route('admin.payments.provision-form', $id);
+    }
+
+    // Keep existing reject method
+    public function reject(Request $request, $id)
+    {
+        $request->validate(['reason' => 'required|string|max:255']);
 
         try {
-            $loadStart = microtime(true);
-            $payment = Payments::with([
-                'invoice', 
-                'order.customer.user', 
-                'order.items.product'
-            ])->findOrFail($id);
-            $loadTime = microtime(true) - $loadStart;
+            $payment = Payments::findOrFail($id);
 
-            Log::info("[{$requestId}] Payment details loaded", [
-                'payment_id' => $payment->id,
-                'payment_number' => $payment->payment_number,
-                'status' => $payment->status,
-                'amount' => $payment->amount,
-                'customer_name' => $payment->order->customer->user->name ?? 'Unknown',
-                'load_time_ms' => round($loadTime * 1000, 2),
-                'relationships_loaded' => [
-                    'has_invoice' => !is_null($payment->invoice),
-                    'has_order' => !is_null($payment->order),
-                    'has_customer' => !is_null($payment->order->customer ?? null),
-                    'order_items_count' => $payment->order->items->count() ?? 0
-                ]
-            ]);
+            if ($payment->status !== 'pending') {
+                return back()->with('error', 'Chỉ có thể từ chối thanh toán đang chờ xử lý');
+            }
 
-            return view('source.admin.payments.show', compact('payment'));
-
-        } catch (\Exception $e) {
-            Log::error("[{$requestId}] Payment details failed", [
-                'payment_id' => $id,
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine()
-            ]);
+            $result = $this->paymentService->rejectPayment($payment, $request->input('reason'), Auth::id());
 
             return redirect()->route('admin.payments.index')
-                ->with('error', 'Không thể tải thông tin thanh toán: ' . $e->getMessage());
+                ->with('success', 'Thanh toán đã bị từ chối.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Lỗi: ' . $e->getMessage());
         }
     }
 }

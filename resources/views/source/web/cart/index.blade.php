@@ -46,6 +46,16 @@
                                                             $period = $options['period'] ?? 1;
                                                             $autoRenew = $options['auto_renew'] ?? false;
                                                         @endphp
+                                                        <div class="small text-muted mt-2">
+                                                            @foreach ($options as $key => $value)
+                                                                @if (!in_array($key, ['service_type', 'period']))
+                                                                    <div>
+                                                                        <strong>{{ ucfirst(str_replace('_', ' ', $key)) }}:</strong>
+                                                                        {{ $value }}
+                                                                    </div>
+                                                                @endif
+                                                            @endforeach
+                                                        </div>
                                                         <div class="small text-muted">Thời hạn: {{ $period }} năm
                                                         </div>
                                                         @if ($autoRenew)

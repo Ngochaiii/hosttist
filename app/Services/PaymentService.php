@@ -6,6 +6,8 @@ use App\Models\{Payments, Orders, Invoices, Customers};
 use App\Services\{ProvisionService, EmailService};
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PaymentService extends BaseService
 {
@@ -26,45 +28,77 @@ class PaymentService extends BaseService
      * @return array
      * @throws Exception
      */
-    public function approvePayment(Payments $payment, ?int $verifiedBy = null): array
+    // app/Services/PaymentService.php
+
+    public function approvePayment($payment, $adminId)
     {
-        return $this->transaction(function () use ($payment, $verifiedBy) {
-            // Validate payment
-            $this->validatePaymentForApproval($payment);
-            // Update invoice status
-            if ($payment->invoice) {
-                $payment->invoice->update(['status' => 'paid']);
+        DB::beginTransaction();
+        try {
+            // Update payment status
+            $payment->status = 'completed';
+            $payment->save();
+
+            // Update order status
+            $order = $payment->order ?? $payment->invoice->order;
+            if ($order) {
+                $order->status = 'processing';
+                $order->save();
+
+                // Create service provisions
+                $provisions = [];
+                foreach ($order->items as $item) {
+                    $options = json_decode($item->options, true) ?: [];
+                    $serviceType = $options['service_type'] ?? null;
+
+                    if ($serviceType) {
+                        $provision = \App\Models\ServiceProvision::create([
+                            'order_item_id' => $item->id,
+                            'product_id' => $item->product_id,
+                            'customer_id' => $order->customer_id,
+                            'provision_type' => $serviceType,
+                            'provision_status' => 'pending',
+                            'provision_data' => $item->options,
+                            'priority' => $this->getPriority($serviceType)
+                        ]);
+
+                        $provisions[] = $provision;
+
+                        Log::info('Service provision created', [
+                            'provision_id' => $provision->id,
+                            'type' => $serviceType,
+                            'data' => $options
+                        ]);
+                    }
+                }
             }
 
-            // Update order status and provision services
-            if ($payment->order) {
-                $payment->order->update(['status' => 'completed']);
+            DB::commit();
 
-                // Create provisions for service products
-                // $provisionResults = $this->provisionService->createFromOrder($payment->order);
-            }
-
-            // Send confirmation email
-            $this->emailService->sendPaymentApprovedEmail($payment);
-
-            $this->logActivity('Payment approved', [
-                'payment_id' => $payment->id,
-                'order_id' => $payment->order_id,
-                'amount' => $payment->amount,
-                'verified_by' => $verifiedBy
-            ]);
-            $orderService = app(OrderService::class);
-            $provisions = [];
-
-            if ($payment->order) {
-                $provisions = $orderService->processCompletedOrder($payment->order);
-            }
             return [
                 'success' => true,
-                'payment' => $payment->fresh(),
-                'provisions' => $provisions ?? []
+                'payment' => $payment,
+                'provisions' => $provisions
             ];
-        });
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Approve payment failed: ' . $e->getMessage());
+            return ['success' => false, 'error' => $e->getMessage()];
+        }
+    }
+
+    private function getPriority($serviceType)
+    {
+        $priorities = [
+            'domain' => 1,
+            'ssl' => 2,
+            'hosting' => 3,
+            'vps' => 4,
+            'email' => 5,
+            'web_design' => 6,
+            'advertising' => 7,
+            'seo' => 8
+        ];
+        return $priorities[$serviceType] ?? 5;
     }
 
     /**
