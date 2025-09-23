@@ -80,6 +80,7 @@ Route::group([
             ->name('admin.payments.provision-form');
         Route::post('/{id}/approve-with-provision', [PaymentController::class, 'approveWithProvision'])
             ->name('admin.payments.approve-with-provision');
+        Route::post('/{id}/approve-with-provision', [PaymentController::class, 'approveWithProvision'])->name('approve-with-provision');
 
         // Routes cũ
         Route::post('/{id}/approve', [PaymentController::class, 'approve'])->name('admin.payments.approve');

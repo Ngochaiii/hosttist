@@ -480,7 +480,7 @@
 </div>
 @endif
 
-@push('styles')
+@push('header_css')
 <style>
 .badge-lg {
     font-size: 0.9em;
@@ -520,7 +520,7 @@
 </style>
 @endpush
 
-@push('scripts')
+@push('footer_js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.8/clipboard.min.js"></script>
 <script>
 $(document).ready(function() {
@@ -583,15 +583,4 @@ $(document).ready(function() {
 </script>
 @endpush
 
-@php
-function getServiceStatusColor($status) {
-    return match($status) {
-        'active' => 'success',
-        'expired' => 'warning',
-        'suspended' => 'warning',
-        'cancelled' => 'danger',
-        default => 'secondary'
-    };
-}
-@endphp
 @endsection

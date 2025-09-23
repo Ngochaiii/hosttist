@@ -375,7 +375,7 @@
         </div>
     </section>
 
-    @push('styles')
+    @push('header_css')
         <style>
             .card {
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -433,7 +433,7 @@
         </style>
     @endpush
 
-    @push('scripts')
+    @push('footer_js')
         <script>
             $(document).ready(function() {
                 // Handle tab switching based on URL parameter
@@ -456,18 +456,4 @@
             });
         </script>
     @endpush
-
-    @php
-
-        function getServiceStatusColor($status)
-        {
-            return match ($status) {
-                'active' => 'success',
-                'expired' => 'warning',
-                'suspended' => 'warning',
-                'cancelled' => 'danger',
-                default => 'secondary',
-            };
-        }
-    @endphp
 @endsection

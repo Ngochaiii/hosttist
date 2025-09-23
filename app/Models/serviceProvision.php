@@ -91,7 +91,7 @@ class ServiceProvision extends Model
 
     public function getStatusLabel()
     {
-        return match($this->provision_status) {
+        return match ($this->provision_status) {
             'pending' => 'Đang chờ',
             'processing' => 'Đang xử lý',
             'completed' => 'Hoàn thành',
@@ -99,5 +99,9 @@ class ServiceProvision extends Model
             'cancelled' => 'Đã hủy',
             default => 'Không xác định'
         };
+    }
+    public function markAsViewed()
+    {
+        $this->update(['customer_viewed' => true]);
     }
 }

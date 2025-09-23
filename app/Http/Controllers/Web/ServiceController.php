@@ -9,6 +9,7 @@ use App\Models\Products;
 use App\Services\ProvisionService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ServiceController extends Controller
 {
@@ -26,7 +27,11 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
         $customer = auth()->user()->customer;
-
+        Log::info('Customer services debug', [
+            'user_id' => auth()->id(),
+            'customer_id' => $customer->id ?? null,
+            'has_customer' => !is_null($customer)
+        ]);
         if (!$customer) {
             return redirect()->route('customer.profile')
                 ->with('error', 'Vui lòng cập nhật thông tin khách hàng để xem dịch vụ.');
@@ -108,17 +113,21 @@ class ServiceController extends Controller
      * Hiển thị chi tiết service provision
      */
     public function showProvision($id)
-    {
-        $provision = $this->findProvision($id);
-
-        // Đánh dấu đã xem
-        $provision->markAsViewed();
-
-        // Lấy logs gần nhất
-        $logs = $provision->logs()->latest()->limit(10)->get();
-
-        return view('source.web.services.show', compact('provision', 'logs'));
-    }
+{
+    $provision = $this->findProvision($id);
+    $provision->markAsViewed();
+    $logs = $provision->logs()->latest()->limit(10)->get();
+    
+    // DEBUG: Kiểm tra provision data
+    $provisionData = json_decode($provision->provision_data, true) ?? [];
+    Log::info('Provision data debug', [
+        'provision_id' => $provision->id,
+        'provision_data' => $provisionData,
+        'credentials' => $provisionData['credentials'] ?? 'not found'
+    ]);
+    $service = $provision;
+    return view('source.web.services.show', compact('service', 'logs', 'provisionData'));
+}
 
     /**
      * Hiển thị chi tiết customer service
@@ -255,11 +264,10 @@ class ServiceController extends Controller
             'performed_by' => auth()->id(),
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
-            'additional_data' => [
+            'notes' => json_encode([  // ← SỬA THÀNH notes
                 'timestamp' => now(),
                 'customer_id' => $provision->customer_id
-            ],
-            'severity' => 'info'
+            ])
         ]);
     }
 
@@ -437,12 +445,11 @@ IMPORTANT: Keep your private key secure and never share it!
             'performed_by' => auth()->id(),
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
-            'additional_data' => [
+            'notes' => json_encode([
                 'download_type' => $type,
                 'timestamp' => now(),
                 'customer_id' => $provision->customer_id
-            ],
-            'severity' => 'info'
+            ]),
         ]);
     }
 }

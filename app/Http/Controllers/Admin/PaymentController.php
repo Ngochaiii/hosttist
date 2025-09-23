@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Payments;
 use App\Models\Order_items;
 use App\Models\ServiceProvision;
+use App\Services\EmailService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -43,7 +44,7 @@ class PaymentController extends Controller
             'pending' => Payments::where('status', 'pending')->count(),
             'completed' => Payments::where('status', 'completed')->count(),
             'failed' => Payments::where('status', 'failed')->count(),
-            'payments'=> $payments,
+            'payments' => $payments,
         ];
 
         return view('source.admin.payments.index', compact('payments', 'status', 'counts', 'stats'));
@@ -117,7 +118,7 @@ class PaymentController extends Controller
     }
 
     /**
-     * Approve payment với provision data
+     * Approve payment với provision data - FIXED
      */
     public function approveWithProvision(Request $request, $id)
     {
@@ -144,8 +145,6 @@ class PaymentController extends Controller
 
             // Update payment status
             $payment->status = 'completed';
-            $payment->verified_by = Auth::id();
-            $payment->verified_at = now();
             $payment->save();
 
             // Update invoice
@@ -164,40 +163,82 @@ class PaymentController extends Controller
                 ->with('product')
                 ->get();
 
+            // FIX: Lấy provision data đúng cấu trúc
+            $provisionData = $request->input('provision', []);
+            $provisionFiles = $request->file('provision_files', []);
+            Log::info("Request debug", [
+                'all_inputs' => $request->all(),
+                'provision_input' => $request->input('provision'),
+                'files' => $request->hasFile('provision_files') ? 'yes' : 'no'
+            ]);
             foreach ($orderItems as $item) {
+                Log::info("Processing order item", [
+                    'item_id' => $item->id,
+                    'product_type' => $item->product->type ?? 'null',
+                    'has_product' => !is_null($item->product)
+                ]);
+
                 if (!$item->product) continue;
 
-                $productType = $item->product->type;
-
-                // Chỉ tạo provision cho những loại cần
-                if (!in_array($productType, ['ssl', 'vps', 'hosting', 'domain'])) {
+                $itemProvisionData = $provisionData[$item->id] ?? [];
+                if (empty($itemProvisionData)) {
                     continue;
                 }
 
-                $provisionData = $request->input('provision_data.' . $item->id, []);
+                $itemProvisionData = $provisionData[$item->id] ?? [];
+                $itemFiles = $provisionFiles[$item->id] ?? [];
 
-                // Xử lý data theo từng loại
-                $processedData = $this->processProvisionData($productType, $provisionData, $request, $item);
+                Log::info("Provision data check", [
+                    'item_id' => $item->id,
+                    'has_provision_data' => !empty($itemProvisionData),
+                    'provision_data_keys' => array_keys($itemProvisionData),
+                    'provision_data' => $itemProvisionData
+                ]);
+
+                if (empty($itemProvisionData)) {
+                    Log::warning("Skipping item - no provision data", ['item_id' => $item->id]);
+                    continue;
+                }
+
+                $serviceType = $itemProvisionData['service_type'] ?? null;
+
+                Log::info("Service type from provision data", [
+                    'item_id' => $item->id,
+                    'service_type' => $serviceType,
+                    'is_provisionable' => in_array($serviceType, ['ssl', 'vps', 'hosting', 'domain'])
+                ]);
+
+                if (!in_array($serviceType, ['ssl', 'vps', 'hosting', 'domain'])) {
+                    Log::warning("Skipping item - service type not provisionable", [
+                        'item_id' => $item->id,
+                        'service_type' => $serviceType
+                    ]);
+                    continue;
+                }
+
+                // Xử lý data theo service type
+                $processedData = $this->processProvisionData($serviceType, $itemProvisionData, $itemFiles, $item);
 
                 // Tạo provision record
                 $provision = ServiceProvision::create([
                     'order_item_id' => $item->id,
                     'product_id' => $item->product_id,
                     'customer_id' => $payment->order->customer_id,
-                    'provision_type' => $productType,
-                    'provision_status' => 'completed', // Đánh dấu completed luôn vì đã có data
-                    'provision_data' => $processedData,
+                    'provision_type' => $serviceType,
+                    'provision_status' => 'completed',
+                    'provision_data' => json_encode($processedData),
                     'provisioned_by' => Auth::id(),
                     'provisioned_at' => now(),
                     'priority' => 5,
-                    'provision_notes' => $provisionData['notes'] ?? 'Provisioned via payment approval'
+                    'provision_notes' => $itemProvisionData['notes'] ?? 'Provisioned via payment approval',
+                    'customer_viewed' => false
                 ]);
 
                 $provisions[] = $provision;
 
                 Log::info("[{$requestId}] Provision created", [
                     'provision_id' => $provision->id,
-                    'product_type' => $productType,
+                    'service_type' => $serviceType,
                     'order_item_id' => $item->id
                 ]);
             }
@@ -229,80 +270,136 @@ class PaymentController extends Controller
     }
 
     /**
-     * Process provision data theo product type
+     * Process provision data theo product type - FIXED
      */
-    private function processProvisionData($productType, $provisionData, Request $request, $item)
+    private function processProvisionData($productType, $provisionData, $files, $item)
     {
         $data = [];
+        $itemOptions = json_decode($item->options, true) ?: [];
 
         switch ($productType) {
             case 'vps':
                 $data = [
+                    'service_type' => 'vps',
                     'server_ip' => $provisionData['server_ip'] ?? null,
                     'username' => $provisionData['username'] ?? null,
                     'password' => isset($provisionData['password']) ? encrypt($provisionData['password']) : null,
                     'port' => $provisionData['port'] ?? 22,
                     'os' => $provisionData['os'] ?? null,
-                    'root_password' => isset($provisionData['password']) ? encrypt($provisionData['password']) : null,
-                    'created_at' => now()->toISOString()
+                    'control_panel_url' => $provisionData['control_panel_url'] ?? null,
+                    'credentials' => [
+                        'server_ip' => $provisionData['server_ip'] ?? null,
+                        'username' => $provisionData['username'] ?? null,
+                        'password' => $provisionData['password'] ?? null, // Plain for credentials display
+                        'port' => $provisionData['port'] ?? 22,
+                        'os' => $provisionData['os'] ?? null,
+                        'control_panel_url' => $provisionData['control_panel_url'] ?? null,
+                    ],
+                    'status' => 'active',
+                    'created_at' => now()->toISOString(),
+                    'notes' => $provisionData['notes'] ?? ''
                 ];
                 break;
 
             case 'hosting':
                 $data = [
+                    'service_type' => 'hosting',
+                    'domain' => $itemOptions['domain'] ?? $item->domain,
                     'cpanel_username' => $provisionData['cpanel_username'] ?? null,
                     'cpanel_password' => isset($provisionData['cpanel_password']) ? encrypt($provisionData['cpanel_password']) : null,
+                    'cpanel_url' => $provisionData['cpanel_url'] ?? null,
                     'server_name' => $provisionData['server_name'] ?? null,
                     'nameservers' => $provisionData['nameservers'] ?? null,
-                    'ftp_username' => $provisionData['ftp_username'] ?? $provisionData['cpanel_username'] ?? null,
+                    'ftp_host' => $provisionData['ftp_host'] ?? null,
+                    'ftp_username' => $provisionData['ftp_username'] ?? null,
                     'ftp_password' => isset($provisionData['ftp_password']) ? encrypt($provisionData['ftp_password']) : null,
-                    'created_at' => now()->toISOString()
+                    'credentials' => [
+                        'cpanel_url' => $provisionData['cpanel_url'] ?? null,
+                        'cpanel_username' => $provisionData['cpanel_username'] ?? null,
+                        'cpanel_password' => $provisionData['cpanel_password'] ?? null, // Plain for display
+                        'ftp_host' => $provisionData['ftp_host'] ?? null,
+                        'ftp_username' => $provisionData['ftp_username'] ?? null,
+                        'ftp_password' => $provisionData['ftp_password'] ?? null, // Plain for display
+                        'nameservers' => $provisionData['nameservers'] ?? null,
+                        'server_name' => $provisionData['server_name'] ?? null,
+                    ],
+                    'status' => 'active',
+                    'created_at' => now()->toISOString(),
+                    'notes' => $provisionData['notes'] ?? ''
                 ];
                 break;
 
             case 'ssl':
-                $data = ['domain' => $item->domain];
+                $data = [
+                    'service_type' => 'ssl',
+                    'domain' => $itemOptions['domain'] ?? $item->domain,
+                    'ssl_provider' => $provisionData['ssl_provider'] ?? null,
+                    'expiry_date' => $provisionData['expiry_date'] ?? null,
+                    'status' => 'active',
+                    'created_at' => now()->toISOString(),
+                    'notes' => $provisionData['notes'] ?? ''
+                ];
 
-                // Handle file uploads
-                if ($request->hasFile("provision_data.{$item->id}.certificate_file")) {
-                    $certFile = $request->file("provision_data.{$item->id}.certificate_file");
-                    $certPath = $certFile->store('ssl_certificates/' . $item->id, 'private');
-                    $data['certificate_path'] = $certPath;
-                    $data['certificate'] = file_get_contents($certFile->getRealPath());
+                // FIX: Handle SSL files đúng cách
+                $sslFiles = [];
+                if (!empty($files)) {
+                    $sslDir = "ssl_certificates/{$item->id}";
+
+                    if (isset($files['certificate'])) {
+                        $certFile = $files['certificate'];
+                        $certPath = $certFile->store($sslDir, 'private');
+                        $certContent = file_get_contents($certFile->getRealPath());
+                        $sslFiles['certificate'] = $certContent;
+                        $data['certificate_path'] = $certPath;
+                    }
+
+                    if (isset($files['private_key'])) {
+                        $keyFile = $files['private_key'];
+                        $keyPath = $keyFile->store($sslDir, 'private');
+                        $keyContent = file_get_contents($keyFile->getRealPath());
+                        $sslFiles['private_key'] = $keyContent;
+                        $data['private_key_path'] = $keyPath;
+                    }
+
+                    if (isset($files['ca_bundle'])) {
+                        $caFile = $files['ca_bundle'];
+                        $caPath = $caFile->store($sslDir, 'private');
+                        $caContent = file_get_contents($caFile->getRealPath());
+                        $sslFiles['ca_bundle'] = $caContent;
+                        $data['ca_bundle_path'] = $caPath;
+                    }
+
+                    if (!empty($sslFiles)) {
+                        $data['ssl_files'] = $sslFiles;
+                    }
                 }
-
-                if ($request->hasFile("provision_data.{$item->id}.private_key_file")) {
-                    $keyFile = $request->file("provision_data.{$item->id}.private_key_file");
-                    $keyPath = $keyFile->store('ssl_certificates/' . $item->id, 'private');
-                    $data['private_key_path'] = $keyPath;
-                    $data['private_key'] = encrypt(file_get_contents($keyFile->getRealPath()));
-                }
-
-                if ($request->hasFile("provision_data.{$item->id}.ca_bundle_file")) {
-                    $caFile = $request->file("provision_data.{$item->id}.ca_bundle_file");
-                    $caPath = $caFile->store('ssl_certificates/' . $item->id, 'private');
-                    $data['ca_bundle_path'] = $caPath;
-                    $data['ca_bundle'] = file_get_contents($caFile->getRealPath());
-                }
-
-                $data['expiry_date'] = $provisionData['expiry_date'] ?? null;
-                $data['ssl_provider'] = $provisionData['ssl_provider'] ?? null;
-                $data['created_at'] = now()->toISOString();
                 break;
 
             case 'domain':
                 $data = [
-                    'domain_name' => $item->domain,
+                    'service_type' => 'domain',
+                    'domain_name' => $itemOptions['domain'] ?? $item->domain,
                     'registrar' => $provisionData['registrar'] ?? null,
                     'nameservers' => $provisionData['nameservers'] ?? null,
                     'expiry_date' => $provisionData['expiry_date'] ?? null,
                     'auth_code' => $provisionData['auth_code'] ?? \Illuminate\Support\Str::random(16),
-                    'created_at' => now()->toISOString()
+                    'control_panel_url' => $provisionData['control_panel_url'] ?? null,
+                    'credentials' => [
+                        'registrar' => $provisionData['registrar'] ?? null,
+                        'nameservers' => $provisionData['nameservers'] ?? null,
+                        'auth_code' => $provisionData['auth_code'] ?? \Illuminate\Support\Str::random(16),
+                        'control_panel_url' => $provisionData['control_panel_url'] ?? null,
+                    ],
+                    'status' => 'active',
+                    'created_at' => now()->toISOString(),
+                    'notes' => $provisionData['notes'] ?? ''
                 ];
                 break;
 
             default:
                 $data = [
+                    'service_type' => $productType,
+                    'status' => 'active',
                     'notes' => $provisionData['notes'] ?? 'Service activated',
                     'created_at' => now()->toISOString()
                 ];
@@ -330,13 +427,39 @@ class PaymentController extends Controller
         }
     }
 
-    /**
-     * Send provision email to customer
-     */
+    // THÊM METHOD NÀY vào PaymentController:
     private function sendProvisionEmail($payment, $provisions)
     {
-        // Implement email logic here
-        // You can use your existing EmailService
+        try {
+            if (empty($provisions)) {
+                return;
+            }
+
+            $user = $payment->order->customer->user;
+            if (!$user || !$user->email) {
+                Log::warning('Cannot send provision email: no user email', [
+                    'payment_id' => $payment->id
+                ]);
+                return;
+            }
+
+            // Sử dụng EmailService có sẵn
+            $emailService = app(EmailService::class);
+            $emailSent = $emailService->sendPaymentApprovedEmail($payment);
+
+            if ($emailSent) {
+                Log::info('Provision notification email sent', [
+                    'customer_email' => $user->email,
+                    'provisions_count' => count($provisions),
+                    'payment_id' => $payment->id
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to send provision email', [
+                'error' => $e->getMessage(),
+                'payment_id' => $payment->id
+            ]);
+        }
     }
 
     /**
