@@ -48,7 +48,163 @@
         </div>
     </section>
     <!-- end service section -->
+    <!-- Premium Web Design Section -->
+    <section class="web_design_section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="design_content">
+                        <span class="premium_badge">Premium Service</span>
+                        <h2 class="section_title">
+                            Thiết Kế Website<br>
+                            <span class="highlight_text">Chuyên Nghiệp Theo Yêu Cầu</span>
+                        </h2>
+                        <p class="section_desc">
+                            Từ ý tưởng đến website hoàn chỉnh. Chúng tôi xây dựng giải pháp web
+                            tùy chỉnh hoàn toàn phù hợp với nhu cầu kinh doanh của bạn.
+                        </p>
 
+                        <div class="tech_stack">
+                            <h4>Công Nghệ Sử Dụng:</h4>
+                            <div class="tech_items">
+                                <div class="tech_item">
+                                    <i class="fab fa-wordpress"></i>
+                                    <span>WordPress</span>
+                                </div>
+                                <div class="tech_item">
+                                    <i class="fab fa-laravel"></i>
+                                    <span>Laravel</span>
+                                </div>
+                                <div class="tech_item">
+                                    <i class="fab fa-html5"></i>
+                                    <span>HTML/CSS/JS</span>
+                                </div>
+                                <div class="tech_item">
+                                    <i class="fas fa-server"></i>
+                                    <span>aaPanel</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="service_features">
+                            <div class="feature_item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <strong>Thiết Kế Responsive</strong>
+                                    <p>Hoạt động mượt mà trên mọi thiết bị</p>
+                                </div>
+                            </div>
+                            <div class="feature_item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <strong>Tối Ưu SEO</strong>
+                                    <p>Chuẩn SEO, tốc độ load nhanh</p>
+                                </div>
+                            </div>
+                            <div class="feature_item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <strong>Bảo Mật Cao</strong>
+                                    <p>SSL, firewall, backup tự động</p>
+                                </div>
+                            </div>
+                            <div class="feature_item">
+                                <i class="fas fa-check-circle"></i>
+                                <div>
+                                    <strong>Deploy Lên Server</strong>
+                                    <p>Cấu hình hosting, domain, email đầy đủ</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="cta_buttons">
+                            <a href="#" class="btn_primary">
+                                <i class="fas fa-rocket"></i>
+                                Bắt Đầu Dự Án
+                            </a>
+                            <a href="#" class="btn_secondary">
+                                <i class="fas fa-phone-alt"></i>
+                                Tư Vấn Miễn Phí
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <div class="design_showcase">
+                        <div class="showcase_card main_card">
+                            <div class="card_header">
+                                <div class="browser_dots">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                            </div>
+                            <div class="card_body">
+                                <div class="code_preview">
+                                    <div class="code_line"><span class="tag">&lt;html&gt;</span></div>
+                                    <div class="code_line indent"><span class="tag">&lt;body&gt;</span></div>
+                                    <div class="code_line indent2"><span class="comment">// Your Dream Website</span></div>
+                                    <div class="code_line indent2"><span class="function">buildWebsite</span><span
+                                            class="bracket">()</span></div>
+                                    <div class="code_line indent"><span class="tag">&lt;/body&gt;</span></div>
+                                    <div class="code_line"><span class="tag">&lt;/html&gt;</span></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="floating_badge badge_1">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span>Responsive</span>
+                        </div>
+                        <div class="floating_badge badge_2">
+                            <i class="fas fa-rocket"></i>
+                            <span>Fast Loading</span>
+                        </div>
+                        <div class="floating_badge badge_3">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Secure</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Process Timeline -->
+            <div class="process_timeline">
+                <h3 class="text-center mb-5">Quy Trình Làm Việc</h3>
+                <div class="timeline_container">
+                    <div class="timeline_item">
+                        <div class="timeline_number">1</div>
+                        <div class="timeline_content">
+                            <h4>Tư Vấn & Báo Giá</h4>
+                            <p>Trao đổi ý tưởng, phân tích yêu cầu</p>
+                        </div>
+                    </div>
+                    <div class="timeline_item">
+                        <div class="timeline_number">2</div>
+                        <div class="timeline_content">
+                            <h4>Thiết Kế Giao Diện</h4>
+                            <p>Mockup, wireframe, UI/UX design</p>
+                        </div>
+                    </div>
+                    <div class="timeline_item">
+                        <div class="timeline_number">3</div>
+                        <div class="timeline_content">
+                            <h4>Lập Trình & Test</h4>
+                            <p>Code, kiểm thử, tối ưu hiệu năng</p>
+                        </div>
+                    </div>
+                    <div class="timeline_item">
+                        <div class="timeline_number">4</div>
+                        <div class="timeline_content">
+                            <h4>Deploy & Bàn Giao</h4>
+                            <p>Đưa lên server, hướng dẫn sử dụng</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- about section -->
 
     <section class="about_section layout_padding-bottom">
@@ -503,7 +659,137 @@
         </div>
     </section>
     <!-- end client section -->
+    <!-- FAQ Section -->
+    <section class="faq_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>Câu Hỏi Thường Gặp</h2>
+                <p>Giải đáp các thắc mắc phổ biến về dịch vụ hosting</p>
+            </div>
 
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="accordion" id="faqAccordion">
+
+                        <!-- Question 1 -->
+                        <div class="faq-item">
+                            <div class="faq-header" id="heading1">
+                                <button class="faq-button collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapse1" aria-expanded="false">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <span>Tôi cần bao lâu để kích hoạt dịch vụ hosting?</span>
+                                </button>
+                            </div>
+                            <div id="collapse1" class="collapse" data-parent="#faqAccordion">
+                                <div class="faq-body">
+                                    Dịch vụ hosting được kích hoạt tự động ngay sau khi thanh toán thành công.
+                                    VPS Cloud có thể setup trong vòng 5 phút. Bạn sẽ nhận email hướng dẫn chi tiết
+                                    để bắt đầu sử dụng.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 2 -->
+                        <div class="faq-item">
+                            <div class="faq-header" id="heading2">
+                                <button class="faq-button collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapse2">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <span>Có hỗ trợ chuyển hosting từ nhà cung cấp khác không?</span>
+                                </button>
+                            </div>
+                            <div id="collapse2" class="collapse" data-parent="#faqAccordion">
+                                <div class="faq-body">
+                                    Có, chúng tôi hỗ trợ miễn phí việc chuyển dữ liệu website, database và email
+                                    từ nhà cung cấp cũ. Đội ngũ kỹ thuật sẽ đảm bảo quá trình chuyển đổi diễn ra
+                                    suôn sẻ không ảnh hưởng đến hoạt động website.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 3 -->
+                        <div class="faq-item">
+                            <div class="faq-header" id="heading3">
+                                <button class="faq-button collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapse3">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <span>Tôi có thể nâng cấp gói hosting bất cứ lúc nào không?</span>
+                                </button>
+                            </div>
+                            <div id="collapse3" class="collapse" data-parent="#faqAccordion">
+                                <div class="faq-body">
+                                    Hoàn toàn có thể! Bạn có thể nâng cấp hoặc hạ cấp gói hosting bất cứ lúc nào
+                                    thông qua control panel. Chúng tôi sẽ tính phí theo tỷ lệ thời gian sử dụng
+                                    và không mất phí chuyển đổi.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 4 -->
+                        <div class="faq-item">
+                            <div class="faq-header" id="heading4">
+                                <button class="faq-button collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapse4">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <span>Chính sách hoàn tiền như thế nào?</span>
+                                </button>
+                            </div>
+                            <div id="collapse4" class="collapse" data-parent="#faqAccordion">
+                                <div class="faq-body">
+                                    Chúng tôi cam kết hoàn tiền 100% trong vòng 30 ngày đầu tiên nếu bạn không
+                                    hài lòng với dịch vụ (áp dụng cho gói shared hosting và VPS). Không cần lý do,
+                                    không đặt câu hỏi.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 5 -->
+                        <div class="faq-item">
+                            <div class="faq-header" id="heading5">
+                                <button class="faq-button collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapse5">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <span>Có hỗ trợ kỹ thuật 24/7 không?</span>
+                                </button>
+                            </div>
+                            <div id="collapse5" class="collapse" data-parent="#faqAccordion">
+                                <div class="faq-body">
+                                    Đội ngũ kỹ thuật của HOSTIST làm việc 24/7/365. Bạn có thể liên hệ qua live chat,
+                                    email hoặc hotline bất cứ lúc nào. Thời gian phản hồi trung bình dưới 15 phút.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Question 6 -->
+                        <div class="faq-item">
+                            <div class="faq-header" id="heading6">
+                                <button class="faq-button collapsed" type="button" data-toggle="collapse"
+                                    data-target="#collapse6">
+                                    <i class="fa fa-chevron-down"></i>
+                                    <span>Dữ liệu có được backup tự động không?</span>
+                                </button>
+                            </div>
+                            <div id="collapse6" class="collapse" data-parent="#faqAccordion">
+                                <div class="faq-body">
+                                    Tất cả gói hosting đều có backup tự động hàng ngày và lưu trữ trong 7-30 ngày
+                                    tùy gói. Bạn có thể restore dữ liệu bất cứ lúc nào thông qua control panel
+                                    hoặc yêu cầu hỗ trợ từ đội ngũ kỹ thuật.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="text-center mt-5">
+                        <p class="faq-footer-text">
+                            Không tìm thấy câu trả lời?
+                            <a href="#contact_section" class="faq-contact-link">Liên hệ với chúng tôi</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- contact section -->
     <section class="contact_section layout_padding-bottom">
         <div class="container">
@@ -542,6 +828,7 @@
     <!-- end contact section -->
 
     <!-- info section -->
+    @include('source.web.homepage.translate')
 @endsection
 
 @push('header_css')
@@ -838,6 +1125,477 @@
 
             .content {
                 padding: 1.5rem 1rem;
+            }
+        }
+
+        /* FAQ Section Styles */
+        .faq_section {
+            background: #ffffff;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-header {
+            background: #f8f9fa;
+        }
+
+        .faq-button {
+            width: 100%;
+            padding: 20px 25px;
+            background: none;
+            border: none;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 500;
+            color: #2c3e50;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .faq-button:hover {
+            color: #4154f1;
+        }
+
+        .faq-button i {
+            font-size: 14px;
+            transition: transform 0.3s ease;
+            color: #4154f1;
+        }
+
+        .faq-button:not(.collapsed) i {
+            transform: rotate(180deg);
+        }
+
+        .faq-button span {
+            flex: 1;
+        }
+
+        .faq-body {
+            padding: 20px 25px 20px 54px;
+            background: #ffffff;
+            color: #666;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .faq-footer-text {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .faq-contact-link {
+            color: #4154f1;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .faq-contact-link:hover {
+            color: #2a3bf1;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .faq-button {
+                padding: 15px 20px;
+                font-size: 15px;
+            }
+
+            .faq-body {
+                padding: 15px 20px 15px 45px;
+                font-size: 14px;
+            }
+        }
+
+        /* Premium Web Design Section */
+        .web_design_section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .web_design_section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            opacity: 0.5;
+        }
+
+        .design_content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .premium_badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            margin-bottom: 20px;
+        }
+
+        .section_title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .highlight_text {
+            color: #ffd700;
+            display: block;
+        }
+
+        .section_desc {
+            font-size: 18px;
+            line-height: 1.7;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .tech_stack {
+            margin: 30px 0;
+        }
+
+        .tech_stack h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .tech_items {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .tech_item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 10px 20px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .tech_item i {
+            font-size: 20px;
+        }
+
+        .service_features {
+            margin: 30px 0;
+        }
+
+        .feature_item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .feature_item i {
+            font-size: 24px;
+            color: #ffd700;
+            flex-shrink: 0;
+        }
+
+        .feature_item strong {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .feature_item p {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .cta_buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn_primary,
+        .btn_secondary {
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn_primary {
+            background: #ffd700;
+            color: #667eea;
+        }
+
+        .btn_primary:hover {
+            background: #ffed4e;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn_secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn_secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Showcase Card */
+        .design_showcase {
+            position: relative;
+            padding: 40px;
+        }
+
+        .showcase_card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transform: perspective(1000px) rotateY(-5deg);
+            transition: transform 0.5s ease;
+        }
+
+        .showcase_card:hover {
+            transform: perspective(1000px) rotateY(0deg);
+        }
+
+        .card_header {
+            background: #2d3748;
+            padding: 12px 15px;
+        }
+
+        .browser_dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .browser_dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #e53e3e;
+        }
+
+        .browser_dots span:nth-child(2) {
+            background: #ecc94b;
+        }
+
+        .browser_dots span:nth-child(3) {
+            background: #48bb78;
+        }
+
+        .card_body {
+            padding: 30px;
+            background: #1a202c;
+        }
+
+        .code_preview {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+
+        .code_line {
+            margin-bottom: 8px;
+            color: #a0aec0;
+        }
+
+        .indent {
+            padding-left: 20px;
+        }
+
+        .indent2 {
+            padding-left: 40px;
+        }
+
+        .tag {
+            color: #f687b3;
+        }
+
+        .comment {
+            color: #68d391;
+        }
+
+        .function {
+            color: #63b3ed;
+        }
+
+        .bracket {
+            color: #fbd38d;
+        }
+
+        /* Floating Badges */
+        .floating_badge {
+            position: absolute;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #667eea;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .badge_1 {
+            top: 10%;
+            right: 5%;
+            animation-delay: 0s;
+        }
+
+        .badge_2 {
+            top: 50%;
+            right: 0;
+            animation-delay: 1s;
+        }
+
+        .badge_3 {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Process Timeline */
+        .process_timeline {
+            margin-top: 80px;
+            padding-top: 60px;
+            border-top: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .process_timeline h3 {
+            color: white;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .timeline_container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .timeline_item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .timeline_item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .timeline_number {
+            width: 50px;
+            height: 50px;
+            background: #ffd700;
+            color: #667eea;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0 auto 20px;
+        }
+
+        .timeline_content h4 {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .timeline_content p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        @media (max-width: 991px) {
+            .section_title {
+                font-size: 32px;
+            }
+
+            .design_showcase {
+                margin-top: 50px;
+            }
+
+            .showcase_card {
+                transform: none;
+            }
+
+            .timeline_container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .timeline_container {
+                grid-template-columns: 1fr;
+            }
+
+            .cta_buttons {
+                flex-direction: column;
+            }
+
+            .btn_primary,
+            .btn_secondary {
+                width: 100%;
+                justify-content: center;
             }
         }
     </style>
