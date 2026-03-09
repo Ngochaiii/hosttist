@@ -71,7 +71,7 @@
                                     <i class="fab fa-wordpress"></i>
                                     <span>WordPress</span>
                                 </div>
-                                <div class="tech_item">
+                                <div class="tech_item"> 
                                     <i class="fab fa-laravel"></i>
                                     <span>Laravel</span>
                                 </div>
@@ -129,7 +129,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="col-lg-6">
                     <div class="design_showcase">
                         <div class="showcase_card main_card">
@@ -206,57 +205,114 @@
         </div>
     </section>
     <!-- about section -->
-
-    <section class="about_section layout_padding-bottom">
-        <div class="container  ">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="detail-box">
-                        <div class="heading_container">
-                            <h2>
+    <section class="about_section py-5 bg-light">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <!-- Text Content -->
+                <div class="col-lg-6 order-2 order-lg-1">
+                    <div class="pe-lg-4">
+                        <!-- Heading -->
+                        <div class="mb-4">
+                            <h2 class="display-5 fw-bold text-dark mb-3">
                                 About Our Hosting Company
                             </h2>
+                            <div class="bg-primary" style="width: 60px; height: 4px; border-radius: 2px;"></div>
                         </div>
-                        <p>
-                            Founded with a passion for web technology and customer service, our hosting company has grown to
-                            become a
-                            trusted provider of digital infrastructure solutions. We pride ourselves on delivering reliable,
-                            high-performance hosting services that empower businesses of all sizes to establish and expand
-                            their
-                            online presence.<br>
-                            Our team consists of experienced IT professionals dedicated to ensuring your websites and
-                            applications run
-                            smoothly 24/7. We've invested in state-of-the-art data centers, cutting-edge technologies, and
-                            robust
-                            security systems to provide you with hosting solutions that meet the highest industry standards.
-                            What sets us apart is our commitment to personalized support. We understand that every client
-                            has unique
-                            needs, which is why we offer customized hosting packages ranging from shared hosting for
-                            startups to
-                            dedicated servers for enterprise-level operations.<br>
-                            As we continue to evolve with the digital landscape, we remain focused on our core mission:
-                            providing you
-                            with the technological foundation you need to succeed online while delivering exceptional value
-                            and
-                            service. </p>
-                        <a href="">
+
+                        <!-- Content -->
+                        <div class="text-muted lh-lg">
+                            <p class="mb-3">
+                                Founded with a passion for web technology and customer service, our hosting company has
+                                grown to
+                                become a trusted provider of digital infrastructure solutions. We pride ourselves on
+                                delivering reliable,
+                                high-performance hosting services that empower businesses of all sizes to establish and
+                                expand
+                                their online presence.
+                            </p>
+                            <p class="mb-3">
+                                Our team consists of experienced IT professionals dedicated to ensuring your websites and
+                                applications run smoothly 24/7. We've invested in state-of-the-art data centers,
+                                cutting-edge technologies, and
+                                robust security systems to provide you with hosting solutions that meet the highest industry
+                                standards.
+                            </p>
+                            <p class="mb-3">
+                                What sets us apart is our commitment to personalized support. We understand that every
+                                client
+                                has unique needs, which is why we offer customized hosting packages ranging from shared
+                                hosting for
+                                startups to dedicated servers for enterprise-level operations.
+                            </p>
+                            <p class="mb-4">
+                                As we continue to evolve with the digital landscape, we remain focused on our core mission:
+                                providing you with the technological foundation you need to succeed online while delivering
+                                exceptional value
+                                and service.
+                            </p>
+                        </div>
+
+                        <!-- CTA Button -->
+                        <a href="" class="btn btn-primary btn-lg px-4 py-3 shadow-sm">
                             Read More
                         </a>
                     </div>
                 </div>
-                <div class="col-md-6 ">
-                    <div class="img-box">
-                        <img src="images/about-img.png" alt="">
+
+                <!-- Image -->
+                <div class="col-lg-6 order-1 order-lg-2">
+                    <div class="position-relative">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="bg-primary bg-opacity-10 rounded p-4 text-center h-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
+                                        fill="currentColor" class="text-primary mb-3" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
+                                        <path
+                                            d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319z" />
+                                    </svg>
+                                    <h6 class="fw-bold mb-0">Fast Setup</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-success bg-opacity-10 rounded p-4 text-center h-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
+                                        fill="currentColor" class="text-success mb-3" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path
+                                            d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                                    </svg>
+                                    <h6 class="fw-bold mb-0">99.9% Uptime</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-info bg-opacity-10 rounded p-4 text-center h-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
+                                        fill="currentColor" class="text-info mb-3" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2zm3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" />
+                                    </svg>
+                                    <h6 class="fw-bold mb-0">Secure SSL</h6>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-warning bg-opacity-10 rounded p-4 text-center h-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
+                                        fill="currentColor" class="text-warning mb-3" viewBox="0 0 16 16">
+                                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                        <path
+                                            d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z" />
+                                    </svg>
+                                    <h6 class="fw-bold mb-0">24/7 Support</h6>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
-
-    <!-- end about section -->
-
-
     <!-- server section -->
 
     <section class="server_section">
