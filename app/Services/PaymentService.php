@@ -178,14 +178,10 @@ class PaymentService extends BaseService
                 $order->invoice->update(['status' => 'paid']);
             }
 
-            // Provision services
-            // $provisionResults = $this->provisionService->createFromOrder($order);
-
             return [
                 'success' => true,
                 'payment' => $payment,
                 'new_balance' => $customer->fresh()->balance,
-                'provisions' => $provisionResults ?? []
             ];
         });
     }

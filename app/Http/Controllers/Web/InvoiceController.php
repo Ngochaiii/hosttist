@@ -18,23 +18,18 @@ class InvoiceController extends Controller
     protected $invoiceService;
 
     public function __construct(
-        OrderService $orderService, 
+        OrderService $orderService,
         PaymentService $paymentService,
         InvoiceService $invoiceService
     ) {
         $this->orderService = $orderService;
         $this->paymentService = $paymentService;
         $this->invoiceService = $invoiceService;
-        
-        Log::info("[InvoiceController] Controller instantiated", [
-            'user_id' => auth()->id(),
-            'user_name' => auth()->user()->name ?? 'Guest',
-            'services_injected' => [
-                'order' => OrderService::class,
-                'payment' => PaymentService::class,
-                'invoice' => InvoiceService::class
-            ]
-        ]);
+    }
+
+    public function index()
+    {
+        return redirect()->route('customer.invoices');
     }
 
     /**

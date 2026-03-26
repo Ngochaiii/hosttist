@@ -114,36 +114,6 @@ class CartController extends Controller
     }
 
     /**
-     * Xử lý trường hợp trùng lặp mục trong giỏ hàng
-     */
-    private function handleDuplicateCartItem(Request $request, $product)
-    {
-        try {
-            $cart = $this->getCart();
-            $options = $request->options ?? [];
-            $period = $options['period'] ?? 1;
-
-            // Tìm mục hiện có
-            $existingItem = CartItem::where('cart_id', $cart->id)
-                ->where('product_id', $product->id)
-                ->first();
-
-            if ($existingItem) {
-                // Xóa mục hiện có
-                $existingItem->delete();
-
-                // Thêm lại với thông tin mới
-                return $this->addToCart($request);
-            }
-
-            return back()->with('error', 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.');
-        } catch (\Exception $e) {
-            Log::error('Error handling duplicate cart item: ' . $e->getMessage());
-            return back()->with('error', 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại sau.');
-        }
-    }
-
-    /**
      * Lấy giỏ hàng hiện tại hoặc tạo mới
      */
     private function getCart()

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm \"/Users/Shared/dự án /hostist-vps/app/Http/Controllers/Api/CartController.php\")",
+      "Bash(rm \"/Users/Shared/dự án /hostist-vps/app/Http/Controllers/Api/PaymentController.php\")",
+      "Bash(php -l \"/Users/Shared/dự án /hostist-vps/app/Services/OrderService.php\")",
+      "Bash(php -l \"/Users/Shared/dự án /hostist-vps/app/Services/PaymentService.php\")",
+      "Bash(php -l \"/Users/Shared/dự án /hostist-vps/app/Services/InvoiceService.php\")",
+      "Bash(php -l \"/Users/Shared/dự án /hostist-vps/app/Http/Controllers/Web/CartController.php\")",
+      "Bash(php -l \"/Users/Shared/dự án /hostist-vps/app/Http/Controllers/Web/InvoiceController.php\")",
+      "Bash(php -l \"/Users/Shared/dự án /hostist-vps/routes/admin.php\")",
+      "Bash(php -l \"/Users/Shared/dự án /hostist-vps/routes/web.php\")",
+      "Bash(php artisan:*)"
+    ]
+  }
+}

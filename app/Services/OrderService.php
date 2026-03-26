@@ -19,33 +19,19 @@ class OrderService extends BaseService
     {
         $this->provisionService = app(ProvisionService::class);
     }
-    /**
-     * Create order and invoice from cart
-     *
-     * @param Cart $cart
-     * @param int $customerId
-     * @return array ['order' => Orders, 'invoice' => Invoices]
-     * @throws Exception
-     */
-    // app/Services/OrderService.php
-
-    // app/Services/OrderService.php
-
-    public function createFromCart($cart, $customerId)
+    public function createFromCart(Cart $cart, int $customerId): array
     {
         DB::beginTransaction();
         try {
-            // Tạo order
-            $order = \App\Models\Orders::create([
-                'order_number' => 'ORD' . time(),
+            $order = Orders::create([
+                'order_number' => $this->generateUniqueNumber('ORD'),
                 'customer_id' => $customerId,
                 'status' => 'pending',
                 'subtotal' => $cart->subtotal,
                 'total_amount' => $cart->total_amount,
-                'created_by' => auth()->id()
+                'created_by' => Auth::id()
             ]);
 
-            // Lưu order items với thông tin chi tiết
             foreach ($cart->items as $cartItem) {
                 $options = json_decode($cartItem->options, true) ?: [];
 
@@ -57,28 +43,20 @@ class OrderService extends BaseService
                     'price' => $cartItem->unit_price,
                     'subtotal' => $cartItem->subtotal,
                     'total' => $cartItem->total,
-                    'options' => $cartItem->options, // Giữ nguyên JSON
+                    'options' => $cartItem->options,
                     'duration' => $options['period'] ?? null,
                     'domain' => $options['domain'] ?? null
                 ]);
-
-                // Log để debug
-                Log::info('Order item created with options', [
-                    'order_id' => $order->id,
-                    'product_id' => $cartItem->product_id,
-                    'options' => $options
-                ]);
             }
 
-            // Tạo invoice
-            $invoice = \App\Models\Invoices::create([
-                'invoice_number' => 'INV' . time(),
+            $invoice = Invoices::create([
+                'invoice_number' => $this->generateUniqueNumber('INV'),
                 'order_id' => $order->id,
                 'customer_id' => $customerId,
                 'status' => 'pending',
                 'subtotal' => $order->subtotal,
                 'total_amount' => $order->total_amount,
-                'due_date' => \Carbon\Carbon::now()->addDays(7)
+                'due_date' => Carbon::now()->addDays(7)
             ]);
 
             DB::commit();
@@ -89,206 +67,6 @@ class OrderService extends BaseService
             Log::error('Create order from cart failed: ' . $e->getMessage());
             throw $e;
         }
-    }
-
-    private function createServiceProvision($orderItem, $options)
-    {
-        $serviceType = $options['service_type'] ?? null;
-
-        if (!$serviceType) return;
-
-        ServiceProvision::create([
-            'order_item_id' => $orderItem->id,
-            'product_id' => $orderItem->product_id,
-            'customer_id' => $orderItem->order->customer_id,
-            'provision_type' => $serviceType,
-            'provision_status' => 'pending',
-            'provision_data' => json_encode($options),
-            'priority' => $this->getProvisionPriority($serviceType)
-        ]);
-    }
-
-    private function getProvisionPriority($serviceType)
-    {
-        $priorities = [
-            'domain' => 1,
-            'ssl' => 2,
-            'hosting' => 3,
-            'vps' => 4,
-            'email' => 5,
-            'web_design' => 6,
-            'advertising' => 7,
-            'seo' => 8
-        ];
-
-        return $priorities[$serviceType] ?? 5;
-    }
-
-    /**
-     * Create order record
-     *
-     * @param Cart $cart
-     * @param Customers $customer
-     * @return Orders
-     */
-    private function createOrder(Cart $cart, Customers $customer): Orders
-    {
-        return Orders::create([
-            'order_number' => $this->generateOrderNumber(),
-            'customer_id' => $customer->id,
-            'status' => 'pending',
-            'subtotal' => $cart->subtotal,
-            'tax_amount' => $cart->tax_amount ?? 0,
-            'discount_amount' => $cart->discount_amount ?? 0,
-            'total_amount' => $cart->total_amount,
-            'notes' => 'Order created from cart',
-            'created_by' => Auth::id()
-        ]);
-    }
-
-    /**
-     * Create order items from cart items
-     *
-     * @param Orders $order
-     * @param Cart $cart
-     */
-    private function createOrderItems(Orders $order, Cart $cart): void
-    {
-        foreach ($cart->items as $item) {
-            $this->createOrderItem($order, $item);
-        }
-    }
-
-    /**
-     * Create single order item
-     *
-     * @param Orders $order
-     * @param $cartItem
-     * @return Order_items
-     */
-    private function createOrderItem(Orders $order, $cartItem): Order_items
-    {
-        // Parse options to get additional info
-        $options = json_decode($cartItem->options, true) ?: [];
-        $period = $options['period'] ?? 1;
-        $domain = $options['domain'] ?? null;
-
-        return Order_items::create([
-            'order_id' => $order->id,
-            'product_id' => $cartItem->product_id,
-            'name' => $cartItem->product->name,
-            'sku' => $cartItem->product->sku ?? '',
-            'quantity' => $cartItem->quantity,
-            'price' => $cartItem->unit_price,
-            'tax_percent' => 0,
-            'tax_amount' => $cartItem->tax_amount ?? 0,
-            'discount_percent' => 0,
-            'discount_amount' => $cartItem->discount_amount ?? 0,
-            'subtotal' => $cartItem->subtotal,
-            'total' => $cartItem->total,
-            'options' => $cartItem->options,
-            'duration' => $period,
-            'domain' => $domain
-        ]);
-    }
-
-    /**
-     * Create invoice from order
-     *
-     * @param Orders $order
-     * @return Invoices
-     */
-    private function createInvoice(Orders $order): Invoices
-    {
-        return Invoices::create([
-            'invoice_number' => $this->generateInvoiceNumber(),
-            'order_id' => $order->id,
-            'customer_id' => $order->customer_id,
-            'status' => 'draft',
-            'subtotal' => $order->subtotal,
-            'tax_amount' => $order->tax_amount,
-            'discount_amount' => $order->discount_amount,
-            'total_amount' => $order->total_amount,
-            'due_date' => now()->addDays(7)->format('Y-m-d'),
-            'notes' => 'Invoice for order ' . $order->order_number,
-            'created_by' => Auth::id()
-        ]);
-    }
-
-    /**
-     * Validate cart before processing
-     *
-     * @param Cart $cart
-     * @throws Exception
-     */
-    private function validateCart(Cart $cart): void
-    {
-        if (!$cart || $cart->items->isEmpty()) {
-            throw new Exception('Cart is empty or invalid');
-        }
-
-        // Check if cart is expired
-        if ($cart->expires_at && $cart->expires_at->isPast()) {
-            throw new Exception('Cart has expired');
-        }
-
-        // Validate each cart item
-        foreach ($cart->items as $item) {
-            if (!$item->product) {
-                throw new Exception("Product not found for cart item {$item->id}");
-            }
-
-            if ($item->product->product_status !== 'active') {
-                throw new Exception("Product {$item->product->name} is not available");
-            }
-
-            // Check stock if limited
-            if ($item->product->stock >= 0 && $item->product->stock < $item->quantity) {
-                throw new Exception("Insufficient stock for product {$item->product->name}");
-            }
-        }
-    }
-
-    /**
-     * Validate customer
-     *
-     * @param int $customerId
-     * @return Customers
-     * @throws Exception
-     */
-    private function validateCustomer(int $customerId): Customers
-    {
-        $customer = Customers::find($customerId);
-
-        if (!$customer) {
-            throw new Exception('Customer not found');
-        }
-
-        if ($customer->status !== 'active') {
-            throw new Exception('Customer account is not active');
-        }
-
-        return $customer;
-    }
-
-    /**
-     * Generate unique order number
-     *
-     * @return string
-     */
-    private function generateOrderNumber(): string
-    {
-        return $this->generateUniqueNumber('ORD');
-    }
-
-    /**
-     * Generate unique invoice number
-     *
-     * @return string
-     */
-    private function generateInvoiceNumber(): string
-    {
-        return $this->generateUniqueNumber('INV');
     }
 
     /**
@@ -514,44 +292,4 @@ class OrderService extends BaseService
         }
     }
 
-    // SỬA LẠI method createFromCart để tích hợp provisions
-    /**
-     * Create order and invoice from cart - VERSION CÓ PROVISIONS
-     */
-    public function createFromCartWithProvisions(Cart $cart, int $customerId, bool $autoProcess = false): array
-    {
-        return $this->transaction(function () use ($cart, $customerId, $autoProcess) {
-            // Tạo order và invoice như cũ
-            $result = $this->createFromCart($cart, $customerId);
-
-            if (!$result['success']) {
-                return $result;
-            }
-
-            $order = $result['order'];
-            $invoice = $result['invoice'];
-
-            // Tạo provisions nếu được yêu cầu
-            $provisions = [];
-            if ($autoProcess) {
-                $provisions = $this->processCompletedOrder($order);
-            }
-
-            $this->logActivity('Order with provisions created from cart', [
-                'order_id' => $order->id,
-                'invoice_id' => $invoice->id,
-                'customer_id' => $customerId,
-                'total_amount' => $order->total_amount,
-                'provisions_count' => count($provisions),
-                'auto_process' => $autoProcess
-            ]);
-
-            return [
-                'success' => true,
-                'order' => $order,
-                'invoice' => $invoice,
-                'provisions' => $provisions
-            ];
-        });
-    }
 }
