@@ -41,7 +41,7 @@ Route::get('/price', [PricingController::class, 'index'])->name('pricing.index')
 // Services & Categories
 Route::group(['prefix' => 'services'], function () {
     Route::get('/', [ServiceController::class, 'index'])->name('services.index');
-    Route::get('/{slug}', [HomepageController::class, 'detail'])->name('service.detail');
+    Route::get('/{slug}', [HomepageController::class, 'detail'])->name('services.detail');
 });
 
 Route::get('/category/{categorySlug}', [HomepageController::class, 'category'])->name('category.detail');
