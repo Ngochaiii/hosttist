@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Mail\QuoteEmail;
 use App\Models\Cart;
 use App\Models\Config;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Mail;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
@@ -152,17 +149,9 @@ class QuoteController extends Controller
         return $pdf;
     }
 
-    /**
-     * Tạo PDF với fallback
-     */
     private function generatePdf()
     {
-        try {
-            return $this->generateModernPdf();
-        } catch (\Exception $e) {
-            // Fallback to simple PDF if modern one fails
-            return $this->generateModernPdf();
-        }
+        return $this->generateModernPdf();
     }
 
     /**

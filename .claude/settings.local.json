@@ -10,7 +10,14 @@
       "Bash(php -l \"/Users/Shared/dự án /hostist-vps/app/Http/Controllers/Web/InvoiceController.php\")",
       "Bash(php -l \"/Users/Shared/dự án /hostist-vps/routes/admin.php\")",
       "Bash(php -l \"/Users/Shared/dự án /hostist-vps/routes/web.php\")",
-      "Bash(php artisan:*)"
+      "Bash(php artisan:*)",
+      "Bash(grep -rn \"order\\\\.cancel\\\\|order\\\\.update\\\\|order\\\\.track\\\\|quote\\\\.email\\\\|sendEmail\" /Users/Shared/dự án /hostist-vps/resources/ --include=*.blade.php)",
+      "Bash(grep -rn \"InvoiceController@sendEmail\\\\|invoice\\\\.email\\\\|proceed\\\\.payment\\\\|quote\\\\.download\\\\|order\\\\.cancel\\\\|order\\\\.show\" /Users/Shared/dự án /hostist-vps/resources/ --include=*.blade.php)",
+      "Bash(grep -rn \"cancelOrder\\\\|cancel_order\\\\|order\\\\.cancel\\\\|updateStatus\\\\|tracking\" /Users/Shared/dự án /hostist-vps/resources/ --include=*.blade.php)",
+      "Bash(for f:*)",
+      "Bash(do)",
+      "Bash(php -l \"$f\")",
+      "Bash(done)"
     ]
   }
 }

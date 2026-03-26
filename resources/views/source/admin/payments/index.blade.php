@@ -219,7 +219,7 @@
                                                             aria-hidden="true">
                                                             <div class="modal-dialog modal-xl" role="document">
                                                                 <div class="modal-content">
-                                                                    <form action="{{ route('approve-with-provision', $payment->id) }}" method="POST" enctype="multipart/form-data" id="approveForm{{ $payment->id }}">
+                                                                    <form action="{{ route('admin.payments.approve-with-provision', $payment->id) }}" method="POST" enctype="multipart/form-data" id="approveForm{{ $payment->id }}">
                                                                         @csrf
 
                                                                         <div class="modal-header bg-success">
