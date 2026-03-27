@@ -1,2 +1,39 @@
-*
-!.gitignore
+cat > /www/wwwroot/hosttist.com/.gitignore << 'EOF'
+# Laravel
+/vendor/
+/node_modules/
+.env
+.env.backup
+.env.production
+
+# Storage
+/storage/*.key
+/storage/app/public/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/testing/*
+/storage/framework/views/*
+/storage/logs/*
+
+# Cache
+/bootstrap/cache/*.php
+
+# Build
+/public/hot
+/public/storage
+/public/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Test files
+/public/test.php
+/public/debug.php
+EOF
