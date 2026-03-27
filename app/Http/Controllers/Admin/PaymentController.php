@@ -46,8 +46,8 @@ class PaymentController extends Controller
             'failed' => Payments::where('status', 'failed')->count(),
             'payments' => $payments,
         ];
-
-        return view('source.admin.payments.index', compact('payments', 'status', 'counts', 'stats'));
+        $domainItems = [];
+        return view('source.admin.payments.index', compact('payments', 'status', 'counts', 'stats', 'domainItems'));
     }
 
     /**
