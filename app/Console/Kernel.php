@@ -12,8 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
         $schedule->command('logs:cleanup')->weekly();
+
+        // Kiểm tra dịch vụ hết hạn: chạy hàng ngày lúc 8:00 sáng
+        $schedule->command('services:check-expiry')->dailyAt('08:00');
     }
 
     /**

@@ -17,7 +17,18 @@
       "Bash(for f:*)",
       "Bash(do)",
       "Bash(php -l \"$f\")",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(find '/Users/Shared/dự án /hostist-vps' -type d -name *guide* -o -type d -name *Guide* -o -type d -name *docs* -o -type d -name *doc*)",
+      "Bash(php -l app/Contracts/PaymentGatewayInterface.php)",
+      "Bash(php -l app/Services/Payment/ManualGateway.php)",
+      "Bash(php -l app/Services/Payment/GatewayFactory.php)",
+      "Bash(php -l app/Jobs/ProcessPaymentWebhook.php)",
+      "Bash(php -l app/Http/Controllers/Webhook/PaymentWebhookController.php)",
+      "Bash(php -l app/Models/CustomerService.php)",
+      "Bash(php -l app/Services/ServiceLifecycleService.php)",
+      "Bash(php -l app/Mail/ServiceExpiryReminder.php)",
+      "Bash(php -l app/Console/Commands/CheckServiceExpiry.php)",
+      "Bash(php -l app/Http/Controllers/Web/ServiceController.php)"
     ]
   }
 }

@@ -5628,3 +5628,78 @@
 [2026-03-27 02:16:38] local.INFO: Service type: vps  
 [2026-03-27 02:16:38] local.INFO: Service type: vps  
 [2026-03-27 02:16:38] local.INFO: Service type: vps  
+[2026-03-27 08:03:37] local.ERROR: The "--compact" option does not exist. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\RuntimeException(code: 0): The \"--compact\" option does not exist. at /Users/Shared/dự án /hostist-vps/vendor/symfony/console/Input/ArgvInput.php:223)
+[stacktrace]
+#0 /Users/Shared/dự án /hostist-vps/vendor/symfony/console/Input/ArgvInput.php(152): Symfony\\Component\\Console\\Input\\ArgvInput->addLongOption('compact', NULL)
+#1 /Users/Shared/dự án /hostist-vps/vendor/symfony/console/Input/ArgvInput.php(85): Symfony\\Component\\Console\\Input\\ArgvInput->parseLongOption('--compact')
+#2 /Users/Shared/dự án /hostist-vps/vendor/symfony/console/Input/ArgvInput.php(74): Symfony\\Component\\Console\\Input\\ArgvInput->parseToken('--compact', true)
+#3 /Users/Shared/dự án /hostist-vps/vendor/symfony/console/Input/Input.php(56): Symfony\\Component\\Console\\Input\\ArgvInput->parse()
+#4 /Users/Shared/dự án /hostist-vps/vendor/symfony/console/Command/Command.php(285): Symfony\\Component\\Console\\Input\\Input->bind(Object(Symfony\\Component\\Console\\Input\\InputDefinition))
+#5 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Console/Command.php(180): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#6 /Users/Shared/dự án /hostist-vps/vendor/symfony/console/Application.php(1096): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#7 /Users/Shared/dự án /hostist-vps/vendor/symfony/console/Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Foundation\\Console\\RouteListCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#8 /Users/Shared/dự án /hostist-vps/vendor/symfony/console/Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#9 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#10 /Users/Shared/dự án /hostist-vps/artisan(35): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#11 {main}
+"} 
+[2026-03-27 08:05:40] local.INFO: Service type: vps  
+[2026-03-27 08:05:40] local.INFO: Service type: vps  
+[2026-03-27 08:05:40] local.INFO: Service type: vps  
+[2026-03-27 08:05:40] local.INFO: Service type: vps  
+[2026-03-30 07:22:32] local.INFO: Service type: ssl  
+[2026-03-30 07:22:32] local.INFO: Service type: ssl  
+[2026-03-30 07:22:32] local.INFO: Service type: ssl  
+[2026-03-30 07:22:32] local.INFO: Service type: ssl  
+[2026-03-30 07:22:45] local.INFO: Service type: vps  
+[2026-03-30 07:22:45] local.INFO: Service type: vps  
+[2026-03-30 07:22:45] local.INFO: Service type: vps  
+[2026-03-30 07:22:45] local.INFO: Service type: vps  
+[2026-03-30 07:23:29] local.INFO: Service type: vps  
+[2026-03-30 07:23:29] local.INFO: Service type: vps  
+[2026-03-30 07:23:29] local.INFO: Service type: vps  
+[2026-03-30 07:23:29] local.INFO: Service type: vps  
+[2026-03-30 07:23:46] local.INFO: Service type: vps  
+[2026-03-30 07:23:46] local.INFO: Service type: vps  
+[2026-03-30 07:23:55] local.INFO: [quote_data_69ca250b0de28] Generating quote data {"cart_id":14,"items_count":1,"cart_subtotal":"10000000.00"} 
+[2026-03-30 07:23:55] local.DEBUG: [quote_data_69ca250b0de28] Quote data calculation completed {"quote_number":"QUOTE-1774855435SjPwL","subtotal":"10000000.00","total":"10000000.00","expire_date":"06/04/2026"} 
+[2026-03-30 07:23:55] local.INFO: [quote_data_69ca250b0de28] Quote data generated successfully {"quote_number":"QUOTE-1774855435SjPwL","customer_name":"Phạm ngọc hoà","total_amount":"10000000.00","items_count":1} 
+[2026-03-30 07:23:55] local.INFO: [quote_data_69ca250b22c23] Generating quote data {"cart_id":14,"items_count":1,"cart_subtotal":"10000000.00"} 
+[2026-03-30 07:23:55] local.DEBUG: [quote_data_69ca250b22c23] Quote data calculation completed {"quote_number":"QUOTE-17748554355Hvcv","subtotal":"10000000.00","total":"10000000.00","expire_date":"06/04/2026"} 
+[2026-03-30 07:23:55] local.INFO: [quote_data_69ca250b22c23] Quote data generated successfully {"quote_number":"QUOTE-17748554355Hvcv","customer_name":"Phạm ngọc hoà","total_amount":"10000000.00","items_count":1} 
+[2026-03-30 07:24:03] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":13,"order_id":13,"transaction_code":"PAY-1774855443UOYUU"} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:03] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:04] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:04] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:04] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:24:04] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:25:12] local.INFO: [payment_approve_provision_69ca2558a2cd2] Payment approval with provision requested {"payment_id":"13","admin_id":1} 
+[2026-03-30 07:25:12] local.INFO: Request debug {"all_inputs":{"_token":"sF90aeF1EUYoij0cBzzOhVVgxQjHmmXHw9lPz1Km","provision":{"13":{"server_ip":"192.168.1.222","service_type":"vps","port":"22","username":"dongyyy","password":"vfsvasvva","os":"ubuntu-20.04","control_panel_url":null,"notes":null}}},"provision_input":{"13":{"server_ip":"192.168.1.222","service_type":"vps","port":"22","username":"dongyyy","password":"vfsvasvva","os":"ubuntu-20.04","control_panel_url":null,"notes":null}},"files":"no"} 
+[2026-03-30 07:25:12] local.INFO: Processing order item {"item_id":13,"product_type":"product","has_product":true} 
+[2026-03-30 07:25:12] local.INFO: Provision data check {"item_id":13,"has_provision_data":true,"provision_data_keys":["server_ip","service_type","port","username","password","os","control_panel_url","notes"],"provision_data":{"server_ip":"192.168.1.222","service_type":"vps","port":"22","username":"dongyyy","password":"vfsvasvva","os":"ubuntu-20.04","control_panel_url":null,"notes":null}} 
+[2026-03-30 07:25:12] local.INFO: Service type from provision data {"item_id":13,"service_type":"vps","is_provisionable":true} 
+[2026-03-30 07:25:12] local.INFO: [payment_approve_provision_69ca2558a2cd2] Provision created {"provision_id":5,"service_type":"vps","order_item_id":13} 
+[2026-03-30 07:25:12] local.INFO: [payment_approve_provision_69ca2558a2cd2] Payment approved with provisions {"payment_id":13,"provisions_count":1} 
+[2026-03-30 07:25:12] local.INFO: [email_approved_69ca2558a5b51] Starting payment approved email {"payment_id":13,"payment_number":"PAY-1774855443NBUAP"} 
+[2026-03-30 07:25:12] local.DEBUG: [email_approved_69ca2558a5b51] Sending payment approved email {"recipient":"phamngochaivphp@gmail.com","template":"emails.payment_approved"} 
+[2026-03-30 07:25:14] local.ERROR: [email_approved_69ca2558a5b51] Payment approved email failed {"payment_id":13,"error":"Failed to authenticate on SMTP server with username \"supposthostit@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-82ca86307a5sm6098821b3a.60 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-82ca86307a5sm6098821b3a.60 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\".","file":"/Users/Shared/dự án /hostist-vps/vendor/symfony/mailer/Transport/Smtp/EsmtpTransport.php","line":226} 

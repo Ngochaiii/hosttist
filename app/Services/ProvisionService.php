@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ServiceProvision;
 use App\Events\{ProvisionCreated, ProvisionCompleted, ProvisionFailed};
-use App\Services\ProvisionEmailService;
+use App\Services\{ProvisionEmailService, ServiceLifecycleService};
 
 class ProvisionService extends BaseService
 {
@@ -632,6 +632,17 @@ class ProvisionService extends BaseService
                 'provision_notes' => $data['notes'] ?? $provision->provision_notes,
                 'provision_data' => array_merge($provision->provision_data ?? [], $data['provision_data'] ?? [])
             ]);
+
+            // Tạo CustomerService để tracking lifecycle (hết hạn, gia hạn)
+            try {
+                app(ServiceLifecycleService::class)->activateFromProvision($provision);
+            } catch (\Exception $e) {
+                // Không rollback provision nếu lifecycle fail — log lại để xử lý
+                \Illuminate\Support\Facades\Log::error('activateFromProvision failed', [
+                    'provision_id' => $provision->id,
+                    'error'        => $e->getMessage(),
+                ]);
+            }
 
             // Fire event for email notifications
             event(new ProvisionCompleted($provision));

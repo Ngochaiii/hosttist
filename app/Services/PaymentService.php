@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\Models\{Payments, Orders, Invoices, Customers};
+use App\Models\{Payments, Orders, Invoices, Customers, ServiceProvision};
 use App\Services\{ProvisionService, EmailService};
+use App\Services\Payment\GatewayFactory;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 use Illuminate\Support\Facades\DB;
@@ -360,5 +361,119 @@ class PaymentService extends BaseService
         return Payments::where('transaction_id', $transactionId)
             ->with(['order', 'invoice'])
             ->first();
+    }
+
+    /**
+     * Xác nhận thanh toán từ payment gateway (dùng cho webhook / auto-approve).
+     *
+     * Được gọi bởi ProcessPaymentWebhook job sau khi nhận callback từ VNPay/MoMo/ZaloPay.
+     * Khi Phase 3 hoàn thiện, các gateway thật sẽ gọi method này thông qua job.
+     *
+     * @param string $transactionId  — Transaction ID từ provider
+     * @param string $provider       — vnpay | momo | zalopay | manual
+     * @param array  $rawData        — Raw payload từ webhook
+     * @return array
+     */
+    public function confirmPaymentFromGateway(string $transactionId, string $provider, array $rawData): array
+    {
+        $payment = $this->findByTransactionId($transactionId);
+
+        if (!$payment) {
+            Log::error('confirmPaymentFromGateway: không tìm thấy payment', [
+                'transaction_id' => $transactionId,
+                'provider'       => $provider,
+            ]);
+            return ['success' => false, 'error' => 'Payment not found', 'no_retry' => true];
+        }
+
+        if ($payment->status === 'completed') {
+            // Đã xử lý rồi (idempotent) — không xử lý lại
+            return ['success' => true, 'payment' => $payment, 'already_processed' => true];
+        }
+
+        if ($payment->status !== 'pending') {
+            return [
+                'success'  => false,
+                'error'    => "Payment status is '{$payment->status}', cannot confirm",
+                'no_retry' => true,
+            ];
+        }
+
+        return $this->transaction(function () use ($payment, $provider, $rawData) {
+            $order = $payment->order;
+
+            // Cập nhật payment
+            $payment->update([
+                'status'      => 'completed',
+                'verified_at' => now(),
+                'notes'       => "Auto-confirmed via {$provider} gateway",
+            ]);
+
+            // Cập nhật order
+            $order->update(['status' => 'processing']);
+
+            // Cập nhật invoice
+            if ($order->invoice) {
+                $order->invoice->update(['status' => 'paid']);
+            }
+
+            // Tạo service provisions cho từng item
+            $provisions = [];
+            foreach ($order->items as $item) {
+                $options     = json_decode($item->options, true) ?: [];
+                $serviceType = $options['service_type'] ?? null;
+
+                if ($serviceType) {
+                    $provision = ServiceProvision::create([
+                        'order_item_id'    => $item->id,
+                        'product_id'       => $item->product_id,
+                        'customer_id'      => $order->customer_id,
+                        'provision_type'   => $serviceType,
+                        'provision_status' => 'pending',
+                        'provision_data'   => $item->options,
+                        'priority'         => $this->getPriority($serviceType),
+                    ]);
+
+                    $provisions[] = $provision;
+                }
+            }
+
+            // Gửi email xác nhận cho khách
+            try {
+                $this->emailService->sendPaymentApprovedEmail($payment->fresh());
+            } catch (\Exception $e) {
+                // Email lỗi không nên rollback cả transaction
+                Log::error('confirmPaymentFromGateway: gửi email thất bại', [
+                    'payment_id' => $payment->id,
+                    'error'      => $e->getMessage(),
+                ]);
+            }
+
+            $this->logActivity('Payment confirmed from gateway', [
+                'payment_id'     => $payment->id,
+                'provider'       => $provider,
+                'provisions'     => count($provisions),
+            ]);
+
+            return [
+                'success'    => true,
+                'payment'    => $payment->fresh(),
+                'provisions' => $provisions,
+            ];
+        });
+    }
+
+    /**
+     * Khởi tạo URL thanh toán qua gateway được chọn.
+     * Dùng khi khách chọn phương thức VNPay/MoMo/ZaloPay.
+     *
+     * @param Orders $order
+     * @param string $provider  — vnpay | momo | zalopay
+     * @return string  URL để redirect khách hàng
+     */
+    public function createGatewayPaymentUrl(Orders $order, string $provider): string
+    {
+        $gateway = GatewayFactory::make($provider);
+        return $gateway->createPaymentUrl($order);
     }
 }

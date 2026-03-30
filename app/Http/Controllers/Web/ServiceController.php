@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\ServiceProvision;
-use App\Models\ProvisionLog;
-use App\Models\Products;
-use App\Services\ProvisionService;
+use App\Models\{ServiceProvision, ProvisionLog, Products, CustomerService};
+use App\Services\{ProvisionService, ServiceLifecycleService};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -14,11 +12,13 @@ use Illuminate\Support\Facades\Log;
 class ServiceController extends Controller
 {
     protected $provisionService;
+    protected $lifecycle;
 
-    public function __construct(ProvisionService $provisionService)
+    public function __construct(ProvisionService $provisionService, ServiceLifecycleService $lifecycle)
     {
         $this->middleware('frontend.auth');
         $this->provisionService = $provisionService;
+        $this->lifecycle        = $lifecycle;
     }
 
     /**
@@ -185,19 +185,28 @@ class ServiceController extends Controller
     }
 
     /**
-     * Gia hạn dịch vụ
+     * Gia hạn dịch vụ qua CustomerService + ServiceLifecycleService
      */
     public function renewService(Request $request, $id)
     {
         try {
-            $service = $this->findCustomerService($id);
-            $years = $request->input('years', 1);
+            $customerService = $this->findOwnedCustomerService($id);
+            $customer        = Auth::user()->customer;
 
-            $this->provisionService->renewService($service, $years);
+            $result = $this->lifecycle->renew($customerService, $customer);
 
-            return back()->with('success', "Dịch vụ đã được gia hạn thêm {$years} năm.");
+            if ($result['success']) {
+                return back()->with('success', 'Gia hạn thành công đến ' . $result['new_expiry']->format('d/m/Y') . '!');
+            }
+
+            if (!empty($result['need_deposit'])) {
+                return back()->with('error', 'Số dư ví không đủ. Vui lòng nạp thêm ít nhất ' . number_format($result['required_amount'], 0, ',', '.') . ' đ.');
+            }
+
+            return back()->with('error', $result['error'] ?? 'Không thể gia hạn dịch vụ.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Không thể gia hạn dịch vụ: ' . $e->getMessage());
+            Log::error('Renew service failed: ' . $e->getMessage(), ['id' => $id]);
+            return back()->with('error', 'Lỗi gia hạn: ' . $e->getMessage());
         }
     }
 
@@ -207,17 +216,31 @@ class ServiceController extends Controller
     public function requestCancellation(Request $request, $id)
     {
         try {
-            $service = $this->findCustomerService($id);
-            $reason = $request->input('reason', 'Customer request');
+            $customerService = $this->findOwnedCustomerService($id);
+            $reason          = $request->input('reason', 'Customer request');
 
-            // Trong thực tế, có thể tạo ticket hỗ trợ thay vì hủy ngay
-            // Ở đây demo trực tiếp hủy
-            $this->provisionService->cancelService($service, $reason);
+            $this->lifecycle->cancel($customerService, $reason);
 
-            return back()->with('success', 'Yêu cầu hủy dịch vụ đã được xử lý.');
+            return back()->with('success', 'Yêu cầu hủy dịch vụ đã được ghi nhận.');
         } catch (\Exception $e) {
+            Log::error('Cancel service failed: ' . $e->getMessage(), ['id' => $id]);
             return back()->with('error', 'Không thể hủy dịch vụ: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Tìm CustomerService của chính customer đang đăng nhập
+     */
+    private function findOwnedCustomerService(int $id): CustomerService
+    {
+        $customer = Auth::user()->customer;
+        if (!$customer) {
+            abort(403, 'Bạn cần cập nhật thông tin khách hàng để quản lý dịch vụ.');
+        }
+
+        return CustomerService::where('customer_id', $customer->id)
+            ->with(['product', 'provision', 'customer'])
+            ->findOrFail($id);
     }
 
     /**

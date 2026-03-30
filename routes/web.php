@@ -139,6 +139,14 @@ Route::group(['middleware' => ['frontend.auth']], function () {
     // ===== PAYMENT PROCESSING =====
     Route::get('/payment/process', [InvoiceController::class, 'proceedToPayment'])->name('process.payment');
 
+    // ===== PAYMENT STATUS PAGES =====
+    Route::group(['prefix' => 'payment'], function () {
+        Route::get('/{id}/pending', [\App\Http\Controllers\Web\PaymentStatusController::class, 'pending'])->name('payment.pending');
+        Route::get('/{id}/success', [\App\Http\Controllers\Web\PaymentStatusController::class, 'success'])->name('payment.success');
+        Route::get('/{id}/failed',  [\App\Http\Controllers\Web\PaymentStatusController::class, 'failed'])->name('payment.failed');
+        Route::get('/{id}/status',  [\App\Http\Controllers\Web\PaymentStatusController::class, 'checkStatus'])->name('payment.status');
+    });
+
     // ===== CASHBACK =====
     Route::group(['prefix' => 'cashback'], function () {
         Route::post('/register', [CashbackController::class, 'register'])->name('cashback.register');

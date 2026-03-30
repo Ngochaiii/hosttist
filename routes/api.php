@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// ===== PAYMENT WEBHOOKS =====
+// Không cần auth — provider gọi trực tiếp, verify bằng signature
+Route::post('/webhook/payment/{provider}', [\App\Http\Controllers\Webhook\PaymentWebhookController::class, 'handle'])
+    ->name('webhook.payment')
+    ->where('provider', 'vnpay|momo|zalopay|manual');
