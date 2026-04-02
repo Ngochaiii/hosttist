@@ -375,40 +375,62 @@ class ServiceController extends Controller
     }
 
     /**
-     * Download all SSL files as ZIP
+     * Download all SSL files as tar.gz (không cần ZipArchive)
      */
     private function downloadAllSSLFiles($sslFiles, $provision)
     {
-        $zip = new \ZipArchive();
-        $filename = $this->getSSLFilename($provision, 'ssl_files.zip');
-        $tempPath = sys_get_temp_dir() . '/' . $filename;
+        $tempDir = sys_get_temp_dir() . '/ssl_' . uniqid();
+        mkdir($tempDir, 0750, true);
 
-        if ($zip->open($tempPath, \ZipArchive::CREATE) !== TRUE) {
-            abort(500, 'Cannot create ZIP file');
+        $tarPath = $tempDir . '.tar';
+        $gzPath  = $tarPath . '.gz';
+
+        try {
+            $fileMap = [
+                'certificate' => $this->getSSLFilename($provision, 'certificate.crt'),
+                'private_key' => $this->getSSLFilename($provision, 'private.key'),
+                'ca_bundle'   => $this->getSSLFilename($provision, 'ca_bundle.crt'),
+            ];
+
+            $phar = new \PharData($tarPath);
+
+            foreach ($fileMap as $key => $name) {
+                if (isset($sslFiles[$key])) {
+                    $filePath = $tempDir . '/' . $name;
+                    file_put_contents($filePath, $sslFiles[$key]);
+                    $phar->addFile($filePath, $name);
+                }
+            }
+
+            $instructions = $this->generateSSLInstructions($provision);
+            $instrPath = $tempDir . '/INSTALLATION_INSTRUCTIONS.txt';
+            file_put_contents($instrPath, $instructions);
+            $phar->addFile($instrPath, 'INSTALLATION_INSTRUCTIONS.txt');
+
+            $phar->compress(\Phar::GZ);
+            unset($phar);
+
+            // Dọn temp dir và file .tar (giữ lại .tar.gz)
+            foreach (glob($tempDir . '/*') as $f) {
+                @unlink($f);
+            }
+            @rmdir($tempDir);
+            @unlink($tarPath);
+
+            $downloadName = $this->getSSLFilename($provision, 'ssl_files.tar.gz');
+
+            return response()->download($gzPath, $downloadName)->deleteFileAfterSend(true);
+
+        } catch (\Exception $e) {
+            foreach (glob($tempDir . '/*') as $f) {
+                @unlink($f);
+            }
+            @rmdir($tempDir);
+            @unlink($tarPath);
+            @unlink($gzPath);
+
+            abort(500, 'Không thể tạo file tải xuống: ' . $e->getMessage());
         }
-
-        // Add certificate
-        if (isset($sslFiles['certificate'])) {
-            $zip->addFromString($this->getSSLFilename($provision, 'certificate.crt'), $sslFiles['certificate']);
-        }
-
-        // Add private key
-        if (isset($sslFiles['private_key'])) {
-            $zip->addFromString($this->getSSLFilename($provision, 'private.key'), $sslFiles['private_key']);
-        }
-
-        // Add CA bundle
-        if (isset($sslFiles['ca_bundle'])) {
-            $zip->addFromString($this->getSSLFilename($provision, 'ca_bundle.crt'), $sslFiles['ca_bundle']);
-        }
-
-        // Add instructions
-        $instructions = $this->generateSSLInstructions($provision);
-        $zip->addFromString('INSTALLATION_INSTRUCTIONS.txt', $instructions);
-
-        $zip->close();
-
-        return response()->download($tempPath, $filename)->deleteFileAfterSend(true);
     }
 
     /**
