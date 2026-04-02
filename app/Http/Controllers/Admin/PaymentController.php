@@ -363,33 +363,29 @@ class PaymentController extends Controller
                     'notes' => $provisionData['notes'] ?? ''
                 ];
 
-                // FIX: Handle SSL files đúng cách
+                // Handle SSL files - dùng file_put_contents trực tiếp, không cần fileinfo
                 $sslFiles = [];
                 if (!empty($files)) {
-                    $sslDir = "ssl_certificates/{$item->id}";
-
-                    if (isset($files['certificate'])) {
-                        $certFile = $files['certificate'];
-                        $certPath = $certFile->store($sslDir, 'private');
-                        $certContent = file_get_contents($certFile->getRealPath());
-                        $sslFiles['certificate'] = $certContent;
-                        $data['certificate_path'] = $certPath;
+                    $sslDir = storage_path("app/ssl_certificates/{$item->id}");
+                    if (!is_dir($sslDir)) {
+                        mkdir($sslDir, 0750, true);
                     }
 
-                    if (isset($files['private_key'])) {
-                        $keyFile = $files['private_key'];
-                        $keyPath = $keyFile->store($sslDir, 'private');
-                        $keyContent = file_get_contents($keyFile->getRealPath());
-                        $sslFiles['private_key'] = $keyContent;
-                        $data['private_key_path'] = $keyPath;
-                    }
+                    $fileMap = [
+                        'certificate' => 'certificate.pem',
+                        'private_key' => 'private_key.pem',
+                        'ca_bundle'   => 'ca_bundle.pem',
+                    ];
 
-                    if (isset($files['ca_bundle'])) {
-                        $caFile = $files['ca_bundle'];
-                        $caPath = $caFile->store($sslDir, 'private');
-                        $caContent = file_get_contents($caFile->getRealPath());
-                        $sslFiles['ca_bundle'] = $caContent;
-                        $data['ca_bundle_path'] = $caPath;
+                    foreach ($fileMap as $field => $filename) {
+                        if (isset($files[$field])) {
+                            $uploadedFile = $files[$field];
+                            $destPath = $sslDir . '/' . $filename;
+                            $content = file_get_contents($uploadedFile->getRealPath());
+                            file_put_contents($destPath, $content);
+                            $sslFiles[$field] = $content;
+                            $data["{$field}_path"] = "ssl_certificates/{$item->id}/{$filename}";
+                        }
                     }
 
                     if (!empty($sslFiles)) {
