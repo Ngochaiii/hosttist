@@ -8,6 +8,7 @@ use App\Models\Payments;
 use App\Models\Order_items;
 use App\Models\ServiceProvision;
 use App\Services\EmailService;
+use App\Services\ServiceLifecycleService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -17,10 +18,17 @@ use App\Services\PaymentService;
 class PaymentController extends Controller
 {
     protected $paymentService;
+    protected $emailService;
+    protected $lifecycle;
 
-    public function __construct(PaymentService $paymentService)
-    {
+    public function __construct(
+        PaymentService        $paymentService,
+        EmailService          $emailService,
+        ServiceLifecycleService $lifecycle
+    ) {
         $this->paymentService = $paymentService;
+        $this->emailService   = $emailService;
+        $this->lifecycle      = $lifecycle;
     }
 
     public function index(Request $request)
@@ -144,8 +152,11 @@ class PaymentController extends Controller
             }
 
             // Update payment status
-            $payment->status = 'completed';
-            $payment->save();
+            $payment->update([
+                'status'      => 'completed',
+                'verified_by' => Auth::id(),
+                'verified_at' => now(),
+            ]);
 
             // Update invoice
             if ($payment->invoice) {
@@ -246,14 +257,26 @@ class PaymentController extends Controller
             DB::commit();
 
             Log::info("[{$requestId}] Payment approved with provisions", [
-                'payment_id' => $payment->id,
-                'provisions_count' => count($provisions)
+                'payment_id'       => $payment->id,
+                'provisions_count' => count($provisions),
             ]);
 
-            // Send notification emails
-            if ($payment->order && $payment->order->customer && $payment->order->customer->user) {
-                $this->sendProvisionEmail($payment, $provisions);
+            // Kích hoạt CustomerService lifecycle cho từng provision vừa tạo
+            foreach ($provisions as $provision) {
+                try {
+                    $this->lifecycle->activateFromProvision($provision);
+                } catch (\Exception $e) {
+                    Log::error("[{$requestId}] activateFromProvision failed", [
+                        'provision_id' => $provision->id,
+                        'error'        => $e->getMessage(),
+                    ]);
+                }
             }
+
+            // Luôn gửi email xác nhận thanh toán cho khách sau khi approve
+            $this->emailService->sendPaymentApprovedEmail(
+                $payment->fresh()->load(['order.customer.user', 'order.items', 'invoice'])
+            );
 
             return redirect()->route('admin.payments.index')
                 ->with('success', 'Thanh toán đã được xác nhận và thông tin dịch vụ đã được cập nhật.');
@@ -417,6 +440,11 @@ class PaymentController extends Controller
             $result = $this->paymentService->approvePayment($payment, Auth::id());
 
             if ($result['success']) {
+                // Gửi email xác nhận
+                $this->emailService->sendPaymentApprovedEmail(
+                    $payment->fresh()->load(['order.customer.user', 'order.items', 'invoice'])
+                );
+
                 return redirect()->route('admin.payments.index')
                     ->with('success', 'Thanh toán đã được xác nhận.');
             }
@@ -427,51 +455,14 @@ class PaymentController extends Controller
         }
     }
 
-    // THÊM METHOD NÀY vào PaymentController:
-    private function sendProvisionEmail($payment, $provisions)
-    {
-        try {
-            if (empty($provisions)) {
-                return;
-            }
-
-            $user = $payment->order->customer->user;
-            if (!$user || !$user->email) {
-                Log::warning('Cannot send provision email: no user email', [
-                    'payment_id' => $payment->id
-                ]);
-                return;
-            }
-
-            // Sử dụng EmailService có sẵn
-            $emailService = app(EmailService::class);
-            $emailSent = $emailService->sendPaymentApprovedEmail($payment);
-
-            if ($emailSent) {
-                Log::info('Provision notification email sent', [
-                    'customer_email' => $user->email,
-                    'provisions_count' => count($provisions),
-                    'payment_id' => $payment->id
-                ]);
-            }
-        } catch (\Exception $e) {
-            Log::error('Failed to send provision email', [
-                'error' => $e->getMessage(),
-                'payment_id' => $payment->id
-            ]);
-        }
-    }
-
     /**
      * Original approve method - redirect to provision form
      */
-    public function approve(Request $request, $id)
+    public function approve($id)
     {
-        // Redirect to provision form instead of direct approval
         return redirect()->route('admin.payments.provision-form', $id);
     }
 
-    // Keep existing reject method
     public function reject(Request $request, $id)
     {
         $request->validate(['reason' => 'required|string|max:255']);
@@ -483,7 +474,7 @@ class PaymentController extends Controller
                 return back()->with('error', 'Chỉ có thể từ chối thanh toán đang chờ xử lý');
             }
 
-            $result = $this->paymentService->rejectPayment($payment, $request->input('reason'), Auth::id());
+            $this->paymentService->rejectPayment($payment, $request->input('reason'), Auth::id());
 
             return redirect()->route('admin.payments.index')
                 ->with('success', 'Thanh toán đã bị từ chối.');

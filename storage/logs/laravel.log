@@ -5703,3 +5703,966 @@
 535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-82ca86307a5sm6098821b3a.60 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
 
 535 5.7.8  https://support.google.com/mail/?p=BadCredentials d2e1a72fcca58-82ca86307a5sm6098821b3a.60 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\".","file":"/Users/Shared/dự án /hostist-vps/vendor/symfony/mailer/Transport/Smtp/EsmtpTransport.php","line":226} 
+[2026-03-30 07:43:31] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-03-30 07:43:31] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-03-30 07:43:36] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-03-30 07:43:37] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-03-30 07:43:49] local.INFO: Service type: vps  
+[2026-03-30 07:43:49] local.INFO: Service type: vps  
+[2026-03-30 07:43:49] local.INFO: Service type: vps  
+[2026-03-30 07:43:49] local.INFO: Service type: vps  
+[2026-03-30 07:44:02] local.INFO: Service type: vps  
+[2026-03-30 07:44:02] local.INFO: Service type: vps  
+[2026-03-30 07:44:06] local.INFO: [quote_data_69ca29c612db4] Generating quote data {"cart_id":15,"items_count":1,"cart_subtotal":"15000000.00"} 
+[2026-03-30 07:44:06] local.DEBUG: [quote_data_69ca29c612db4] Quote data calculation completed {"quote_number":"QUOTE-1774856646PGIEe","subtotal":"15000000.00","total":"15000000.00","expire_date":"06/04/2026"} 
+[2026-03-30 07:44:06] local.INFO: [quote_data_69ca29c612db4] Quote data generated successfully {"quote_number":"QUOTE-1774856646PGIEe","customer_name":"Phạm ngọc hoà","total_amount":"15000000.00","items_count":1} 
+[2026-03-30 07:44:06] local.INFO: [quote_data_69ca29c6241fb] Generating quote data {"cart_id":15,"items_count":1,"cart_subtotal":"15000000.00"} 
+[2026-03-30 07:44:06] local.DEBUG: [quote_data_69ca29c6241fb] Quote data calculation completed {"quote_number":"QUOTE-1774856646fpN5B","subtotal":"15000000.00","total":"15000000.00","expire_date":"06/04/2026"} 
+[2026-03-30 07:44:06] local.INFO: [quote_data_69ca29c6241fb] Quote data generated successfully {"quote_number":"QUOTE-1774856646fpN5B","customer_name":"Phạm ngọc hoà","total_amount":"15000000.00","items_count":1} 
+[2026-03-30 07:44:10] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":14,"order_id":14,"transaction_code":"PAY-1774856650A0JL3"} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:10] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-03-30 07:44:52] local.INFO: [payment_approve_provision_69ca29f4968c2] Payment approval with provision requested {"payment_id":"14","admin_id":1} 
+[2026-03-30 07:44:52] local.INFO: Request debug {"all_inputs":{"_token":"sF90aeF1EUYoij0cBzzOhVVgxQjHmmXHw9lPz1Km","provision":{"14":{"server_ip":"192.999.188","service_type":"vps","port":"22","username":"vsvsvsvsdvs","password":"evsve","os":"ubuntu-20.04","control_panel_url":null,"notes":null}}},"provision_input":{"14":{"server_ip":"192.999.188","service_type":"vps","port":"22","username":"vsvsvsvsdvs","password":"evsve","os":"ubuntu-20.04","control_panel_url":null,"notes":null}},"files":"no"} 
+[2026-03-30 07:44:52] local.INFO: Processing order item {"item_id":14,"product_type":"product","has_product":true} 
+[2026-03-30 07:44:52] local.INFO: Provision data check {"item_id":14,"has_provision_data":true,"provision_data_keys":["server_ip","service_type","port","username","password","os","control_panel_url","notes"],"provision_data":{"server_ip":"192.999.188","service_type":"vps","port":"22","username":"vsvsvsvsdvs","password":"evsve","os":"ubuntu-20.04","control_panel_url":null,"notes":null}} 
+[2026-03-30 07:44:52] local.INFO: Service type from provision data {"item_id":14,"service_type":"vps","is_provisionable":true} 
+[2026-03-30 07:44:52] local.INFO: [payment_approve_provision_69ca29f4968c2] Provision created {"provision_id":6,"service_type":"vps","order_item_id":14} 
+[2026-03-30 07:44:52] local.INFO: [payment_approve_provision_69ca29f4968c2] Payment approved with provisions {"payment_id":14,"provisions_count":1} 
+[2026-03-30 07:44:52] local.ERROR: App\Services\ServiceLifecycleService Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'portfolio.customer_services' doesn't exist (Connection: mysql, SQL: insert into `customer_services` (`customer_id`, `provision_id`, `product_id`, `order_item_id`, `status`, `started_at`, `expires_at`, `next_renewal_date`, `auto_renew`, `renewal_price`, `billing_cycle`, `updated_at`, `created_at`) values (1, 6, 3, 14, active, 2026-03-30 07:44:52, 2027-03-30 07:44:52, 2027-03-23 07:44:52, 0, 18500000.00, yearly, 2026-03-30 07:44:52, 2026-03-30 07:44:52)) {"trace":"#0 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('insert into `cu...', Array, Object(Closure))
+#1 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(34): Illuminate\\Database\\Connection->run('insert into `cu...', Array, Object(Closure))
+#2 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate\\Database\\MySqlConnection->insert('insert into `cu...', Array, 'id')
+#3 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3549): Illuminate\\Database\\Query\\Processors\\MySqlProcessor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `cu...', Array, 'id')
+#4 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1982): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#5 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1334): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#6 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1299): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#7 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1138): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#8 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1025): Illuminate\\Database\\Eloquent\\Model->save()
+#9 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Support/helpers.php(307): Illuminate\\Database\\Eloquent\\Builder->Illuminate\\Database\\Eloquent\\{closure}(Object(App\\Models\\CustomerService))
+#10 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1024): tap(Object(App\\Models\\CustomerService), Object(Closure))
+#11 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate\\Database\\Eloquent\\Builder->create(Array)
+#12 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2335): Illuminate\\Database\\Eloquent\\Model->forwardCallTo(Object(Illuminate\\Database\\Eloquent\\Builder), 'create', Array)
+#13 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2347): Illuminate\\Database\\Eloquent\\Model->__call('create', Array)
+#14 /Users/Shared/dự án /hostist-vps/app/Services/ServiceLifecycleService.php(32): Illuminate\\Database\\Eloquent\\Model::__callStatic('create', Array)
+#15 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php(30): App\\Services\\ServiceLifecycleService->App\\Services\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#16 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/DatabaseManager.php(509): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#17 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(355): Illuminate\\Database\\DatabaseManager->__call('transaction', Array)
+#18 /Users/Shared/dự án /hostist-vps/app/Services/BaseService.php(21): Illuminate\\Support\\Facades\\Facade::__callStatic('transaction', Array)
+#19 /Users/Shared/dự án /hostist-vps/app/Services/ServiceLifecycleService.php(23): App\\Services\\BaseService->transaction(Object(Closure))
+#20 /Users/Shared/dự án /hostist-vps/app/Http/Controllers/Admin/PaymentController.php(267): App\\Services\\ServiceLifecycleService->activateFromProvision(Object(App\\Models\\ServiceProvision))
+#21 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\Admin\\PaymentController->approveWithProvision(Object(Illuminate\\Http\\Request), '14')
+#22 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('approveWithProv...', Array)
+#23 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Admin\\PaymentController), 'approveWithProv...')
+#24 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Route.php(205): Illuminate\\Routing\\Route->runController()
+#25 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(806): Illuminate\\Routing\\Route->run()
+#26 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#27 /Users/Shared/dự án /hostist-vps/app/Http/Middleware/AdminMiddleware.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\AdminMiddleware->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#32 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#37 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#38 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#39 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#46 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#47 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#48 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#49 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#50 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#51 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#52 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#60 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#61 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#62 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#63 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#64 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#65 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#66 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#67 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#68 /Users/Shared/dự án /hostist-vps/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#69 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/Shared/d...')
+#70 {main}","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-03-30 07:44:52] local.ERROR: [payment_approve_provision_69ca29f4968c2] activateFromProvision failed {"provision_id":6,"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'portfolio.customer_services' doesn't exist (Connection: mysql, SQL: insert into `customer_services` (`customer_id`, `provision_id`, `product_id`, `order_item_id`, `status`, `started_at`, `expires_at`, `next_renewal_date`, `auto_renew`, `renewal_price`, `billing_cycle`, `updated_at`, `created_at`) values (1, 6, 3, 14, active, 2026-03-30 07:44:52, 2027-03-30 07:44:52, 2027-03-23 07:44:52, 0, 18500000.00, yearly, 2026-03-30 07:44:52, 2026-03-30 07:44:52))"} 
+[2026-03-30 07:44:52] local.INFO: [email_approved_69ca29f49bf93] Starting payment approved email {"payment_id":14,"payment_number":"PAY-1774856650DWV2O"} 
+[2026-03-30 07:44:52] local.DEBUG: [email_approved_69ca29f49bf93] Sending payment approved email {"recipient":"phamngochaivphp@gmail.com","template":"emails.payment_approved"} 
+[2026-03-30 07:44:55] local.ERROR: [email_approved_69ca29f49bf93] Payment approved email failed {"payment_id":14,"error":"Failed to authenticate on SMTP server with username \"supposthostit@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-35d94d03e4esm6593034a91.3 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 98e67ed59e1d1-35d94d03e4esm6593034a91.3 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\".","file":"/Users/Shared/dự án /hostist-vps/vendor/symfony/mailer/Transport/Smtp/EsmtpTransport.php","line":226} 
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD-1774856650TDU30  
+[2026-03-30 07:47:51] local.INFO: Item #14 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD-1774856650TDU30: 2027-03-30  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD-1774855443JO7MC  
+[2026-03-30 07:47:51] local.INFO: Item #13 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD-1774855443JO7MC: 2027-03-30  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD-1774515608Z0P45  
+[2026-03-30 07:47:51] local.INFO: Item #12 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2027-03-26  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD-1774515608Z0P45: 2027-03-26  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758546591  
+[2026-03-30 07:47:51] local.INFO: Item #11 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758546591: 2026-09-22  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758504740  
+[2026-03-30 07:47:51] local.INFO: Item #10 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758504740: 2026-09-22  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758473393  
+[2026-03-30 07:47:51] local.INFO: Item #9 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758473393: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758473072  
+[2026-03-30 07:47:51] local.INFO: Item #8 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758473072: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758472536  
+[2026-03-30 07:47:51] local.INFO: Item #7 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758472536: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758425059  
+[2026-03-30 07:47:51] local.INFO: Item #5 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758425059: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758362053  
+[2026-03-30 07:47:51] local.INFO: Item #4 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-20  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758362053: 2026-09-20  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD-1774856650TDU30  
+[2026-03-30 07:47:51] local.INFO: Item #14 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD-1774856650TDU30: 2027-03-30  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD-1774855443JO7MC  
+[2026-03-30 07:47:51] local.INFO: Item #13 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD-1774855443JO7MC: 2027-03-30  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD-1774515608Z0P45  
+[2026-03-30 07:47:51] local.INFO: Item #12 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2027-03-26  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD-1774515608Z0P45: 2027-03-26  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758546591  
+[2026-03-30 07:47:51] local.INFO: Item #11 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758546591: 2026-09-22  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758504740  
+[2026-03-30 07:47:51] local.INFO: Item #10 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758504740: 2026-09-22  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758473393  
+[2026-03-30 07:47:51] local.INFO: Item #9 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758473393: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758473072  
+[2026-03-30 07:47:51] local.INFO: Item #8 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758473072: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758472536  
+[2026-03-30 07:47:51] local.INFO: Item #7 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758472536: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758425059  
+[2026-03-30 07:47:51] local.INFO: Item #5 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758425059: 2026-09-21  
+[2026-03-30 07:47:51] local.INFO: Processing order #ORD1758362053  
+[2026-03-30 07:47:51] local.INFO: Item #4 - Product Type: product  
+[2026-03-30 07:47:51] local.INFO: Found duration in item: 1  
+[2026-03-30 07:47:51] local.INFO: Calculated expiration: 2026-09-20  
+[2026-03-30 07:47:51] local.INFO: Final expiration for order #ORD1758362053: 2026-09-20  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD-1774856650TDU30  
+[2026-03-30 07:48:13] local.INFO: Item #14 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD-1774856650TDU30: 2027-03-30  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD-1774855443JO7MC  
+[2026-03-30 07:48:13] local.INFO: Item #13 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD-1774855443JO7MC: 2027-03-30  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD-1774515608Z0P45  
+[2026-03-30 07:48:13] local.INFO: Item #12 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2027-03-26  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD-1774515608Z0P45: 2027-03-26  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758546591  
+[2026-03-30 07:48:13] local.INFO: Item #11 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758546591: 2026-09-22  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758504740  
+[2026-03-30 07:48:13] local.INFO: Item #10 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758504740: 2026-09-22  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758473393  
+[2026-03-30 07:48:13] local.INFO: Item #9 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758473393: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758473072  
+[2026-03-30 07:48:13] local.INFO: Item #8 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758473072: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758472536  
+[2026-03-30 07:48:13] local.INFO: Item #7 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758472536: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758425059  
+[2026-03-30 07:48:13] local.INFO: Item #5 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758425059: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758362053  
+[2026-03-30 07:48:13] local.INFO: Item #4 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-20  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758362053: 2026-09-20  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD-1774856650TDU30  
+[2026-03-30 07:48:13] local.INFO: Item #14 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD-1774856650TDU30: 2027-03-30  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD-1774855443JO7MC  
+[2026-03-30 07:48:13] local.INFO: Item #13 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD-1774855443JO7MC: 2027-03-30  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD-1774515608Z0P45  
+[2026-03-30 07:48:13] local.INFO: Item #12 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2027-03-26  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD-1774515608Z0P45: 2027-03-26  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758546591  
+[2026-03-30 07:48:13] local.INFO: Item #11 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758546591: 2026-09-22  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758504740  
+[2026-03-30 07:48:13] local.INFO: Item #10 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758504740: 2026-09-22  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758473393  
+[2026-03-30 07:48:13] local.INFO: Item #9 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758473393: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758473072  
+[2026-03-30 07:48:13] local.INFO: Item #8 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758473072: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758472536  
+[2026-03-30 07:48:13] local.INFO: Item #7 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758472536: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758425059  
+[2026-03-30 07:48:13] local.INFO: Item #5 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758425059: 2026-09-21  
+[2026-03-30 07:48:13] local.INFO: Processing order #ORD1758362053  
+[2026-03-30 07:48:13] local.INFO: Item #4 - Product Type: product  
+[2026-03-30 07:48:13] local.INFO: Found duration in item: 1  
+[2026-03-30 07:48:13] local.INFO: Calculated expiration: 2026-09-20  
+[2026-03-30 07:48:13] local.INFO: Final expiration for order #ORD1758362053: 2026-09-20  
+[2026-03-30 07:48:22] local.INFO: Order Detail ID: 14, Number: ORD-1774856650TDU30  
+[2026-03-30 07:48:22] local.INFO: Order Items Count: 1  
+[2026-03-30 07:48:22] local.INFO: Item #1 - ID: 14, Name: VPS Vietnam - 2 (1 năm)  
+[2026-03-30 07:48:22] local.INFO: Product ID: 3, Type: product  
+[2026-03-30 07:48:22] local.INFO: Meta Data Type: array  
+[2026-03-30 07:48:22] local.INFO: Meta Data Keys:   
+[2026-03-30 07:48:22] local.INFO: Meta Data Content: []  
+[2026-03-30 07:48:22] local.INFO: Raw Meta Data from DB: []  
+[2026-03-30 07:48:22] local.INFO: Order Detail ID: 14, Number: ORD-1774856650TDU30  
+[2026-03-30 07:48:22] local.INFO: Order Items Count: 1  
+[2026-03-30 07:48:22] local.INFO: Item #1 - ID: 14, Name: VPS Vietnam - 2 (1 năm)  
+[2026-03-30 07:48:22] local.INFO: Product ID: 3, Type: product  
+[2026-03-30 07:48:22] local.INFO: Meta Data Type: array  
+[2026-03-30 07:48:22] local.INFO: Meta Data Keys:   
+[2026-03-30 07:48:22] local.INFO: Meta Data Content: []  
+[2026-03-30 07:48:22] local.INFO: Raw Meta Data from DB: []  
+[2026-03-30 07:48:35] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-03-30 07:48:35] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-03-30 07:48:44] local.INFO: Provision data debug {"provision_id":6,"provision_data":{"service_type":"vps","server_ip":"192.999.188","username":"vsvsvsvsdvs","password":"eyJpdiI6IllEamV4RXI4Zmdnay9HUjdzTmgwU2c9PSIsInZhbHVlIjoiQW4veWZ2bjRqLzA5eU5uUC9hanpnUT09IiwibWFjIjoiZjY1NDViZmVlNGEwNGIxN2NhMjVlNjgwYWY3OGJiZGQwNjRjODc2OGQ2YTgxMTU5MDcyNDJkMzFjNjAzODQ5YiIsInRhZyI6IiJ9","port":"22","os":"ubuntu-20.04","control_panel_url":null,"credentials":{"server_ip":"192.999.188","username":"vsvsvsvsdvs","password":"evsve","port":"22","os":"ubuntu-20.04","control_panel_url":null},"status":"active","created_at":"2026-03-30T07:44:52.625741Z","notes":""},"credentials":{"server_ip":"192.999.188","username":"vsvsvsvsdvs","password":"evsve","port":"22","os":"ubuntu-20.04","control_panel_url":null}} 
+[2026-03-30 07:48:44] local.INFO: Provision data debug {"provision_id":6,"provision_data":{"service_type":"vps","server_ip":"192.999.188","username":"vsvsvsvsdvs","password":"eyJpdiI6IllEamV4RXI4Zmdnay9HUjdzTmgwU2c9PSIsInZhbHVlIjoiQW4veWZ2bjRqLzA5eU5uUC9hanpnUT09IiwibWFjIjoiZjY1NDViZmVlNGEwNGIxN2NhMjVlNjgwYWY3OGJiZGQwNjRjODc2OGQ2YTgxMTU5MDcyNDJkMzFjNjAzODQ5YiIsInRhZyI6IiJ9","port":"22","os":"ubuntu-20.04","control_panel_url":null,"credentials":{"server_ip":"192.999.188","username":"vsvsvsvsdvs","password":"evsve","port":"22","os":"ubuntu-20.04","control_panel_url":null},"status":"active","created_at":"2026-03-30T07:44:52.625741Z","notes":""},"credentials":{"server_ip":"192.999.188","username":"vsvsvsvsdvs","password":"evsve","port":"22","os":"ubuntu-20.04","control_panel_url":null}} 
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD-1774856650TDU30  
+[2026-03-30 07:49:07] local.INFO: Item #14 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD-1774856650TDU30: 2027-03-30  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD-1774855443JO7MC  
+[2026-03-30 07:49:07] local.INFO: Item #13 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD-1774855443JO7MC: 2027-03-30  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD-1774515608Z0P45  
+[2026-03-30 07:49:07] local.INFO: Item #12 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2027-03-26  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD-1774515608Z0P45: 2027-03-26  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758546591  
+[2026-03-30 07:49:07] local.INFO: Item #11 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758546591: 2026-09-22  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758504740  
+[2026-03-30 07:49:07] local.INFO: Item #10 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758504740: 2026-09-22  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758473393  
+[2026-03-30 07:49:07] local.INFO: Item #9 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758473393: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758473072  
+[2026-03-30 07:49:07] local.INFO: Item #8 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758473072: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758472536  
+[2026-03-30 07:49:07] local.INFO: Item #7 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758472536: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758425059  
+[2026-03-30 07:49:07] local.INFO: Item #5 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758425059: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758362053  
+[2026-03-30 07:49:07] local.INFO: Item #4 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-20  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758362053: 2026-09-20  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD-1774856650TDU30  
+[2026-03-30 07:49:07] local.INFO: Item #14 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD-1774856650TDU30: 2027-03-30  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD-1774855443JO7MC  
+[2026-03-30 07:49:07] local.INFO: Item #13 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2027-03-30  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD-1774855443JO7MC: 2027-03-30  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD-1774515608Z0P45  
+[2026-03-30 07:49:07] local.INFO: Item #12 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2027-03-26  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD-1774515608Z0P45: 2027-03-26  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758546591  
+[2026-03-30 07:49:07] local.INFO: Item #11 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758546591: 2026-09-22  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758504740  
+[2026-03-30 07:49:07] local.INFO: Item #10 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-22  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758504740: 2026-09-22  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758473393  
+[2026-03-30 07:49:07] local.INFO: Item #9 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758473393: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758473072  
+[2026-03-30 07:49:07] local.INFO: Item #8 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758473072: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758472536  
+[2026-03-30 07:49:07] local.INFO: Item #7 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758472536: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758425059  
+[2026-03-30 07:49:07] local.INFO: Item #5 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758425059: 2026-09-21  
+[2026-03-30 07:49:07] local.INFO: Processing order #ORD1758362053  
+[2026-03-30 07:49:07] local.INFO: Item #4 - Product Type: product  
+[2026-03-30 07:49:07] local.INFO: Found duration in item: 1  
+[2026-03-30 07:49:07] local.INFO: Calculated expiration: 2026-09-20  
+[2026-03-30 07:49:07] local.INFO: Final expiration for order #ORD1758362053: 2026-09-20  
+[2026-04-01 15:23:58] local.INFO: Service type: vps  
+[2026-04-01 15:23:58] local.INFO: Service type: vps  
+[2026-04-01 15:23:58] local.INFO: Service type: vps  
+[2026-04-01 15:23:58] local.INFO: Service type: vps  
+[2026-04-01 15:24:15] local.INFO: Service type: vps  
+[2026-04-01 15:24:15] local.INFO: Service type: vps  
+[2026-04-01 15:24:15] local.INFO: Service type: vps  
+[2026-04-01 15:24:15] local.INFO: Service type: vps  
+[2026-04-01 15:24:23] local.INFO: Service type: vps  
+[2026-04-01 15:24:23] local.INFO: Service type: vps  
+[2026-04-01 15:24:31] local.INFO: [quote_data_69cd38afc8b58] Generating quote data {"cart_id":16,"items_count":1,"cart_subtotal":"10000000.00"} 
+[2026-04-01 15:24:31] local.DEBUG: [quote_data_69cd38afc8b58] Quote data calculation completed {"quote_number":"QUOTE-1775057071gP0XB","subtotal":"10000000.00","total":"10000000.00","expire_date":"08/04/2026"} 
+[2026-04-01 15:24:31] local.INFO: [quote_data_69cd38afc8b58] Quote data generated successfully {"quote_number":"QUOTE-1775057071gP0XB","customer_name":"Phạm ngọc hoà","total_amount":"10000000.00","items_count":1} 
+[2026-04-01 15:24:31] local.INFO: [quote_data_69cd38afda02d] Generating quote data {"cart_id":16,"items_count":1,"cart_subtotal":"10000000.00"} 
+[2026-04-01 15:24:31] local.DEBUG: [quote_data_69cd38afda02d] Quote data calculation completed {"quote_number":"QUOTE-1775057071M4g3w","subtotal":"10000000.00","total":"10000000.00","expire_date":"08/04/2026"} 
+[2026-04-01 15:24:31] local.INFO: [quote_data_69cd38afda02d] Quote data generated successfully {"quote_number":"QUOTE-1775057071M4g3w","customer_name":"Phạm ngọc hoà","total_amount":"10000000.00","items_count":1} 
+[2026-04-01 15:25:13] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:05] local.INFO: Service type: vps  
+[2026-04-01 15:26:05] local.INFO: Service type: vps  
+[2026-04-01 15:26:05] local.INFO: Service type: vps  
+[2026-04-01 15:26:05] local.INFO: Service type: vps  
+[2026-04-01 15:26:15] local.INFO: Service type: vps  
+[2026-04-01 15:26:15] local.INFO: Service type: vps  
+[2026-04-01 15:26:20] local.INFO: [quote_data_69cd391c2c3ed] Generating quote data {"cart_id":16,"items_count":1,"cart_subtotal":"20000000.00"} 
+[2026-04-01 15:26:20] local.DEBUG: [quote_data_69cd391c2c3ed] Quote data calculation completed {"quote_number":"QUOTE-1775057180WprEh","subtotal":"20000000.00","total":"20000000.00","expire_date":"08/04/2026"} 
+[2026-04-01 15:26:20] local.INFO: [quote_data_69cd391c2c3ed] Quote data generated successfully {"quote_number":"QUOTE-1775057180WprEh","customer_name":"Phạm ngọc hoà","total_amount":"20000000.00","items_count":1} 
+[2026-04-01 15:26:20] local.INFO: [quote_data_69cd391c3c0d6] Generating quote data {"cart_id":16,"items_count":1,"cart_subtotal":"20000000.00"} 
+[2026-04-01 15:26:20] local.DEBUG: [quote_data_69cd391c3c0d6] Quote data calculation completed {"quote_number":"QUOTE-1775057180hg8Oh","subtotal":"20000000.00","total":"20000000.00","expire_date":"08/04/2026"} 
+[2026-04-01 15:26:20] local.INFO: [quote_data_69cd391c3c0d6] Quote data generated successfully {"quote_number":"QUOTE-1775057180hg8Oh","customer_name":"Phạm ngọc hoà","total_amount":"20000000.00","items_count":1} 
+[2026-04-01 15:26:57] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":15,"order_id":15,"transaction_code":"PAY-1775057217IYWHZ"} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:26:57] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-01 15:27:17] local.INFO: [payment_approve_provision_69cd3955ee990] Payment approval with provision requested {"payment_id":"15","admin_id":1} 
+[2026-04-01 15:27:17] local.INFO: Request debug {"all_inputs":{"_token":"uHeNPipLnZXx4XNXCQrnMRhDmwCfB6GOm29n4VY5","provision":{"15":{"server_ip":"12413231","service_type":"vps","port":"22","username":"3434","password":"4324242","os":"Ubuntu 20.04","control_panel_url":null,"notes":null}}},"provision_input":{"15":{"server_ip":"12413231","service_type":"vps","port":"22","username":"3434","password":"4324242","os":"Ubuntu 20.04","control_panel_url":null,"notes":null}},"files":"no"} 
+[2026-04-01 15:27:17] local.INFO: Processing order item {"item_id":15,"product_type":"product","has_product":true} 
+[2026-04-01 15:27:17] local.INFO: Provision data check {"item_id":15,"has_provision_data":true,"provision_data_keys":["server_ip","service_type","port","username","password","os","control_panel_url","notes"],"provision_data":{"server_ip":"12413231","service_type":"vps","port":"22","username":"3434","password":"4324242","os":"Ubuntu 20.04","control_panel_url":null,"notes":null}} 
+[2026-04-01 15:27:17] local.INFO: Service type from provision data {"item_id":15,"service_type":"vps","is_provisionable":true} 
+[2026-04-01 15:27:17] local.INFO: [payment_approve_provision_69cd3955ee990] Provision created {"provision_id":7,"service_type":"vps","order_item_id":15} 
+[2026-04-01 15:27:17] local.INFO: [payment_approve_provision_69cd3955ee990] Payment approved with provisions {"payment_id":15,"provisions_count":1} 
+[2026-04-01 15:27:17] local.ERROR: App\Services\ServiceLifecycleService Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'portfolio.customer_services' doesn't exist (Connection: mysql, SQL: insert into `customer_services` (`customer_id`, `provision_id`, `product_id`, `order_item_id`, `status`, `started_at`, `expires_at`, `next_renewal_date`, `auto_renew`, `renewal_price`, `billing_cycle`, `updated_at`, `created_at`) values (1, 7, 1, 15, active, 2026-04-01 15:27:17, 2027-04-01 15:27:17, 2027-03-25 15:27:17, 0, 11000000.00, yearly, 2026-04-01 15:27:17, 2026-04-01 15:27:17)) {"trace":"#0 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('insert into `cu...', Array, Object(Closure))
+#1 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(34): Illuminate\\Database\\Connection->run('insert into `cu...', Array, Object(Closure))
+#2 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate\\Database\\MySqlConnection->insert('insert into `cu...', Array, 'id')
+#3 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3549): Illuminate\\Database\\Query\\Processors\\MySqlProcessor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `cu...', Array, 'id')
+#4 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1982): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#5 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1334): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#6 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1299): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#7 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1138): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#8 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1025): Illuminate\\Database\\Eloquent\\Model->save()
+#9 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Support/helpers.php(307): Illuminate\\Database\\Eloquent\\Builder->Illuminate\\Database\\Eloquent\\{closure}(Object(App\\Models\\CustomerService))
+#10 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1024): tap(Object(App\\Models\\CustomerService), Object(Closure))
+#11 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate\\Database\\Eloquent\\Builder->create(Array)
+#12 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2335): Illuminate\\Database\\Eloquent\\Model->forwardCallTo(Object(Illuminate\\Database\\Eloquent\\Builder), 'create', Array)
+#13 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2347): Illuminate\\Database\\Eloquent\\Model->__call('create', Array)
+#14 /Users/Shared/dự án /hostist-vps/app/Services/ServiceLifecycleService.php(32): Illuminate\\Database\\Eloquent\\Model::__callStatic('create', Array)
+#15 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php(30): App\\Services\\ServiceLifecycleService->App\\Services\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#16 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/DatabaseManager.php(509): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#17 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(355): Illuminate\\Database\\DatabaseManager->__call('transaction', Array)
+#18 /Users/Shared/dự án /hostist-vps/app/Services/BaseService.php(21): Illuminate\\Support\\Facades\\Facade::__callStatic('transaction', Array)
+#19 /Users/Shared/dự án /hostist-vps/app/Services/ServiceLifecycleService.php(23): App\\Services\\BaseService->transaction(Object(Closure))
+#20 /Users/Shared/dự án /hostist-vps/app/Http/Controllers/Admin/PaymentController.php(267): App\\Services\\ServiceLifecycleService->activateFromProvision(Object(App\\Models\\ServiceProvision))
+#21 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\Admin\\PaymentController->approveWithProvision(Object(Illuminate\\Http\\Request), '15')
+#22 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('approveWithProv...', Array)
+#23 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Admin\\PaymentController), 'approveWithProv...')
+#24 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Route.php(205): Illuminate\\Routing\\Route->runController()
+#25 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(806): Illuminate\\Routing\\Route->run()
+#26 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#27 /Users/Shared/dự án /hostist-vps/app/Http/Middleware/AdminMiddleware.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\AdminMiddleware->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#32 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#37 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#38 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#39 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#46 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#47 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#48 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#49 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#50 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#51 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#52 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#60 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#61 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#62 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#63 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#64 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#65 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#66 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#67 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#68 /Users/Shared/dự án /hostist-vps/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#69 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/Shared/d...')
+#70 {main}","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-04-01 15:27:17] local.ERROR: [payment_approve_provision_69cd3955ee990] activateFromProvision failed {"provision_id":7,"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'portfolio.customer_services' doesn't exist (Connection: mysql, SQL: insert into `customer_services` (`customer_id`, `provision_id`, `product_id`, `order_item_id`, `status`, `started_at`, `expires_at`, `next_renewal_date`, `auto_renew`, `renewal_price`, `billing_cycle`, `updated_at`, `created_at`) values (1, 7, 1, 15, active, 2026-04-01 15:27:17, 2027-04-01 15:27:17, 2027-03-25 15:27:17, 0, 11000000.00, yearly, 2026-04-01 15:27:17, 2026-04-01 15:27:17))"} 
+[2026-04-01 15:27:17] local.INFO: [email_approved_69cd3955f3a6e] Starting payment approved email {"payment_id":15,"payment_number":"PAY-1775057217A4R8W"} 
+[2026-04-01 15:27:17] local.DEBUG: [email_approved_69cd3955f3a6e] Sending payment approved email {"recipient":"phamngochaivphp@gmail.com","template":"emails.payment_approved"} 
+[2026-04-01 15:27:21] local.ERROR: [email_approved_69cd3955f3a6e] Payment approved email failed {"payment_id":15,"error":"Failed to authenticate on SMTP server with username \"supposthostit@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-c76c65a3f08sm243540a12.31 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-c76c65a3f08sm243540a12.31 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\".","file":"/Users/Shared/dự án /hostist-vps/vendor/symfony/mailer/Transport/Smtp/EsmtpTransport.php","line":226} 
+[2026-04-02 07:50:24] local.INFO: Service type: ssl  
+[2026-04-02 07:50:24] local.INFO: Service type: ssl  
+[2026-04-02 07:50:25] local.INFO: Service type: ssl  
+[2026-04-02 07:50:25] local.INFO: Service type: ssl  
+[2026-04-02 07:50:46] local.INFO: Service type: ssl  
+[2026-04-02 07:50:46] local.INFO: Service type: ssl  
+[2026-04-02 07:50:50] local.INFO: [quote_data_69ce1fda0013c] Generating quote data {"cart_id":17,"items_count":1,"cart_subtotal":"342000.00"} 
+[2026-04-02 07:50:50] local.DEBUG: [quote_data_69ce1fda0013c] Quote data calculation completed {"quote_number":"QUOTE-1775116250wIZSK","subtotal":"342000.00","total":"342000.00","expire_date":"09/04/2026"} 
+[2026-04-02 07:50:50] local.INFO: [quote_data_69ce1fda0013c] Quote data generated successfully {"quote_number":"QUOTE-1775116250wIZSK","customer_name":"Phạm ngọc hoà","total_amount":"342000.00","items_count":1} 
+[2026-04-02 07:50:50] local.INFO: [quote_data_69ce1fda155b6] Generating quote data {"cart_id":17,"items_count":1,"cart_subtotal":"342000.00"} 
+[2026-04-02 07:50:50] local.DEBUG: [quote_data_69ce1fda155b6] Quote data calculation completed {"quote_number":"QUOTE-1775116250h6Yt9","subtotal":"342000.00","total":"342000.00","expire_date":"09/04/2026"} 
+[2026-04-02 07:50:50] local.INFO: [quote_data_69ce1fda155b6] Quote data generated successfully {"quote_number":"QUOTE-1775116250h6Yt9","customer_name":"Phạm ngọc hoà","total_amount":"342000.00","items_count":1} 
+[2026-04-02 07:50:58] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":16,"order_id":16,"transaction_code":"PAY-1775116258XVXAV"} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 07:50:58] local.ERROR: Payment process failed: Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục {"invoice_id":null} 
+[2026-04-02 08:22:21] local.INFO: [payment_approve_provision_69ce273db1d8f] Payment approval with provision requested {"payment_id":"16","admin_id":1} 
+[2026-04-02 08:22:21] local.INFO: Request debug {"all_inputs":{"_token":"7XR3ptihdk01aJKrwYew5ixKPMXzVPZPD5pf8I1t","provision":{"16":{"service_type":"ssl","domain":"luongynguyenhuutoan.com","expiry_date":"2027-04-02","ssl_provider":"comodo","notes":null}},"provision_files":{"16":{"certificate":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phpndmrOi"},"private_key":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phpbvKaEi"},"ca_bundle":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/php6A7YGm"}}}},"provision_input":{"16":{"service_type":"ssl","domain":"luongynguyenhuutoan.com","expiry_date":"2027-04-02","ssl_provider":"comodo","notes":null}},"files":"no"} 
+[2026-04-02 08:22:21] local.INFO: Processing order item {"item_id":16,"product_type":"ssl","has_product":true} 
+[2026-04-02 08:22:21] local.INFO: Provision data check {"item_id":16,"has_provision_data":true,"provision_data_keys":["service_type","domain","expiry_date","ssl_provider","notes"],"provision_data":{"service_type":"ssl","domain":"luongynguyenhuutoan.com","expiry_date":"2027-04-02","ssl_provider":"comodo","notes":null}} 
+[2026-04-02 08:22:21] local.INFO: Service type from provision data {"item_id":16,"service_type":"ssl","is_provisionable":true} 
+[2026-04-02 08:22:21] local.ERROR: [payment_approve_provision_69ce273db1d8f] Payment approval failed {"payment_id":"16","error":"Disk [private] does not have a configured driver."} 
+[2026-04-02 08:26:43] local.INFO: [payment_approve_provision_69ce284396969] Payment approval with provision requested {"payment_id":"16","admin_id":1} 
+[2026-04-02 08:26:43] local.INFO: Request debug {"all_inputs":{"_token":"7XR3ptihdk01aJKrwYew5ixKPMXzVPZPD5pf8I1t","provision":{"16":{"service_type":"ssl","domain":"luongynguyenhuutoan.com","expiry_date":"2027-04-02","ssl_provider":"comodo","notes":null}},"provision_files":{"16":{"certificate":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phpaDRke3"},"private_key":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phphALwgs"},"ca_bundle":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phpM0gAt2"}}}},"provision_input":{"16":{"service_type":"ssl","domain":"luongynguyenhuutoan.com","expiry_date":"2027-04-02","ssl_provider":"comodo","notes":null}},"files":"no"} 
+[2026-04-02 08:26:43] local.INFO: Processing order item {"item_id":16,"product_type":"ssl","has_product":true} 
+[2026-04-02 08:26:43] local.INFO: Provision data check {"item_id":16,"has_provision_data":true,"provision_data_keys":["service_type","domain","expiry_date","ssl_provider","notes"],"provision_data":{"service_type":"ssl","domain":"luongynguyenhuutoan.com","expiry_date":"2027-04-02","ssl_provider":"comodo","notes":null}} 
+[2026-04-02 08:26:43] local.INFO: Service type from provision data {"item_id":16,"service_type":"ssl","is_provisionable":true} 
+[2026-04-02 08:26:43] local.INFO: [payment_approve_provision_69ce284396969] Provision created {"provision_id":8,"service_type":"ssl","order_item_id":16} 
+[2026-04-02 08:26:43] local.INFO: [payment_approve_provision_69ce284396969] Payment approved with provisions {"payment_id":16,"provisions_count":1} 
+[2026-04-02 08:26:43] local.ERROR: App\Services\ServiceLifecycleService Error: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'portfolio.customer_services' doesn't exist (Connection: mysql, SQL: insert into `customer_services` (`customer_id`, `provision_id`, `product_id`, `order_item_id`, `status`, `started_at`, `expires_at`, `next_renewal_date`, `auto_renew`, `renewal_price`, `billing_cycle`, `updated_at`, `created_at`) values (1, 8, 9, 16, active, 2026-04-02 08:26:43, 2027-04-02 08:26:43, 2027-03-26 08:26:43, 0, 360000.00, yearly, 2026-04-02 08:26:43, 2026-04-02 08:26:43)) {"trace":"#0 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('insert into `cu...', Array, Object(Closure))
+#1 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/MySqlConnection.php(34): Illuminate\\Database\\Connection->run('insert into `cu...', Array, Object(Closure))
+#2 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Query/Processors/MySqlProcessor.php(35): Illuminate\\Database\\MySqlConnection->insert('insert into `cu...', Array, 'id')
+#3 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Query/Builder.php(3549): Illuminate\\Database\\Query\\Processors\\MySqlProcessor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `cu...', Array, 'id')
+#4 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1982): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#5 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1334): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#6 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1299): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#7 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(1138): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#8 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1025): Illuminate\\Database\\Eloquent\\Model->save()
+#9 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Support/helpers.php(307): Illuminate\\Database\\Eloquent\\Builder->Illuminate\\Database\\Eloquent\\{closure}(Object(App\\Models\\CustomerService))
+#10 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Builder.php(1024): tap(Object(App\\Models\\CustomerService), Object(Closure))
+#11 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Support/Traits/ForwardsCalls.php(23): Illuminate\\Database\\Eloquent\\Builder->create(Array)
+#12 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2335): Illuminate\\Database\\Eloquent\\Model->forwardCallTo(Object(Illuminate\\Database\\Eloquent\\Builder), 'create', Array)
+#13 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Eloquent/Model.php(2347): Illuminate\\Database\\Eloquent\\Model->__call('create', Array)
+#14 /Users/Shared/dự án /hostist-vps/app/Services/ServiceLifecycleService.php(32): Illuminate\\Database\\Eloquent\\Model::__callStatic('create', Array)
+#15 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Concerns/ManagesTransactions.php(30): App\\Services\\ServiceLifecycleService->App\\Services\\{closure}(Object(Illuminate\\Database\\MySqlConnection))
+#16 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/DatabaseManager.php(509): Illuminate\\Database\\Connection->transaction(Object(Closure))
+#17 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Support/Facades/Facade.php(355): Illuminate\\Database\\DatabaseManager->__call('transaction', Array)
+#18 /Users/Shared/dự án /hostist-vps/app/Services/BaseService.php(21): Illuminate\\Support\\Facades\\Facade::__callStatic('transaction', Array)
+#19 /Users/Shared/dự án /hostist-vps/app/Services/ServiceLifecycleService.php(23): App\\Services\\BaseService->transaction(Object(Closure))
+#20 /Users/Shared/dự án /hostist-vps/app/Http/Controllers/Admin/PaymentController.php(267): App\\Services\\ServiceLifecycleService->activateFromProvision(Object(App\\Models\\ServiceProvision))
+#21 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Controller.php(54): App\\Http\\Controllers\\Admin\\PaymentController->approveWithProvision(Object(Illuminate\\Http\\Request), '16')
+#22 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php(43): Illuminate\\Routing\\Controller->callAction('approveWithProv...', Array)
+#23 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Route.php(259): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\Admin\\PaymentController), 'approveWithProv...')
+#24 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Route.php(205): Illuminate\\Routing\\Route->runController()
+#25 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(806): Illuminate\\Routing\\Route->run()
+#26 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Routing\\Router->Illuminate\\Routing\\{closure}(Object(Illuminate\\Http\\Request))
+#27 /Users/Shared/dự án /hostist-vps/app/Http/Middleware/AdminMiddleware.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): App\\Http\\Middleware\\AdminMiddleware->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php(50): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#30 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Routing\\Middleware\\SubstituteBindings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#31 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authenticate.php(57): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#32 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Auth\\Middleware\\Authenticate->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#33 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php(78): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#34 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\VerifyCsrfToken->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#35 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#36 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\View\\Middleware\\ShareErrorsFromSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#37 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(121): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#38 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php(64): Illuminate\\Session\\Middleware\\StartSession->handleStatefulRequest(Object(Illuminate\\Http\\Request), Object(Illuminate\\Session\\Store), Object(Closure))
+#39 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Session\\Middleware\\StartSession->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/AddQueuedCookiesToResponse.php(37): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\AddQueuedCookiesToResponse->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php(67): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Cookie\\Middleware\\EncryptCookies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(805): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#46 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(784): Illuminate\\Routing\\Router->runRouteWithinStack(Object(Illuminate\\Routing\\Route), Object(Illuminate\\Http\\Request))
+#47 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(748): Illuminate\\Routing\\Router->runRoute(Object(Illuminate\\Http\\Request), Object(Illuminate\\Routing\\Route))
+#48 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Routing/Router.php(737): Illuminate\\Routing\\Router->dispatchToRoute(Object(Illuminate\\Http\\Request))
+#49 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(200): Illuminate\\Routing\\Router->dispatch(Object(Illuminate\\Http\\Request))
+#50 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(144): Illuminate\\Foundation\\Http\\Kernel->Illuminate\\Foundation\\Http\\{closure}(Object(Illuminate\\Http\\Request))
+#51 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#52 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#53 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#54 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#55 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#56 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#57 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#58 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#59 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#60 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#61 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#62 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#63 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#64 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#65 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#66 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#67 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#68 /Users/Shared/dự án /hostist-vps/public/index.php(51): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#69 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/Shared/d...')
+#70 {main}","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-04-02 08:26:43] local.ERROR: [payment_approve_provision_69ce284396969] activateFromProvision failed {"provision_id":8,"error":"SQLSTATE[42S02]: Base table or view not found: 1146 Table 'portfolio.customer_services' doesn't exist (Connection: mysql, SQL: insert into `customer_services` (`customer_id`, `provision_id`, `product_id`, `order_item_id`, `status`, `started_at`, `expires_at`, `next_renewal_date`, `auto_renew`, `renewal_price`, `billing_cycle`, `updated_at`, `created_at`) values (1, 8, 9, 16, active, 2026-04-02 08:26:43, 2027-04-02 08:26:43, 2027-03-26 08:26:43, 0, 360000.00, yearly, 2026-04-02 08:26:43, 2026-04-02 08:26:43))"} 
+[2026-04-02 08:26:43] local.INFO: [email_approved_69ce2843a041f] Starting payment approved email {"payment_id":16,"payment_number":"PAY-1775116258WNZ9S"} 
+[2026-04-02 08:26:43] local.DEBUG: [email_approved_69ce2843a041f] Sending payment approved email {"recipient":"phamngochaivphp@gmail.com","template":"emails.payment_approved"} 
+[2026-04-02 08:26:49] local.ERROR: [email_approved_69ce2843a041f] Payment approved email failed {"payment_id":16,"error":"Failed to authenticate on SMTP server with username \"supposthostit@gmail.com\" using the following authenticators: \"LOGIN\", \"PLAIN\", \"XOAUTH2\". Authenticator \"LOGIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-c76c657e703sm1911392a12.22 - gsmtp\".\". Authenticator \"PLAIN\" returned \"Expected response code \"235\" but got code \"535\", with message \"535-5.7.8 Username and Password not accepted. For more information, go to
+
+535 5.7.8  https://support.google.com/mail/?p=BadCredentials 41be03b00d2f7-c76c657e703sm1911392a12.22 - gsmtp\".\". Authenticator \"XOAUTH2\" returned \"Expected response code \"235\" but got code \"334\", with message \"334 eyJzdGF0dXMiOiI0MDAiLCJzY2hlbWVzIjoiQmVhcmVyIiwic2NvcGUiOiJodHRwczovL21haWwuZ29vZ2xlLmNvbS8ifQ==\".\".","file":"/Users/Shared/dự án /hostist-vps/vendor/symfony/mailer/Transport/Smtp/EsmtpTransport.php","line":226} 
+[2026-04-02 08:27:04] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-02 08:27:04] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-02 08:27:14] local.INFO: Provision data debug {"provision_id":8,"provision_data":{"service_type":"ssl","domain":"luongynguyenhuutoan.com","ssl_provider":"comodo","expiry_date":"2027-04-02","status":"active","created_at":"2026-04-02T08:26:43.624110Z","notes":"","certificate_path":"ssl_certificates/16/dF8lrZVwRrAkVVQJw2lfzMai2Om4RAEy0JNN0Wbs.txt","private_key_path":"ssl_certificates/16/tDUij78mPTlsGft6ywA6xbDBLhTN5mZkpHPCUu3L.txt","ca_bundle_path":"ssl_certificates/16/7t7iAhBdMqlkdPpZLeeSfzmZOCHg7lJRs2bPkaK8.txt","ssl_files":{"certificate":"-----BEGIN CERTIFICATE-----
+MIIB/TCCAWYCCQDK5QPVVgU3jzANBgkqhkiG9w0BAQUFADBDMQswCQYDVQQGEwJV
+UzETMBEGA1UECBMKQ2FsaWZvcm5pYTESMBAGA1UEBxMJU2FuIE1hdGVvMQswCQYD
+VQQKEwJTTDAeFw0xNDAxMzExODQzNTFaFw0xNDAzMDIxODQzNTFaMEMxCzAJBgNV
+BAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRIwEAYDVQQHEwlTYW4gTWF0ZW8x
+CzAJBgNVBAoTAlNMMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+kN7aXyge
+Op2/bB+GrER7AiTQuizpwK19whemmFTtsu79JgWSADkdUfhPeJrmBPHJnhGWskLU
+oWyqLYM1GCfDNAyojmyW9ZFwCCiLaUuHn+Usg7+vdcKIGV8MKWrjojtlQatsLa2K
+01v9CWbaJz9p0VNLUw1l9yh5TZQCroo87QIDAQABMA0GCSqGSIb3DQEBBQUAA4GB
+AKAEe950tCwT7ysq6KvlEDLrYu9wqjgd/VaXub6TX/HOT5n5naxoOJJpDDuTfUhX
+KmBl3hpm6zvSDCr4X40LIZJVIoKvLmJwkVZ8Ywk10v6qRRRx9djycB2AYPBmXUIX
+IaVfh2k2z6Kg191s7BKZREw0xRQh4giNKls9FsiZeM8E
+-----END CERTIFICATE-----
+","private_key":"-----BEGIN CERTIFICATE-----
+MIIErDCCA5SgAwIBAgIUOh3+VpYE8TsuP5HW+G6pBtcWp9YwDQYJKoZIhvcNAQEL
+BQAwgYsxCzAJBgNVBAYTAlVTMRkwFwYDVQQKExBDbG91ZEZsYXJlLCBJbmMuMTQw
+MgYDVQQLEytDbG91ZEZsYXJlIE9yaWdpbiBTU0wgQ2VydGlmaWNhdGUgQXV0aG9y
+aXR5MRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMRMwEQYDVQQIEwpDYWxpZm9ybmlh
+MB4XDTI2MDQwMjA4MDMwMFoXDTI3MDQwMjA4MDMwMFowYjEZMBcGA1UEChMQQ2xv
+dWRGbGFyZSwgSW5jLjEdMBsGA1UECxMUQ2xvdWRGbGFyZSBPcmlnaW4gQ0ExJjAk
+BgNVBAMTHUNsb3VkRmxhcmUgT3JpZ2luIENlcnRpZmljYXRlMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA09BCYNxSvrQlq04nEgsxkO77GOElk1eITApp
+SpMBE79uFf00OVIoY4NwE5J4+UEJFwzWZIBOwcSudz/lAhnqhXclgXBnYk1bEJJ2
+V9/gLCMFr/lvuBS/S6wfDcokZq++U1G85osVasz2Gpe414gyjepcIRsZta8x237o
+UeyTRadPuevrggIpqa62aoyCZWay7gm5IXBTKpYNYdh4R/8i6ILOK9NM7QLs4P+0
+L03G0NfMl7M8/kB0hh3rn7fRww5TCSNpXs9qQMX/G31MF3NOZV9nso9+VNXLlhdT
+BiS6rcKeCVZy4seTV4EsHRC8AFEp5ZrdZACqfUbZ1MJssFAGWwIDAQABo4IBLjCC
+ASowDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD
+ATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBRoCpjZg+NJNNOLiWvg1DdAUBCNsTAf
+BgNVHSMEGDAWgBQk6FNXXXw0QIep65TbuuEWePwppDBABggrBgEFBQcBAQQ0MDIw
+MAYIKwYBBQUHMAGGJGh0dHA6Ly9vY3NwLmNsb3VkZmxhcmUuY29tL29yaWdpbl9j
+YTAvBgNVHREEKDAmghIqLnNrb2RhaGFpcGhvbmcudm6CEHNrb2RhaGFpcGhvbmcu
+dm4wOAYDVR0fBDEwLzAtoCugKYYnaHR0cDovL2NybC5jbG91ZGZsYXJlLmNvbS9v
+cmlnaW5fY2EuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBbSrTarC3oTtTaJrMNMIAM
+G53rkuZywbC6dKADprgSge3KEJ/XBOQKVAB8FrjrukEsb9/ZXnSQ2E9ythtr6KAg
+yyUVwGpVHU8GgjaHeUdCjvHpeMG9F80gajnASsX2CF3yE0OYJ+hsgqwWzBP7aHzA
+e0KeZBY3i3OXRHred03/ka+2g3xMkK8gdQTIfwAkatKVLCZyL5XtK2QQ0FshUU74
+e+7sBjT0JlocWFQ4JkibSZO0v0e7SDJ77eiXWrUj2i8f32B82YiBqGWq/rCisj9v
+HsckFGN/mmC/ATdLgygaYUYsJCw0IhQHKqEu8fpBSIRjdXeORgf7jlApXYhL3eL9
+-----END CERTIFICATE-----
+
+-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC2ZyLFAPgKjpvD
+sPYdoKUGXUDY8X5G+YbrRACVX1Dd90azv+rd0vGt1oG+VADjL7hLZwXAvk4VsMgZ
+Nh3Opi3cGdWMAXGYTnTdKchb9eyMHc++nMwMqHPwLDd4ANm9boQG9aqOi+eRIiSj
+C+Hk2cWKURm6l9rYzN66NXtMUUaN6XWieB88YrvgiUMGjwllknNSqiJQq0xTwtMY
+QbK0+l6mvH0TuaR1U0Ivl1fObcCyepLMt9qtygC315CqXa5OPpeK4W4eyo/yFCB1
+9lCCnxpBtfHirDop3Hhvr3cu5U+YB8erew0fSpBhYesqDpn0ZKTvIw6Fvcuv4ngU
+B1z87BSPAgMBAAECggEAG/G9tuweFBKjCcj7plsCd/DOIC5nMofEmW3dSlpu8Nfo
+V14d+lv4i1xjRihny7vM1+hxo4TEQQ3IqhbLXD8YpDFlBkJWXTIaifjTvvBJ4XF+
+bpe7qcNzolDz3TOsKBmyqmpKoJ9jG64Hv4mbfaG2DNRomliXaO2CFd8JrmMpPvuf
+beF2iGTkGh59mUPmLf2aOr8cFsWFPkNFA2N2PyOrjYRs1BKBKWfFLWKNxoVuqu4X
+OwMP44e8nIsTcgiVBDqYO6i1RZbYf7eWz8PEpaOtQhImLzzyaQ65Qkr26nOXJZ57
+Ppw1q7Cr3qOxkK1AjmTnjc/NsnajHA6TZWk7FGS+gQKBgQDaaQ8eFAqAe2JoFXHV
+xYqqhnmPHLgKMxuG7W998XyLUTwEBk+lz3jCRJx1tLjEE8zgVn9L60eV1A3tzsqT
+2Ve7hX+qC8EqtsZhTT+ift0vktEvYQv/YNpMv+gwBIG7gJKPLGBSrI7OQEgLSMRv
+D/nBw/aZR9mckZkmY5JdH+sizwKBgQDVy59E2QMeS0qB6XgfJ1lyN6SkbM9zkEaH
+XQeoT1h2iVrqTFDH0qDV8ym3p3ufMo9IjW7Rcf2OhOmEMubVshRTfFpoUcpsd40e
+gmgE3VeNvnQW/ntt33Wl0U9cCYKeZ3Xg63+NziHM+YPemIIrnX1bbdKXzyGz3USm
+aqwcoAtiQQKBgC8UfHTAXy8o6aKEFOC+z1BI4oUt7KIOOD3Sirj8SBuD7Er1zU9x
+tJcz0QIyba2ekwg8vP3xfqHWbxY3AEX0kMvUUBuoowABHCw3SaNOc4FgxYTQB5UK
+HKR0ralEH276nR0NtMm9dp8RDjaYffdu2yighFSwP0FXxUqYJiG60qXTAoGAHD9a
+HMubeN4zyvRg9aTKUaf+becehcNTPkFRaLCLHKZLR9ereKtgqsQFCAnt8HvKqKhf
+MvcfrDvtapUbILL1so4kl9Hur+Qf1h8exT3FeqnmRr966Wpz7eO42406H9nFnmEf
+KkpI9v8kqD14PXEChhj9kSdB6bTbhC1l7iZLOsECgYEAm73zODaaDX07N2yd1z2p
+AQNN6EgYJ/dDt93AtBjkaoPV1wxNWOfZvAUN3QBxWL8R4jYNibJCHzCrYTWGbefU
+EEnrBsN1aR2LvX2FXwuQvT46InHekiwFqYm2ciPU6D3kjt49EJDB+9m+31mTTN14
+Jdc/Zw2rLx88tLJDbravncg=
+-----END PRIVATE KEY-----
+","ca_bundle":"-----BEGIN CERTIFICATE-----
+MIIErDCCA5SgAwIBAgIUOh3+VpYE8TsuP5HW+G6pBtcWp9YwDQYJKoZIhvcNAQEL
+BQAwgYsxCzAJBgNVBAYTAlVTMRkwFwYDVQQKExBDbG91ZEZsYXJlLCBJbmMuMTQw
+MgYDVQQLEytDbG91ZEZsYXJlIE9yaWdpbiBTU0wgQ2VydGlmaWNhdGUgQXV0aG9y
+aXR5MRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMRMwEQYDVQQIEwpDYWxpZm9ybmlh
+MB4XDTI2MDQwMjA4MDMwMFoXDTI3MDQwMjA4MDMwMFowYjEZMBcGA1UEChMQQ2xv
+dWRGbGFyZSwgSW5jLjEdMBsGA1UECxMUQ2xvdWRGbGFyZSBPcmlnaW4gQ0ExJjAk
+BgNVBAMTHUNsb3VkRmxhcmUgT3JpZ2luIENlcnRpZmljYXRlMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA09BCYNxSvrQlq04nEgsxkO77GOElk1eITApp
+SpMBE79uFf00OVIoY4NwE5J4+UEJFwzWZIBOwcSudz/lAhnqhXclgXBnYk1bEJJ2
+V9/gLCMFr/lvuBS/S6wfDcokZq++U1G85osVasz2Gpe414gyjepcIRsZta8x237o
+UeyTRadPuevrggIpqa62aoyCZWay7gm5IXBTKpYNYdh4R/8i6ILOK9NM7QLs4P+0
+L03G0NfMl7M8/kB0hh3rn7fRww5TCSNpXs9qQMX/G31MF3NOZV9nso9+VNXLlhdT
+BiS6rcKeCVZy4seTV4EsHRC8AFEp5ZrdZACqfUbZ1MJssFAGWwIDAQABo4IBLjCC
+ASowDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD
+ATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBRoCpjZg+NJNNOLiWvg1DdAUBCNsTAf
+BgNVHSMEGDAWgBQk6FNXXXw0QIep65TbuuEWePwppDBABggrBgEFBQcBAQQ0MDIw
+MAYIKwYBBQUHMAGGJGh0dHA6Ly9vY3NwLmNsb3VkZmxhcmUuY29tL29yaWdpbl9j
+YTAvBgNVHREEKDAmghIqLnNrb2RhaGFpcGhvbmcudm6CEHNrb2RhaGFpcGhvbmcu
+dm4wOAYDVR0fBDEwLzAtoCugKYYnaHR0cDovL2NybC5jbG91ZGZsYXJlLmNvbS9v
+cmlnaW5fY2EuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBbSrTarC3oTtTaJrMNMIAM
+G53rkuZywbC6dKADprgSge3KEJ/XBOQKVAB8FrjrukEsb9/ZXnSQ2E9ythtr6KAg
+yyUVwGpVHU8GgjaHeUdCjvHpeMG9F80gajnASsX2CF3yE0OYJ+hsgqwWzBP7aHzA
+e0KeZBY3i3OXRHred03/ka+2g3xMkK8gdQTIfwAkatKVLCZyL5XtK2QQ0FshUU74
+e+7sBjT0JlocWFQ4JkibSZO0v0e7SDJ77eiXWrUj2i8f32B82YiBqGWq/rCisj9v
+HsckFGN/mmC/ATdLgygaYUYsJCw0IhQHKqEu8fpBSIRjdXeORgf7jlApXYhL3eL9
+-----END CERTIFICATE-----
+
+-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC2ZyLFAPgKjpvD
+sPYdoKUGXUDY8X5G+YbrRACVX1Dd90azv+rd0vGt1oG+VADjL7hLZwXAvk4VsMgZ
+Nh3Opi3cGdWMAXGYTnTdKchb9eyMHc++nMwMqHPwLDd4ANm9boQG9aqOi+eRIiSj
+C+Hk2cWKURm6l9rYzN66NXtMUUaN6XWieB88YrvgiUMGjwllknNSqiJQq0xTwtMY
+QbK0+l6mvH0TuaR1U0Ivl1fObcCyepLMt9qtygC315CqXa5OPpeK4W4eyo/yFCB1
+9lCCnxpBtfHirDop3Hhvr3cu5U+YB8erew0fSpBhYesqDpn0ZKTvIw6Fvcuv4ngU
+B1z87BSPAgMBAAECggEAG/G9tuweFBKjCcj7plsCd/DOIC5nMofEmW3dSlpu8Nfo
+V14d+lv4i1xjRihny7vM1+hxo4TEQQ3IqhbLXD8YpDFlBkJWXTIaifjTvvBJ4XF+
+bpe7qcNzolDz3TOsKBmyqmpKoJ9jG64Hv4mbfaG2DNRomliXaO2CFd8JrmMpPvuf
+beF2iGTkGh59mUPmLf2aOr8cFsWFPkNFA2N2PyOrjYRs1BKBKWfFLWKNxoVuqu4X
+OwMP44e8nIsTcgiVBDqYO6i1RZbYf7eWz8PEpaOtQhImLzzyaQ65Qkr26nOXJZ57
+Ppw1q7Cr3qOxkK1AjmTnjc/NsnajHA6TZWk7FGS+gQKBgQDaaQ8eFAqAe2JoFXHV
+xYqqhnmPHLgKMxuG7W998XyLUTwEBk+lz3jCRJx1tLjEE8zgVn9L60eV1A3tzsqT
+2Ve7hX+qC8EqtsZhTT+ift0vktEvYQv/YNpMv+gwBIG7gJKPLGBSrI7OQEgLSMRv
+D/nBw/aZR9mckZkmY5JdH+sizwKBgQDVy59E2QMeS0qB6XgfJ1lyN6SkbM9zkEaH
+XQeoT1h2iVrqTFDH0qDV8ym3p3ufMo9IjW7Rcf2OhOmEMubVshRTfFpoUcpsd40e
+gmgE3VeNvnQW/ntt33Wl0U9cCYKeZ3Xg63+NziHM+YPemIIrnX1bbdKXzyGz3USm
+aqwcoAtiQQKBgC8UfHTAXy8o6aKEFOC+z1BI4oUt7KIOOD3Sirj8SBuD7Er1zU9x
+tJcz0QIyba2ekwg8vP3xfqHWbxY3AEX0kMvUUBuoowABHCw3SaNOc4FgxYTQB5UK
+HKR0ralEH276nR0NtMm9dp8RDjaYffdu2yighFSwP0FXxUqYJiG60qXTAoGAHD9a
+HMubeN4zyvRg9aTKUaf+becehcNTPkFRaLCLHKZLR9ereKtgqsQFCAnt8HvKqKhf
+MvcfrDvtapUbILL1so4kl9Hur+Qf1h8exT3FeqnmRr966Wpz7eO42406H9nFnmEf
+KkpI9v8kqD14PXEChhj9kSdB6bTbhC1l7iZLOsECgYEAm73zODaaDX07N2yd1z2p
+AQNN6EgYJ/dDt93AtBjkaoPV1wxNWOfZvAUN3QBxWL8R4jYNibJCHzCrYTWGbefU
+EEnrBsN1aR2LvX2FXwuQvT46InHekiwFqYm2ciPU6D3kjt49EJDB+9m+31mTTN14
+Jdc/Zw2rLx88tLJDbravncg=
+-----END PRIVATE KEY-----
+"}},"credentials":"not found"} 
+[2026-04-02 08:27:14] local.INFO: Provision data debug {"provision_id":8,"provision_data":{"service_type":"ssl","domain":"luongynguyenhuutoan.com","ssl_provider":"comodo","expiry_date":"2027-04-02","status":"active","created_at":"2026-04-02T08:26:43.624110Z","notes":"","certificate_path":"ssl_certificates/16/dF8lrZVwRrAkVVQJw2lfzMai2Om4RAEy0JNN0Wbs.txt","private_key_path":"ssl_certificates/16/tDUij78mPTlsGft6ywA6xbDBLhTN5mZkpHPCUu3L.txt","ca_bundle_path":"ssl_certificates/16/7t7iAhBdMqlkdPpZLeeSfzmZOCHg7lJRs2bPkaK8.txt","ssl_files":{"certificate":"-----BEGIN CERTIFICATE-----
+MIIB/TCCAWYCCQDK5QPVVgU3jzANBgkqhkiG9w0BAQUFADBDMQswCQYDVQQGEwJV
+UzETMBEGA1UECBMKQ2FsaWZvcm5pYTESMBAGA1UEBxMJU2FuIE1hdGVvMQswCQYD
+VQQKEwJTTDAeFw0xNDAxMzExODQzNTFaFw0xNDAzMDIxODQzNTFaMEMxCzAJBgNV
+BAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRIwEAYDVQQHEwlTYW4gTWF0ZW8x
+CzAJBgNVBAoTAlNMMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC+kN7aXyge
+Op2/bB+GrER7AiTQuizpwK19whemmFTtsu79JgWSADkdUfhPeJrmBPHJnhGWskLU
+oWyqLYM1GCfDNAyojmyW9ZFwCCiLaUuHn+Usg7+vdcKIGV8MKWrjojtlQatsLa2K
+01v9CWbaJz9p0VNLUw1l9yh5TZQCroo87QIDAQABMA0GCSqGSIb3DQEBBQUAA4GB
+AKAEe950tCwT7ysq6KvlEDLrYu9wqjgd/VaXub6TX/HOT5n5naxoOJJpDDuTfUhX
+KmBl3hpm6zvSDCr4X40LIZJVIoKvLmJwkVZ8Ywk10v6qRRRx9djycB2AYPBmXUIX
+IaVfh2k2z6Kg191s7BKZREw0xRQh4giNKls9FsiZeM8E
+-----END CERTIFICATE-----
+","private_key":"-----BEGIN CERTIFICATE-----
+MIIErDCCA5SgAwIBAgIUOh3+VpYE8TsuP5HW+G6pBtcWp9YwDQYJKoZIhvcNAQEL
+BQAwgYsxCzAJBgNVBAYTAlVTMRkwFwYDVQQKExBDbG91ZEZsYXJlLCBJbmMuMTQw
+MgYDVQQLEytDbG91ZEZsYXJlIE9yaWdpbiBTU0wgQ2VydGlmaWNhdGUgQXV0aG9y
+aXR5MRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMRMwEQYDVQQIEwpDYWxpZm9ybmlh
+MB4XDTI2MDQwMjA4MDMwMFoXDTI3MDQwMjA4MDMwMFowYjEZMBcGA1UEChMQQ2xv
+dWRGbGFyZSwgSW5jLjEdMBsGA1UECxMUQ2xvdWRGbGFyZSBPcmlnaW4gQ0ExJjAk
+BgNVBAMTHUNsb3VkRmxhcmUgT3JpZ2luIENlcnRpZmljYXRlMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA09BCYNxSvrQlq04nEgsxkO77GOElk1eITApp
+SpMBE79uFf00OVIoY4NwE5J4+UEJFwzWZIBOwcSudz/lAhnqhXclgXBnYk1bEJJ2
+V9/gLCMFr/lvuBS/S6wfDcokZq++U1G85osVasz2Gpe414gyjepcIRsZta8x237o
+UeyTRadPuevrggIpqa62aoyCZWay7gm5IXBTKpYNYdh4R/8i6ILOK9NM7QLs4P+0
+L03G0NfMl7M8/kB0hh3rn7fRww5TCSNpXs9qQMX/G31MF3NOZV9nso9+VNXLlhdT
+BiS6rcKeCVZy4seTV4EsHRC8AFEp5ZrdZACqfUbZ1MJssFAGWwIDAQABo4IBLjCC
+ASowDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD
+ATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBRoCpjZg+NJNNOLiWvg1DdAUBCNsTAf
+BgNVHSMEGDAWgBQk6FNXXXw0QIep65TbuuEWePwppDBABggrBgEFBQcBAQQ0MDIw
+MAYIKwYBBQUHMAGGJGh0dHA6Ly9vY3NwLmNsb3VkZmxhcmUuY29tL29yaWdpbl9j
+YTAvBgNVHREEKDAmghIqLnNrb2RhaGFpcGhvbmcudm6CEHNrb2RhaGFpcGhvbmcu
+dm4wOAYDVR0fBDEwLzAtoCugKYYnaHR0cDovL2NybC5jbG91ZGZsYXJlLmNvbS9v
+cmlnaW5fY2EuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBbSrTarC3oTtTaJrMNMIAM
+G53rkuZywbC6dKADprgSge3KEJ/XBOQKVAB8FrjrukEsb9/ZXnSQ2E9ythtr6KAg
+yyUVwGpVHU8GgjaHeUdCjvHpeMG9F80gajnASsX2CF3yE0OYJ+hsgqwWzBP7aHzA
+e0KeZBY3i3OXRHred03/ka+2g3xMkK8gdQTIfwAkatKVLCZyL5XtK2QQ0FshUU74
+e+7sBjT0JlocWFQ4JkibSZO0v0e7SDJ77eiXWrUj2i8f32B82YiBqGWq/rCisj9v
+HsckFGN/mmC/ATdLgygaYUYsJCw0IhQHKqEu8fpBSIRjdXeORgf7jlApXYhL3eL9
+-----END CERTIFICATE-----
+
+-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC2ZyLFAPgKjpvD
+sPYdoKUGXUDY8X5G+YbrRACVX1Dd90azv+rd0vGt1oG+VADjL7hLZwXAvk4VsMgZ
+Nh3Opi3cGdWMAXGYTnTdKchb9eyMHc++nMwMqHPwLDd4ANm9boQG9aqOi+eRIiSj
+C+Hk2cWKURm6l9rYzN66NXtMUUaN6XWieB88YrvgiUMGjwllknNSqiJQq0xTwtMY
+QbK0+l6mvH0TuaR1U0Ivl1fObcCyepLMt9qtygC315CqXa5OPpeK4W4eyo/yFCB1
+9lCCnxpBtfHirDop3Hhvr3cu5U+YB8erew0fSpBhYesqDpn0ZKTvIw6Fvcuv4ngU
+B1z87BSPAgMBAAECggEAG/G9tuweFBKjCcj7plsCd/DOIC5nMofEmW3dSlpu8Nfo
+V14d+lv4i1xjRihny7vM1+hxo4TEQQ3IqhbLXD8YpDFlBkJWXTIaifjTvvBJ4XF+
+bpe7qcNzolDz3TOsKBmyqmpKoJ9jG64Hv4mbfaG2DNRomliXaO2CFd8JrmMpPvuf
+beF2iGTkGh59mUPmLf2aOr8cFsWFPkNFA2N2PyOrjYRs1BKBKWfFLWKNxoVuqu4X
+OwMP44e8nIsTcgiVBDqYO6i1RZbYf7eWz8PEpaOtQhImLzzyaQ65Qkr26nOXJZ57
+Ppw1q7Cr3qOxkK1AjmTnjc/NsnajHA6TZWk7FGS+gQKBgQDaaQ8eFAqAe2JoFXHV
+xYqqhnmPHLgKMxuG7W998XyLUTwEBk+lz3jCRJx1tLjEE8zgVn9L60eV1A3tzsqT
+2Ve7hX+qC8EqtsZhTT+ift0vktEvYQv/YNpMv+gwBIG7gJKPLGBSrI7OQEgLSMRv
+D/nBw/aZR9mckZkmY5JdH+sizwKBgQDVy59E2QMeS0qB6XgfJ1lyN6SkbM9zkEaH
+XQeoT1h2iVrqTFDH0qDV8ym3p3ufMo9IjW7Rcf2OhOmEMubVshRTfFpoUcpsd40e
+gmgE3VeNvnQW/ntt33Wl0U9cCYKeZ3Xg63+NziHM+YPemIIrnX1bbdKXzyGz3USm
+aqwcoAtiQQKBgC8UfHTAXy8o6aKEFOC+z1BI4oUt7KIOOD3Sirj8SBuD7Er1zU9x
+tJcz0QIyba2ekwg8vP3xfqHWbxY3AEX0kMvUUBuoowABHCw3SaNOc4FgxYTQB5UK
+HKR0ralEH276nR0NtMm9dp8RDjaYffdu2yighFSwP0FXxUqYJiG60qXTAoGAHD9a
+HMubeN4zyvRg9aTKUaf+becehcNTPkFRaLCLHKZLR9ereKtgqsQFCAnt8HvKqKhf
+MvcfrDvtapUbILL1so4kl9Hur+Qf1h8exT3FeqnmRr966Wpz7eO42406H9nFnmEf
+KkpI9v8kqD14PXEChhj9kSdB6bTbhC1l7iZLOsECgYEAm73zODaaDX07N2yd1z2p
+AQNN6EgYJ/dDt93AtBjkaoPV1wxNWOfZvAUN3QBxWL8R4jYNibJCHzCrYTWGbefU
+EEnrBsN1aR2LvX2FXwuQvT46InHekiwFqYm2ciPU6D3kjt49EJDB+9m+31mTTN14
+Jdc/Zw2rLx88tLJDbravncg=
+-----END PRIVATE KEY-----
+","ca_bundle":"-----BEGIN CERTIFICATE-----
+MIIErDCCA5SgAwIBAgIUOh3+VpYE8TsuP5HW+G6pBtcWp9YwDQYJKoZIhvcNAQEL
+BQAwgYsxCzAJBgNVBAYTAlVTMRkwFwYDVQQKExBDbG91ZEZsYXJlLCBJbmMuMTQw
+MgYDVQQLEytDbG91ZEZsYXJlIE9yaWdpbiBTU0wgQ2VydGlmaWNhdGUgQXV0aG9y
+aXR5MRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMRMwEQYDVQQIEwpDYWxpZm9ybmlh
+MB4XDTI2MDQwMjA4MDMwMFoXDTI3MDQwMjA4MDMwMFowYjEZMBcGA1UEChMQQ2xv
+dWRGbGFyZSwgSW5jLjEdMBsGA1UECxMUQ2xvdWRGbGFyZSBPcmlnaW4gQ0ExJjAk
+BgNVBAMTHUNsb3VkRmxhcmUgT3JpZ2luIENlcnRpZmljYXRlMIIBIjANBgkqhkiG
+9w0BAQEFAAOCAQ8AMIIBCgKCAQEA09BCYNxSvrQlq04nEgsxkO77GOElk1eITApp
+SpMBE79uFf00OVIoY4NwE5J4+UEJFwzWZIBOwcSudz/lAhnqhXclgXBnYk1bEJJ2
+V9/gLCMFr/lvuBS/S6wfDcokZq++U1G85osVasz2Gpe414gyjepcIRsZta8x237o
+UeyTRadPuevrggIpqa62aoyCZWay7gm5IXBTKpYNYdh4R/8i6ILOK9NM7QLs4P+0
+L03G0NfMl7M8/kB0hh3rn7fRww5TCSNpXs9qQMX/G31MF3NOZV9nso9+VNXLlhdT
+BiS6rcKeCVZy4seTV4EsHRC8AFEp5ZrdZACqfUbZ1MJssFAGWwIDAQABo4IBLjCC
+ASowDgYDVR0PAQH/BAQDAgWgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcD
+ATAMBgNVHRMBAf8EAjAAMB0GA1UdDgQWBBRoCpjZg+NJNNOLiWvg1DdAUBCNsTAf
+BgNVHSMEGDAWgBQk6FNXXXw0QIep65TbuuEWePwppDBABggrBgEFBQcBAQQ0MDIw
+MAYIKwYBBQUHMAGGJGh0dHA6Ly9vY3NwLmNsb3VkZmxhcmUuY29tL29yaWdpbl9j
+YTAvBgNVHREEKDAmghIqLnNrb2RhaGFpcGhvbmcudm6CEHNrb2RhaGFpcGhvbmcu
+dm4wOAYDVR0fBDEwLzAtoCugKYYnaHR0cDovL2NybC5jbG91ZGZsYXJlLmNvbS9v
+cmlnaW5fY2EuY3JsMA0GCSqGSIb3DQEBCwUAA4IBAQBbSrTarC3oTtTaJrMNMIAM
+G53rkuZywbC6dKADprgSge3KEJ/XBOQKVAB8FrjrukEsb9/ZXnSQ2E9ythtr6KAg
+yyUVwGpVHU8GgjaHeUdCjvHpeMG9F80gajnASsX2CF3yE0OYJ+hsgqwWzBP7aHzA
+e0KeZBY3i3OXRHred03/ka+2g3xMkK8gdQTIfwAkatKVLCZyL5XtK2QQ0FshUU74
+e+7sBjT0JlocWFQ4JkibSZO0v0e7SDJ77eiXWrUj2i8f32B82YiBqGWq/rCisj9v
+HsckFGN/mmC/ATdLgygaYUYsJCw0IhQHKqEu8fpBSIRjdXeORgf7jlApXYhL3eL9
+-----END CERTIFICATE-----
+
+-----BEGIN PRIVATE KEY-----
+MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC2ZyLFAPgKjpvD
+sPYdoKUGXUDY8X5G+YbrRACVX1Dd90azv+rd0vGt1oG+VADjL7hLZwXAvk4VsMgZ
+Nh3Opi3cGdWMAXGYTnTdKchb9eyMHc++nMwMqHPwLDd4ANm9boQG9aqOi+eRIiSj
+C+Hk2cWKURm6l9rYzN66NXtMUUaN6XWieB88YrvgiUMGjwllknNSqiJQq0xTwtMY
+QbK0+l6mvH0TuaR1U0Ivl1fObcCyepLMt9qtygC315CqXa5OPpeK4W4eyo/yFCB1
+9lCCnxpBtfHirDop3Hhvr3cu5U+YB8erew0fSpBhYesqDpn0ZKTvIw6Fvcuv4ngU
+B1z87BSPAgMBAAECggEAG/G9tuweFBKjCcj7plsCd/DOIC5nMofEmW3dSlpu8Nfo
+V14d+lv4i1xjRihny7vM1+hxo4TEQQ3IqhbLXD8YpDFlBkJWXTIaifjTvvBJ4XF+
+bpe7qcNzolDz3TOsKBmyqmpKoJ9jG64Hv4mbfaG2DNRomliXaO2CFd8JrmMpPvuf
+beF2iGTkGh59mUPmLf2aOr8cFsWFPkNFA2N2PyOrjYRs1BKBKWfFLWKNxoVuqu4X
+OwMP44e8nIsTcgiVBDqYO6i1RZbYf7eWz8PEpaOtQhImLzzyaQ65Qkr26nOXJZ57
+Ppw1q7Cr3qOxkK1AjmTnjc/NsnajHA6TZWk7FGS+gQKBgQDaaQ8eFAqAe2JoFXHV
+xYqqhnmPHLgKMxuG7W998XyLUTwEBk+lz3jCRJx1tLjEE8zgVn9L60eV1A3tzsqT
+2Ve7hX+qC8EqtsZhTT+ift0vktEvYQv/YNpMv+gwBIG7gJKPLGBSrI7OQEgLSMRv
+D/nBw/aZR9mckZkmY5JdH+sizwKBgQDVy59E2QMeS0qB6XgfJ1lyN6SkbM9zkEaH
+XQeoT1h2iVrqTFDH0qDV8ym3p3ufMo9IjW7Rcf2OhOmEMubVshRTfFpoUcpsd40e
+gmgE3VeNvnQW/ntt33Wl0U9cCYKeZ3Xg63+NziHM+YPemIIrnX1bbdKXzyGz3USm
+aqwcoAtiQQKBgC8UfHTAXy8o6aKEFOC+z1BI4oUt7KIOOD3Sirj8SBuD7Er1zU9x
+tJcz0QIyba2ekwg8vP3xfqHWbxY3AEX0kMvUUBuoowABHCw3SaNOc4FgxYTQB5UK
+HKR0ralEH276nR0NtMm9dp8RDjaYffdu2yighFSwP0FXxUqYJiG60qXTAoGAHD9a
+HMubeN4zyvRg9aTKUaf+becehcNTPkFRaLCLHKZLR9ereKtgqsQFCAnt8HvKqKhf
+MvcfrDvtapUbILL1so4kl9Hur+Qf1h8exT3FeqnmRr966Wpz7eO42406H9nFnmEf
+KkpI9v8kqD14PXEChhj9kSdB6bTbhC1l7iZLOsECgYEAm73zODaaDX07N2yd1z2p
+AQNN6EgYJ/dDt93AtBjkaoPV1wxNWOfZvAUN3QBxWL8R4jYNibJCHzCrYTWGbefU
+EEnrBsN1aR2LvX2FXwuQvT46InHekiwFqYm2ciPU6D3kjt49EJDB+9m+31mTTN14
+Jdc/Zw2rLx88tLJDbravncg=
+-----END PRIVATE KEY-----
+"}},"credentials":"not found"} 
+[2026-04-02 08:27:22] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-02 08:27:22] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 

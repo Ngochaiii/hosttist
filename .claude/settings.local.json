@@ -28,7 +28,10 @@
       "Bash(php -l app/Services/ServiceLifecycleService.php)",
       "Bash(php -l app/Mail/ServiceExpiryReminder.php)",
       "Bash(php -l app/Console/Commands/CheckServiceExpiry.php)",
-      "Bash(php -l app/Http/Controllers/Web/ServiceController.php)"
+      "Bash(php -l app/Http/Controllers/Web/ServiceController.php)",
+      "Bash(php -l app/Http/Controllers/Admin/PaymentController.php)",
+      "Bash(php -l app/Services/PaymentService.php)",
+      "Bash(php -r \"require ''vendor/autoload.php''; echo ''Autoload OK'';\")"
     ]
   }
 }

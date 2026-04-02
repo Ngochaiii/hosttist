@@ -36,8 +36,11 @@ class PaymentService extends BaseService
         DB::beginTransaction();
         try {
             // Update payment status
-            $payment->status = 'completed';
-            $payment->save();
+            $payment->update([
+                'status'      => 'completed',
+                'verified_by' => $adminId,
+                'verified_at' => now(),
+            ]);
 
             // Update order status
             $order = $payment->order ?? $payment->invoice->order;

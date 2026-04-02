@@ -174,6 +174,12 @@
                             </ul>
                         </div>
 
+                        {{-- Status polling box --}}
+                        <div id="payment-status-box" class="alert alert-secondary d-flex align-items-center gap-3 mt-3" style="display:none!important" hidden>
+                            <div class="spinner-border spinner-border-sm text-secondary" role="status"></div>
+                            <span id="payment-status-text">Đang kiểm tra trạng thái thanh toán...</span>
+                        </div>
+
                         <div class="d-flex justify-content-between mt-4">
                             <a href="{{ route('customer.invoices') }}" class="btn btn-outline-primary">
                                 <i class="fa fa-list me-2"></i>Xem hóa đơn chưa thanh toán
@@ -187,4 +193,43 @@
             </div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            const paymentId  = {{ $payment->id }};
+            const statusUrl  = '{{ route('payment.status', $payment->id) }}';
+            const successUrl = '{{ route('payment.success', $payment->id) }}';
+            const failedUrl  = '{{ route('payment.failed',  $payment->id) }}';
+            const statusBox  = document.getElementById('payment-status-box');
+            const statusText = document.getElementById('payment-status-text');
+
+            // Hiển thị box polling sau 3 giây
+            setTimeout(function () {
+                statusBox.removeAttribute('hidden');
+                statusBox.style.display = '';
+            }, 3000);
+
+            function check() {
+                fetch(statusUrl, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+                    .then(r => r.json())
+                    .then(function (data) {
+                        if (data.status === 'completed') {
+                            statusText.textContent = '✅ Thanh toán đã được xác nhận! Đang chuyển hướng...';
+                            statusBox.className = 'alert alert-success d-flex align-items-center gap-3 mt-3';
+                            setTimeout(function () { window.location.href = successUrl; }, 1500);
+                        } else if (data.status === 'failed') {
+                            statusText.textContent = '❌ Thanh toán bị từ chối. Đang chuyển hướng...';
+                            statusBox.className = 'alert alert-danger d-flex align-items-center gap-3 mt-3';
+                            setTimeout(function () { window.location.href = failedUrl; }, 1500);
+                        }
+                        // pending → tiếp tục polling
+                    })
+                    .catch(function () { /* network error — thử lại */ });
+            }
+
+            // Poll mỗi 8 giây, bắt đầu sau 5 giây
+            setTimeout(check, 5000);
+            setInterval(check, 8000);
+        })();
+    </script>
 @endsection
