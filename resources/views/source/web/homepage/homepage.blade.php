@@ -3,44 +3,77 @@
 @section('content')
     <section class="service_section layout_padding">
         <div class="container">
-            <div class="heading_container heading_center">
-                <h2>
-                    Our Services
-                </h2>
+            <div class="heading_container heading_center mb-5">
+                <h2>Our Services</h2>
+                <p class="text-muted">Giải pháp hạ tầng web toàn diện cho doanh nghiệp của bạn</p>
             </div>
         </div>
         <div class="container">
-            <div class="row">
+            <div class="row services-grid">
+                @php
+                    $iconMap = [
+                        'ssl'           => ['icon' => 'fas fa-shield-alt',    'color' => '#10b981'],
+                        'cloud-hosting' => ['icon' => 'fas fa-cloud',         'color' => '#3b82f6'],
+                        'hosting'       => ['icon' => 'fas fa-server',        'color' => '#4154f1'],
+                        'domain'        => ['icon' => 'fas fa-globe',         'color' => '#f59e0b'],
+                        'design'        => ['icon' => 'fas fa-paint-brush',   'color' => '#8b5cf6'],
+                        'design-website'=> ['icon' => 'fas fa-paint-brush',   'color' => '#8b5cf6'],
+                        'design-uiux'   => ['icon' => 'fas fa-pen-ruler',     'color' => '#ec4899'],
+                        'anti-ddos'     => ['icon' => 'fas fa-shield-virus',  'color' => '#ef4444'],
+                        'vps'           => ['icon' => 'fas fa-microchip',     'color' => '#06b6d4'],
+                        'reseller'      => ['icon' => 'fas fa-store',         'color' => '#14b8a6'],
+                        'email'         => ['icon' => 'fas fa-envelope',      'color' => '#6366f1'],
+                        'backup'        => ['icon' => 'fas fa-hdd',           'color' => '#64748b'],
+                        'support'       => ['icon' => 'fas fa-headset',       'color' => '#0ea5e9'],
+                    ];
+                    $pickIcon = function ($slug) use ($iconMap) {
+                        $slug = strtolower($slug ?? '');
+                        if (isset($iconMap[$slug])) return $iconMap[$slug];
+                        foreach ($iconMap as $key => $val) {
+                            if (str_contains($slug, $key)) return $val;
+                        }
+                        return ['icon' => 'fas fa-cube', 'color' => '#4154f1'];
+                    };
+                @endphp
                 @forelse($services as $category)
-                    <div class="col-md-6 col-lg-4">
-                        <div class="box">
-                            <div class="img-box">
+                    @php $meta = $pickIcon($category->slug); @endphp
+                    <div class="col-md-6 col-lg-4 d-flex">
+                        <div class="service-card w-100">
+                            <div class="service-card__icon" style="background: {{ $meta['color'] }}1a; color: {{ $meta['color'] }};">
+                                @if ($category->image)
+                                    <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}">
+                                @else
+                                    <i class="{{ $meta['icon'] }}"></i>
+                                @endif
                             </div>
-                            <div class="detail-box">
+                            <div class="service-card__body">
                                 <h4>{{ $category->name }}</h4>
                                 <p>
                                     @if ($category->description)
-                                        {!! Str::limit(strip_tags($category->description), 150) !!}
+                                        {{ Str::limit(strip_tags($category->description), 140) }}
                                     @else
-                                        Dịch vụ {{ $category->name }}
+                                        Dịch vụ {{ $category->name }} chất lượng cao, hỗ trợ 24/7.
                                     @endif
                                 </p>
-                                <a href="{{ route('pricing.index') }}">
-                                    Xem thêm
-                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-                                </a>
                             </div>
+                            <a href="{{ route('category.detail', $category->slug) }}" class="service-card__link">
+                                Xem chi tiết <i class="fa fa-long-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
                 @empty
-                    <div class="col-md-6 col-lg-4">
-                        <div class="box">
-                            <div class="img-box"></div>
-                            <div class="detail-box">
-                                <h4>Web Hosting</h4>
-                                <p>Dịch vụ web hosting chuyên nghiệp</p>
-                                <a href="#">Xem thêm <i class="fa fa-long-arrow-right"></i></a>
+                    <div class="col-md-6 col-lg-4 d-flex">
+                        <div class="service-card w-100">
+                            <div class="service-card__icon" style="background: #4154f11a; color: #4154f1;">
+                                <i class="fas fa-server"></i>
                             </div>
+                            <div class="service-card__body">
+                                <h4>Web Hosting</h4>
+                                <p>Dịch vụ web hosting chuyên nghiệp, uptime 99.9%, hỗ trợ 24/7.</p>
+                            </div>
+                            <a href="{{ route('pricing.index') }}" class="service-card__link">
+                                Xem chi tiết <i class="fa fa-long-arrow-right"></i>
+                            </a>
                         </div>
                     </div>
                 @endforelse
@@ -889,6 +922,77 @@
 
 @push('header_css')
     <style>
+        /* ===== Services Grid (Our Services) ===== */
+        .service_section .heading_container h2 {
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        .services-grid { row-gap: 28px; }
+        .service-card {
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            border: 1px solid #eef0f4;
+            border-radius: 16px;
+            padding: 28px 26px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+            height: 100%;
+        }
+        .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 32px rgba(65, 84, 241, 0.12);
+            border-color: #dfe3f5;
+        }
+        .service-card__icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .service-card__icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        .service-card__body {
+            flex: 1;
+        }
+        .service-card__body h4 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+        }
+        .service-card__body p {
+            color: #5b6472;
+            font-size: 14.5px;
+            line-height: 1.65;
+            margin-bottom: 18px;
+        }
+        .service-card__link {
+            color: #4154f1;
+            font-weight: 600;
+            font-size: 14.5px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: gap 0.2s ease, color 0.2s ease;
+        }
+        .service-card__link:hover {
+            color: #2a3bf1;
+            gap: 12px;
+            text-decoration: none;
+        }
+
         .price_section .price_container .box .detail-box {
             width: 100% !important;
         }

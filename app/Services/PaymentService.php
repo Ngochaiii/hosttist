@@ -44,12 +44,27 @@ class PaymentService extends BaseService
 
             // Update order status
             $order = $payment->order ?? $payment->invoice->order;
+            $provisions = [];
+
+            if ($order && $order->renewal_of_service_id) {
+                // Đơn gia hạn → không tạo provision, chỉ extend CustomerService
+                app(ServiceLifecycleService::class)->completeRenewalFromOrder($order);
+
+                DB::commit();
+
+                return [
+                    'success'    => true,
+                    'payment'    => $payment,
+                    'provisions' => [],
+                    'renewal'    => true,
+                ];
+            }
+
             if ($order) {
                 $order->status = 'processing';
                 $order->save();
 
                 // Create service provisions
-                $provisions = [];
                 foreach ($order->items as $item) {
                     $options = json_decode($item->options, true) ?: [];
                     $serviceType = $options['service_type'] ?? null;
@@ -156,13 +171,15 @@ class PaymentService extends BaseService
         return $this->transaction(function () use ($order, $customer) {
             $amount = $order->total_amount;
 
-            // Kiểm tra số dư - nếu không đủ thì báo lỗi để redirect nạp tiền
-            if (!$customer->hasBalance($amount)) {
+            // Khóa row customer để check + trừ số dư atomic, tránh race condition 2 request song song
+            $locked = Customers::where('id', $customer->id)->lockForUpdate()->first();
+
+            if (!$locked || $locked->balance < $amount) {
                 throw new Exception('Insufficient wallet balance');
             }
 
-            // Trừ tiền từ ví và tạo payment completed luôn
-            $customer->decrement('balance', $amount);
+            $locked->decrement('balance', $amount);
+            $customer->balance = $locked->fresh()->balance;
 
             $payment = $this->createPayment([
                 'order_id' => $order->id,
@@ -176,16 +193,35 @@ class PaymentService extends BaseService
                 'notes' => 'Wallet payment - Auto approved'
             ]);
 
-            // Update order và invoice
-            $order->update(['status' => 'completed']);
+            $isRenewal = (bool) $order->renewal_of_service_id;
+
+            // Invoice luôn paid (user đã trả tiền)
             if ($order->invoice) {
                 $order->invoice->update(['status' => 'paid']);
             }
 
+            if ($isRenewal) {
+                // Đơn gia hạn: không tạo provision mới, chỉ extend CustomerService
+                $order->update(['status' => 'completed']);
+                app(ServiceLifecycleService::class)->completeRenewalFromOrder($order->fresh());
+            } else {
+                // Đơn mua mới: tạo pending provisions để admin điền credentials.
+                // Order chỉ complete khi tất cả provision xong.
+                $provisions = app(\App\Services\OrderService::class)
+                    ->processCompletedOrder($order->fresh()->load('items.product'));
+
+                if (empty($provisions)) {
+                    // Không có item nào cần provision → order hoàn thành ngay
+                    $order->update(['status' => 'completed']);
+                }
+                // processCompletedOrder đã tự set order.status = 'processing' khi có provision
+            }
+
             return [
-                'success' => true,
-                'payment' => $payment,
-                'new_balance' => $customer->fresh()->balance,
+                'success'     => true,
+                'payment'     => $payment,
+                'new_balance' => $customer->balance,
+                'renewal'     => $isRenewal,
             ];
         });
     }

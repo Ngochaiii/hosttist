@@ -11,10 +11,41 @@ use Exception;
 
 class InvoiceService extends BaseService
 {
+    // VAT chỉ áp dụng khi khách yêu cầu xuất hoá đơn công ty.
+    public const VAT_RATE_COMPANY = 0.10;
+    public const DISCOUNT_RATE    = 0.0;
+
+    /**
+     * Compute canonical quote amounts for a cart.
+     *
+     * @param Cart $cart
+     * @param bool $vatInvoice  true nếu khách yêu cầu xuất hoá đơn công ty (áp VAT 10%)
+     */
+    public function computeQuoteAmounts(Cart $cart, bool $vatInvoice = false): array
+    {
+        $subtotal      = (float) $cart->subtotal;
+        $discount      = round($subtotal * self::DISCOUNT_RATE);
+        $afterDiscount = $subtotal - $discount;
+        $vatRate       = $vatInvoice ? self::VAT_RATE_COMPANY : 0.0;
+        $vatAmount     = round($afterDiscount * $vatRate);
+        $total         = $afterDiscount + $vatAmount;
+
+        return [
+            'subtotal'       => $subtotal,
+            'discount'       => $discount,
+            'discountRate'   => self::DISCOUNT_RATE,
+            'afterDiscount'  => $afterDiscount,
+            'vatInvoice'     => $vatInvoice,
+            'vatRate'        => $vatRate,
+            'vatAmount'      => $vatAmount,
+            'total'          => $total,
+        ];
+    }
+
     /**
      * Generate quote data for display
      */
-    public function generateQuoteData(Cart $cart): array
+    public function generateQuoteData(Cart $cart, bool $vatInvoice = false): array
     {
         $requestId = uniqid('quote_data_');
         Log::info("[{$requestId}] Generating quote data", [
@@ -26,15 +57,16 @@ class InvoiceService extends BaseService
         try {
             $user = Auth::user();
             $config = Config::current();
-            
+
             $quoteNumber = 'QUOTE-' . time() . Str::random(5);
             $quoteDate = Carbon::now()->format('d/m/Y');
             $expireDate = Carbon::now()->addDays(7)->format('d/m/Y');
-            
-            $subtotal = $cart->subtotal;
-            $vatRate = 0;
-            $vatAmount = 0;
-            $total = $subtotal;
+
+            $amounts   = $this->computeQuoteAmounts($cart, $vatInvoice);
+            $subtotal  = $amounts['subtotal'];
+            $vatRate   = $amounts['vatRate'];
+            $vatAmount = $amounts['vatAmount'];
+            $total     = $amounts['total'];
 
             Log::debug("[{$requestId}] Quote data calculation completed", [
                 'quote_number' => $quoteNumber,
@@ -51,9 +83,10 @@ class InvoiceService extends BaseService
                 'expireDate' => $expireDate,
                 'config' => $config,
                 'subtotal' => $subtotal,
+                'vatInvoice' => $vatInvoice,
                 'vatRate' => $vatRate,
                 'vatAmount' => $vatAmount,
-                'total' => $total
+                'total' => $total,
             ];
 
             Log::info("[{$requestId}] Quote data generated successfully", [
@@ -140,11 +173,7 @@ class InvoiceService extends BaseService
      */
     public function getCurrentCart(): ?Cart
     {
-        if (Auth::check()) {
-            return Cart::where('user_id', Auth::id())->with('items.product')->first();
-        }
-
-        return Cart::where('session_id', session()->getId())->with('items.product')->first();
+        return Cart::where('user_id', Auth::id())->with('items.product')->first();
     }
 
     /**
@@ -154,6 +183,10 @@ class InvoiceService extends BaseService
     {
         if (!$cart || $cart->items->isEmpty()) {
             throw new Exception('Giỏ hàng trống, vui lòng thêm sản phẩm trước khi tiếp tục');
+        }
+
+        if ($cart->expires_at && Carbon::parse($cart->expires_at)->isPast()) {
+            throw new Exception('Giỏ hàng đã hết hạn, vui lòng tạo lại');
         }
     }
 }

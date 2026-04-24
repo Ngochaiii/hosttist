@@ -31,7 +31,26 @@
       "Bash(php -l app/Http/Controllers/Web/ServiceController.php)",
       "Bash(php -l app/Http/Controllers/Admin/PaymentController.php)",
       "Bash(php -l app/Services/PaymentService.php)",
-      "Bash(php -r \"require ''vendor/autoload.php''; echo ''Autoload OK'';\")"
+      "Bash(php -r \"require ''vendor/autoload.php''; echo ''Autoload OK'';\")",
+      "Bash(php -l app/Http/Controllers/Web/CartController.php)",
+      "Bash(php -l app/Http/Controllers/Web/InvoiceController.php)",
+      "Bash(php -l app/Http/Controllers/Web/QuoteController.php)",
+      "Bash(php -l app/Services/InvoiceService.php)",
+      "Bash(php -l app/Services/OrderService.php)",
+      "Bash(php -l app/Models/Invoices.php)",
+      "Bash(php -r 'require '\\\\''vendor/autoload.php'\\\\''; $app=require '\\\\''bootstrap/app.php'\\\\''; $app->make\\('\\\\''Illuminate\\\\Contracts\\\\Console\\\\Kernel'\\\\''\\)->bootstrap\\(\\); $cats=App\\\\Models\\\\Categories::take\\(5\\)->get\\(['\\\\''id'\\\\'','\\\\''name'\\\\'','\\\\''slug'\\\\'','\\\\''icon'\\\\'','\\\\''description'\\\\'']\\); foreach \\($cats as $c\\) { echo $c->id.'\\\\''|'\\\\''.$c->name.'\\\\''|'\\\\''.$c->slug.'\\\\''|icon:'\\\\''.$c->icon.PHP_EOL; }')",
+      "Bash(php -l resources/views/source/web/pricing/index.blade.php)",
+      "Bash(php -l app/Models/Orders.php)",
+      "Bash(php -l resources/views/source/web/services/renew.blade.php)",
+      "Bash(php -l resources/views/source/web/services/show.blade.php)",
+      "Bash(php -l resources/views/source/web/services/service-info.blade.php)",
+      "Bash(php -l resources/views/source/web/services/index.blade.php)",
+      "Bash(php -l app/Services/ProvisionService.php)",
+      "Bash(php -l app/Http/Controllers/Admin/ProvisionController.php)",
+      "Bash(sed -i '' '212,265d' app/Events/ProvisionCreated.php)",
+      "Bash(php -l app/Events/ProvisionCreated.php)",
+      "Bash(composer dump-autoload *)",
+      "Bash(grep -vE 'warning|WARNING|Deprecated|^$')"
     ]
   }
 }

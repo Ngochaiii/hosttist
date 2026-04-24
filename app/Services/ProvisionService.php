@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ServiceProvision;
 use App\Events\{ProvisionCreated, ProvisionCompleted, ProvisionFailed};
-use App\Services\{ProvisionEmailService, ServiceLifecycleService};
+use App\Services\{ProvisionEmailService, ServiceLifecycleService, OrderService};
 
 class ProvisionService extends BaseService
 {
@@ -625,12 +625,17 @@ class ProvisionService extends BaseService
     public function markProvisionCompleted(ServiceProvision $provision, array $data = []): bool
     {
         return $this->transaction(function() use ($provision, $data) {
+            $existingData = is_array($provision->provision_data)
+                ? $provision->provision_data
+                : (json_decode($provision->provision_data ?? '', true) ?: []);
+            $merged = array_merge($existingData, $data['provision_data'] ?? []);
+
             $provision->update([
                 'provision_status' => 'completed',
-                'provisioned_at' => now(),
-                'provisioned_by' => auth()->id(),
-                'provision_notes' => $data['notes'] ?? $provision->provision_notes,
-                'provision_data' => array_merge($provision->provision_data ?? [], $data['provision_data'] ?? [])
+                'provisioned_at'   => now(),
+                'provisioned_by'   => auth()->id(),
+                'provision_notes'  => $data['notes'] ?? $provision->provision_notes,
+                'provision_data'   => json_encode($merged),
             ]);
 
             // Tạo CustomerService để tracking lifecycle (hết hạn, gia hạn)
@@ -642,6 +647,12 @@ class ProvisionService extends BaseService
                     'provision_id' => $provision->id,
                     'error'        => $e->getMessage(),
                 ]);
+            }
+
+            // Khi tất cả provisions của order đã completed → mark order completed
+            $order = optional($provision->orderItem)->order;
+            if ($order) {
+                app(OrderService::class)->updateOrderOnProvisionComplete($order->fresh()->load('items'));
             }
 
             // Fire event for email notifications

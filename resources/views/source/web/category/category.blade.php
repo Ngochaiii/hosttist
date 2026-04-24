@@ -134,7 +134,7 @@
                             <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
                             <h4>Không tìm thấy sản phẩm</h4>
                             <p class="text-muted">Hiện không có sản phẩm nào trong danh mục này. Vui lòng quay lại sau.</p>
-                            <a href="{{ route('home') }}" class="btn btn-primary mt-3">
+                            <a href="{{ route('homepage') }}" class="btn btn-primary mt-3">
                                 <i class="fas fa-home me-2"></i> Quay lại trang chủ
                             </a>
                         </div>

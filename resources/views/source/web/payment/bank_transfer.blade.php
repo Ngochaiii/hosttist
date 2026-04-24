@@ -71,6 +71,26 @@
                             </div>
                         </div>
 
+                        @if ($invoice->vat_invoice_requested)
+                            <div class="card mb-4 border-primary">
+                                <div class="card-header bg-light">
+                                    <h5 class="mb-0"><i class="fa fa-file-invoice me-2"></i>Thông tin xuất hoá đơn VAT</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p class="mb-1"><strong>Tên công ty:</strong> {{ $invoice->vat_company_name }}</p>
+                                            <p class="mb-1"><strong>Mã số thuế:</strong> {{ $invoice->vat_tax_code }}</p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p class="mb-1"><strong>Địa chỉ:</strong> {{ $invoice->vat_company_address }}</p>
+                                            <p class="mb-1"><strong>Email nhận hoá đơn:</strong> {{ $invoice->vat_company_email }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
                         <!-- Thêm phần hiển thị thông tin dịch vụ và domain -->
                         <div class="card mb-4">
                             <div class="card-header">
@@ -112,6 +132,16 @@
                                             @endforeach
                                         </tbody>
                                         <tfoot>
+                                            <tr>
+                                                <th colspan="3" class="text-end">Tạm tính:</th>
+                                                <th class="text-end">{{ number_format($invoice->subtotal, 0, ',', '.') }} đ</th>
+                                            </tr>
+                                            @if ($invoice->tax_amount > 0)
+                                                <tr>
+                                                    <th colspan="3" class="text-end">VAT:</th>
+                                                    <th class="text-end">{{ number_format($invoice->tax_amount, 0, ',', '.') }} đ</th>
+                                                </tr>
+                                            @endif
                                             <tr>
                                                 <th colspan="3" class="text-end">Tổng cộng:</th>
                                                 <th class="text-end">{{ number_format($invoice->total_amount, 0, ',', '.') }} đ</th>

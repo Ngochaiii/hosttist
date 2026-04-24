@@ -12,6 +12,7 @@ class CustomerService extends Model
         'customer_id',
         'provision_id',
         'product_id',
+        'legacy_product_id',
         'order_item_id',
         'status',
         'started_at',

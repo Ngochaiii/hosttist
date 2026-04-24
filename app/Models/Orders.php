@@ -18,6 +18,7 @@ class Orders extends Model
         'total_amount',
         'notes',
         'created_by', // user_id của người tạo
+        'renewal_of_service_id', // FK → customer_services.id nếu order này là đơn gia hạn
     ];
 
     // Relationship với Customer
@@ -47,5 +48,16 @@ class Orders extends Model
     public function payments()
     {
         return $this->hasMany(Payments::class, 'order_id');
+    }
+
+    // CustomerService được gia hạn bởi order này (nếu có)
+    public function renewalService()
+    {
+        return $this->belongsTo(CustomerService::class, 'renewal_of_service_id');
+    }
+
+    public function isRenewal(): bool
+    {
+        return !empty($this->renewal_of_service_id);
     }
 }

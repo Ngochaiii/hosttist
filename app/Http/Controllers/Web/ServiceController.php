@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-use App\Models\{ServiceProvision, ProvisionLog, Products, CustomerService};
-use App\Services\{ProvisionService, ServiceLifecycleService};
+use App\Models\{ServiceProvision, ProvisionLog, Products, CustomerService, Config, Invoices};
+use App\Services\{ProvisionService, ServiceLifecycleService, PaymentService};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -39,7 +39,7 @@ class ServiceController extends Controller
 
         // Get ServiceProvisions (records trong bảng service_provisions)
         $provisionQuery = ServiceProvision::where('customer_id', $customer->id)
-            ->with(['product', 'orderItem.order']);
+            ->with(['product', 'orderItem.order', 'customerService']);
 
         // Get Customer Services (records trong bảng products với customer_id)
         $customerServicesQuery = Products::where('customer_id', $customer->id)
@@ -185,7 +185,44 @@ class ServiceController extends Controller
     }
 
     /**
-     * Gia hạn dịch vụ qua CustomerService + ServiceLifecycleService
+     * Trang báo giá gia hạn (GET) — cho phép chọn VAT + phương thức thanh toán.
+     */
+    public function showRenewQuote(Request $request, $id)
+    {
+        try {
+            $customerService = $this->findOwnedCustomerService($id);
+            $customerService->load(['product', 'customer']);
+
+            if (!$customerService->renewal_price || $customerService->renewal_price <= 0) {
+                return redirect()->route('customer.services.index')
+                    ->with('error', 'Dịch vụ này chưa cấu hình giá gia hạn. Vui lòng liên hệ hỗ trợ.');
+            }
+
+            $vatInvoice = $request->boolean('vat_invoice');
+            $amounts    = $this->lifecycle->computeRenewalAmounts($customerService, $vatInvoice);
+
+            // Prefill VAT info từ invoice VAT gần nhất của khách (nếu có) để khỏi nhập lại.
+            $lastVat = Invoices::where('customer_id', $customerService->customer_id)
+                ->where('vat_invoice_requested', true)
+                ->whereNotNull('vat_company_name')
+                ->latest('id')
+                ->first();
+
+            return view('source.web.services.renew', array_merge($amounts, [
+                'service' => $customerService,
+                'user'    => Auth::user(),
+                'config'  => Config::current(),
+                'lastVat' => $lastVat,
+            ]));
+        } catch (\Exception $e) {
+            Log::error('Show renew quote failed: ' . $e->getMessage(), ['id' => $id]);
+            return redirect()->route('customer.services.index')
+                ->with('error', 'Không thể hiển thị trang gia hạn: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Xử lý gia hạn (POST) — nhận payment_method (wallet/bank) + VAT fields.
      */
     public function renewService(Request $request, $id)
     {
@@ -193,17 +230,74 @@ class ServiceController extends Controller
             $customerService = $this->findOwnedCustomerService($id);
             $customer        = Auth::user()->customer;
 
-            $result = $this->lifecycle->renew($customerService, $customer);
+            if (!$customer) {
+                return back()->with('error', 'Bạn cần cập nhật thông tin khách hàng để gia hạn.');
+            }
+
+            $vatInvoice = $request->boolean('vat_invoice');
+            $vatInfo    = [];
+
+            if ($vatInvoice) {
+                $validated = $request->validate([
+                    'vat_company_name'    => 'required|string|max:255',
+                    'vat_tax_code'        => 'required|string|max:50|regex:/^[0-9\-]{10,14}$/',
+                    'vat_company_address' => 'required|string|max:255',
+                    'vat_company_email'   => 'required|email|max:255',
+                ], [
+                    'vat_tax_code.regex' => 'Mã số thuế phải gồm 10–14 ký tự số (cho phép dấu gạch ngang).',
+                ]);
+                $vatInfo = $validated;
+            }
+
+            $method  = $request->input('payment_method', 'bank');
+            $amounts = $this->lifecycle->computeRenewalAmounts($customerService, $vatInvoice);
+            $total   = $amounts['total'];
+
+            // Ghi nhận lựa chọn auto_renew (tác dụng cho chu kỳ kế tiếp)
+            $customerService->update([
+                'auto_renew' => $request->boolean('auto_renew'),
+            ]);
+
+            // Tạo renewal order + invoice
+            $created = $this->lifecycle->createRenewalOrder($customerService, $customer, $vatInvoice, $vatInfo);
+            $order   = $created['order'];
+            $invoice = $created['invoice'];
+
+            if ($method === 'wallet') {
+                if (!$customer->hasBalance($total)) {
+                    return redirect()->route('deposit')
+                        ->with('error', 'Số dư ví không đủ. Vui lòng nạp thêm hoặc chọn chuyển khoản.');
+                }
+
+                $result = app(PaymentService::class)->processWalletPayment($order, $customer);
+                if ($result['success']) {
+                    return redirect()->route('customer.services.index', ['tab' => 'services'])
+                        ->with('success', 'Gia hạn thành công! Dịch vụ đã được cộng thêm chu kỳ.');
+                }
+                return back()->with('error', 'Không thể xử lý thanh toán từ ví.');
+            }
+
+            // Bank transfer
+            $config = Config::current();
+            $result = app(PaymentService::class)->createBankTransferPayment($order, [
+                'bank_name'      => $config->company_bank_name,
+                'account_number' => $config->company_bank_account_number,
+                'account_name'   => $config->company_bank_account_name,
+            ]);
 
             if ($result['success']) {
-                return back()->with('success', 'Gia hạn thành công đến ' . $result['new_expiry']->format('d/m/Y') . '!');
+                return view('source.web.payment.bank_transfer', [
+                    'payment'          => $result['payment'],
+                    'transaction_code' => $result['transaction_code'],
+                    'config'           => $config,
+                    'invoice'          => $invoice,
+                    'amountToPay'      => $total,
+                ]);
             }
 
-            if (!empty($result['need_deposit'])) {
-                return back()->with('error', 'Số dư ví không đủ. Vui lòng nạp thêm ít nhất ' . number_format($result['required_amount'], 0, ',', '.') . ' đ.');
-            }
-
-            return back()->with('error', $result['error'] ?? 'Không thể gia hạn dịch vụ.');
+            return back()->with('error', 'Không thể tạo yêu cầu thanh toán chuyển khoản.');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            throw $e;
         } catch (\Exception $e) {
             Log::error('Renew service failed: ' . $e->getMessage(), ['id' => $id]);
             return back()->with('error', 'Lỗi gia hạn: ' . $e->getMessage());
@@ -238,9 +332,80 @@ class ServiceController extends Controller
             abort(403, 'Bạn cần cập nhật thông tin khách hàng để quản lý dịch vụ.');
         }
 
-        return CustomerService::where('customer_id', $customer->id)
+        // Ưu tiên tìm theo CustomerService.id
+        $service = CustomerService::where('customer_id', $customer->id)
             ->with(['product', 'provision', 'customer'])
-            ->findOrFail($id);
+            ->find($id);
+
+        if ($service) {
+            return $service;
+        }
+
+        // Fallback: view cũ truyền Products.id (sold service) → tìm CustomerService tương ứng
+        $product = Products::where('customer_id', $customer->id)
+            ->whereNotNull('customer_id')
+            ->find($id);
+
+        if (!$product) {
+            abort(404, 'Không tìm thấy dịch vụ để gia hạn.');
+        }
+
+        // 1) CustomerService đã backfill trước đó
+        $existing = CustomerService::where('customer_id', $customer->id)
+            ->where('legacy_product_id', $product->id)
+            ->with(['product', 'provision', 'customer'])
+            ->first();
+        if ($existing) {
+            return $existing;
+        }
+
+        // 2) Match theo template (parent) nếu có
+        $templateId = $product->parent_product_id ?: $product->id;
+        $matched = CustomerService::where('customer_id', $customer->id)
+            ->where('product_id', $templateId)
+            ->whereNull('legacy_product_id')
+            ->with(['product', 'provision', 'customer'])
+            ->latest()
+            ->first();
+        if ($matched) {
+            return $matched;
+        }
+
+        // 3) Backfill: tạo CustomerService từ legacy Products record
+        return $this->backfillCustomerServiceFromLegacy($product, $customer->id);
+    }
+
+    /**
+     * Tạo CustomerService record cho legacy Products sold (pre-customer_services table).
+     * Không sửa dữ liệu Products cũ; chỉ thêm CustomerService để lifecycle hoạt động.
+     */
+    private function backfillCustomerServiceFromLegacy(Products $product, int $customerId): CustomerService
+    {
+        $templateId  = $product->parent_product_id ?: $product->id;
+        $template    = $product->parent_product_id ? Products::find($product->parent_product_id) : $product;
+        $priceBase   = (float) ($template->sale_price ?: $template->price ?: $product->price ?: 0);
+        $period      = (int) ($template->recurring_period ?? $product->recurring_period ?? 12);
+        $cycle       = $period <= 1 ? 'monthly' : 'yearly';
+
+        $expiresAt   = $product->end_date ? \Carbon\Carbon::parse($product->end_date) : null;
+        $startedAt   = $product->start_date ? \Carbon\Carbon::parse($product->start_date) : now();
+
+        return CustomerService::create([
+            'customer_id'       => $customerId,
+            'provision_id'      => null,
+            'product_id'        => $templateId,
+            'legacy_product_id' => $product->id,
+            'order_item_id'     => null,
+            'status'            => in_array($product->service_status, ['active', 'expired', 'suspended', 'cancelled'])
+                ? $product->service_status : 'active',
+            'started_at'        => $startedAt,
+            'expires_at'        => $expiresAt,
+            'next_renewal_date' => $expiresAt ? $expiresAt->copy()->subDays(7) : null,
+            'auto_renew'        => (bool) $product->auto_renew,
+            'renewal_price'     => $priceBase,
+            'billing_cycle'     => $cycle,
+            'notes'             => 'Backfilled từ Products#' . $product->id,
+        ]);
     }
 
     /**

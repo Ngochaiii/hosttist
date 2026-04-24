@@ -63,6 +63,11 @@ class ServiceProvision extends Model
         return $this->hasMany(ProvisionLog::class, 'provision_id');
     }
 
+    public function customerService()
+    {
+        return $this->hasOne(CustomerService::class, 'provision_id');
+    }
+
     // Helper methods
     public function isPending()
     {

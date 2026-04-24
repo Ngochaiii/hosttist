@@ -178,14 +178,15 @@ class ProvisionController extends Controller
             'provision_notes' => $request->provision_notes,
         ]);
 
-        // Handle completion
+        // Handle completion — delegate để kích hoạt CustomerService + gửi email
         if ($request->action === 'complete') {
-            $provision->update([
-                'provision_status' => 'completed',
-                'provisioned_by' => auth()->id(),
-                'provisioned_at' => now(),
+            app(ProvisionService::class)->markProvisionCompleted($provision->fresh(), [
+                'notes' => $request->provision_notes,
+            ]);
+
+            $provision->fresh()->update([
                 'delivery_status' => 'delivered',
-                'delivered_at' => now()
+                'delivered_at'    => now(),
             ]);
 
             AuditLogService::logStatusChange($id, $oldStatus, 'completed', 'Completed via form');

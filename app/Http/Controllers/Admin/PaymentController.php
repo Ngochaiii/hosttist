@@ -8,6 +8,7 @@ use App\Models\Payments;
 use App\Models\Order_items;
 use App\Models\ServiceProvision;
 use App\Services\EmailService;
+use App\Services\OrderService;
 use App\Services\ServiceLifecycleService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -81,6 +82,17 @@ class PaymentController extends Controller
                 return back()->with('error', 'Thanh toán đã được xử lý trước đó');
             }
 
+            // Đơn gia hạn không cần form provision (dịch vụ đã tồn tại & đã cấp credentials)
+            $order = $payment->order ?? ($payment->invoice->order ?? null);
+            if ($order && $order->renewal_of_service_id) {
+                Log::info("[{$requestId}] Renewal payment - skip provision form", [
+                    'payment_id' => $id,
+                    'order_id'   => $order->id,
+                    'service_id' => $order->renewal_of_service_id,
+                ]);
+                return $this->approveDirectly($payment);
+            }
+
             // Lấy order items
             $orderItems = [];
             if ($payment->invoice && $payment->invoice->order) {
@@ -96,7 +108,7 @@ class PaymentController extends Controller
                 if ($item->product) {
                     $type = $item->product->type;
                     // Chỉ cần provision cho SSL, VPS, Hosting, Domain
-                    if (in_array($type, ['ssl', 'vps', 'hosting', 'domain'])) {
+                    if (in_array($type, OrderService::PROVISIONABLE_TYPES)) {
                         $needsProvision = true;
                         $productTypes[$type] = true;
                     }
@@ -149,6 +161,19 @@ class PaymentController extends Controller
             if ($payment->status !== 'pending') {
                 DB::rollback();
                 return back()->with('error', 'Thanh toán đã được xử lý trước đó');
+            }
+
+            // Đơn gia hạn: bỏ qua toàn bộ provision, delegate cho PaymentService
+            // (tránh tạo trùng ServiceProvision + CustomerService cho dịch vụ đã có).
+            $renewalOrder = $payment->order ?? ($payment->invoice->order ?? null);
+            if ($renewalOrder && $renewalOrder->renewal_of_service_id) {
+                DB::rollback();
+                Log::info("[{$requestId}] Renewal payment detected - approve without provision", [
+                    'payment_id' => $id,
+                    'order_id'   => $renewalOrder->id,
+                    'service_id' => $renewalOrder->renewal_of_service_id,
+                ]);
+                return $this->approveDirectly($payment);
             }
 
             // Update payment status
@@ -216,10 +241,10 @@ class PaymentController extends Controller
                 Log::info("Service type from provision data", [
                     'item_id' => $item->id,
                     'service_type' => $serviceType,
-                    'is_provisionable' => in_array($serviceType, ['ssl', 'vps', 'hosting', 'domain'])
+                    'is_provisionable' => in_array($serviceType, OrderService::PROVISIONABLE_TYPES)
                 ]);
 
-                if (!in_array($serviceType, ['ssl', 'vps', 'hosting', 'domain'])) {
+                if (!in_array($serviceType, OrderService::PROVISIONABLE_TYPES)) {
                     Log::warning("Skipping item - service type not provisionable", [
                         'item_id' => $item->id,
                         'service_type' => $serviceType

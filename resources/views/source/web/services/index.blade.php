@@ -212,6 +212,18 @@
                                                     </a>
                                                 @endif
                                             </div>
+                                            @if ($provision->isCompleted() && $provision->customerService && in_array($provision->customerService->status, ['active', 'expired']))
+                                                <a href="{{ route('customer.services.service.renew.quote', $provision->customerService->id) }}"
+                                                    class="btn btn-outline-success btn-block btn-sm mt-2">
+                                                    <i class="fa fa-refresh"></i> Gia hạn / Thanh toán lại
+                                                </a>
+                                                @if ($provision->customerService->auto_renew)
+                                                    <small class="text-muted d-block text-center mt-1">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        Đang bật tự động gia hạn — nhấn để gia hạn sớm
+                                                    </small>
+                                                @endif
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -336,7 +348,7 @@
                                             @endif
                                         </div>
                                         <div class="card-footer bg-transparent">
-                                            <div class="btn-group btn-block">
+                                            <div class="btn-group btn-block mb-2">
                                                 <a href="{{ route('customer.services.service.show', $service->id) }}"
                                                     class="btn btn-primary">
                                                     <i class="fa fa-eye"></i> Chi tiết
@@ -348,6 +360,18 @@
                                                     </a>
                                                 @endif
                                             </div>
+                                            @if ($service->is_recurring && in_array($service->service_status, ['active', 'expired']))
+                                                <a href="{{ route('customer.services.service.renew.quote', $service->id) }}"
+                                                    class="btn btn-outline-success btn-block btn-sm">
+                                                    <i class="fa fa-refresh"></i> Gia hạn / Thanh toán lại
+                                                </a>
+                                                @if ($service->auto_renew)
+                                                    <small class="text-muted d-block text-center mt-1">
+                                                        <i class="fa fa-info-circle"></i>
+                                                        Đang bật tự động gia hạn — nhấn để gia hạn sớm
+                                                    </small>
+                                                @endif
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

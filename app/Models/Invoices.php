@@ -20,6 +20,15 @@ class Invoices extends Model
         'due_date',
         'notes',
         'created_by', // user_id của người tạo
+        'vat_invoice_requested',
+        'vat_company_name',
+        'vat_tax_code',
+        'vat_company_address',
+        'vat_company_email',
+    ];
+
+    protected $casts = [
+        'vat_invoice_requested' => 'boolean',
     ];
 
     // Relationship với Customer

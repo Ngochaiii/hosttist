@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Config;
+use App\Services\InvoiceService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -13,10 +14,17 @@ use Carbon\Carbon;
 
 class QuoteController extends Controller
 {
+    protected InvoiceService $invoiceService;
+
+    public function __construct(InvoiceService $invoiceService)
+    {
+        $this->invoiceService = $invoiceService;
+    }
+
     /**
      * Tạo và tải xuống file PDF báo giá
      */
-    public function downloadPdf()
+    public function downloadPdf(Request $request)
     {
         // Lấy giỏ hàng hiện tại
         $cart = $this->getCart();
@@ -26,11 +34,13 @@ class QuoteController extends Controller
             return redirect()->route('cart.index')->with('error', 'Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi tạo báo giá.');
         }
 
+        $vatInvoice = $request->boolean('vat_invoice');
+
         // Tạo tên file
         $fileName = 'bao-gia-' . date('Ymd') . '-' . $cart->id . '.pdf';
 
         // Tạo PDF và tải xuống
-        return $this->generatePdf()->download($fileName);
+        return $this->generateModernPdf($vatInvoice)->download($fileName);
     }
 
     /**
@@ -54,20 +64,22 @@ class QuoteController extends Controller
         $config = Config::current();
         $quoteNumber = 'QUOTE-' . date('Ymd') . '-' . str_pad($cart->id, 4, '0', STR_PAD_LEFT);
         $quoteDate = Carbon::now()->format('d/m/Y');
-        $expireDate = Carbon::now()->addDays(10)->format('d/m/Y'); // Tăng thành 30 ngày như mẫu
-        $subtotal = $cart->subtotal;
+        $expireDate = Carbon::now()->addDays(10)->format('d/m/Y');
 
-        // Tính thuế và giảm giá
-        $discount = $subtotal * 0; // Giảm giá 10%
-        $afterDiscount = $subtotal - $discount;
-        $vat = $afterDiscount * 0.10; // VAT 10%
-        $total = $afterDiscount + $vat;
+        $vatInvoice    = $request ? $request->boolean('vat_invoice') : false;
+        $amounts       = $this->invoiceService->computeQuoteAmounts($cart, $vatInvoice);
+        $subtotal      = $amounts['subtotal'];
+        $discount      = $amounts['discount'];
+        $afterDiscount = $amounts['afterDiscount'];
+        $vat           = $amounts['vatAmount'];
+        $vatRate       = $amounts['vatRate'];
+        $total         = $amounts['total'];
 
         $validity = '30 days';
 
         try {
             // Tạo PDF với template mới
-            $pdf = $this->generateModernPdf();
+            $pdf = $this->generateModernPdf($vatInvoice);
 
             // Chuẩn bị dữ liệu cho template email đẹp
             $data = compact(
@@ -81,6 +93,7 @@ class QuoteController extends Controller
                 'discount',
                 'afterDiscount',
                 'vat',
+                'vatRate',
                 'total',
                 'validity'
             );
@@ -112,7 +125,7 @@ class QuoteController extends Controller
     /**
      * Tạo PDF với template hiện đại mới
      */
-    private function generateModernPdf()
+    private function generateModernPdf(bool $vatInvoice = false)
     {
         // Lấy giỏ hàng hiện tại
         $cart = $this->getCart();
@@ -124,14 +137,16 @@ class QuoteController extends Controller
         $quoteDate = Carbon::now()->format('d/m/Y');
         $expireDate = Carbon::now()->addDays(10)->format('d/m/Y');
 
-        $subtotal = $cart->subtotal;
-        $discount = $subtotal * 0; // Giảm giá 10%
-        $afterDiscount = $subtotal - $discount;
-        $vat = $afterDiscount * 0.08; // VAT 10%
-        $total = $afterDiscount + $vat;
+        $amounts       = $this->invoiceService->computeQuoteAmounts($cart, $vatInvoice);
+        $subtotal      = $amounts['subtotal'];
+        $discount      = $amounts['discount'];
+        $afterDiscount = $amounts['afterDiscount'];
+        $vat           = $amounts['vatAmount'];
+        $vatRate       = $amounts['vatRate'];
+        $total         = $amounts['total'];
 
         // Tạo HTML với template mới
-        $html = $this->createModernPdfTemplate($cart, $user, $config, $quoteNumber, $quoteDate, $expireDate, $subtotal, $discount, $afterDiscount, $vat, $total);
+        $html = $this->createModernPdfTemplate($cart, $user, $config, $quoteNumber, $quoteDate, $expireDate, $subtotal, $discount, $afterDiscount, $vat, $total, $vatRate);
 
         $pdf = PDF::loadHTML($html);
 
@@ -157,7 +172,7 @@ class QuoteController extends Controller
     /**
      * Tạo template HTML hiện đại cho PDF
      */
-    private function createModernPdfTemplate($cart, $user, $config, $quoteNumber, $quoteDate, $expireDate, $subtotal, $discount, $afterDiscount, $vat, $total)
+    private function createModernPdfTemplate($cart, $user, $config, $quoteNumber, $quoteDate, $expireDate, $subtotal, $discount, $afterDiscount, $vat, $total, $vatRate = 0.0)
     {
         // Tạo danh sách sản phẩm
         $productsHtml = '';
@@ -579,7 +594,7 @@ class QuoteController extends Controller
                         <td class='price-column'>" . number_format($subtotal, 0, ',', '.') . " VNĐ</td>
                     </tr>
                     <tr class='total-section'>
-                        <td colspan='7' style='text-align: right;'>Giảm giá (10%)</td>
+                        <td colspan='7' style='text-align: right;'>Giảm giá (" . (int)(InvoiceService::DISCOUNT_RATE * 100) . "%)</td>
                         <td class='price-column'>" . number_format($discount, 0, ',', '.') . " VNĐ</td>
                     </tr>
                     <tr class='total-section'>
@@ -587,7 +602,7 @@ class QuoteController extends Controller
                         <td class='price-column'>" . number_format($afterDiscount, 0, ',', '.') . " VNĐ</td>
                     </tr>
                     <tr class='total-section'>
-                        <td colspan='7' style='text-align: right;'>Thuế VAT 8%</td>
+                        <td colspan='7' style='text-align: right;'>Thuế VAT " . (int)($vatRate * 100) . "%</td>
                         <td class='price-column'>" . number_format($vat, 0, ',', '.') . " VNĐ</td>
                     </tr>
                     <tr class='total-row'>
@@ -984,11 +999,11 @@ class QuoteController extends Controller
                                                 <td style='font-size: 12px; font-family: \"Open Sans\", sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; white-space:nowrap;' width='80'>" . number_format($subtotal, 0, ',', '.') . " đ</td>
                                             </tr>
                                             <tr>
-                                                <td style='font-size: 12px; font-family: \"Open Sans\", sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right;'>Giảm giá (10%)</td>
+                                                <td style='font-size: 12px; font-family: \"Open Sans\", sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right;'>Giảm giá (" . (int)(InvoiceService::DISCOUNT_RATE * 100) . "%)</td>
                                                 <td style='font-size: 12px; font-family: \"Open Sans\", sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; white-space:nowrap;' width='80'>-" . number_format($discount, 0, ',', '.') . " đ</td>
                                             </tr>
                                             <tr>
-                                                <td style='font-size: 12px; font-family: \"Open Sans\", sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right;'>VAT (10%)</td>
+                                                <td style='font-size: 12px; font-family: \"Open Sans\", sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right;'>VAT (" . (int)(($vatRate ?? 0) * 100) . "%)</td>
                                                 <td style='font-size: 12px; font-family: \"Open Sans\", sans-serif; color: #646a6e; line-height: 22px; vertical-align: top; text-align:right; white-space:nowrap;' width='80'>" . number_format($vat, 0, ',', '.') . " đ</td>
                                             </tr>
                                             <tr>
@@ -1139,17 +1154,9 @@ class QuoteController extends Controller
      */
     private function getCart()
     {
-        if (Auth::check()) {
-            $cart = Cart::where('user_id', Auth::id())
-                ->with('items.product')
-                ->first();
-        } else {
-            $sessionId = session()->getId();
-            $cart = Cart::where('session_id', $sessionId)
-                ->with('items.product')
-                ->first();
-        }
-
-        return $cart;
+        // Route nằm sau middleware frontend.auth — không có guest.
+        return Cart::where('user_id', Auth::id())
+            ->with('items.product')
+            ->first();
     }
 }

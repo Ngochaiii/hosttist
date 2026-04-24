@@ -386,19 +386,10 @@
                         <h6>Quản lý dịch vụ:</h6>
                         
                         @if($service->is_recurring)
-                        <form action="{{ route('customer.services.service.renew', $service->id) }}" method="POST" class="mb-2">
-                            @csrf
-                            <div class="form-group">
-                                <select name="years" class="form-control form-control-sm">
-                                    <option value="1">1 năm</option>
-                                    <option value="2">2 năm</option>
-                                    <option value="3">3 năm</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-success btn-block btn-sm" onclick="return confirm('Bạn có chắc muốn gia hạn dịch vụ này?')">
-                                <i class="fa fa-refresh"></i> Gia hạn dịch vụ
-                            </button>
-                        </form>
+                        <a href="{{ route('customer.services.service.renew.quote', $service->id) }}"
+                           class="btn btn-success btn-block btn-sm mb-2">
+                            <i class="fa fa-refresh"></i> Gia hạn dịch vụ
+                        </a>
                         @endif
 
                         <button type="button" class="btn btn-danger btn-block btn-sm" data-toggle="modal" data-target="#cancelModal">

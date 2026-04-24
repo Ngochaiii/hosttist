@@ -24,9 +24,9 @@ class CartItem extends Model
         'options',
     ];
 
-    protected $casts = [
-        'options' => 'array',
-    ];
+    // Không cast 'options' sang array: toàn bộ codebase (controllers, views,
+    // services) đang tự json_decode. Bật cast sẽ làm double-decode → getPeriod
+    // và cart/quote/invoice hiển thị sai.
 
     // Relationship với Cart
     public function cart()

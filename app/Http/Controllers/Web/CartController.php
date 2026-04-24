@@ -24,9 +24,14 @@ class CartController extends Controller
         try {
             $product = Products::with('category')->findOrFail($request->product_id);
 
+            if (($product->product_status ?? 'active') !== 'active') {
+                return back()->with('error', 'Sản phẩm hiện không khả dụng');
+            }
+
             $rules = [
-                'product_id' => 'required|exists:products,id',
-                'quantity'   => 'required|integer|min:1',
+                'product_id'     => 'required|exists:products,id',
+                'quantity'       => 'required|integer|min:1|max:100',
+                'options.period' => 'nullable|integer|min:1|max:10',
             ];
 
             if ($product->category && $product->category->hasServiceFields()) {
@@ -59,12 +64,23 @@ class CartController extends Controller
             $options = $request->options ?? [];
             $options['service_type'] = $product->category->getServiceType();
 
-            $period = $options['period'] ?? 1;
-            $price  = ($product->sale_price ?? $product->price) * $period;
+            $period = (int) ($options['period'] ?? 1);
+            $basePrice = ($product->sale_price > 0) ? $product->sale_price : $product->price;
+            $price  = $basePrice * $period;
+
+            // Matching key = product_id + period + domain (nếu có).
+            // Tránh ghi đè options khi cùng product nhưng khác domain/period.
+            $domainKey = $options['domain'] ?? null;
 
             $existingItem = CartItem::where('cart_id', $cart->id)
                 ->where('product_id', $product->id)
-                ->first();
+                ->get()
+                ->first(function (CartItem $item) use ($period, $domainKey) {
+                    $itemOpts = json_decode($item->options, true) ?: [];
+                    $itemPeriod = (int) ($itemOpts['period'] ?? 1);
+                    $itemDomain = $itemOpts['domain'] ?? null;
+                    return $itemPeriod === $period && $itemDomain === $domainKey;
+                });
 
             if ($existingItem) {
                 $newQty = $existingItem->quantity + $request->quantity;
@@ -157,26 +173,16 @@ class CartController extends Controller
 
     private function getCart(): Cart
     {
-        if (Auth::check()) {
-            return Cart::firstOrCreate(
-                ['user_id' => Auth::id()],
-                ['expires_at' => now()->addDays(7), 'subtotal' => 0, 'total_amount' => 0]
-            );
-        }
-
+        // Tất cả route cart nằm sau middleware frontend.auth, không có guest.
         return Cart::firstOrCreate(
-            ['session_id' => session()->getId()],
+            ['user_id' => Auth::id()],
             ['expires_at' => now()->addDays(7), 'subtotal' => 0, 'total_amount' => 0]
         );
     }
 
     private function checkCartAccess(Cart $cart): bool
     {
-        if (Auth::check()) {
-            return $cart->user_id == Auth::id();
-        }
-
-        return $cart->session_id == session()->getId();
+        return $cart->user_id == Auth::id();
     }
 
     private function updateCartTotals(Cart $cart): void

@@ -94,7 +94,69 @@
                                             @endphp
                                             <tr>
                                                 <td>{{ $payment->transaction_id }}</td>
-                                                <td>{{ $payment->invoice->invoice_number ?? 'N/A' }}</td>
+                                                <td>
+                                                    {{ $payment->invoice->invoice_number ?? 'N/A' }}
+                                                    @if ($payment->order && $payment->order->renewal_of_service_id)
+                                                        <br>
+                                                        <span class="badge badge-info mt-1"
+                                                            title="Đơn gia hạn dịch vụ">
+                                                            <i class="fas fa-sync-alt"></i>
+                                                            Gia hạn DV #{{ $payment->order->renewal_of_service_id }}
+                                                        </span>
+                                                    @endif
+                                                    @if ($payment->invoice && $payment->invoice->vat_invoice_requested)
+                                                        <br>
+                                                        <span class="badge badge-warning mt-1" data-toggle="modal"
+                                                            data-target="#vatInfoModal{{ $payment->id }}"
+                                                            style="cursor: pointer;" title="Xem thông tin xuất hoá đơn">
+                                                            <i class="fas fa-file-invoice"></i> VAT công ty
+                                                        </span>
+
+                                                        <div class="modal fade" id="vatInfoModal{{ $payment->id }}"
+                                                            tabindex="-1" role="dialog" aria-hidden="true">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header bg-warning">
+                                                                        <h5 class="modal-title">
+                                                                            <i class="fas fa-file-invoice"></i>
+                                                                            Thông tin xuất hoá đơn VAT
+                                                                        </h5>
+                                                                        <button type="button" class="close"
+                                                                            data-dismiss="modal"><span>&times;</span></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="table table-sm table-bordered mb-0">
+                                                                            <tr>
+                                                                                <th width="35%">Tên công ty</th>
+                                                                                <td>{{ $payment->invoice->vat_company_name ?? 'N/A' }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Mã số thuế</th>
+                                                                                <td>{{ $payment->invoice->vat_tax_code ?? 'N/A' }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Địa chỉ</th>
+                                                                                <td>{{ $payment->invoice->vat_company_address ?? 'N/A' }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Email nhận hoá đơn</th>
+                                                                                <td>{{ $payment->invoice->vat_company_email ?? 'N/A' }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>VAT (10%)</th>
+                                                                                <td>{{ number_format($payment->invoice->tax_amount ?? 0, 0, ',', '.') }} đ</td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-dismiss="modal">Đóng</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                </td>
                                                 <td>
                                                     @if ($payment->order && $payment->order->customer && $payment->order->customer->user)
                                                         {{ $payment->order->customer->user->name }}<br>
@@ -252,6 +314,33 @@
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
+
+                                                                            @if ($payment->invoice && $payment->invoice->vat_invoice_requested)
+                                                                                <div class="alert alert-warning">
+                                                                                    <h6 class="mb-2">
+                                                                                        <i class="fas fa-file-invoice"></i>
+                                                                                        <strong>Khách yêu cầu xuất hoá đơn VAT công ty (10%)</strong>
+                                                                                    </h6>
+                                                                                    <div class="row small">
+                                                                                        <div class="col-md-6">
+                                                                                            <strong>Tên công ty:</strong>
+                                                                                            {{ $payment->invoice->vat_company_name ?? 'N/A' }}<br>
+                                                                                            <strong>Mã số thuế:</strong>
+                                                                                            {{ $payment->invoice->vat_tax_code ?? 'N/A' }}
+                                                                                        </div>
+                                                                                        <div class="col-md-6">
+                                                                                            <strong>Email nhận HĐ:</strong>
+                                                                                            {{ $payment->invoice->vat_company_email ?? 'N/A' }}<br>
+                                                                                            <strong>Tiền VAT:</strong>
+                                                                                            {{ number_format($payment->invoice->tax_amount ?? 0, 0, ',', '.') }} đ
+                                                                                        </div>
+                                                                                        <div class="col-12 mt-1">
+                                                                                            <strong>Địa chỉ:</strong>
+                                                                                            {{ $payment->invoice->vat_company_address ?? 'N/A' }}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            @endif
 
                                                                             @php
                                                                                 $needsProvision = false;

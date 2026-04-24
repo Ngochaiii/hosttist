@@ -109,8 +109,8 @@
                                     <th class="text-right">{{ number_format($subtotal, 0, ',', '.') }} đ</th>
                                 </tr>
                                 <tr>
-                                    <th>0% VAT</th>
-                                    <th class="text-right">0 đ</th>
+                                    <th>{{ (int) ($vatRate * 100) }}% VAT</th>
+                                    <th class="text-right">{{ number_format($vatAmount, 0, ',', '.') }} đ</th>
                                 </tr>
                                 <tr>
                                     <th>Credit</th>
@@ -201,26 +201,138 @@
                 </div>
             </div>
 
+            {{-- VAT / Xuất hoá đơn công ty --}}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="vatInvoiceToggle"
+                               {{ !empty($vatInvoice) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="vatInvoiceToggle">
+                            <strong>Xuất hoá đơn công ty (VAT 10%)</strong>
+                        </label>
+                        <div class="small text-muted">
+                            Tick vào ô này nếu bạn cần xuất hoá đơn VAT cho công ty. Tổng cộng sẽ cộng thêm 10% VAT.
+                        </div>
+                    </div>
+
+                    <div id="vatCompanyFields" class="mt-3" style="{{ !empty($vatInvoice) ? '' : 'display:none;' }}">
+                        <div class="row">
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label">Tên công ty <span class="text-danger">*</span></label>
+                                <input type="text" name="vat_company_name" form="paymentForm"
+                                       class="form-control" maxlength="255"
+                                       value="{{ old('vat_company_name') }}">
+                            </div>
+                            <div class="col-md-6 mb-2">
+                                <label class="form-label">Mã số thuế <span class="text-danger">*</span></label>
+                                <input type="text" name="vat_tax_code" form="paymentForm"
+                                       class="form-control" maxlength="50"
+                                       placeholder="0123456789"
+                                       value="{{ old('vat_tax_code') }}">
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label class="form-label">Địa chỉ công ty <span class="text-danger">*</span></label>
+                                <input type="text" name="vat_company_address" form="paymentForm"
+                                       class="form-control" maxlength="255"
+                                       value="{{ old('vat_company_address') }}">
+                            </div>
+                            <div class="col-md-12 mb-2">
+                                <label class="form-label">Email nhận hoá đơn <span class="text-danger">*</span></label>
+                                <input type="email" name="vat_company_email" form="paymentForm"
+                                       class="form-control" maxlength="255"
+                                       value="{{ old('vat_company_email', $user->email) }}">
+                            </div>
+                        </div>
+                        @if ($errors->any())
+                            <div class="alert alert-danger mt-2 mb-0">
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $err)
+                                        <li>{{ $err }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
             <!-- Nút tải PDF và gửi email -->
             <div class="row mb-4">
                 <div class="col-md-4">
-                    <a href="{{ route('quote.download') }}" class="btn btn-outline-primary btn-block">
+                    <a href="{{ route('quote.download') }}" id="downloadPdfBtn"
+                       class="btn btn-outline-primary btn-block">
                         <i class="fa fa-download mr-2"></i> Tải PDF báo giá
                     </a>
                 </div>
 
                 <div class="col-md-4">
-                    <a href="{{ route('quote.email') }}" class="btn btn-outline-info btn-block">
+                    <a href="{{ route('quote.email') }}" id="emailQuoteBtn"
+                       class="btn btn-outline-info btn-block">
                         <i class="fa fa-envelope mr-2"></i> Gửi báo giá qua email
                     </a>
                 </div>
 
                 <div class="col-md-4">
-                    <a href="{{ route('process.payment') }}" class="btn btn-success btn-block">
-                        <i class="fa fa-credit-card mr-2"></i> Tiếp tục thanh toán
-                    </a>
+                    <form action="{{ route('process.payment') }}" method="post" id="paymentForm">
+                        @csrf
+                        <input type="hidden" name="vat_invoice" id="vatInvoiceHidden" value="{{ !empty($vatInvoice) ? '1' : '0' }}">
+                        @php
+                            $hasWalletBalance = $user->customer && $user->customer->hasBalance($total);
+                            $walletBalance = $user->customer ? $user->customer->balance : 0;
+                        @endphp
+                        <div class="mb-2 text-left">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment_method"
+                                       id="pmWallet" value="wallet"
+                                       {{ $hasWalletBalance ? 'checked' : 'disabled' }}>
+                                <label class="form-check-label" for="pmWallet">
+                                    Ví của tôi ({{ number_format($walletBalance, 0, ',', '.') }} đ)
+                                    @if (!$hasWalletBalance)
+                                        <small class="text-danger">– không đủ số dư</small>
+                                    @endif
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="payment_method"
+                                       id="pmBank" value="bank"
+                                       {{ !$hasWalletBalance ? 'checked' : '' }}>
+                                <label class="form-check-label" for="pmBank">
+                                    Chuyển khoản ngân hàng
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block">
+                            <i class="fa fa-credit-card mr-2"></i> Tiếp tục thanh toán
+                        </button>
+                    </form>
                 </div>
             </div>
+
+            <script>
+                (function () {
+                    const toggle = document.getElementById('vatInvoiceToggle');
+                    const fields = document.getElementById('vatCompanyFields');
+                    const hidden = document.getElementById('vatInvoiceHidden');
+                    const dlBtn  = document.getElementById('downloadPdfBtn');
+                    const emBtn  = document.getElementById('emailQuoteBtn');
+                    const quoteUrl = @json(route('quote'));
+
+                    function apply() {
+                        const on = toggle.checked;
+                        fields.style.display = on ? '' : 'none';
+                        hidden.value = on ? '1' : '0';
+                        const qs = on ? '?vat_invoice=1' : '';
+                        dlBtn.href = @json(route('quote.download')) + qs;
+                        emBtn.href = @json(route('quote.email'))    + qs;
+                    }
+                    toggle.addEventListener('change', function () {
+                        apply();
+                        // Reload trang quote để cập nhật tổng tiền/VAT
+                        window.location.href = quoteUrl + (toggle.checked ? '?vat_invoice=1' : '');
+                    });
+                    apply();
+                })();
+            </script>
             <!-- Nút quay lại -->
             <div class="text-center">
                 <a href="{{ route('cart.index') }}" class="btn btn-link">

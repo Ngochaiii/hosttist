@@ -85,6 +85,10 @@ Route::group(['middleware' => ['frontend.auth']], function () {
                 ->where('id', '[0-9]+');
 
             // Service management actions
+            Route::get('/{id}/renew', [ServiceController::class, 'showRenewQuote'])
+                ->name('customer.services.service.renew.quote')
+                ->where('id', '[0-9]+');
+
             Route::post('/{id}/renew', [ServiceController::class, 'renewService'])
                 ->name('customer.services.service.renew')
                 ->where('id', '[0-9]+');
@@ -111,7 +115,9 @@ Route::group(['middleware' => ['frontend.auth']], function () {
     // ===== SHOPPING CART =====
     Route::group(['prefix' => 'cart'], function () {
         Route::get('/', [CartController::class, 'index'])->name('cart.index');
-        Route::post('/add', [CartController::class, 'addToCart'])->name('cart.add');
+        Route::post('/add', [CartController::class, 'addToCart'])
+            ->middleware('throttle:30,1')
+            ->name('cart.add');
         Route::post('/update/{itemId}', [CartController::class, 'updateItem'])->name('cart.update');
         Route::post('/remove/{itemId}', [CartController::class, 'removeItem'])->name('cart.remove');
         Route::post('/clear', [CartController::class, 'clearCart'])->name('cart.clear');
@@ -137,7 +143,7 @@ Route::group(['middleware' => ['frontend.auth']], function () {
     });
 
     // ===== PAYMENT PROCESSING =====
-    Route::get('/payment/process', [InvoiceController::class, 'proceedToPayment'])->name('process.payment');
+    Route::post('/payment/process', [InvoiceController::class, 'proceedToPayment'])->name('process.payment');
 
     // ===== PAYMENT STATUS PAGES =====
     Route::group(['prefix' => 'payment'], function () {

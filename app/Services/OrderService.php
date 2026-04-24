@@ -14,22 +14,37 @@ use Illuminate\Support\Facades\Log;
 
 class OrderService extends BaseService
 {
+    /** Loại sản phẩm cần provision thủ công (đồng nhất giữa các flow admin/wallet/bank) */
+    public const PROVISIONABLE_TYPES = ['ssl', 'vps', 'hosting', 'domain'];
+
     protected $provisionService;
     public function __construct()
     {
         $this->provisionService = app(ProvisionService::class);
     }
-    public function createFromCart(Cart $cart, int $customerId): array
-    {
+    public function createFromCart(
+        Cart $cart,
+        int $customerId,
+        bool $vatInvoice = false,
+        array $vatInfo = []
+    ): array {
         DB::beginTransaction();
         try {
+            $amounts  = app(\App\Services\InvoiceService::class)->computeQuoteAmounts($cart, $vatInvoice);
+            $subtotal = $amounts['subtotal'];
+            $tax      = $amounts['vatAmount'];
+            $discount = $amounts['discount'];
+            $total    = $amounts['total'];
+
             $order = Orders::create([
-                'order_number' => $this->generateUniqueNumber('ORD'),
-                'customer_id' => $customerId,
-                'status' => 'pending',
-                'subtotal' => $cart->subtotal,
-                'total_amount' => $cart->total_amount,
-                'created_by' => Auth::id()
+                'order_number'    => $this->generateUniqueNumber('ORD'),
+                'customer_id'     => $customerId,
+                'status'          => 'pending',
+                'subtotal'        => $subtotal,
+                'tax_amount'      => $tax,
+                'discount_amount' => $discount,
+                'total_amount'    => $total,
+                'created_by'      => Auth::id(),
             ]);
 
             foreach ($cart->items as $cartItem) {
@@ -50,13 +65,20 @@ class OrderService extends BaseService
             }
 
             $invoice = Invoices::create([
-                'invoice_number' => $this->generateUniqueNumber('INV'),
-                'order_id' => $order->id,
-                'customer_id' => $customerId,
-                'status' => 'pending',
-                'subtotal' => $order->subtotal,
-                'total_amount' => $order->total_amount,
-                'due_date' => Carbon::now()->addDays(7)
+                'invoice_number'        => $this->generateUniqueNumber('INV'),
+                'order_id'              => $order->id,
+                'customer_id'           => $customerId,
+                'status'                => 'pending',
+                'subtotal'              => $order->subtotal,
+                'tax_amount'            => $order->tax_amount,
+                'discount_amount'       => $order->discount_amount,
+                'total_amount'          => $order->total_amount,
+                'due_date'              => Carbon::now()->addDays(7),
+                'vat_invoice_requested' => $vatInvoice,
+                'vat_company_name'      => $vatInfo['vat_company_name']    ?? null,
+                'vat_tax_code'          => $vatInfo['vat_tax_code']        ?? null,
+                'vat_company_address'   => $vatInfo['vat_company_address'] ?? null,
+                'vat_company_email'     => $vatInfo['vat_company_email']   ?? null,
             ]);
 
             DB::commit();
@@ -179,10 +201,16 @@ class OrderService extends BaseService
             return false;
         }
 
-        // Chỉ tạo provision cho những loại sản phẩm này
-        $provisionableTypes = ['ssl', 'domain', 'hosting', 'service'];
+        return in_array($this->resolveServiceType($item), self::PROVISIONABLE_TYPES);
+    }
 
-        return in_array($item->product->type, $provisionableTypes);
+    /** service_type từ options (được cart set từ category.meta_data.service_type), fallback product->type */
+    private function resolveServiceType(Order_items $item): ?string
+    {
+        $options = json_decode($item->options, true) ?: [];
+        return $options['service_type']
+            ?? ($item->product?->category?->getServiceType())
+            ?? $item->product?->type;
     }
 
     /**
@@ -192,8 +220,8 @@ class OrderService extends BaseService
     {
         $options = json_decode($item->options, true) ?: [];
 
-        // Xác định loại provision và priority
-        $provisionType = $item->product->type;
+        // Xác định loại provision và priority — ưu tiên service_type (từ cart/category) thay vì product->type
+        $provisionType = $this->resolveServiceType($item) ?? $item->product->type;
         $priority = match ($provisionType) {
             'ssl' => 7,      // High priority
             'hosting' => 6,   // Medium-high 
@@ -216,13 +244,14 @@ class OrderService extends BaseService
             'customer_id' => $order->customer_id,
             'provision_type' => $provisionType,
             'provision_status' => 'pending',
-            'provision_data' => [
+            'provision_data' => json_encode([
+                'service_type' => $provisionType,
                 'domain' => $options['domain'] ?? null,
                 'period' => $options['period'] ?? 1,
                 'auto_renew' => $options['auto_renew'] ?? false,
                 'created_from_order' => $order->order_number,
-                'original_options' => $options
-            ],
+                'original_options' => $options,
+            ]),
             'priority' => $priority,
             'estimated_completion' => $estimatedCompletion,
             'provision_notes' => "Auto-created from order {$order->order_number} - Item: {$item->name}",

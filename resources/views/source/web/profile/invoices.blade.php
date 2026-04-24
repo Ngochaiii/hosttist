@@ -121,7 +121,7 @@
                                                             class="btn btn-secondary">
                                                             <i class="fa fa-download"></i> PDF
                                                         </a>
-                                                        <a href="{{ route('proceed.payment', $invoice->order_id) }}"
+                                                        <a href="{{ route('invoice.payment', $invoice->id) }}"
                                                             class="btn btn-success">
                                                             <i class="fa fa-credit-card"></i> Thanh toán
                                                         </a>
