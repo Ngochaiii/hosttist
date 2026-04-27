@@ -152,12 +152,15 @@ class PaymentController extends Controller
         try {
             DB::beginTransaction();
 
-            $payment = Payments::with([
-                'invoice.order.items.product',
-                'order.customer.user'
-            ])->findOrFail($id);
+            // Lock payment row để chống race-condition khi 2 admin cùng duyệt.
+            $payment = Payments::where('id', $id)->lockForUpdate()->first();
+            if (!$payment) {
+                DB::rollback();
+                return back()->with('error', 'Không tìm thấy thanh toán');
+            }
+            $payment->load(['invoice.order.items.product', 'order.customer.user']);
 
-            // Validate payment status
+            // Validate payment status SAU khi đã lock — đảm bảo state mới nhất.
             if ($payment->status !== 'pending') {
                 DB::rollback();
                 return back()->with('error', 'Thanh toán đã được xử lý trước đó');
@@ -252,6 +255,23 @@ class PaymentController extends Controller
                     continue;
                 }
 
+                // Validate required fields theo từng service type — admin phải nhập đủ thông tin
+                // bắt buộc trước khi tạo provision (tránh tạo CS với credentials trống → khách
+                // không thể truy cập dịch vụ).
+                $missing = $this->validateProvisionPayload($serviceType, $itemProvisionData, $itemFiles, $item);
+                if (!empty($missing)) {
+                    DB::rollback();
+                    Log::warning("[{$requestId}] Provision data invalid", [
+                        'item_id'      => $item->id,
+                        'service_type' => $serviceType,
+                        'missing'      => $missing,
+                    ]);
+                    return back()->withInput()->with(
+                        'error',
+                        "Thiếu thông tin provision cho item #{$item->id} ({$serviceType}): " . implode(', ', $missing)
+                    );
+                }
+
                 // Xử lý data theo service type
                 $processedData = $this->processProvisionData($serviceType, $itemProvisionData, $itemFiles, $item);
 
@@ -315,6 +335,46 @@ class PaymentController extends Controller
 
             return back()->with('error', 'Lỗi xử lý: ' . $e->getMessage());
         }
+    }
+
+    /**
+     * Required fields theo service type. Trả về list field name bị thiếu.
+     * Domain (cho ssl/hosting/domain) lấy từ options của order item nếu không có trong payload.
+     */
+    private function validateProvisionPayload(string $serviceType, array $payload, array $files, $item): array
+    {
+        $itemOptions = json_decode($item->options, true) ?: [];
+        $domain = $payload['domain'] ?? ($itemOptions['domain'] ?? $item->domain ?? null);
+
+        $missing = [];
+        switch ($serviceType) {
+            case 'vps':
+                foreach (['server_ip', 'username', 'password'] as $f) {
+                    if (empty($payload[$f])) $missing[] = $f;
+                }
+                break;
+            case 'hosting':
+            case 'cloud_hosting':
+                if (empty($domain)) $missing[] = 'domain';
+                foreach (['cpanel_username', 'cpanel_password', 'cpanel_url'] as $f) {
+                    if (empty($payload[$f])) $missing[] = $f;
+                }
+                break;
+            case 'ssl':
+                if (empty($domain)) $missing[] = 'domain';
+                // Cần ít nhất certificate + private_key (file hoặc đã upload trước đó)
+                if (empty($files['certificate'])) $missing[] = 'certificate file';
+                if (empty($files['private_key'])) $missing[] = 'private_key file';
+                break;
+            case 'domain':
+                if (empty($domain)) $missing[] = 'domain';
+                if (empty($payload['registrar'])) $missing[] = 'registrar';
+                break;
+            // Các loại khác (email, anti_ddos, reseller, advertising, web_design, seo)
+            // không có schema cứng — chỉ cần notes là đủ; không validate.
+        }
+
+        return $missing;
     }
 
     /**
@@ -489,13 +549,18 @@ class PaymentController extends Controller
         $request->validate(['reason' => 'required|string|max:255']);
 
         try {
-            $payment = Payments::findOrFail($id);
-
-            if ($payment->status !== 'pending') {
-                return back()->with('error', 'Chỉ có thể từ chối thanh toán đang chờ xử lý');
-            }
-
-            $this->paymentService->rejectPayment($payment, $request->input('reason'), Auth::id());
+            $payment = DB::transaction(function () use ($id, $request) {
+                // Lock + double-check status để chống race với approve.
+                $p = Payments::where('id', $id)->lockForUpdate()->first();
+                if (!$p) {
+                    throw new \Exception('Không tìm thấy thanh toán');
+                }
+                if ($p->status !== 'pending') {
+                    throw new \Exception('Chỉ có thể từ chối thanh toán đang chờ xử lý');
+                }
+                $this->paymentService->rejectPayment($p, $request->input('reason'), Auth::id());
+                return $p;
+            });
 
             return redirect()->route('admin.payments.index')
                 ->with('success', 'Thanh toán đã bị từ chối.');

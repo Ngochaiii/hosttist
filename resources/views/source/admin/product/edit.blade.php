@@ -112,6 +112,15 @@
                                 </div>
                             </div>
                             <div class="card-body">
+                                <div class="alert alert-warning mb-3 py-2" style="font-size: 13px;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <strong>Chính sách giá:</strong>
+                                    Giá mới <u>áp dụng cho cả khách MỚI lẫn khách CŨ khi gia hạn</u>
+                                    (phản ánh chi phí vận hành/lạm phát).
+                                    Khách hàng đã mua sẽ thấy giá hiện tại tại trang gia hạn — kèm cảnh báo
+                                    "đã điều chỉnh từ giá lần trước" để minh bạch.
+                                    Hãy cân nhắc thông báo trước cho khách trước khi tăng mạnh.
+                                </div>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">

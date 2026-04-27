@@ -7907,3 +7907,1231 @@ Stack trace:
 [2026-04-24 09:18:14] local.INFO: Final expiration for order #ORD-1774855443JO7MC: 2027-03-30  
 [2026-04-24 09:18:34] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
 [2026-04-24 09:18:34] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:16:08] local.INFO: Validating data: {"input_data":{"_token":"vlDDwADRVW2FwmNhhYJRYHpqbR9w79Gf7eJ2poiP","_method":"PUT","name":"Cloud VPS Website Platinum (1 year)","slug":"cloud-vps-website-platinum-1-year","sku":"VPS-12-1-1757838433","short_description":"VPS Cloud Hiệu Năng Cao – Vận Hành Mượt Mà Trên 450 Website
+
+Lý tưởng cho doanh nghiệp, hệ thống website lớn, và dự án yêu cầu hiệu suất ổn định.","description":"<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Mượt M&agrave; Tr&ecirc;n 450 Website</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>10 vCPU, 32GB RAM, 299GB NVMe tốc độ cực nhanh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn &ndash; Tốc độ mạng 150Mbps (Clean Traffic)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>DDoS Protection 10Gbps miễn ph&iacute; &ndash; An to&agrave;n, ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ KVM &amp; OpenStack &ndash; Ảo h&oacute;a mạnh mẽ, dễ mở rộng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&ugrave;y chỉnh OS, VNC, khởi động lại nhanh ch&oacute;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>K&egrave;m g&oacute;i quản trị m&aacute;y chủ miễn ph&iacute; &ndash; tiết kiệm chi ph&iacute; IT</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt &ndash; kh&ocirc;ng cần chờ duyệt</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Uptime cam kết 99.99% &ndash; hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p><strong>L&yacute; tưởng cho doanh nghiệp, hệ thống website lớn, v&agrave; dự &aacute;n y&ecirc;u cầu hiệu suất ổn định.</strong></p>","price":"24757000.00","sale_price":null,"stock":"9","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"{
+
+    \"vps_id\": \"vps-2938x7\",
+
+    \"hostname\": \"cloud-vps-01.example.com\",
+
+    \"ip_address\": \"103.142.26.87\",
+
+    \"status\": \"running\",
+
+    \"uptime\": \"12 days, 4 hours, 27 minutes\",
+
+    \"cpu_usage\": \"37.4%\",
+
+    \"ram_usage\": {
+
+        \"total\": \"32GB\",
+
+        \"used\": \"11.7GB\",
+
+        \"free\": \"20.3GB\"
+
+    },
+
+    \"disk_usage\": {
+
+        \"total\": \"299GB\",
+
+        \"used\": \"88GB\",
+
+        \"free\": \"211GB\"
+
+    },
+
+    \"network\": {
+
+        \"inbound\": \"143.2MB\",
+
+        \"outbound\": \"391.5MB\",
+
+        \"bandwidth_used_this_month\": \"73.1GB\"
+
+    },
+
+    \"os\": \"CentOS 7.9\",
+
+    \"kernel_version\": \"3.10.0-1160.el7.x86_64\",
+
+    \"virtualization\": \"KVM\",
+
+    \"last_reboot\": \"2025-05-13T02:48:19Z\",
+
+    \"location\": \"VN - Hanoi Datacenter\",
+
+    \"ddos_protection\": \"Enabled (10Gbps)\",
+
+    \"firewall\": \"Enabled\",
+
+    \"backup_schedule\": \"Daily at 2:00 AM\",
+
+    \"auto_restart_on_failure\": true,
+
+    \"notes\": \"This VPS hosts production WordPress sites.\",
+
+    \"service_info\": {
+
+        \"created_from_order\": 3,
+
+        \"original_product_id\": 6,
+
+        \"provisioned_at\": \"2025-09-14 08:27:13\",
+
+        \"duration_years\": 1
+
+    },
+
+    \"service_details\": {
+
+        \"activated_at\": \"2025-09-14 08:27:13\",
+
+        \"service_id\": \"SRV-11\",
+
+        \"status\": \"active\",
+
+        \"configuration\": {
+
+            \"period\": \"1\",
+
+            \"auto_renew\": \"1\"
+
+        }
+
+    }
+
+}","options":"{
+
+    \"period\": \"1\",
+
+    \"auto_renew\": \"1\"
+
+}","category_id":"2","parent_product_id":"6","type":"product","product_status":"inactive","sort_order":"0","is_featured":0},"rules":{"name":"required|max:255","slug":"nullable|max:255|unique:products,slug,11","category_id":"nullable|exists:categories,id","description":"nullable|string","short_description":"nullable|string","price":"required|numeric|min:0","sale_price":"nullable|numeric|min:0","image":"nullable|image|max:2048","type":"required|in:product,service,ssl,domain,hosting","product_status":"nullable|in:active,inactive,draft","stock":"nullable|integer","is_featured":"nullable|boolean","sort_order":"nullable|integer|min:0"}} 
+[2026-04-27 03:16:08] local.INFO: Data after cleaning: {"name":"Cloud VPS Website Platinum (1 year)","slug":"cloud-vps-website-platinum-1-year","sku":"VPS-12-1-1757838433","short_description":"VPS Cloud Hiệu Năng Cao – Vận Hành Mượt Mà Trên 450 Website
+
+Lý tưởng cho doanh nghiệp, hệ thống website lớn, và dự án yêu cầu hiệu suất ổn định.","description":"<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Mượt M&agrave; Tr&ecirc;n 450 Website</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>10 vCPU, 32GB RAM, 299GB NVMe tốc độ cực nhanh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn &ndash; Tốc độ mạng 150Mbps (Clean Traffic)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>DDoS Protection 10Gbps miễn ph&iacute; &ndash; An to&agrave;n, ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ KVM &amp; OpenStack &ndash; Ảo h&oacute;a mạnh mẽ, dễ mở rộng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&ugrave;y chỉnh OS, VNC, khởi động lại nhanh ch&oacute;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>K&egrave;m g&oacute;i quản trị m&aacute;y chủ miễn ph&iacute; &ndash; tiết kiệm chi ph&iacute; IT</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt &ndash; kh&ocirc;ng cần chờ duyệt</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Uptime cam kết 99.99% &ndash; hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p><strong>L&yacute; tưởng cho doanh nghiệp, hệ thống website lớn, v&agrave; dự &aacute;n y&ecirc;u cầu hiệu suất ổn định.</strong></p>","price":"24757000.00","sale_price":null,"stock":"9","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"{
+
+    \"vps_id\": \"vps-2938x7\",
+
+    \"hostname\": \"cloud-vps-01.example.com\",
+
+    \"ip_address\": \"103.142.26.87\",
+
+    \"status\": \"running\",
+
+    \"uptime\": \"12 days, 4 hours, 27 minutes\",
+
+    \"cpu_usage\": \"37.4%\",
+
+    \"ram_usage\": {
+
+        \"total\": \"32GB\",
+
+        \"used\": \"11.7GB\",
+
+        \"free\": \"20.3GB\"
+
+    },
+
+    \"disk_usage\": {
+
+        \"total\": \"299GB\",
+
+        \"used\": \"88GB\",
+
+        \"free\": \"211GB\"
+
+    },
+
+    \"network\": {
+
+        \"inbound\": \"143.2MB\",
+
+        \"outbound\": \"391.5MB\",
+
+        \"bandwidth_used_this_month\": \"73.1GB\"
+
+    },
+
+    \"os\": \"CentOS 7.9\",
+
+    \"kernel_version\": \"3.10.0-1160.el7.x86_64\",
+
+    \"virtualization\": \"KVM\",
+
+    \"last_reboot\": \"2025-05-13T02:48:19Z\",
+
+    \"location\": \"VN - Hanoi Datacenter\",
+
+    \"ddos_protection\": \"Enabled (10Gbps)\",
+
+    \"firewall\": \"Enabled\",
+
+    \"backup_schedule\": \"Daily at 2:00 AM\",
+
+    \"auto_restart_on_failure\": true,
+
+    \"notes\": \"This VPS hosts production WordPress sites.\",
+
+    \"service_info\": {
+
+        \"created_from_order\": 3,
+
+        \"original_product_id\": 6,
+
+        \"provisioned_at\": \"2025-09-14 08:27:13\",
+
+        \"duration_years\": 1
+
+    },
+
+    \"service_details\": {
+
+        \"activated_at\": \"2025-09-14 08:27:13\",
+
+        \"service_id\": \"SRV-11\",
+
+        \"status\": \"active\",
+
+        \"configuration\": {
+
+            \"period\": \"1\",
+
+            \"auto_renew\": \"1\"
+
+        }
+
+    }
+
+}","options":"{
+
+    \"period\": \"1\",
+
+    \"auto_renew\": \"1\"
+
+}","category_id":"2","parent_product_id":"6","type":"product","product_status":"inactive","sort_order":"0","is_featured":0} 
+[2026-04-27 03:16:38] local.INFO: Validating data: {"input_data":{"_token":"vlDDwADRVW2FwmNhhYJRYHpqbR9w79Gf7eJ2poiP","_method":"PUT","name":"Chứng chỉ SSL EV Business for dongynguyenhuutoan.com (1 year)","slug":"chung-chi-ssl-ev-business-for-dongynguyenhuutoancom-1-year","sku":"SSL-DV-1-1757731286","short_description":"SSL (Secure Sockets Layer) là tiêu chuẩn của công nghệ bảo mật, truyền thông mã hóa giữa máy chủ web server và trình duyệt (browser)","description":"<ul>
+
+\t<li>C&agrave;i đặt: Miễn ph&iacute;</li>
+
+\t<li>Mức bảo hiểm: 1.000.000$</li>
+
+\t<li>Số lượng domain: 01</li>
+
+\t<li>Biểu tượng: Hiển thị ổ kh&oacute;a m&agrave;u xanh</li>
+
+\t<li>Hiển thị thương hiệu: Chứng chỉ chứa t&ecirc;n c&ocirc;ng ty sở hữu website</li>
+
+\t<li>Chứng thực bởi: Sectigo Limited</li>
+
+</ul>","price":"3999000.00","sale_price":null,"stock":"1000","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"{
+
+    \"service_info\": {
+
+        \"created_from_order\": 1,
+
+        \"original_product_id\": 5,
+
+        \"provisioned_at\": \"2025-09-13 02:41:26\",
+
+        \"duration_years\": 1
+
+    },
+
+    \"domain\": \"dongynguyenhuutoan.com\",
+
+    \"ssl_info\": {
+
+        \"domain\": \"dongynguyenhuutoan.com\",
+
+        \"verification_method\": \"domain_validation\",
+
+        \"key_size\": \"2048\",
+
+        \"algorithm\": \"RSA\",
+
+        \"status\": \"pending_installation\"
+
+    },
+
+    \"ssl_certificate\": {
+
+        \"status\": \"pending_validation\",
+
+        \"validation_method\": \"dns\",
+
+        \"validation_token\": \"DKoZm2BUettUY3w537OX95Mi6NOUaWVn\",
+
+        \"created_at\": \"2025-09-13 02:41:26\",
+
+        \"expires_at\": \"2026-09-13 02:41:26\",
+
+        \"common_name\": \"dongynguyenhuutoan.com\",
+
+        \"subject_alternative_names\": [
+
+            \"*.dongynguyenhuutoan.com\"
+
+        ]
+
+    }
+
+}","options":"{
+
+    \"period\": \"1\",
+
+    \"domain\": \"dongynguyenhuutoan.com\",
+
+    \"auto_renew\": \"1\"
+
+}","category_id":"1","parent_product_id":"5","type":"ssl","product_status":"inactive","sort_order":"0","is_featured":0},"rules":{"name":"required|max:255","slug":"nullable|max:255|unique:products,slug,10","category_id":"nullable|exists:categories,id","description":"nullable|string","short_description":"nullable|string","price":"required|numeric|min:0","sale_price":"nullable|numeric|min:0","image":"nullable|image|max:2048","type":"required|in:product,service,ssl,domain,hosting","product_status":"nullable|in:active,inactive,draft","stock":"nullable|integer","is_featured":"nullable|boolean","sort_order":"nullable|integer|min:0"}} 
+[2026-04-27 03:16:38] local.INFO: Data after cleaning: {"name":"Chứng chỉ SSL EV Business for dongynguyenhuutoan.com (1 year)","slug":"chung-chi-ssl-ev-business-for-dongynguyenhuutoancom-1-year","sku":"SSL-DV-1-1757731286","short_description":"SSL (Secure Sockets Layer) là tiêu chuẩn của công nghệ bảo mật, truyền thông mã hóa giữa máy chủ web server và trình duyệt (browser)","description":"<ul>
+
+\t<li>C&agrave;i đặt: Miễn ph&iacute;</li>
+
+\t<li>Mức bảo hiểm: 1.000.000$</li>
+
+\t<li>Số lượng domain: 01</li>
+
+\t<li>Biểu tượng: Hiển thị ổ kh&oacute;a m&agrave;u xanh</li>
+
+\t<li>Hiển thị thương hiệu: Chứng chỉ chứa t&ecirc;n c&ocirc;ng ty sở hữu website</li>
+
+\t<li>Chứng thực bởi: Sectigo Limited</li>
+
+</ul>","price":"3999000.00","sale_price":null,"stock":"1000","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"{
+
+    \"service_info\": {
+
+        \"created_from_order\": 1,
+
+        \"original_product_id\": 5,
+
+        \"provisioned_at\": \"2025-09-13 02:41:26\",
+
+        \"duration_years\": 1
+
+    },
+
+    \"domain\": \"dongynguyenhuutoan.com\",
+
+    \"ssl_info\": {
+
+        \"domain\": \"dongynguyenhuutoan.com\",
+
+        \"verification_method\": \"domain_validation\",
+
+        \"key_size\": \"2048\",
+
+        \"algorithm\": \"RSA\",
+
+        \"status\": \"pending_installation\"
+
+    },
+
+    \"ssl_certificate\": {
+
+        \"status\": \"pending_validation\",
+
+        \"validation_method\": \"dns\",
+
+        \"validation_token\": \"DKoZm2BUettUY3w537OX95Mi6NOUaWVn\",
+
+        \"created_at\": \"2025-09-13 02:41:26\",
+
+        \"expires_at\": \"2026-09-13 02:41:26\",
+
+        \"common_name\": \"dongynguyenhuutoan.com\",
+
+        \"subject_alternative_names\": [
+
+            \"*.dongynguyenhuutoan.com\"
+
+        ]
+
+    }
+
+}","options":"{
+
+    \"period\": \"1\",
+
+    \"domain\": \"dongynguyenhuutoan.com\",
+
+    \"auto_renew\": \"1\"
+
+}","category_id":"1","parent_product_id":"5","type":"ssl","product_status":"inactive","sort_order":"0","is_featured":0} 
+[2026-04-27 03:25:03] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:25:03] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:25:53] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:25:53] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:26:11] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:26:11] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:27:48] local.INFO: Validating data: {"input_data":{"_token":"JWlaAbUtSGo4bNSf5rZokIvsG6P0Vpk00nlazQKx","_method":"PUT","name":"VPS Vietnam - 1","slug":"vps-vietnam-1","sku":"vps","short_description":"VPS Cân Mọi Tác Vụ – Ổn Định & Bảo Mật Cao
+
+Lý tưởng cho: Website thương mại điện tử, hệ thống nội bộ, ứng dụng tải vừa – nặng.","description":"<p>&nbsp;</p>
+
+
+
+<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Ổn Định Cho Mọi Ứng Dụng</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>14 vCPU mạnh mẽ, 32GB RAM DDR4, 250GB SSD Enterprise tốc độ truy xuất cực nhanh(trong đ&oacute; 16Gb cho ubuntu -120GB cho lưu trữ dữ liệu tr&ecirc;n vps)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn, cổng mạng 10Gbps &ndash; đảm bảo truyền tải dữ liệu nhanh v&agrave; ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>SSL Certificate chuẩn bảo mật cao cấp &ndash; m&atilde; h&oacute;a to&agrave;n diện, bảo vệ dữ liệu người d&ugrave;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Firewall t&iacute;ch hợp k&egrave;m Anti-DDoS Pro miễn ph&iacute; &ndash; chống tấn c&ocirc;ng DDoS đến 10Gbps, an to&agrave;n tuyệt đối</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ đa dạng hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux v&agrave; c&aacute;c OS t&ugrave;y chỉnh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ ảo h&oacute;a KVM &amp; OpenStack hiện đại &ndash; khả năng mở rộng linh hoạt theo nhu cầu doanh nghiệp</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&iacute;ch hợp quản trị m&aacute;y chủ miễn ph&iacute;, VNC, khởi động lại nhanh ch&oacute;ng, dễ d&agrave;ng quản l&yacute;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt, kh&ocirc;ng cần chờ duyệt &ndash; triển khai ngay tức th&igrave;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Cam kết uptime 99.99% &ndash; hệ thống hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>L&yacute; tưởng cho doanh nghiệp lớn, hệ thống website, ứng dụng cần hiệu suất cao v&agrave; bảo mật tối ưu</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p>&nbsp;</p>","price":"11111000.00","sale_price":"1100000.00","stock":"15","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"[]","options":"[]","category_id":"2","parent_product_id":null,"type":"product","product_status":"active","sort_order":"0","is_featured":1},"rules":{"name":"required|max:255","slug":"nullable|max:255|unique:products,slug,1","category_id":"nullable|exists:categories,id","description":"nullable|string","short_description":"nullable|string","price":"required|numeric|min:0","sale_price":"nullable|numeric|min:0","image":"nullable|image|max:2048","type":"required|in:product,service,ssl,domain,hosting","product_status":"nullable|in:active,inactive,draft","stock":"nullable|integer","is_featured":"nullable|boolean","sort_order":"nullable|integer|min:0"}} 
+[2026-04-27 03:27:49] local.INFO: Data after cleaning: {"name":"VPS Vietnam - 1","slug":"vps-vietnam-1","sku":"vps","short_description":"VPS Cân Mọi Tác Vụ – Ổn Định & Bảo Mật Cao
+
+Lý tưởng cho: Website thương mại điện tử, hệ thống nội bộ, ứng dụng tải vừa – nặng.","description":"<p>&nbsp;</p>
+
+
+
+<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Ổn Định Cho Mọi Ứng Dụng</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>14 vCPU mạnh mẽ, 32GB RAM DDR4, 250GB SSD Enterprise tốc độ truy xuất cực nhanh(trong đ&oacute; 16Gb cho ubuntu -120GB cho lưu trữ dữ liệu tr&ecirc;n vps)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn, cổng mạng 10Gbps &ndash; đảm bảo truyền tải dữ liệu nhanh v&agrave; ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>SSL Certificate chuẩn bảo mật cao cấp &ndash; m&atilde; h&oacute;a to&agrave;n diện, bảo vệ dữ liệu người d&ugrave;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Firewall t&iacute;ch hợp k&egrave;m Anti-DDoS Pro miễn ph&iacute; &ndash; chống tấn c&ocirc;ng DDoS đến 10Gbps, an to&agrave;n tuyệt đối</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ đa dạng hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux v&agrave; c&aacute;c OS t&ugrave;y chỉnh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ ảo h&oacute;a KVM &amp; OpenStack hiện đại &ndash; khả năng mở rộng linh hoạt theo nhu cầu doanh nghiệp</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&iacute;ch hợp quản trị m&aacute;y chủ miễn ph&iacute;, VNC, khởi động lại nhanh ch&oacute;ng, dễ d&agrave;ng quản l&yacute;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt, kh&ocirc;ng cần chờ duyệt &ndash; triển khai ngay tức th&igrave;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Cam kết uptime 99.99% &ndash; hệ thống hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>L&yacute; tưởng cho doanh nghiệp lớn, hệ thống website, ứng dụng cần hiệu suất cao v&agrave; bảo mật tối ưu</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p>&nbsp;</p>","price":"11111000.00","sale_price":"1100000.00","stock":"15","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"[]","options":"[]","category_id":"2","parent_product_id":null,"type":"product","product_status":"active","sort_order":"0","is_featured":1} 
+[2026-04-27 03:29:05] local.INFO: Validating data: {"input_data":{"_token":"JWlaAbUtSGo4bNSf5rZokIvsG6P0Vpk00nlazQKx","_method":"PUT","name":"Cloud VPS Website Platinum","slug":"cloud-vps-website-platinum","sku":"vps-12","short_description":"VPS Cloud Hiệu Năng Cao – Vận Hành Mượt Mà Trên 450 Website
+
+Lý tưởng cho doanh nghiệp, hệ thống website lớn, và dự án yêu cầu hiệu suất ổn định.","description":"<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Mượt M&agrave; Tr&ecirc;n 450 Website</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>10 vCPU, 32GB RAM, 299GB NVMe tốc độ cực nhanh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn &ndash; Tốc độ mạng 150Mbps (Clean Traffic)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>DDoS Protection 10Gbps miễn ph&iacute; &ndash; An to&agrave;n, ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ KVM &amp; OpenStack &ndash; Ảo h&oacute;a mạnh mẽ, dễ mở rộng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&ugrave;y chỉnh OS, VNC, khởi động lại nhanh ch&oacute;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>K&egrave;m g&oacute;i quản trị m&aacute;y chủ miễn ph&iacute; &ndash; tiết kiệm chi ph&iacute; IT</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt &ndash; kh&ocirc;ng cần chờ duyệt</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Uptime cam kết 99.99% &ndash; hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p><strong>L&yacute; tưởng cho doanh nghiệp, hệ thống website lớn, v&agrave; dự &aacute;n y&ecirc;u cầu hiệu suất ổn định.</strong></p>","price":"27120000.00","sale_price":"24757000.00","stock":"6","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"{
+
+    \"vps_id\": \"vps-2938x7\",
+
+    \"hostname\": \"cloud-vps-01.example.com\",
+
+    \"ip_address\": \"103.142.26.87\",
+
+    \"status\": \"running\",
+
+    \"uptime\": \"12 days, 4 hours, 27 minutes\",
+
+    \"cpu_usage\": \"37.4%\",
+
+    \"ram_usage\": {
+
+        \"total\": \"32GB\",
+
+        \"used\": \"11.7GB\",
+
+        \"free\": \"20.3GB\"
+
+    },
+
+    \"disk_usage\": {
+
+        \"total\": \"299GB\",
+
+        \"used\": \"88GB\",
+
+        \"free\": \"211GB\"
+
+    },
+
+    \"network\": {
+
+        \"inbound\": \"143.2MB\",
+
+        \"outbound\": \"391.5MB\",
+
+        \"bandwidth_used_this_month\": \"73.1GB\"
+
+    },
+
+    \"os\": \"CentOS 7.9\",
+
+    \"kernel_version\": \"3.10.0-1160.el7.x86_64\",
+
+    \"virtualization\": \"KVM\",
+
+    \"last_reboot\": \"2025-05-13T02:48:19Z\",
+
+    \"location\": \"VN - Hanoi Datacenter\",
+
+    \"ddos_protection\": \"Enabled (10Gbps)\",
+
+    \"firewall\": \"Enabled\",
+
+    \"backup_schedule\": \"Daily at 2:00 AM\",
+
+    \"auto_restart_on_failure\": true,
+
+    \"notes\": \"This VPS hosts production WordPress sites.\"
+
+}","options":"[]","category_id":"2","parent_product_id":null,"type":"product","product_status":"active","sort_order":"0","is_featured":1},"rules":{"name":"required|max:255","slug":"nullable|max:255|unique:products,slug,6","category_id":"nullable|exists:categories,id","description":"nullable|string","short_description":"nullable|string","price":"required|numeric|min:0","sale_price":"nullable|numeric|min:0","image":"nullable|image|max:2048","type":"required|in:product,service,ssl,domain,hosting","product_status":"nullable|in:active,inactive,draft","stock":"nullable|integer","is_featured":"nullable|boolean","sort_order":"nullable|integer|min:0"}} 
+[2026-04-27 03:29:05] local.INFO: Data after cleaning: {"name":"Cloud VPS Website Platinum","slug":"cloud-vps-website-platinum","sku":"vps-12","short_description":"VPS Cloud Hiệu Năng Cao – Vận Hành Mượt Mà Trên 450 Website
+
+Lý tưởng cho doanh nghiệp, hệ thống website lớn, và dự án yêu cầu hiệu suất ổn định.","description":"<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Mượt M&agrave; Tr&ecirc;n 450 Website</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>10 vCPU, 32GB RAM, 299GB NVMe tốc độ cực nhanh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn &ndash; Tốc độ mạng 150Mbps (Clean Traffic)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>DDoS Protection 10Gbps miễn ph&iacute; &ndash; An to&agrave;n, ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ KVM &amp; OpenStack &ndash; Ảo h&oacute;a mạnh mẽ, dễ mở rộng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&ugrave;y chỉnh OS, VNC, khởi động lại nhanh ch&oacute;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>K&egrave;m g&oacute;i quản trị m&aacute;y chủ miễn ph&iacute; &ndash; tiết kiệm chi ph&iacute; IT</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt &ndash; kh&ocirc;ng cần chờ duyệt</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Uptime cam kết 99.99% &ndash; hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p><strong>L&yacute; tưởng cho doanh nghiệp, hệ thống website lớn, v&agrave; dự &aacute;n y&ecirc;u cầu hiệu suất ổn định.</strong></p>","price":"27120000.00","sale_price":"24757000.00","stock":"6","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"{
+
+    \"vps_id\": \"vps-2938x7\",
+
+    \"hostname\": \"cloud-vps-01.example.com\",
+
+    \"ip_address\": \"103.142.26.87\",
+
+    \"status\": \"running\",
+
+    \"uptime\": \"12 days, 4 hours, 27 minutes\",
+
+    \"cpu_usage\": \"37.4%\",
+
+    \"ram_usage\": {
+
+        \"total\": \"32GB\",
+
+        \"used\": \"11.7GB\",
+
+        \"free\": \"20.3GB\"
+
+    },
+
+    \"disk_usage\": {
+
+        \"total\": \"299GB\",
+
+        \"used\": \"88GB\",
+
+        \"free\": \"211GB\"
+
+    },
+
+    \"network\": {
+
+        \"inbound\": \"143.2MB\",
+
+        \"outbound\": \"391.5MB\",
+
+        \"bandwidth_used_this_month\": \"73.1GB\"
+
+    },
+
+    \"os\": \"CentOS 7.9\",
+
+    \"kernel_version\": \"3.10.0-1160.el7.x86_64\",
+
+    \"virtualization\": \"KVM\",
+
+    \"last_reboot\": \"2025-05-13T02:48:19Z\",
+
+    \"location\": \"VN - Hanoi Datacenter\",
+
+    \"ddos_protection\": \"Enabled (10Gbps)\",
+
+    \"firewall\": \"Enabled\",
+
+    \"backup_schedule\": \"Daily at 2:00 AM\",
+
+    \"auto_restart_on_failure\": true,
+
+    \"notes\": \"This VPS hosts production WordPress sites.\"
+
+}","options":"[]","category_id":"2","parent_product_id":null,"type":"product","product_status":"active","sort_order":"0","is_featured":1} 
+[2026-04-27 03:29:32] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:29:32] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:29:34] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 03:29:35] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:27:52] local.INFO: Validating data: {"input_data":{"_token":"NGgoFCcWmyENDIzH2qAGM0tFZr5FJF5VwscHFhoY","_method":"PUT","name":"VPS Vietnam - 1","slug":"vps-vietnam-1","sku":"vps","short_description":"VPS Cân Mọi Tác Vụ – Ổn Định & Bảo Mật Cao
+
+Lý tưởng cho: Website thương mại điện tử, hệ thống nội bộ, ứng dụng tải vừa – nặng.","description":"<p>&nbsp;</p>
+
+
+
+<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Ổn Định Cho Mọi Ứng Dụng</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>14 vCPU mạnh mẽ, 32GB RAM DDR4, 250GB SSD Enterprise tốc độ truy xuất cực nhanh(trong đ&oacute; 16Gb cho ubuntu -120GB cho lưu trữ dữ liệu tr&ecirc;n vps)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn, cổng mạng 10Gbps &ndash; đảm bảo truyền tải dữ liệu nhanh v&agrave; ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>SSL Certificate chuẩn bảo mật cao cấp &ndash; m&atilde; h&oacute;a to&agrave;n diện, bảo vệ dữ liệu người d&ugrave;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Firewall t&iacute;ch hợp k&egrave;m Anti-DDoS Pro miễn ph&iacute; &ndash; chống tấn c&ocirc;ng DDoS đến 10Gbps, an to&agrave;n tuyệt đối</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ đa dạng hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux v&agrave; c&aacute;c OS t&ugrave;y chỉnh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ ảo h&oacute;a KVM &amp; OpenStack hiện đại &ndash; khả năng mở rộng linh hoạt theo nhu cầu doanh nghiệp</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&iacute;ch hợp quản trị m&aacute;y chủ miễn ph&iacute;, VNC, khởi động lại nhanh ch&oacute;ng, dễ d&agrave;ng quản l&yacute;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt, kh&ocirc;ng cần chờ duyệt &ndash; triển khai ngay tức th&igrave;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Cam kết uptime 99.99% &ndash; hệ thống hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>L&yacute; tưởng cho doanh nghiệp lớn, hệ thống website, ứng dụng cần hiệu suất cao v&agrave; bảo mật tối ưu</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p>&nbsp;</p>","price":"11111000.00","sale_price":"11000000.00","stock":"15","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"[]","options":"[]","category_id":"2","parent_product_id":null,"type":"product","product_status":"active","sort_order":"0","is_featured":1},"rules":{"name":"required|max:255","slug":"nullable|max:255|unique:products,slug,1","category_id":"nullable|exists:categories,id","description":"nullable|string","short_description":"nullable|string","price":"required|numeric|min:0","sale_price":"nullable|numeric|min:0","image":"nullable|image|max:2048","type":"required|in:product,service,ssl,domain,hosting","product_status":"nullable|in:active,inactive,draft","stock":"nullable|integer","is_featured":"nullable|boolean","sort_order":"nullable|integer|min:0"}} 
+[2026-04-27 07:27:52] local.INFO: Data after cleaning: {"name":"VPS Vietnam - 1","slug":"vps-vietnam-1","sku":"vps","short_description":"VPS Cân Mọi Tác Vụ – Ổn Định & Bảo Mật Cao
+
+Lý tưởng cho: Website thương mại điện tử, hệ thống nội bộ, ứng dụng tải vừa – nặng.","description":"<p>&nbsp;</p>
+
+
+
+<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Ổn Định Cho Mọi Ứng Dụng</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>14 vCPU mạnh mẽ, 32GB RAM DDR4, 250GB SSD Enterprise tốc độ truy xuất cực nhanh(trong đ&oacute; 16Gb cho ubuntu -120GB cho lưu trữ dữ liệu tr&ecirc;n vps)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn, cổng mạng 10Gbps &ndash; đảm bảo truyền tải dữ liệu nhanh v&agrave; ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>SSL Certificate chuẩn bảo mật cao cấp &ndash; m&atilde; h&oacute;a to&agrave;n diện, bảo vệ dữ liệu người d&ugrave;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Firewall t&iacute;ch hợp k&egrave;m Anti-DDoS Pro miễn ph&iacute; &ndash; chống tấn c&ocirc;ng DDoS đến 10Gbps, an to&agrave;n tuyệt đối</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ đa dạng hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux v&agrave; c&aacute;c OS t&ugrave;y chỉnh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ ảo h&oacute;a KVM &amp; OpenStack hiện đại &ndash; khả năng mở rộng linh hoạt theo nhu cầu doanh nghiệp</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&iacute;ch hợp quản trị m&aacute;y chủ miễn ph&iacute;, VNC, khởi động lại nhanh ch&oacute;ng, dễ d&agrave;ng quản l&yacute;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt, kh&ocirc;ng cần chờ duyệt &ndash; triển khai ngay tức th&igrave;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Cam kết uptime 99.99% &ndash; hệ thống hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>L&yacute; tưởng cho doanh nghiệp lớn, hệ thống website, ứng dụng cần hiệu suất cao v&agrave; bảo mật tối ưu</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p>&nbsp;</p>","price":"11111000.00","sale_price":"11000000.00","stock":"15","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"[]","options":"[]","category_id":"2","parent_product_id":null,"type":"product","product_status":"active","sort_order":"0","is_featured":1} 
+[2026-04-27 07:28:01] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:28:01] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:29:01] local.INFO: Validating data: {"input_data":{"_token":"NGgoFCcWmyENDIzH2qAGM0tFZr5FJF5VwscHFhoY","_method":"PUT","name":"VPS Vietnam - 1","slug":"vps-vietnam-1","sku":"vps","short_description":"VPS Cân Mọi Tác Vụ – Ổn Định & Bảo Mật Cao
+
+Lý tưởng cho: Website thương mại điện tử, hệ thống nội bộ, ứng dụng tải vừa – nặng.","description":"<p>&nbsp;</p>
+
+
+
+<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Ổn Định Cho Mọi Ứng Dụng</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>14 vCPU mạnh mẽ, 32GB RAM DDR4, 250GB SSD Enterprise tốc độ truy xuất cực nhanh(trong đ&oacute; 16Gb cho ubuntu -120GB cho lưu trữ dữ liệu tr&ecirc;n vps)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn, cổng mạng 10Gbps &ndash; đảm bảo truyền tải dữ liệu nhanh v&agrave; ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>SSL Certificate chuẩn bảo mật cao cấp &ndash; m&atilde; h&oacute;a to&agrave;n diện, bảo vệ dữ liệu người d&ugrave;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Firewall t&iacute;ch hợp k&egrave;m Anti-DDoS Pro miễn ph&iacute; &ndash; chống tấn c&ocirc;ng DDoS đến 10Gbps, an to&agrave;n tuyệt đối</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ đa dạng hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux v&agrave; c&aacute;c OS t&ugrave;y chỉnh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ ảo h&oacute;a KVM &amp; OpenStack hiện đại &ndash; khả năng mở rộng linh hoạt theo nhu cầu doanh nghiệp</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&iacute;ch hợp quản trị m&aacute;y chủ miễn ph&iacute;, VNC, khởi động lại nhanh ch&oacute;ng, dễ d&agrave;ng quản l&yacute;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt, kh&ocirc;ng cần chờ duyệt &ndash; triển khai ngay tức th&igrave;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Cam kết uptime 99.99% &ndash; hệ thống hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>L&yacute; tưởng cho doanh nghiệp lớn, hệ thống website, ứng dụng cần hiệu suất cao v&agrave; bảo mật tối ưu</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p>&nbsp;</p>","price":"11111000.00","sale_price":"11110000.00","stock":"15","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"[]","options":"[]","category_id":"2","parent_product_id":null,"type":"product","product_status":"active","sort_order":"0","is_featured":1},"rules":{"name":"required|max:255","slug":"nullable|max:255|unique:products,slug,1","category_id":"nullable|exists:categories,id","description":"nullable|string","short_description":"nullable|string","price":"required|numeric|min:0","sale_price":"nullable|numeric|min:0","image":"nullable|image|max:2048","type":"required|in:product,service,ssl,domain,hosting","product_status":"nullable|in:active,inactive,draft","stock":"nullable|integer","is_featured":"nullable|boolean","sort_order":"nullable|integer|min:0"}} 
+[2026-04-27 07:29:01] local.INFO: Data after cleaning: {"name":"VPS Vietnam - 1","slug":"vps-vietnam-1","sku":"vps","short_description":"VPS Cân Mọi Tác Vụ – Ổn Định & Bảo Mật Cao
+
+Lý tưởng cho: Website thương mại điện tử, hệ thống nội bộ, ứng dụng tải vừa – nặng.","description":"<p>&nbsp;</p>
+
+
+
+<p><strong>VPS Cloud Hiệu Năng Cao &ndash; Vận H&agrave;nh Ổn Định Cho Mọi Ứng Dụng</strong></p>
+
+
+
+<ul>
+
+\t<li>
+
+\t<p>14 vCPU mạnh mẽ, 32GB RAM DDR4, 250GB SSD Enterprise tốc độ truy xuất cực nhanh(trong đ&oacute; 16Gb cho ubuntu -120GB cho lưu trữ dữ liệu tr&ecirc;n vps)</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Băng th&ocirc;ng kh&ocirc;ng giới hạn, cổng mạng 10Gbps &ndash; đảm bảo truyền tải dữ liệu nhanh v&agrave; ổn định</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>SSL Certificate chuẩn bảo mật cao cấp &ndash; m&atilde; h&oacute;a to&agrave;n diện, bảo vệ dữ liệu người d&ugrave;ng</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Firewall t&iacute;ch hợp k&egrave;m Anti-DDoS Pro miễn ph&iacute; &ndash; chống tấn c&ocirc;ng DDoS đến 10Gbps, an to&agrave;n tuyệt đối</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Hỗ trợ đa dạng hệ điều h&agrave;nh: CentOS, Debian, AlmaLinux v&agrave; c&aacute;c OS t&ugrave;y chỉnh</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>C&ocirc;ng nghệ ảo h&oacute;a KVM &amp; OpenStack hiện đại &ndash; khả năng mở rộng linh hoạt theo nhu cầu doanh nghiệp</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>T&iacute;ch hợp quản trị m&aacute;y chủ miễn ph&iacute;, VNC, khởi động lại nhanh ch&oacute;ng, dễ d&agrave;ng quản l&yacute;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>D&ugrave;ng thử tự k&iacute;ch hoạt, kh&ocirc;ng cần chờ duyệt &ndash; triển khai ngay tức th&igrave;</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>Cam kết uptime 99.99% &ndash; hệ thống hoạt động li&ecirc;n tục, kh&ocirc;ng gi&aacute;n đoạn</p>
+
+\t</li>
+
+\t<li>
+
+\t<p>L&yacute; tưởng cho doanh nghiệp lớn, hệ thống website, ứng dụng cần hiệu suất cao v&agrave; bảo mật tối ưu</p>
+
+\t</li>
+
+</ul>
+
+
+
+<p>&nbsp;</p>","price":"11111000.00","sale_price":"11110000.00","stock":"15","is_recurring":1,"recurring_period":"12","auto_renew":1,"meta_data":"[]","options":"[]","category_id":"2","parent_product_id":null,"type":"product","product_status":"active","sort_order":"0","is_featured":1} 
+[2026-04-27 07:29:06] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:29:06] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:29:10] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:29:10] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:29:11] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:29:11] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:34:33] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 07:34:33] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 

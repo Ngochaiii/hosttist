@@ -31,4 +31,11 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'renewal' => [
+        // Số ngày trước expiry mà ta đặt next_renewal_date (mốc đầu tiên để nhắc)
+        'reminder_lead_days' => (int) env('RENEWAL_REMINDER_LEAD_DAYS', 7),
+        // Các mốc gửi email nhắc (số ngày trước expiry). Phải khớp với cột notified_*d_at.
+        'reminder_milestones' => [30, 15, 7, 1],
+    ],
+
 ];

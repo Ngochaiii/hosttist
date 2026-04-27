@@ -15,7 +15,11 @@ use Illuminate\Support\Facades\Log;
 class OrderService extends BaseService
 {
     /** Loại sản phẩm cần provision thủ công (đồng nhất giữa các flow admin/wallet/bank) */
-    public const PROVISIONABLE_TYPES = ['ssl', 'vps', 'hosting', 'domain'];
+    public const PROVISIONABLE_TYPES = [
+        'ssl', 'vps', 'hosting', 'cloud_hosting', 'domain',
+        'anti_ddos', 'reseller', 'email',
+        'advertising', 'web_design', 'seo',
+    ];
 
     protected $provisionService;
     public function __construct()
@@ -204,13 +208,16 @@ class OrderService extends BaseService
         return in_array($this->resolveServiceType($item), self::PROVISIONABLE_TYPES);
     }
 
-    /** service_type từ options (được cart set từ category.meta_data.service_type), fallback product->type */
+    /** service_type từ options (được cart set từ category.meta_data.service_type), fallback product->type.
+     *  Normalize dash → underscore để chấp nhận cả "cloud-hosting" lẫn "cloud_hosting". */
     private function resolveServiceType(Order_items $item): ?string
     {
         $options = json_decode($item->options, true) ?: [];
-        return $options['service_type']
+        $type = $options['service_type']
             ?? ($item->product?->category?->getServiceType())
             ?? $item->product?->type;
+
+        return $type ? strtolower(str_replace('-', '_', $type)) : null;
     }
 
     /**
@@ -223,18 +230,34 @@ class OrderService extends BaseService
         // Xác định loại provision và priority — ưu tiên service_type (từ cart/category) thay vì product->type
         $provisionType = $this->resolveServiceType($item) ?? $item->product->type;
         $priority = match ($provisionType) {
-            'ssl' => 7,      // High priority
-            'hosting' => 6,   // Medium-high 
-            'domain' => 5,    // Normal
-            default => 5
+            'ssl'           => 7,
+            'hosting'       => 6,
+            'cloud_hosting' => 6,
+            'vps'           => 6,
+            'reseller'      => 6,
+            'anti_ddos'     => 6,
+            'domain'        => 5,
+            'email'         => 5,
+            'advertising'   => 4,
+            'web_design'    => 3,
+            'seo'           => 3,
+            default         => 5,
         };
 
         // Estimate completion time based on service type
         $estimatedCompletion = match ($provisionType) {
-            'ssl' => now()->addHours(2),      // SSL cần 2h
-            'hosting' => now()->addMinutes(30), // Hosting cần 30 phút
-            'domain' => now()->addHours(24),   // Domain cần 1 ngày
-            default => now()->addHours(24)
+            'ssl'           => now()->addHours(2),
+            'hosting'       => now()->addMinutes(30),
+            'cloud_hosting' => now()->addHours(1),
+            'vps'           => now()->addHours(2),
+            'reseller'      => now()->addHours(2),
+            'anti_ddos'     => now()->addHours(4),
+            'domain'        => now()->addHours(24),
+            'email'         => now()->addHours(2),
+            'advertising'   => now()->addHours(24),
+            'web_design'    => now()->addDays(7),
+            'seo'           => now()->addDays(3),
+            default         => now()->addHours(24),
         };
 
         // Tạo provision data

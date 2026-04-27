@@ -48,9 +48,23 @@
                 <th>Ngày hết hạn</th>
                 <td><strong>{{ $service->expires_at?->format('d/m/Y') ?? 'N/A' }}</strong></td>
             </tr>
+            @php
+                $liveProduct = $service->product;
+                $livePrice = $liveProduct
+                    ? (float) (($liveProduct->sale_price > 0) ? $liveProduct->sale_price : $liveProduct->price)
+                    : 0;
+                if ($livePrice <= 0) { $livePrice = (float) ($service->renewal_price ?? 0); }
+                $lastPaid = (float) ($service->renewal_price ?? 0);
+                $hasIncreased = $lastPaid > 0 && $livePrice > $lastPaid + 0.01;
+            @endphp
             <tr>
                 <th>Giá gia hạn</th>
-                <td>{{ $service->renewal_price ? number_format($service->renewal_price, 0, ',', '.') . ' đ' : 'Liên hệ admin' }}</td>
+                <td>
+                    {{ $livePrice > 0 ? number_format($livePrice, 0, ',', '.') . ' đ' : 'Liên hệ admin' }}
+                    @if ($hasIncreased)
+                        <br><small style="color:#b45309;">(Đã điều chỉnh từ {{ number_format($lastPaid, 0, ',', '.') }} đ)</small>
+                    @endif
+                </td>
             </tr>
             <tr>
                 <th>Chu kỳ</th>

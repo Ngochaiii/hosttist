@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use App\Models\ServiceProvision;
 
-class ProvisionCreated extends Mailable
+class ProvisionCompleted extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -23,11 +23,11 @@ class ProvisionCreated extends Mailable
     public function envelope(): Envelope
     {
         $subject = match($this->provision->provision_type) {
-            'ssl'     => 'Yêu cầu SSL Certificate đang được xử lý',
-            'domain'  => 'Yêu cầu tên miền đang được xử lý',
-            'hosting' => 'Yêu cầu hosting đang được xử lý',
-            'vps'     => 'Yêu cầu VPS đang được xử lý',
-            default   => 'Yêu cầu dịch vụ đang được xử lý',
+            'ssl'     => 'SSL Certificate đã sẵn sàng sử dụng',
+            'domain'  => 'Tên miền đã được kích hoạt',
+            'hosting' => 'Hosting Account đã sẵn sàng',
+            'vps'     => 'VPS đã sẵn sàng sử dụng',
+            default   => 'Dịch vụ đã được cung cấp',
         };
 
         return new Envelope(subject: $subject . ' #' . $this->provision->id);
@@ -35,7 +35,7 @@ class ProvisionCreated extends Mailable
 
     public function content(): Content
     {
-        return new Content(view: 'emails.provision.created');
+        return new Content(view: 'emails.provision.completed');
     }
 
     public function attachments(): array

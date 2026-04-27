@@ -66,6 +66,18 @@ class CartController extends Controller
 
             $period = (int) ($options['period'] ?? 1);
             $basePrice = ($product->sale_price > 0) ? $product->sale_price : $product->price;
+
+            // Chặn add-to-cart cho sản phẩm chưa cấu hình giá (price = 0/null) — admin có thể
+            // tạo product nháp với price=0 rồi quên set, không nên cho khách checkout 0đ.
+            if (!$basePrice || $basePrice <= 0) {
+                Log::warning('Add to cart blocked: product has invalid price', [
+                    'product_id' => $product->id,
+                    'price'      => $product->price,
+                    'sale_price' => $product->sale_price,
+                ]);
+                return back()->with('error', 'Sản phẩm chưa được cấu hình giá. Vui lòng liên hệ quản trị viên.');
+            }
+
             $price  = $basePrice * $period;
 
             // Matching key = product_id + period + domain (nếu có).

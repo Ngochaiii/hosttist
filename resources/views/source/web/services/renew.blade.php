@@ -70,6 +70,22 @@
                                     <td>
                                         <strong>{{ $productName }}</strong><br>
                                         <small class="text-muted">Gia hạn thêm {{ $cycleLabel }}</small>
+                                        @if (!empty($priceChanged))
+                                            <br>
+                                            <small class="text-warning">
+                                                <i class="fa fa-info-circle"></i>
+                                                Giá đã được điều chỉnh:
+                                                lần trước <del>{{ number_format($previousPrice, 0, ',', '.') }} đ</del>
+                                                → lần này <strong>{{ number_format($subtotal, 0, ',', '.') }} đ</strong>
+                                            </small>
+                                        @elseif (!empty($previousPrice) && $previousPrice > 0)
+                                            <br>
+                                            <small class="text-muted">
+                                                <i class="fa fa-history"></i>
+                                                Giá không đổi so với lần gia hạn trước
+                                                ({{ \Carbon\Carbon::parse($service->renewal_price_locked_at)->format('d/m/Y') }})
+                                            </small>
+                                        @endif
                                     </td>
                                     <td class="text-center">1</td>
                                     <td class="text-right">{{ number_format($subtotal, 0, ',', '.') }} đ</td>

@@ -50,7 +50,10 @@
       "Bash(sed -i '' '212,265d' app/Events/ProvisionCreated.php)",
       "Bash(php -l app/Events/ProvisionCreated.php)",
       "Bash(composer dump-autoload *)",
-      "Bash(grep -vE 'warning|WARNING|Deprecated|^$')"
+      "Bash(grep -vE 'warning|WARNING|Deprecated|^$')",
+      "Bash(grep -n 'renewal_price\\\\|renewal_price_locked_at\\\\|fillable\\\\|protected $casts' '/Users/Shared/dự án /hostist-vps/app/Models/CustomerService.php')",
+      "Bash(grep -rn '::findOrFail\\($id\\)\\\\|::find\\($id\\)' '/Users/Shared/dự án /hostist-vps/app/Http/Controllers/Web/')",
+      "Bash(grep -nE \"[0-9]{6,}|VND|đ|đồng|formatPrice|number_format\" resources/views/source/web/pricing/index.blade.php)"
     ]
   }
 }

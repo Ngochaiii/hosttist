@@ -193,7 +193,7 @@ class ServiceController extends Controller
             $customerService = $this->findOwnedCustomerService($id);
             $customerService->load(['product', 'customer']);
 
-            if (!$customerService->renewal_price || $customerService->renewal_price <= 0) {
+            if (!$this->lifecycle->currentRenewalPrice($customerService)) {
                 return redirect()->route('customer.services.index')
                     ->with('error', 'Dịch vụ này chưa cấu hình giá gia hạn. Vui lòng liên hệ hỗ trợ.');
             }
@@ -403,6 +403,7 @@ class ServiceController extends Controller
             'next_renewal_date' => $expiresAt ? $expiresAt->copy()->subDays(7) : null,
             'auto_renew'        => (bool) $product->auto_renew,
             'renewal_price'     => $priceBase,
+            'renewal_price_locked_at' => $startedAt,
             'billing_cycle'     => $cycle,
             'notes'             => 'Backfilled từ Products#' . $product->id,
         ]);
@@ -419,13 +420,25 @@ class ServiceController extends Controller
             abort(403, 'Bạn cần cập nhật thông tin khách hàng để truy cập dịch vụ.');
         }
 
-        return ServiceProvision::where('customer_id', $customer->id)
-            ->with(['product', 'orderItem.order', 'logs'])
-            ->findOrFail($id);
+        $provision = ServiceProvision::with(['product', 'orderItem.order', 'logs'])
+            ->find($id);
+
+        // Defense-in-depth: kiểm tra ownership rõ ràng + log nếu có truy cập trái phép.
+        if (!$provision || (int) $provision->customer_id !== (int) $customer->id) {
+            \Illuminate\Support\Facades\Log::warning('IDOR attempt on provision', [
+                'requested_id' => $id,
+                'auth_user_id' => auth()->id(),
+                'customer_id'  => $customer->id,
+                'ip'           => request()->ip(),
+            ]);
+            abort(404);
+        }
+
+        return $provision;
     }
 
     /**
-     * Tìm customer service của customer hiện tại
+     * Tìm customer service của customer hiện tại (legacy bảng products).
      */
     private function findCustomerService($id)
     {
@@ -435,10 +448,21 @@ class ServiceController extends Controller
             abort(403, 'Bạn cần cập nhật thông tin khách hàng để truy cập dịch vụ.');
         }
 
-        return Products::where('customer_id', $customer->id)
+        $product = Products::with(['parentProduct', 'orderItems.order'])
             ->whereNotNull('customer_id')
-            ->with(['parentProduct', 'orderItems.order'])
-            ->findOrFail($id);
+            ->find($id);
+
+        if (!$product || (int) $product->customer_id !== (int) $customer->id) {
+            \Illuminate\Support\Facades\Log::warning('IDOR attempt on legacy customer service', [
+                'requested_id' => $id,
+                'auth_user_id' => auth()->id(),
+                'customer_id'  => $customer->id,
+                'ip'           => request()->ip(),
+            ]);
+            abort(404);
+        }
+
+        return $product;
     }
 
     /**

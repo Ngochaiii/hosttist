@@ -35,6 +35,17 @@ class PaymentService extends BaseService
     {
         DB::beginTransaction();
         try {
+            // Lock payment row + double-check state để chống race-condition.
+            $payment = Payments::where('id', $payment->id)->lockForUpdate()->first();
+            if (!$payment) {
+                DB::rollback();
+                return ['success' => false, 'error' => 'Payment không tồn tại'];
+            }
+            if ($payment->status !== 'pending') {
+                DB::rollback();
+                return ['success' => false, 'error' => "Payment đã ở trạng thái '{$payment->status}', không thể duyệt lại"];
+            }
+
             // Update payment status
             $payment->update([
                 'status'      => 'completed',
@@ -105,17 +116,24 @@ class PaymentService extends BaseService
         }
     }
 
+    /**
+     * Priority đồng bộ với OrderService (số càng cao = càng ưu tiên).
+     * Tránh tình trạng OrderService rank ssl=7 còn PaymentService rank ssl=2 → xử lý sai thứ tự.
+     */
     private function getPriority($serviceType)
     {
         $priorities = [
-            'domain' => 1,
-            'ssl' => 2,
-            'hosting' => 3,
-            'vps' => 4,
-            'email' => 5,
-            'web_design' => 6,
-            'advertising' => 7,
-            'seo' => 8
+            'ssl'           => 7,
+            'hosting'       => 6,
+            'cloud_hosting' => 6,
+            'vps'           => 6,
+            'reseller'      => 6,
+            'anti_ddos'     => 6,
+            'domain'        => 5,
+            'email'         => 5,
+            'advertising'   => 4,
+            'web_design'    => 3,
+            'seo'           => 3,
         ];
         return $priorities[$serviceType] ?? 5;
     }
@@ -132,7 +150,11 @@ class PaymentService extends BaseService
     public function rejectPayment(Payments $payment, string $reason, ?int $verifiedBy = null): array
     {
         return $this->transaction(function () use ($payment, $reason, $verifiedBy) {
-            // Validate payment
+            // Lock + re-check để chống race với approve.
+            $payment = Payments::where('id', $payment->id)->lockForUpdate()->first();
+            if (!$payment) {
+                throw new Exception('Payment không tồn tại');
+            }
             if ($payment->status !== 'pending') {
                 throw new Exception('Payment can only be rejected when status is pending');
             }

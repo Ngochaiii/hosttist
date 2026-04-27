@@ -26,11 +26,12 @@ class CheckServiceExpiry extends Command
         // 1. Đánh dấu các dịch vụ đã quá hạn
         $this->markExpiredServices();
 
-        // 2. Gửi nhắc nhở theo các mốc ngày
-        $this->sendReminders(30, 'notified_30d_at');
-        $this->sendReminders(15, 'notified_15d_at');
-        $this->sendReminders(7,  'notified_7d_at');
-        $this->sendReminders(1,  'notified_1d_at');
+        // 2. Gửi nhắc nhở theo các mốc ngày (config-driven).
+        // Mapping ngày → cột notified_*d_at; cột phải tồn tại trên customer_services.
+        $milestones = config('services.renewal.reminder_milestones', [30, 15, 7, 1]);
+        foreach ($milestones as $days) {
+            $this->sendReminders((int) $days, "notified_{$days}d_at");
+        }
 
         $this->info('Hoàn thành.');
     }
@@ -58,21 +59,20 @@ class CheckServiceExpiry extends Command
 
     private function sendReminders(int $days, string $notifiedField): void
     {
-        // Lấy dịch vụ hết hạn trong $days ngày tới, chưa gửi nhắc ở mốc này
+        // Exact-day match: chỉ lấy dịch vụ có expires_at rơi vào ngày D+$days.
+        // Đơn giản hơn previousMilestone vì cron chạy daily — mỗi service đi qua đủ mốc tự nhiên,
+        // không cần "nuốt" nhiều ngày khi cron lỡ chạy (nếu cron chết → ta accept mất 1 mốc, gửi mốc kế).
+        $target = now()->addDays($days)->toDateString();
+
         $services = CustomerService::active()
-            ->expiringSoon($days)
+            ->whereNotNull('expires_at')
+            ->whereDate('expires_at', $target)
             ->whereNull($notifiedField)
             ->with(['customer.user', 'product'])
             ->get();
 
-        // Lọc chính xác: chỉ lấy dịch vụ cách đúng khoảng ngày đó
-        // (expiringSoon(30) lấy tất cả ≤ 30 ngày, cần tránh gửi email trùng cho 15/7/1)
-        $exact = $services->filter(function (CustomerService $service) use ($days) {
-            $daysLeft = $service->daysUntilExpiry();
-            return $daysLeft !== null && $daysLeft <= $days && $daysLeft > ($days === 1 ? 0 : $this->previousMilestone($days));
-        });
-
-        foreach ($exact as $service) {
+        $sent = 0;
+        foreach ($services as $service) {
             $email = $service->customer->user->email ?? null;
 
             if (!$email) {
@@ -81,25 +81,15 @@ class CheckServiceExpiry extends Command
             }
 
             try {
-                Mail::to($email)->queue(new ServiceExpiryReminder($service, $service->daysUntilExpiry() ?? $days));
+                Mail::to($email)->queue(new ServiceExpiryReminder($service, $days));
                 $service->update([$notifiedField => now()]);
                 $this->line("  📧 Đã gửi nhắc {$days}d: service #{$service->id} → {$email}");
+                $sent++;
             } catch (\Exception $e) {
                 Log::error("CheckServiceExpiry: gửi email thất bại cho service #{$service->id}: " . $e->getMessage());
             }
         }
 
-        $this->info("Đã gửi {$exact->count()} email nhắc {$days} ngày.");
-    }
-
-    private function previousMilestone(int $days): int
-    {
-        return match ($days) {
-            30 => 15,
-            15 => 7,
-            7  => 1,
-            1  => 0,
-            default => 0,
-        };
+        $this->info("Đã gửi {$sent} email nhắc {$days} ngày.");
     }
 }

@@ -30,13 +30,28 @@ class ServiceLifecycleService extends BaseService
             // Tính ngày hết hạn dựa trên chu kỳ sản phẩm
             $billingCycle  = $this->detectBillingCycle($product);
             $expiresAt     = $this->calculateExpiryDate($billingCycle);
-            $renewalDate   = $expiresAt->copy()->subDays(7); // nhắc 7 ngày trước
+            $leadDays      = (int) config('services.renewal.reminder_lead_days', 7);
+            $renewalDate   = $expiresAt->copy()->subDays($leadDays);
 
             // auto_renew có thể được user chọn lúc mua và lưu trong provision_data
             $provisionData = is_array($provision->provision_data)
                 ? $provision->provision_data
                 : (json_decode($provision->provision_data ?? '', true) ?: []);
             $autoRenew = (bool) ($provisionData['auto_renew'] ?? false);
+
+            // Lock-in renewal price từ giá mua thực tế (order_item), fallback sang product.price.
+            // Phải > 0 — nếu cả 2 nguồn đều invalid thì throw, không tạo CS với giá 0
+            // (sẽ làm renew() luôn fail và customer không hiểu vì sao).
+            $renewalPrice = (float) ($orderItem?->unit_price ?? $product->price ?? 0);
+            if ($renewalPrice <= 0) {
+                throw new Exception(sprintf(
+                    'Không thể activate CustomerService: renewal_price không hợp lệ (provision #%d, product #%d, order_item #%d, price=%s).',
+                    $provision->id,
+                    $provision->product_id,
+                    $provision->order_item_id ?? 0,
+                    var_export($renewalPrice, true)
+                ));
+            }
 
             $service = CustomerService::create([
                 'customer_id'       => $provision->customer_id,
@@ -48,7 +63,8 @@ class ServiceLifecycleService extends BaseService
                 'expires_at'        => $expiresAt,
                 'next_renewal_date' => $renewalDate,
                 'auto_renew'        => $autoRenew,
-                'renewal_price'     => $orderItem?->unit_price ?? $product->price,
+                'renewal_price'     => $renewalPrice,
+                'renewal_price_locked_at' => now(),
                 'billing_cycle'     => $billingCycle,
             ]);
 
@@ -63,6 +79,30 @@ class ServiceLifecycleService extends BaseService
     }
 
     /**
+     * Giá gia hạn HIỆN TẠI cho 1 dịch vụ.
+     *
+     * Chính sách: theo giá hiện tại của product (admin tăng giá → khách cũ trả giá mới khi gia hạn,
+     * phản ánh chi phí vận hành/lạm phát). Ưu tiên sale_price nếu admin đang chạy KM.
+     *
+     * Fallback: nếu product đã bị xoá/disable (price <= 0), dùng renewal_price snapshot lần trước —
+     * đảm bảo dịch vụ vẫn gia hạn được, không bị "treo" do admin xoá nhầm product.
+     *
+     * @return float|null  Giá > 0, hoặc null nếu không xác định được giá.
+     */
+    public function currentRenewalPrice(CustomerService $service): ?float
+    {
+        $product = $service->product;
+        if ($product) {
+            $live = (float) (($product->sale_price > 0) ? $product->sale_price : $product->price);
+            if ($live > 0) {
+                return $live;
+            }
+        }
+        $snapshot = (float) ($service->renewal_price ?? 0);
+        return $snapshot > 0 ? $snapshot : null;
+    }
+
+    /**
      * Gia hạn dịch vụ — tạo order mới nếu cần thanh toán, hoặc tự trừ ví.
      */
     public function renew(CustomerService $service, Customers $customer): array
@@ -71,13 +111,12 @@ class ServiceLifecycleService extends BaseService
             return ['success' => false, 'error' => 'Dịch vụ không thể gia hạn từ trạng thái hiện tại.'];
         }
 
-        if (!$service->renewal_price || $service->renewal_price <= 0) {
+        $amount = $this->currentRenewalPrice($service);
+        if (!$amount) {
             return ['success' => false, 'error' => 'Giá gia hạn chưa được cấu hình. Liên hệ admin.'];
         }
 
-        return $this->transaction(function () use ($service, $customer) {
-            $amount = $service->renewal_price;
-
+        return $this->transaction(function () use ($service, $customer, $amount) {
             if (!$customer->hasBalance($amount)) {
                 return [
                     'success'         => false,
@@ -87,6 +126,8 @@ class ServiceLifecycleService extends BaseService
                 ];
             }
 
+            $previousPrice = (float) ($service->renewal_price ?? 0);
+
             // Trừ ví và gia hạn
             $customer->decrement('balance', $amount);
 
@@ -95,7 +136,11 @@ class ServiceLifecycleService extends BaseService
             $service->update([
                 'status'             => 'active',
                 'expires_at'         => $newExpiry,
-                'next_renewal_date'  => $newExpiry->copy()->subDays(7),
+                'next_renewal_date'  => $newExpiry->copy()->subDays((int) config('services.renewal.reminder_lead_days', 7)),
+                // Snapshot giá vừa thu để hiển thị "lần thanh toán gần nhất" + làm fallback
+                // nếu product bị xoá sau này.
+                'renewal_price'           => $amount,
+                'renewal_price_locked_at' => now(),
                 // Reset notification flags để nhắc lại chu kỳ mới
                 'notified_30d_at'    => null,
                 'notified_15d_at'    => null,
@@ -107,6 +152,8 @@ class ServiceLifecycleService extends BaseService
                 'customer_service_id' => $service->id,
                 'new_expiry'          => $newExpiry->toDateString(),
                 'amount_charged'      => $amount,
+                'previous_price'      => $previousPrice,
+                'price_changed'       => $previousPrice > 0 && abs($previousPrice - $amount) > 0.01,
             ]);
 
             return [
@@ -172,7 +219,7 @@ class ServiceLifecycleService extends BaseService
 
         Log::warning('Auto-renew thất bại (số dư không đủ)', [
             'customer_service_id' => $service->id,
-            'required'            => $service->renewal_price,
+            'required'            => $this->currentRenewalPrice($service),
             'balance'             => $customer->balance,
         ]);
         return false;
@@ -180,20 +227,25 @@ class ServiceLifecycleService extends BaseService
 
     /**
      * Tính số tiền cho 1 lần gia hạn (subtotal/VAT/total).
+     * Subtotal = giá CURRENT của product (không phải snapshot trên CS).
      */
     public function computeRenewalAmounts(CustomerService $service, bool $vatInvoice = false): array
     {
-        $subtotal  = (float) ($service->renewal_price ?? 0);
-        $vatRate   = $vatInvoice ? self::RENEWAL_VAT_RATE : 0.0;
-        $vatAmount = round($subtotal * $vatRate);
-        $total     = $subtotal + $vatAmount;
+        $subtotal      = (float) ($this->currentRenewalPrice($service) ?? 0);
+        $previousPrice = (float) ($service->renewal_price ?? 0);
+        $vatRate       = $vatInvoice ? self::RENEWAL_VAT_RATE : 0.0;
+        $vatAmount     = round($subtotal * $vatRate);
+        $total         = $subtotal + $vatAmount;
 
         return [
-            'subtotal'   => $subtotal,
-            'vatInvoice' => $vatInvoice,
-            'vatRate'    => $vatRate,
-            'vatAmount'  => $vatAmount,
-            'total'      => $total,
+            'subtotal'      => $subtotal,
+            'vatInvoice'    => $vatInvoice,
+            'vatRate'       => $vatRate,
+            'vatAmount'     => $vatAmount,
+            'total'         => $total,
+            // Phục vụ UI hiển thị "đợt trước trả X, lần này Y" để khách thấy minh bạch.
+            'previousPrice' => $previousPrice,
+            'priceChanged'  => $previousPrice > 0 && abs($previousPrice - $subtotal) > 0.01,
         ];
     }
 
@@ -207,7 +259,7 @@ class ServiceLifecycleService extends BaseService
         bool $vatInvoice = false,
         array $vatInfo = []
     ): array {
-        if (!$service->renewal_price || $service->renewal_price <= 0) {
+        if (!$this->currentRenewalPrice($service)) {
             throw new Exception('Giá gia hạn chưa được cấu hình cho dịch vụ này.');
         }
 
@@ -292,10 +344,15 @@ class ServiceLifecycleService extends BaseService
         return $this->transaction(function () use ($service, $order) {
             $newExpiry = $this->extendExpiry($service);
 
+            // Snapshot giá thực thu (subtotal của order — đã loại VAT) làm "last paid".
+            $paidSubtotal = (float) ($order->subtotal ?? $order->total_amount ?? 0);
+
             $service->update([
                 'status'            => 'active',
                 'expires_at'        => $newExpiry,
-                'next_renewal_date' => $newExpiry->copy()->subDays(7),
+                'next_renewal_date' => $newExpiry->copy()->subDays((int) config('services.renewal.reminder_lead_days', 7)),
+                'renewal_price'           => $paidSubtotal > 0 ? $paidSubtotal : $service->renewal_price,
+                'renewal_price_locked_at' => $paidSubtotal > 0 ? now() : $service->renewal_price_locked_at,
                 'notified_30d_at'   => null,
                 'notified_15d_at'   => null,
                 'notified_7d_at'    => null,

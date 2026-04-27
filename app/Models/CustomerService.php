@@ -20,6 +20,7 @@ class CustomerService extends Model
         'next_renewal_date',
         'auto_renew',
         'renewal_price',
+        'renewal_price_locked_at',
         'billing_cycle',
         'notified_30d_at',
         'notified_15d_at',
@@ -38,6 +39,7 @@ class CustomerService extends Model
         'notified_1d_at'   => 'datetime',
         'auto_renew'       => 'boolean',
         'renewal_price'    => 'decimal:2',
+        'renewal_price_locked_at' => 'datetime',
     ];
 
     // ===== Relationships =====
@@ -66,6 +68,16 @@ class CustomerService extends Model
 
     public function scopeActive(Builder $query): Builder
     {
+        // Active "thật": status=active VÀ chưa quá hạn (kể cả khi cron chưa kịp mark expired).
+        return $query->where('status', 'active')
+            ->where(function ($q) {
+                $q->whereNull('expires_at')->orWhere('expires_at', '>=', now());
+            });
+    }
+
+    /** Status thô trong DB (không kiểm tra expires_at). Dùng cho admin/audit. */
+    public function scopeActiveRaw(Builder $query): Builder
+    {
         return $query->where('status', 'active');
     }
 
@@ -85,15 +97,26 @@ class CustomerService extends Model
 
     // ===== Helpers =====
 
+    /** Đang hoạt động THẬT (có quyền dùng dịch vụ): status=active VÀ chưa quá hạn. */
     public function isActive(): bool
     {
-        return $this->status === 'active';
+        if ($this->status !== 'active') return false;
+        return !$this->expires_at || !$this->expires_at->isPast();
     }
 
     public function isExpired(): bool
     {
         return $this->status === 'expired'
             || ($this->expires_at && $this->expires_at->isPast());
+    }
+
+    /** Status hiển thị thực tế (auto-correct nếu DB chưa kịp sync). */
+    public function getEffectiveStatusAttribute(): string
+    {
+        if ($this->status === 'active' && $this->expires_at && $this->expires_at->isPast()) {
+            return 'expired';
+        }
+        return $this->status;
     }
 
     public function daysUntilExpiry(): ?int

@@ -217,6 +217,26 @@
                                                     class="btn btn-outline-success btn-block btn-sm mt-2">
                                                     <i class="fa fa-refresh"></i> Gia hạn / Thanh toán lại
                                                 </a>
+                                                @php
+                                                    $cs = $provision->customerService;
+                                                    $liveProduct = $cs->product;
+                                                    $livePrice = $liveProduct
+                                                        ? (float) (($liveProduct->sale_price > 0) ? $liveProduct->sale_price : $liveProduct->price)
+                                                        : 0;
+                                                    if ($livePrice <= 0) { $livePrice = (float) ($cs->renewal_price ?? 0); }
+                                                    $lastPaid = (float) ($cs->renewal_price ?? 0);
+                                                    $hasIncreased = $lastPaid > 0 && $livePrice > $lastPaid + 0.01;
+                                                @endphp
+                                                @if ($livePrice > 0)
+                                                    <small class="d-block text-center mt-1 {{ $hasIncreased ? 'text-warning' : 'text-muted' }}">
+                                                        <i class="fa fa-tag"></i>
+                                                        Giá gia hạn hiện tại:
+                                                        <strong>{{ number_format($livePrice, 0, ',', '.') }} đ</strong>
+                                                        @if ($hasIncreased)
+                                                            <br><i class="fa fa-arrow-up"></i> tăng so với lần trước ({{ number_format($lastPaid, 0, ',', '.') }} đ)
+                                                        @endif
+                                                    </small>
+                                                @endif
                                                 @if ($provision->customerService->auto_renew)
                                                     <small class="text-muted d-block text-center mt-1">
                                                         <i class="fa fa-info-circle"></i>

@@ -3,18 +3,25 @@
 @section('content')
     @php
         $iconMap = [
-            'ssl'           => ['icon' => 'fas fa-shield-alt',   'color' => '#10b981'],
-            'cloud-hosting' => ['icon' => 'fas fa-cloud',        'color' => '#3b82f6'],
-            'hosting'       => ['icon' => 'fas fa-server',       'color' => '#4154f1'],
-            'domain'        => ['icon' => 'fas fa-globe',        'color' => '#f59e0b'],
-            'design'        => ['icon' => 'fas fa-paint-brush',  'color' => '#8b5cf6'],
-            'design-website'=> ['icon' => 'fas fa-paint-brush',  'color' => '#8b5cf6'],
-            'design-uiux'   => ['icon' => 'fas fa-pen-ruler',    'color' => '#ec4899'],
-            'anti-ddos'     => ['icon' => 'fas fa-shield-virus', 'color' => '#ef4444'],
-            'vps'           => ['icon' => 'fas fa-microchip',    'color' => '#06b6d4'],
-            'reseller'      => ['icon' => 'fas fa-store',        'color' => '#14b8a6'],
-            'email'         => ['icon' => 'fas fa-envelope',     'color' => '#6366f1'],
-            'support'       => ['icon' => 'fas fa-headset',      'color' => '#0ea5e9'],
+            'ssl'                          => ['icon' => 'fas fa-shield-alt',   'color' => '#10b981'],
+            'cloud-hosting'                => ['icon' => 'fas fa-cloud',        'color' => '#3b82f6'],
+            'cloud_hosting'                => ['icon' => 'fas fa-cloud',        'color' => '#3b82f6'],
+            'hosting'                      => ['icon' => 'fas fa-server',       'color' => '#4154f1'],
+            'domain'                       => ['icon' => 'fas fa-globe',        'color' => '#f59e0b'],
+            'design'                       => ['icon' => 'fas fa-paint-brush',  'color' => '#8b5cf6'],
+            'design-website'               => ['icon' => 'fas fa-paint-brush',  'color' => '#8b5cf6'],
+            'design-uiux'                  => ['icon' => 'fas fa-pen-ruler',    'color' => '#ec4899'],
+            'web_design'                   => ['icon' => 'fas fa-paint-brush',  'color' => '#8b5cf6'],
+            'anti-ddos'                    => ['icon' => 'fas fa-shield-virus', 'color' => '#ef4444'],
+            'anti_ddos'                    => ['icon' => 'fas fa-shield-virus', 'color' => '#ef4444'],
+            'vps'                          => ['icon' => 'fas fa-microchip',    'color' => '#06b6d4'],
+            'reseller'                     => ['icon' => 'fas fa-store',        'color' => '#14b8a6'],
+            'reseller-cloud-vps-vpc'       => ['icon' => 'fas fa-store',        'color' => '#14b8a6'],
+            'email'                        => ['icon' => 'fas fa-envelope',     'color' => '#6366f1'],
+            'support'                      => ['icon' => 'fas fa-headset',      'color' => '#0ea5e9'],
+            'support-facebook-all-service' => ['icon' => 'fab fa-facebook',     'color' => '#1877f2'],
+            'advertising'                  => ['icon' => 'fab fa-facebook',     'color' => '#1877f2'],
+            'seo'                          => ['icon' => 'fas fa-magnifying-glass-chart', 'color' => '#22c55e'],
         ];
         $pickIcon = function ($slug, $type = null) use ($iconMap) {
             $keys = array_filter([strtolower($slug ?? ''), strtolower($type ?? '')]);
