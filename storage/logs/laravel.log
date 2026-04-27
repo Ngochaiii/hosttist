@@ -9135,3 +9135,43 @@ Lý tưởng cho: Website thương mại điện tử, hệ thống nội bộ, 
 [2026-04-27 07:29:11] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
 [2026-04-27 07:34:33] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
 [2026-04-27 07:34:33] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 08:12:16] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 08:12:16] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-04-27 08:13:15] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-04-27 08:13:15] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-04-27 08:14:28] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-04-27 08:14:28] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-04-27 08:14:31] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-04-27 08:14:31] local.INFO: Item #13 - Product Type: ssl  
+[2026-04-27 08:14:31] local.INFO: Found duration in item: 1  
+[2026-04-27 08:14:31] local.INFO: Calculated expiration: 2026-08-31  
+[2026-04-27 08:14:31] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-04-27 08:14:31] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-04-27 08:14:31] local.INFO: Item #12 - Product Type: ssl  
+[2026-04-27 08:14:31] local.INFO: Found duration in item: 1  
+[2026-04-27 08:14:31] local.INFO: Calculated expiration: 2026-08-31  
+[2026-04-27 08:14:31] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-04-27 08:14:31] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-04-27 08:14:31] local.INFO: Item #2 - Product Type: product  
+[2026-04-27 08:14:31] local.INFO: Found duration in item: 1  
+[2026-04-27 08:14:31] local.INFO: Calculated expiration: 2026-08-08  
+[2026-04-27 08:14:31] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-04-27 08:14:31] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-04-27 08:14:31] local.INFO: Item #13 - Product Type: ssl  
+[2026-04-27 08:14:31] local.INFO: Found duration in item: 1  
+[2026-04-27 08:14:31] local.INFO: Calculated expiration: 2026-08-31  
+[2026-04-27 08:14:31] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-04-27 08:14:31] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-04-27 08:14:31] local.INFO: Item #12 - Product Type: ssl  
+[2026-04-27 08:14:31] local.INFO: Found duration in item: 1  
+[2026-04-27 08:14:31] local.INFO: Calculated expiration: 2026-08-31  
+[2026-04-27 08:14:31] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-04-27 08:14:31] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-04-27 08:14:31] local.INFO: Item #2 - Product Type: product  
+[2026-04-27 08:14:31] local.INFO: Found duration in item: 1  
+[2026-04-27 08:14:31] local.INFO: Calculated expiration: 2026-08-08  
+[2026-04-27 08:14:31] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-04-27 08:14:56] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-04-27 08:14:56] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-04-27 08:18:54] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-04-27 08:18:55] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
