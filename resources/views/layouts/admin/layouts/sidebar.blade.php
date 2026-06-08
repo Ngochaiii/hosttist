@@ -94,6 +94,35 @@
                   </li>
                   <li class="nav-item">
                       <a href="#" class="nav-link">
+                          <i class="nav-icon fas fa-globe"></i>
+                          <p>
+                              Tên miền
+                              <i class="fas fa-angle-left right"></i>
+                          </p>
+                      </a>
+                      <ul class="nav nav-treeview">
+                          <li class="nav-item">
+                              <a href="{{ route('admin.domains.index') }}" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Kho tên miền</p>
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="{{ route('admin.domains.create') }}" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Import tên miền</p>
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                              <a href="{{ route('admin.domain-tlds.index') }}" class="nav-link">
+                                  <i class="far fa-circle nav-icon"></i>
+                                  <p>Danh mục đuôi (TLD)</p>
+                              </a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li class="nav-item">
+                      <a href="#" class="nav-link">
                           <i class="nav-icon fas fa-tree"></i>
                           <p>
                               Customers

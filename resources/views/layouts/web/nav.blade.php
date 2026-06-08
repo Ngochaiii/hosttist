@@ -13,6 +13,9 @@
         <li class="nav-item {{ request()->routeIs('pricing.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('pricing.index') }}">Pricing</a>
         </li>
+        <li class="nav-item {{ request()->routeIs('domains.*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('domains.search') }}">Tên miền</a>
+        </li>
         <li class="nav-item {{ request()->routeIs('contact.index') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('contact.index') }}">Contact Us</a>
         </li>

@@ -447,20 +447,31 @@ class PaymentService extends BaseService
             return ['success' => false, 'error' => 'Payment not found', 'no_retry' => true];
         }
 
+        // Fast-path idempotent: đã completed thì khỏi mở transaction/lock.
+        // Provider thường gửi webhook trùng → nhánh này gánh phần lớn lưu lượng lặp.
         if ($payment->status === 'completed') {
-            // Đã xử lý rồi (idempotent) — không xử lý lại
             return ['success' => true, 'payment' => $payment, 'already_processed' => true];
         }
 
-        if ($payment->status !== 'pending') {
-            return [
-                'success'  => false,
-                'error'    => "Payment status is '{$payment->status}', cannot confirm",
-                'no_retry' => true,
-            ];
-        }
-
         return $this->transaction(function () use ($payment, $provider, $rawData) {
+            // Lock row + re-check status TRONG transaction — đây mới là kiểm tra "thẩm quyền".
+            // Hai webhook của cùng giao dịch đến đồng thời sẽ bị tuần tự hoá tại đây,
+            // tránh tạo ServiceProvision 2 lần (double-provision).
+            $payment = Payments::where('id', $payment->id)->lockForUpdate()->first();
+
+            if ($payment->status === 'completed') {
+                // Webhook đang chạy song song đã xử lý xong trước → bỏ qua (idempotent).
+                return ['success' => true, 'payment' => $payment, 'already_processed' => true];
+            }
+
+            if ($payment->status !== 'pending') {
+                return [
+                    'success'  => false,
+                    'error'    => "Payment status is '{$payment->status}', cannot confirm",
+                    'no_retry' => true,
+                ];
+            }
+
             $order = $payment->order;
 
             // Cập nhật payment

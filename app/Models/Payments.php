@@ -18,6 +18,8 @@ class Payments extends Model
         'transaction_id',
         'status', // pending, completed, failed, refunded
         'notes',
+        'verified_by', // user_id của admin/hệ thống đã xác nhận payment
+        'verified_at', // thời điểm xác nhận
     ];
 
     // Relationship với Order

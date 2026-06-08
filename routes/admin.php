@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ProvisionController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DomainController;
+use App\Http\Controllers\Admin\DomainTldController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -118,4 +120,23 @@ Route::group([
     });
     Route::post('/provisions/{id}/resend-email', [ProvisionController::class, 'resendEmail'])
         ->name('admin.provisions.resend-email');
+
+    // ===== TÊN MIỀN: danh mục đuôi (TLD) =====
+    Route::group(['prefix' => 'domain-tlds'], function () {
+        Route::get('/', [DomainTldController::class, 'index'])->name('admin.domain-tlds.index');
+        Route::post('/store', [DomainTldController::class, 'store'])->name('admin.domain-tlds.store');
+        Route::put('/{id}', [DomainTldController::class, 'update'])->name('admin.domain-tlds.update');
+        Route::post('/toggle-status/{id}', [DomainTldController::class, 'toggleStatus'])->name('admin.domain-tlds.toggleStatus');
+        Route::delete('/{id}', [DomainTldController::class, 'destroy'])->name('admin.domain-tlds.destroy');
+    });
+
+    // ===== TÊN MIỀN: kho domain + import =====
+    Route::group(['prefix' => 'domains'], function () {
+        Route::get('/', [DomainController::class, 'index'])->name('admin.domains.index');
+        Route::get('/create', [DomainController::class, 'create'])->name('admin.domains.create');
+        Route::get('/check', [DomainController::class, 'checkAvailability'])->name('admin.domains.check');
+        Route::post('/store', [DomainController::class, 'store'])->name('admin.domains.store');
+        Route::get('/{id}', [DomainController::class, 'show'])->whereNumber('id')->name('admin.domains.show');
+        Route::delete('/{id}', [DomainController::class, 'destroy'])->name('admin.domains.destroy');
+    });
 });

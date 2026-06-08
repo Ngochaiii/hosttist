@@ -23,6 +23,16 @@ class ServiceLifecycleService extends BaseService
      */
     public function activateFromProvision(ServiceProvision $provision): CustomerService
     {
+        // Domain có vòng đời riêng (hạn theo năm, giá gia hạn = renew_price) → tách xử lý.
+        $pdata = is_array($provision->provision_data)
+            ? $provision->provision_data
+            : (json_decode($provision->provision_data ?? '', true) ?: []);
+
+        $domainSvc = app(DomainProvisioningService::class);
+        if ($domainSvc->isDomainProvision($provision, $pdata)) {
+            return $domainSvc->activate($provision, $pdata);
+        }
+
         return $this->transaction(function () use ($provision) {
             $product  = $provision->product;
             $orderItem = $provision->orderItem;
@@ -148,6 +158,9 @@ class ServiceLifecycleService extends BaseService
                 'notified_1d_at'     => null,
             ]);
 
+            // Đồng bộ Domain (nếu CS này là tên miền).
+            app(DomainProvisioningService::class)->syncFromService($service);
+
             $this->logActivity('CustomerService renewed', [
                 'customer_service_id' => $service->id,
                 'new_expiry'          => $newExpiry->toDateString(),
@@ -190,6 +203,9 @@ class ServiceLifecycleService extends BaseService
     public function markExpired(CustomerService $service): void
     {
         $service->update(['status' => 'expired']);
+
+        // Đồng bộ Domain (nếu CS này là tên miền).
+        app(DomainProvisioningService::class)->syncFromService($service);
 
         $this->logActivity('CustomerService expired', [
             'customer_service_id' => $service->id,
@@ -358,6 +374,9 @@ class ServiceLifecycleService extends BaseService
                 'notified_7d_at'    => null,
                 'notified_1d_at'    => null,
             ]);
+
+            // Đồng bộ Domain (nếu CS này là tên miền).
+            app(DomainProvisioningService::class)->syncFromService($service);
 
             // Đồng bộ lại legacy Products record (nếu CS được backfill từ Products cũ)
             // để UI cũ hiển thị ngày hết hạn mới nhất.

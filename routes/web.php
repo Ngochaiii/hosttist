@@ -46,6 +46,11 @@ Route::group(['prefix' => 'services'], function () {
 
 Route::get('/category/{categorySlug}', [HomepageController::class, 'category'])->name('category.detail');
 
+// ===== TÊN MIỀN (công khai) =====
+Route::get('/domains', [\App\Http\Controllers\Web\DomainController::class, 'search'])->name('domains.search');
+Route::get('/domains/check', [\App\Http\Controllers\Web\DomainController::class, 'check'])
+    ->middleware('throttle:30,1')->name('domains.check');
+
 // ===== AUTHENTICATED ROUTES =====
 Route::group(['middleware' => ['frontend.auth']], function () {
 
@@ -111,6 +116,10 @@ Route::group(['middleware' => ['frontend.auth']], function () {
         Route::get('/deposit/status/{code}', [WalletController::class, 'checkDepositStatus'])->name('deposit.status');
         Route::get('/language/{locale}', [WalletController::class, 'switchLanguage'])->name('language.switch');
     });
+
+    // ===== TÊN MIỀN: thêm vào giỏ =====
+    Route::post('/domains/add-to-cart', [\App\Http\Controllers\Web\DomainController::class, 'addToCart'])
+        ->middleware('throttle:30,1')->name('domains.add');
 
     // ===== SHOPPING CART =====
     Route::group(['prefix' => 'cart'], function () {

@@ -10,6 +10,13 @@ class ServiceProvision extends Model
 {
     use EncryptsData; // CHỈ giữ EncryptsData
 
+    // Trạng thái provision — khớp với enum cột provision_status trong migration.
+    public const STATUS_PENDING    = 'pending';
+    public const STATUS_PROCESSING = 'processing';
+    public const STATUS_COMPLETED  = 'completed';
+    public const STATUS_FAILED     = 'failed';
+    public const STATUS_CANCELLED  = 'cancelled';
+
     protected $fillable = [
         'order_item_id',
         'product_id',
