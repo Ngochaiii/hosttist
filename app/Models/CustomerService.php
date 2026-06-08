@@ -127,6 +127,12 @@ class CustomerService extends Model
         return (int) now()->diffInDays($this->expires_at, false);
     }
 
+    /** Loại dịch vụ: ưu tiên provision_type, fallback product->type. */
+    public function getServiceTypeAttribute(): ?string
+    {
+        return $this->provision->provision_type ?? $this->product->type ?? null;
+    }
+
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {

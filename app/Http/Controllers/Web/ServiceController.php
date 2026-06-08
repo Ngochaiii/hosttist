@@ -151,16 +151,19 @@ class ServiceController extends Controller
             return back()->with('error', 'Service chưa được kích hoạt. Vui lòng chờ hoàn tất quá trình cung cấp dịch vụ.');
         }
 
-        // Kiểm tra xem có credentials không
-        $provisionData = json_decode($provision->provision_data, true) ?? [];
-        if (empty($provisionData['credentials'])) {
+        // Dựng thông tin hiển thị từ provision_data theo schema (giải mã field nhạy cảm,
+        // bỏ ghi chú nội bộ). Đồng bộ với dữ liệu admin nhập ở module "Dịch vụ đang chạy".
+        $fields = app(\App\Services\ServiceParameterService::class)
+            ->customerFieldsForProvision($provision, $provision->customerService);
+
+        if (empty($fields)) {
             return back()->with('error', 'Thông tin truy cập chưa có sẵn. Vui lòng liên hệ bộ phận hỗ trợ.');
         }
 
         // Log việc truy cập credentials
         $this->logCredentialAccess($provision);
 
-        return view('source.web.services.credentials', compact('provision'));
+        return view('source.web.services.credentials', compact('provision', 'fields'));
     }
 
     /**
@@ -495,13 +498,18 @@ class ServiceController extends Controller
             return back()->with('error', 'SSL certificate chưa sẵn sàng để download.');
         }
 
-        $provisionData = json_decode($provision->provision_data, true) ?? [];
+        // Đọc file SSL theo cấu trúc lưu mới (storage private, key đã mã hóa) qua CS liên kết.
+        $service = $provision->customerService;
+        $sp = app(\App\Services\ServiceParameterService::class);
+        $sslFiles = array_filter([
+            'certificate' => $service ? $sp->readSslFile($service, 'certificate') : null,
+            'private_key' => $service ? $sp->readSslFile($service, 'private_key') : null,
+            'ca_bundle'   => $service ? $sp->readSslFile($service, 'ca_bundle') : null,
+        ], fn ($v) => $v !== null && $v !== '');
 
-        if (!isset($provisionData['ssl_files'])) {
+        if (empty($sslFiles)) {
             return back()->with('error', 'Không tìm thấy files SSL certificate.');
         }
-
-        $sslFiles = $provisionData['ssl_files'];
 
         // Log download activity
         $this->logSSLDownload($provision, $type);

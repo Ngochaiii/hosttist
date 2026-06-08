@@ -90,7 +90,11 @@
       "Bash(sed -n '341,375p' app/Services/ServiceLifecycleService.php)",
       "Bash(php -l app/Services/DomainProvisioningService.php)",
       "Bash(php vendor/bin/phpunit tests/Feature/DomainFulfillmentTest.php)",
-      "Bash(php vendor/bin/phpunit tests/Feature/DomainCatalogTest.php tests/Feature/DomainAvailabilityTest.php tests/Feature/DomainCartLineTest.php tests/Feature/DomainFulfillmentTest.php tests/Feature/PaymentWebhookIdempotencyTest.php)"
+      "Bash(php vendor/bin/phpunit tests/Feature/DomainCatalogTest.php tests/Feature/DomainAvailabilityTest.php tests/Feature/DomainCartLineTest.php tests/Feature/DomainFulfillmentTest.php tests/Feature/PaymentWebhookIdempotencyTest.php)",
+      "Bash(cat app/Models/CustomerService.php)",
+      "Bash(sed -n '1,80p' app/Models/Products.php)",
+      "Bash(sed -n '1,40p' app/Services/OrderService.php)",
+      "Bash(sed -n '125,205p' app/Http/Controllers/Admin/ProvisionController.php)"
     ]
   }
 }

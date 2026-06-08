@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ProvisionController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DomainController;
 use App\Http\Controllers\Admin\DomainTldController;
+use App\Http\Controllers\Admin\CustomerServiceController;
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
@@ -138,5 +139,15 @@ Route::group([
         Route::post('/store', [DomainController::class, 'store'])->name('admin.domains.store');
         Route::get('/{id}', [DomainController::class, 'show'])->whereNumber('id')->name('admin.domains.show');
         Route::delete('/{id}', [DomainController::class, 'destroy'])->name('admin.domains.destroy');
+    });
+
+    // ===== DỊCH VỤ ĐANG CHẠY: quản lý thông số / mật khẩu VPS / file SSL =====
+    Route::group(['prefix' => 'services'], function () {
+        Route::get('/', [CustomerServiceController::class, 'index'])->name('admin.services.index');
+        Route::get('/{id}', [CustomerServiceController::class, 'show'])->whereNumber('id')->name('admin.services.show');
+        Route::get('/{id}/edit', [CustomerServiceController::class, 'edit'])->whereNumber('id')->name('admin.services.edit');
+        Route::put('/{id}', [CustomerServiceController::class, 'update'])->whereNumber('id')->name('admin.services.update');
+        Route::post('/{id}/status', [CustomerServiceController::class, 'updateStatus'])->whereNumber('id')->name('admin.services.status');
+        Route::get('/{id}/ssl/{kind}/download', [CustomerServiceController::class, 'downloadSslFile'])->whereNumber('id')->name('admin.services.ssl.download');
     });
 });
