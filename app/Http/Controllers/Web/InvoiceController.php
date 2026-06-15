@@ -143,11 +143,12 @@ class InvoiceController extends Controller
                 }
             } else {
                 $config = Config::current();
+                $bank = $config->bankInfo($invoice->vat_invoice_requested);
 
                 $result = $this->paymentService->createBankTransferPayment($invoice->order, [
-                    'bank_name'      => $config->company_bank_name,
-                    'account_number' => $config->company_bank_account_number,
-                    'account_name'   => $config->company_bank_account_name,
+                    'bank_name'      => $bank['name'],
+                    'account_number' => $bank['account_number'],
+                    'account_name'   => $bank['account_name'],
                 ]);
 
                 if ($result['success']) {

@@ -95,7 +95,8 @@ class QuoteController extends Controller
                 'vat',
                 'vatRate',
                 'total',
-                'validity'
+                'validity',
+                'vatInvoice'
             );
 
             // Thêm thông tin domain cho items
@@ -146,7 +147,7 @@ class QuoteController extends Controller
         $total         = $amounts['total'];
 
         // Tạo HTML với template mới
-        $html = $this->createModernPdfTemplate($cart, $user, $config, $quoteNumber, $quoteDate, $expireDate, $subtotal, $discount, $afterDiscount, $vat, $total, $vatRate);
+        $html = $this->createModernPdfTemplate($cart, $user, $config, $quoteNumber, $quoteDate, $expireDate, $subtotal, $discount, $afterDiscount, $vat, $total, $vatRate, $vatInvoice);
 
         $pdf = PDF::loadHTML($html);
 
@@ -172,8 +173,11 @@ class QuoteController extends Controller
     /**
      * Tạo template HTML hiện đại cho PDF
      */
-    private function createModernPdfTemplate($cart, $user, $config, $quoteNumber, $quoteDate, $expireDate, $subtotal, $discount, $afterDiscount, $vat, $total, $vatRate = 0.0)
+    private function createModernPdfTemplate($cart, $user, $config, $quoteNumber, $quoteDate, $expireDate, $subtotal, $discount, $afterDiscount, $vat, $total, $vatRate = 0.0, $vatInvoice = false)
     {
+        // Chọn tài khoản ngân hàng theo việc có xuất hóa đơn VAT hay không
+        $bank = $config ? $config->bankInfo($vatInvoice) : [];
+
         // Tạo danh sách sản phẩm
         $productsHtml = '';
         foreach ($cart->items as $item) {
@@ -239,9 +243,9 @@ class QuoteController extends Controller
 
         // Tạo phần QR code
         $qrCodeHtml = '';
-        if (!empty($config->company_bank_qr_code)) {
+        if (!empty($bank['qr_code'])) {
             // Sử dụng đường dẫn tuyệt đối cho PDF
-            $qrCodePath = storage_path('app/public/' . $config->company_bank_qr_code);
+            $qrCodePath = storage_path('app/public/' . $bank['qr_code']);
 
             if (file_exists($qrCodePath)) {
                 // Chuyển ảnh thành base64 để embed vào PDF
@@ -271,8 +275,8 @@ class QuoteController extends Controller
                 $qrCodeHtml = "
                 <div style='width: 150px; height: 150px; background: white; border: 2px solid #e9ecef; border-radius: 4px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 10px; color: #6c757d; text-align: center; line-height: 1.3; flex-direction: column;'>
                     <div style='font-weight: bold; margin-bottom: 8px;'>QR Code</div>
-                    <div>Ngân hàng: " . ($config->bank_name ?? 'ACB') . "</div>
-                    <div>TK: " . ($config->company_bank_account_number ?? '218906666') . "</div>
+                    <div>Ngân hàng: " . ($bank['name'] ?? 'ACB') . "</div>
+                    <div>TK: " . ($bank['account_number'] ?? '218906666') . "</div>
                     <div style='margin-top: 5px; color: #dc3545; font-weight: bold;'>" . number_format($total, 0, ',', '.') . " VNĐ</div>
                     <div style='margin-top: 5px; font-size: 9px;'>Ref: " . str_replace('QUOTE-', 'PAY-', $quoteNumber) . "</div>
                 </div>";
@@ -628,15 +632,15 @@ class QuoteController extends Controller
                         </tr>
                         <tr>
                             <td style='font-weight: bold; color: #495057;'>Ngân hàng:</td>
-                            <td>" . ($config->bank_name ?? 'Ngân hàng Tiền Phong') . "</td>
+                            <td>" . ($bank['name'] ?? 'Ngân hàng Tiền Phong') . "</td>
                         </tr>
                         <tr>
                             <td style='font-weight: bold; color: #495057;'>Số tài khoản:</td>
-                            <td style='font-weight: bold; color: #007bff;'>" . ($config->company_bank_account_number ?? '218906666') . "</td>
+                            <td style='font-weight: bold; color: #007bff;'>" . ($bank['account_number'] ?? '218906666') . "</td>
                         </tr>
                         <tr>
                             <td style='font-weight: bold; color: #495057;'>Chủ tài khoản:</td>
-                            <td>" . ($config->company_name ?? 'NGUYEN VAN THIEN') . "</td>
+                            <td>" . ($bank['account_name'] ?? ($config->company_name ?? 'NGUYEN VAN THIEN')) . "</td>
                         </tr>
                         <tr>
                             <td style='font-weight: bold; color: #495057;'>Nội dung chuyển khoản:</td>
@@ -728,6 +732,9 @@ class QuoteController extends Controller
     private function createBeautifulEmailTemplate($data, $userMessage = '')
     {
         extract($data);
+
+        // Chọn tài khoản ngân hàng theo việc có xuất hóa đơn VAT hay không
+        $bank = $config ? $config->bankInfo($vatInvoice ?? false) : [];
 
         // Tạo phần lời nhắn nếu có
         $messageSection = '';
@@ -837,8 +844,8 @@ class QuoteController extends Controller
         $qrCodeSection = "
         <div style='width: 80px; height: 80px; border: 1px solid #ddd; padding: 3px; background-color: white; margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #6c757d; text-align: center; line-height: 1.3; flex-direction: column;'>
             <div style='font-weight: bold; margin-bottom: 8px;'>QR Code</div>
-            <div>Bank: " . ($config->bank_name ?? 'ACB') . "</div>
-            <div>Account: " . ($config->company_bank_account_number ?? '218906666') . "</div>
+            <div>Bank: " . ($bank['name'] ?? 'ACB') . "</div>
+            <div>Account: " . ($bank['account_number'] ?? '218906666') . "</div>
             <div style='margin-top: 5px; color: #dc3545; font-weight: bold;'>" . number_format($total, 0, ',', '.') . " VNĐ</div>
             <div style='margin-top: 5px; font-size: 9px;'>Ref: " . str_replace('QUOTE-', 'PAY-', $quoteNumber) . "</div>
         </div>";
@@ -1081,9 +1088,9 @@ class QuoteController extends Controller
                                                             <tr>
                                                                 <td>
                                                                     <p><b>Số tiền:</b> " . number_format($total, 0, ',', '.') . " đ</p>
-                                                                    <p><b>Ngân hàng:</b> " . ($config->bank_name ?? 'ACB') . "</p>
-                                                                    <p><b>Số tài khoản:</b> " . ($config->company_bank_account_number ?? '218906666') . "</p>
-                                                                    <p><b>Chủ tài khoản:</b> " . ($config->company_name ?? 'Công ty chúng tôi') . "</p>
+                                                                    <p><b>Ngân hàng:</b> " . ($bank['name'] ?? 'ACB') . "</p>
+                                                                    <p><b>Số tài khoản:</b> " . ($bank['account_number'] ?? '218906666') . "</p>
+                                                                    <p><b>Chủ tài khoản:</b> " . ($bank['account_name'] ?? ($config->company_name ?? 'Công ty chúng tôi')) . "</p>
                                                                     <p><b>Nội dung:</b> " . str_replace('QUOTE-', 'PAY-', $quoteNumber) . "</p>
                                                                     <p><b>Hạn thanh toán:</b> {$expireDate}</p>
                                                                     <div align='center' style='margin-top: 5px;'>

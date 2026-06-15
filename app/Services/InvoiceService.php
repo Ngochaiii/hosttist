@@ -121,10 +121,13 @@ class InvoiceService extends BaseService
         ]);
 
         try {
-            // Add QR code if available
+            // Add QR code if available (chọn tài khoản theo việc có xuất hóa đơn VAT hay không)
             $config = $data['config'] ?? Config::current();
-            if ($config && $config->company_bank_qr_code) {
-                $qrPath = storage_path('app/public/' . $config->company_bank_qr_code);
+            $vat = isset($data['invoice']) && $data['invoice']->vat_invoice_requested;
+            $bank = $config ? $config->bankInfo($vat) : [];
+            $data['bank'] = $bank;
+            if (!empty($bank['qr_code'])) {
+                $qrPath = storage_path('app/public/' . $bank['qr_code']);
                 if (file_exists($qrPath)) {
                     $data['qrBase64'] = 'data:image/png;base64,' . base64_encode(file_get_contents($qrPath));
                     Log::debug("[{$requestId}] QR code added to PDF data", [

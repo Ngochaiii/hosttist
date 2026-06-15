@@ -157,17 +157,22 @@
                                 <h5 class="mb-0">Thông tin chuyển khoản</h5>
                             </div>
                             <div class="card-body">
+                                @php $bank = $config ? $config->bankInfo($invoice->vat_invoice_requested) : []; @endphp
+                                @if ($invoice->vat_invoice_requested)
+                                    <p class="text-primary mb-3"><i class="fa fa-file-invoice me-1"></i>
+                                        <strong>Tài khoản dành cho đơn hàng xuất hóa đơn VAT</strong></p>
+                                @endif
                                 <div class="row">
                                     <div class="col-md-6">
                                         <h6 class="mb-3">Thông tin ngân hàng</h6>
                                         <div class="payment-info">
-                                            <p><strong>Tên ngân hàng:</strong> {{ $config->company_bank_name ?? 'ACB' }}</p>
+                                            <p><strong>Tên ngân hàng:</strong> {{ $bank['name'] ?? 'ACB' }}</p>
                                             <p><strong>Số tài khoản:</strong>
-                                                {{ $config->company_bank_account_number ?? '24768' }}</p>
+                                                {{ $bank['account_number'] ?? '24768' }}</p>
                                             <p><strong>Chủ tài khoản:</strong>
-                                                {{ $config->company_bank_account_name ?? 'Company Name' }}</p>
+                                                {{ $bank['account_name'] ?? 'Company Name' }}</p>
                                             <p><strong>Chi nhánh:</strong>
-                                                {{ $config->company_bank_branch ?? 'Chi nhánh Center' }}</p>
+                                                {{ $bank['branch'] ?? 'Chi nhánh Center' }}</p>
                                             <p><strong>Nội dung CK:</strong> <span
                                                     class="text-danger">{{ "ThanhToan{$invoice->invoice_number}" }}</span>
                                             </p>
@@ -179,8 +184,8 @@
                                     <div class="col-md-6 text-center">
                                         <h6 class="mb-3">QR Code thanh toán</h6>
                                         <!-- QR code image -->
-                                        @if ($config && $config->company_bank_qr_code)
-                                            <img src="{{ asset('storage/' . $config->company_bank_qr_code) }}"
+                                        @if (!empty($bank['qr_code']))
+                                            <img src="{{ asset('storage/' . $bank['qr_code']) }}"
                                                 alt="QR Code thanh toán" class="img-fluid" style="max-width: 200px;">
                                         @else
                                             <img src="{{ asset('images/qr-placeholder.png') }}" alt="QR Code"

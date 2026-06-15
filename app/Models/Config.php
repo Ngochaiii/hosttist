@@ -73,6 +73,34 @@ class Config extends Model
     }
 
     /**
+     * Lấy bộ thông tin ngân hàng phù hợp với việc có xuất hóa đơn VAT hay không.
+     * Nếu yêu cầu VAT nhưng chưa cấu hình tài khoản VAT thì fallback về tài khoản thường.
+     *
+     * @param bool $vat
+     * @return array{name:?string, account_number:?string, account_name:?string, branch:?string, qr_code:?string}
+     */
+    public function bankInfo(bool $vat = false): array
+    {
+        if ($vat && $this->vat_bank_account_number) {
+            return [
+                'name' => $this->vat_bank_name,
+                'account_number' => $this->vat_bank_account_number,
+                'account_name' => $this->vat_bank_account_name,
+                'branch' => $this->vat_bank_branch,
+                'qr_code' => $this->vat_bank_qr_code,
+            ];
+        }
+
+        return [
+            'name' => $this->company_bank_name,
+            'account_number' => $this->company_bank_account_number,
+            'account_name' => $this->company_bank_account_name,
+            'branch' => $this->company_bank_branch,
+            'qr_code' => $this->company_bank_qr_code,
+        ];
+    }
+
+    /**
      * Lấy full URL website
      * @return string
      */

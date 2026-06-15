@@ -94,7 +94,16 @@
       "Bash(cat app/Models/CustomerService.php)",
       "Bash(sed -n '1,80p' app/Models/Products.php)",
       "Bash(sed -n '1,40p' app/Services/OrderService.php)",
-      "Bash(sed -n '125,205p' app/Http/Controllers/Admin/ProvisionController.php)"
+      "Bash(sed -n '125,205p' app/Http/Controllers/Admin/ProvisionController.php)",
+      "Bash(grep -n \"company_bank\\\\|fillable\\\\|protected \\\\$\" app/Models/Config.php)",
+      "Bash(grep -n 'company_bank\\\\|vat_invoice_requested\\\\|bankInfo\\\\|$bank' resources/views/source/web/invoice/quote.blade.php)",
+      "Bash(grep -n 'function \\\\|vat_invoice_requested\\\\|$vatInvoice\\\\|vat_invoice' app/Http/Controllers/Web/QuoteController.php)",
+      "Bash(lsof -ti:8000)",
+      "Bash(ls -1 storage/app/public/qrcodes/)",
+      "Bash(ls -ld public/storage)",
+      "Bash(php -l routes/web.php)",
+      "Bash(php artisan *)",
+      "Bash(curl -s -o /dev/null -w \"preview route now -> HTTP %{http_code}\\\\n\" \"http://127.0.0.1:8000/__preview/bank-transfer?invoice=1&vat=1\")"
     ]
   }
 }

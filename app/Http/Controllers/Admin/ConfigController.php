@@ -32,6 +32,12 @@ class ConfigController extends Controller
             'company_bank_branch' => 'nullable|string|max:255',
             // Bỏ image|mimes validation để tránh lỗi fileinfo
             'company_bank_qr_code' => 'nullable|file|max:2048',
+            'vat_bank_name' => 'nullable|string|max:255',
+            'vat_bank_account_number' => 'nullable|string|max:50',
+            'vat_bank_account_name' => 'nullable|string|max:255',
+            'vat_bank_branch' => 'nullable|string|max:255',
+            // Bỏ image|mimes validation để tránh lỗi fileinfo
+            'vat_bank_qr_code' => 'nullable|file|max:2048',
             'deposit_instruction' => 'nullable|string',
             'deposit_note_format' => 'nullable|string|max:255',
             'min_deposit_amount' => 'nullable|numeric|min:0',
@@ -55,6 +61,10 @@ class ConfigController extends Controller
             'company_bank_account_number' => $request->company_bank_account_number,
             'company_bank_account_name' => $request->company_bank_account_name,
             'company_bank_branch' => $request->company_bank_branch,
+            'vat_bank_name' => $request->vat_bank_name,
+            'vat_bank_account_number' => $request->vat_bank_account_number,
+            'vat_bank_account_name' => $request->vat_bank_account_name,
+            'vat_bank_branch' => $request->vat_bank_branch,
             'deposit_instruction' => $request->deposit_instruction,
             'deposit_note_format' => $request->deposit_note_format,
             'min_deposit_amount' => $request->min_deposit_amount,
@@ -98,6 +108,41 @@ class ConfigController extends Controller
             // Di chuyển file
             $file->move($destinationPath, $fileName);
             $updateData['company_bank_qr_code'] = 'qrcodes/' . $fileName;
+        }
+
+        // Xử lý upload QR code ngân hàng (xuất hóa đơn VAT)
+        if ($request->hasFile('vat_bank_qr_code')) {
+            $file = $request->file('vat_bank_qr_code');
+            $extension = strtolower($file->getClientOriginalExtension());
+
+            // Kiểm tra extension thủ công
+            if (!in_array($extension, $allowedExtensions)) {
+                return redirect()->back()->withErrors([
+                    'vat_bank_qr_code' => 'File phải là hình ảnh (jpg, jpeg, png, gif)'
+                ])->withInput();
+            }
+
+            $config = Config::current();
+            if ($config && $config->vat_bank_qr_code) {
+                // Xóa file cũ thủ công
+                $oldFilePath = storage_path('app/public/' . $config->vat_bank_qr_code);
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
+            }
+
+            // Upload thủ công không dùng store()
+            $fileName = 'qr_vat_bank_' . time() . '.' . $extension;
+            $destinationPath = storage_path('app/public/qrcodes');
+
+            // Tạo thư mục nếu chưa có
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+
+            // Di chuyển file
+            $file->move($destinationPath, $fileName);
+            $updateData['vat_bank_qr_code'] = 'qrcodes/' . $fileName;
         }
 
         // Xử lý upload QR code MoMo

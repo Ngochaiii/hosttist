@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CustomerService;
 use App\Models\Domain;
+use App\Models\Products;
 use App\Services\ServiceParameterSchema;
 use App\Services\ServiceParameterService;
 use Illuminate\Http\Request;
@@ -114,6 +115,9 @@ class CustomerServiceController extends Controller
             'expires_at' => $data['expires_at'] ?? null,
         ]);
 
+        // Đồng bộ ngày sang bản ghi Products legacy (nguồn khách đang xem ở portal).
+        $this->syncLegacyProduct($service->fresh());
+
         // Thông số kỹ thuật → provision_data (chỉ khi có provision liên kết).
         if ($service->provision) {
             $this->params->applyUpdate($service, $request);
@@ -136,7 +140,29 @@ class CustomerServiceController extends Controller
             'notes'  => $data['reason'] ?: $service->notes,
         ]);
 
+        // Đồng bộ trạng thái sang Products legacy để portal khách hiển thị đúng.
+        $this->syncLegacyProduct($service->fresh());
+
         return back()->with('success', 'Đã đổi trạng thái dịch vụ thành "' . $service->status_label . '".');
+    }
+
+    /**
+     * Đồng bộ ngày bắt đầu/hết hạn + trạng thái sang bản ghi Products legacy
+     * (phần khách đang xem ở portal đọc từ Products). No-op nếu không phải dịch vụ legacy.
+     * Cùng hướng đồng bộ với ServiceLifecycleService::completeRenewalFromOrder().
+     */
+    private function syncLegacyProduct(CustomerService $service): void
+    {
+        if (!$service->legacy_product_id) {
+            return;
+        }
+
+        Products::where('id', $service->legacy_product_id)->update([
+            'start_date'     => $service->started_at,
+            'end_date'       => $service->expires_at,
+            'next_due_date'  => $service->expires_at,
+            'service_status' => $service->status,
+        ]);
     }
 
     public function downloadSslFile($id, string $kind)

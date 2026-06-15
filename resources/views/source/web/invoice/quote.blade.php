@@ -165,20 +165,21 @@
                                 <div class="card-body">
                                     <h3 class="text-center mb-4">{{ number_format($total, 0, ',', '.') }} đ</h3>
 
+                                    @php $bank = $config ? $config->bankInfo($vatInvoice ?? false) : []; @endphp
                                     <h5>Payment Method:</h5>
                                     <div class="payment-info">
-                                        <p><strong>Bank Transfer ACB (QR)</strong></p>
-                                        <p><strong>Bank:</strong> ACB</p>
+                                        <p><strong>Bank Transfer (QR)</strong></p>
+                                        <p><strong>Bank:</strong> {{ $bank['name'] ?? 'ACB' }}</p>
                                         <p><strong>Account Number:</strong>
-                                            {{ $config->company_bank_account_number ?? '24768' }}</p>
+                                            {{ $bank['account_number'] ?? '24768' }}</p>
                                         <p><strong>Amount:</strong> {{ number_format($total, 0) }} VND</p>
                                         <p><strong>Payment Reference:</strong>
                                             {{ str_replace('QUOTE-', 'HD', $quoteNumber) }}</p>
 
                                         <!-- QR code placeholder -->
-                                        @if ($config && $config->company_bank_qr_code)
+                                        @if (!empty($bank['qr_code']))
                                             <div class="text-center mt-3">
-                                                <img src="{{ asset('storage/' . $config->company_bank_qr_code) }}"
+                                                <img src="{{ asset('storage/' . $bank['qr_code']) }}"
                                                     alt="QR Code" style="max-width: 150px;" class="img-fluid">
                                             </div>
                                         @else

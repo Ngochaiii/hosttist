@@ -430,22 +430,22 @@
                                 {{ number_format($total, 0, ',', '.') }} VNĐ
                             </td>
                         </tr>
-                        @if($config->company_bank_name)
+                        @if(!empty($bank['name']))
                         <tr>
                             <td style="font-weight: bold;">Ngân hàng:</td>
-                            <td>{{ $config->company_bank_name }}</td>
+                            <td>{{ $bank['name'] }}</td>
                         </tr>
                         @endif
-                        @if($config->company_bank_account_number)
+                        @if(!empty($bank['account_number']))
                         <tr>
                             <td style="font-weight: bold;">Số tài khoản:</td>
-                            <td style="font-weight: bold; color: #007bff;">{{ $config->company_bank_account_number }}</td>
+                            <td style="font-weight: bold; color: #007bff;">{{ $bank['account_number'] }}</td>
                         </tr>
                         @endif
-                        @if($config->company_bank_account_name)
+                        @if(!empty($bank['account_name']))
                         <tr>
                             <td style="font-weight: bold;">Chủ tài khoản:</td>
-                            <td>{{ $config->company_bank_account_name }}</td>
+                            <td>{{ $bank['account_name'] }}</td>
                         </tr>
                         @endif
                         <tr>

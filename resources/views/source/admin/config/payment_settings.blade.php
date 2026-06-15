@@ -41,7 +41,7 @@
                     <div class="col-md-6">
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Thông tin tài khoản ngân hàng</h3>
+                                <h3 class="card-title">Tài khoản ngân hàng (KHÔNG xuất hóa đơn VAT)</h3>
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
@@ -85,6 +85,59 @@
                                         <div class="mt-2">
                                             <img src="{{ Storage::url(Config::get('company_bank_qr_code')) }}"
                                                 alt="QR Code Ngân hàng" class="img-thumbnail" style="max-height: 150px;">
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ngân hàng (xuất hóa đơn VAT) -->
+                        <div class="card card-warning">
+                            <div class="card-header">
+                                <h3 class="card-title">Tài khoản ngân hàng (XUẤT hóa đơn VAT)</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label for="vat_bank_name">Tên ngân hàng</label>
+                                    <input type="text" class="form-control" id="vat_bank_name"
+                                        name="vat_bank_name"
+                                        value="{{ old('vat_bank_name', $config->vat_bank_name) }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="vat_bank_account_number">Số tài khoản</label>
+                                    <input type="text" class="form-control" id="vat_bank_account_number"
+                                        name="vat_bank_account_number"
+                                        value="{{ old('vat_bank_account_number', $config->vat_bank_account_number) }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="vat_bank_account_name">Tên chủ tài khoản</label>
+                                    <input type="text" class="form-control" id="vat_bank_account_name"
+                                        name="vat_bank_account_name"
+                                        value="{{ old('vat_bank_account_name', $config->vat_bank_account_name) }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="vat_bank_branch">Chi nhánh</label>
+                                    <input type="text" class="form-control" id="vat_bank_branch"
+                                        name="vat_bank_branch"
+                                        value="{{ old('vat_bank_branch', $config->vat_bank_branch) }}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="vat_bank_qr_code">Mã QR thanh toán</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" id="vat_bank_qr_code"
+                                                name="vat_bank_qr_code" accept="image/*">
+                                            <label class="custom-file-label" for="vat_bank_qr_code">Chọn file</label>
+                                        </div>
+                                    </div>
+                                    @if (Config::get('vat_bank_qr_code'))
+                                        <div class="mt-2">
+                                            <img src="{{ Storage::url(Config::get('vat_bank_qr_code')) }}"
+                                                alt="QR Code Ngân hàng VAT" class="img-thumbnail" style="max-height: 150px;">
                                         </div>
                                     @endif
                                 </div>

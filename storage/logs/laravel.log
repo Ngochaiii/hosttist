@@ -596,3 +596,19 @@
 [2026-06-08 07:06:31] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
 [2026-06-08 07:06:50] local.INFO: Provision data debug {"provision_id":5,"provision_data":{"service_type":"vps","backfilled":true,"backfilled_at":"2026-04-27T08:18:46+00:00","note":"Backfilled from completed order — admin cần cập nhật credentials","original_options":{"period":"1","auto_renew":"1"},"server_name":"dongynguyenhuutoan-2025","server_ip":"103.249.201.181","os":"ubuntu-20.04","username":"admin","password":"eyJpdiI6IkVSVjMyM04zN0xuQjlLU2VZaFBENGc9PSIsInZhbHVlIjoiVFdYS3phR3N5RHpxREo0ajRIbkNWZz09IiwibWFjIjoiMDFjZDNhNDA4OTNjYmVjNDFmM2MxYzU2YzZkMjEwMzU5NWQ4ZTNjZTBiZWFmMmUzMDA0MzIzM2E3MWJiNjYxMyIsInRhZyI6IiJ9","cpu":"8","ram":"16","disk":"179","bandwidth":null,"notes":null,"updated_at":"2026-06-08T06:50:23.794158Z"},"credentials":"not found"} 
 [2026-06-08 07:06:50] local.INFO: Provision data debug {"provision_id":5,"provision_data":{"service_type":"vps","backfilled":true,"backfilled_at":"2026-04-27T08:18:46+00:00","note":"Backfilled from completed order — admin cần cập nhật credentials","original_options":{"period":"1","auto_renew":"1"},"server_name":"dongynguyenhuutoan-2025","server_ip":"103.249.201.181","os":"ubuntu-20.04","username":"admin","password":"eyJpdiI6IkVSVjMyM04zN0xuQjlLU2VZaFBENGc9PSIsInZhbHVlIjoiVFdYS3phR3N5RHpxREo0ajRIbkNWZz09IiwibWFjIjoiMDFjZDNhNDA4OTNjYmVjNDFmM2MxYzU2YzZkMjEwMzU5NWQ4ZTNjZTBiZWFmMmUzMDA0MzIzM2E3MWJiNjYxMyIsInRhZyI6IiJ9","cpu":"8","ram":"16","disk":"179","bandwidth":null,"notes":null,"updated_at":"2026-06-08T06:50:23.794158Z"},"credentials":"not found"} 
+[2026-06-08 08:52:16] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-08 08:52:16] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-08 13:14:24] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-08 13:14:24] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 14:54:14] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 14:54:14] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 14:54:17] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 14:54:17] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 14:54:19] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 14:54:19] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 15:06:03] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 15:06:03] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 15:41:46] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 15:41:46] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 15:45:19] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-06-09 15:45:19] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 

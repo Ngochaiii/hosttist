@@ -153,21 +153,12 @@
                                                     <small class="text-muted">Loại dịch vụ:</small>
                                                     <p class="mb-2">{{ ucfirst($provision->product->type ?? 'N/A') }}</p>
 
-                                                    <small class="text-muted">Ngày tạo:</small>
-                                                    <p class="mb-2">{{ $provision->created_at->format('d/m/Y') }}</p>
+                                                    <small class="text-muted">Ngày bắt đầu:</small>
+                                                    <p class="mb-2">{{ optional(optional($provision->customerService)->started_at)->format('d/m/Y') ?? '—' }}</p>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    @if ($provision->provisioned_at)
-                                                        <small class="text-muted">Ngày kích hoạt:</small>
-                                                        <p class="mb-2">{{ $provision->provisioned_at->format('d/m/Y') }}
-                                                        </p>
-                                                    @endif
-
-                                                    @if ($provision->estimated_completion)
-                                                        <small class="text-muted">Dự kiến hoàn thành:</small>
-                                                        <p class="mb-2">
-                                                            {{ $provision->estimated_completion->format('d/m/Y') }}</p>
-                                                    @endif
+                                                    <small class="text-muted">Ngày hết hạn:</small>
+                                                    <p class="mb-2">{{ optional(optional($provision->customerService)->expires_at)->format('d/m/Y') ?? '—' }}</p>
                                                 </div>
                                             </div>
 
