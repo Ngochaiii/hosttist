@@ -105,7 +105,9 @@
       "Bash(php artisan *)",
       "Bash(curl -s -o /dev/null -w \"preview route now -> HTTP %{http_code}\\\\n\" \"http://127.0.0.1:8000/__preview/bank-transfer?invoice=1&vat=1\")",
       "Bash(curl -s -o /tmp/cats.html -w \"HTTP %{http_code}\\\\n\" \"http://127.0.0.1:8000/admin/categories\")",
-      "Read(//tmp/**)"
+      "Read(//tmp/**)",
+      "Bash(git rm *)",
+      "Bash(grep -n 'storage_path\\('\\\\''app/public/products'\\\\''\\)\\\\|Storage::disk\\('\\\\''public'\\\\''\\)->delete\\($product->image\\)' app/Http/Controllers/Admin/ProductsController.php)"
     ]
   }
 }

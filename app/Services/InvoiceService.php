@@ -127,7 +127,7 @@ class InvoiceService extends BaseService
             $bank = $config ? $config->bankInfo($vat) : [];
             $data['bank'] = $bank;
             if (!empty($bank['qr_code'])) {
-                $qrPath = storage_path('app/public/' . $bank['qr_code']);
+                $qrPath = public_path('storage/' . $bank['qr_code']);
                 if (file_exists($qrPath)) {
                     $data['qrBase64'] = 'data:image/png;base64,' . base64_encode(file_get_contents($qrPath));
                     Log::debug("[{$requestId}] QR code added to PDF data", [

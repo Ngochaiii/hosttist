@@ -90,7 +90,7 @@ class ConfigController extends Controller
             $config = Config::current();
             if ($config && $config->company_bank_qr_code) {
                 // Xóa file cũ thủ công
-                $oldFilePath = storage_path('app/public/' . $config->company_bank_qr_code);
+                $oldFilePath = public_path('storage/' . $config->company_bank_qr_code);
                 if (file_exists($oldFilePath)) {
                     unlink($oldFilePath);
                 }
@@ -98,7 +98,7 @@ class ConfigController extends Controller
 
             // Upload thủ công không dùng store()
             $fileName = 'qr_bank_' . time() . '.' . $extension;
-            $destinationPath = storage_path('app/public/qrcodes');
+            $destinationPath = public_path('storage/qrcodes');
             
             // Tạo thư mục nếu chưa có
             if (!file_exists($destinationPath)) {
@@ -125,7 +125,7 @@ class ConfigController extends Controller
             $config = Config::current();
             if ($config && $config->vat_bank_qr_code) {
                 // Xóa file cũ thủ công
-                $oldFilePath = storage_path('app/public/' . $config->vat_bank_qr_code);
+                $oldFilePath = public_path('storage/' . $config->vat_bank_qr_code);
                 if (file_exists($oldFilePath)) {
                     unlink($oldFilePath);
                 }
@@ -133,7 +133,7 @@ class ConfigController extends Controller
 
             // Upload thủ công không dùng store()
             $fileName = 'qr_vat_bank_' . time() . '.' . $extension;
-            $destinationPath = storage_path('app/public/qrcodes');
+            $destinationPath = public_path('storage/qrcodes');
 
             // Tạo thư mục nếu chưa có
             if (!file_exists($destinationPath)) {
@@ -160,7 +160,7 @@ class ConfigController extends Controller
             $config = Config::current();
             if ($config && $config->momo_qr_code) {
                 // Xóa file cũ thủ công
-                $oldFilePath = storage_path('app/public/' . $config->momo_qr_code);
+                $oldFilePath = public_path('storage/' . $config->momo_qr_code);
                 if (file_exists($oldFilePath)) {
                     unlink($oldFilePath);
                 }
@@ -168,7 +168,7 @@ class ConfigController extends Controller
 
             // Upload thủ công không dùng store()
             $fileName = 'qr_momo_' . time() . '.' . $extension;
-            $destinationPath = storage_path('app/public/qrcodes');
+            $destinationPath = public_path('storage/qrcodes');
             
             // Tạo thư mục nếu chưa có
             if (!file_exists($destinationPath)) {
@@ -195,7 +195,7 @@ class ConfigController extends Controller
             $config = Config::current();
             if ($config && $config->zalopay_qr_code) {
                 // Xóa file cũ thủ công
-                $oldFilePath = storage_path('app/public/' . $config->zalopay_qr_code);
+                $oldFilePath = public_path('storage/' . $config->zalopay_qr_code);
                 if (file_exists($oldFilePath)) {
                     unlink($oldFilePath);
                 }
@@ -203,7 +203,7 @@ class ConfigController extends Controller
 
             // Upload thủ công không dùng store()
             $fileName = 'qr_zalopay_' . time() . '.' . $extension;
-            $destinationPath = storage_path('app/public/qrcodes');
+            $destinationPath = public_path('storage/qrcodes');
             
             // Tạo thư mục nếu chưa có
             if (!file_exists($destinationPath)) {

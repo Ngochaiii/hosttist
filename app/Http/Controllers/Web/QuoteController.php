@@ -245,7 +245,7 @@ class QuoteController extends Controller
         $qrCodeHtml = '';
         if (!empty($bank['qr_code'])) {
             // Sử dụng đường dẫn tuyệt đối cho PDF
-            $qrCodePath = storage_path('app/public/' . $bank['qr_code']);
+            $qrCodePath = public_path('storage/' . $bank['qr_code']);
 
             if (file_exists($qrCodePath)) {
                 // Chuyển ảnh thành base64 để embed vào PDF

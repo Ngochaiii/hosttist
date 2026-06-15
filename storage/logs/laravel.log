@@ -1018,3 +1018,5 @@
 [2026-06-15 15:05:46] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":22,"order_id":20,"transaction_code":"PAY-1781535946UJZU5"} 
 [2026-06-15 15:06:42] local.INFO: App\Services\ServiceLifecycleService - Renewal order created {"order_id":21,"invoice_id":21,"customer_service_id":1,"total":342000.0} 
 [2026-06-15 15:06:42] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":23,"order_id":21,"transaction_code":"PAY-1781536002LFYF6"} 
+[2026-06-15 15:11:44] local.INFO: App\Services\ServiceLifecycleService - Renewal order created {"order_id":22,"invoice_id":22,"customer_service_id":1,"total":342000.0} 
+[2026-06-15 15:11:44] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":24,"order_id":22,"transaction_code":"PAY-1781536304G03IP"} 

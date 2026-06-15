@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Repositories\CategoriesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
@@ -106,7 +105,10 @@ class CategoryController extends Controller
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $category = $this->categoryRepository->find($id);
             if ($category->image) {
-                Storage::disk('public')->delete($category->image);
+                $oldImage = public_path('storage/' . $category->image);
+                if (is_file($oldImage)) {
+                    @unlink($oldImage);
+                }
             }
             $data['image'] = $this->storeImageWithoutFileinfo($request->file('image'));
         }
@@ -182,7 +184,10 @@ class CategoryController extends Controller
 
             // Xóa hình ảnh nếu tồn tại
             if ($category->image) {
-                Storage::disk('public')->delete($category->image);
+                $oldImage = public_path('storage/' . $category->image);
+                if (is_file($oldImage)) {
+                    @unlink($oldImage);
+                }
             }
 
             $this->categoryRepository->delete($id);
@@ -225,7 +230,7 @@ class CategoryController extends Controller
     {
         $extension = strtolower($file->getClientOriginalExtension()) ?: 'png';
 
-        $destinationPath = storage_path('app/public/categories');
+        $destinationPath = public_path('storage/categories');
         if (!file_exists($destinationPath)) {
             mkdir($destinationPath, 0755, true);
         }

@@ -184,7 +184,7 @@
                                     <div class="col-md-6 text-center">
                                         <h6 class="mb-3">QR Code thanh toán</h6>
                                         <!-- QR code image -->
-                                        @if (!empty($bank['qr_code']) && file_exists(storage_path('app/public/' . $bank['qr_code'])))
+                                        @if (!empty($bank['qr_code']) && file_exists(public_path('storage/' . $bank['qr_code'])))
                                             <img src="{{ asset('storage/' . $bank['qr_code']) }}"
                                                 alt="QR Code thanh toán" class="img-fluid" style="max-width: 200px;">
                                             <p class="mt-2 small">Quét mã QR để thanh toán nhanh chóng</p>

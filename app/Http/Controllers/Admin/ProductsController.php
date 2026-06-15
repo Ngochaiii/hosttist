@@ -7,7 +7,6 @@ use App\Repositories\ProductsRepository;
 use App\Repositories\CategoriesRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
@@ -163,7 +162,10 @@ class ProductsController extends Controller
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             // Xóa hình ảnh cũ
             if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+                $oldImage = public_path('storage/' . $product->image);
+                if (is_file($oldImage)) {
+                    @unlink($oldImage);
+                }
             }
 
             // Upload hình ảnh mới
@@ -215,7 +217,10 @@ class ProductsController extends Controller
 
             // Xóa hình ảnh nếu có
             if ($product->image) {
-                Storage::disk('public')->delete($product->image);
+                $oldImage = public_path('storage/' . $product->image);
+                if (is_file($oldImage)) {
+                    @unlink($oldImage);
+                }
             }
 
             $this->productsRepository->delete($id);
@@ -258,7 +263,7 @@ class ProductsController extends Controller
     {
         $extension = strtolower($file->getClientOriginalExtension()) ?: 'png';
 
-        $destinationPath = storage_path('app/public/products');
+        $destinationPath = public_path('storage/products');
         if (!file_exists($destinationPath)) {
             mkdir($destinationPath, 0755, true);
         }
