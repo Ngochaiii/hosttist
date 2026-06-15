@@ -184,14 +184,16 @@
                                     <div class="col-md-6 text-center">
                                         <h6 class="mb-3">QR Code thanh toán</h6>
                                         <!-- QR code image -->
-                                        @if (!empty($bank['qr_code']))
+                                        @if (!empty($bank['qr_code']) && file_exists(storage_path('app/public/' . $bank['qr_code'])))
                                             <img src="{{ asset('storage/' . $bank['qr_code']) }}"
                                                 alt="QR Code thanh toán" class="img-fluid" style="max-width: 200px;">
+                                            <p class="mt-2 small">Quét mã QR để thanh toán nhanh chóng</p>
                                         @else
-                                            <img src="{{ asset('images/qr-placeholder.png') }}" alt="QR Code"
-                                                style="max-width: 200px;" class="img-fluid">
+                                            <div class="text-muted small border rounded p-3">
+                                                <i class="fa fa-qrcode fa-2x mb-2 d-block"></i>
+                                                Chưa có mã QR. Vui lòng chuyển khoản theo thông tin bên trái.
+                                            </div>
                                         @endif
-                                        <p class="mt-2 small">Quét mã QR để thanh toán nhanh chóng</p>
                                     </div>
                                 </div>
                             </div>

@@ -77,10 +77,9 @@ class ProductsController extends Controller
         $data['is_recurring'] = $request->has('is_recurring') ? 1 : 0;
         $data['auto_renew'] = $request->has('auto_renew') ? 1 : 0;
 
-        // Xử lý upload hình ảnh
+        // Xử lý upload hình ảnh (không dùng store() để tránh phụ thuộc fileinfo)
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $path = $request->file('image')->store('products', 'public');
-            $data['image'] = $path;
+            $data['image'] = $this->storeImageWithoutFileinfo($request->file('image'));
         }
 
         // Bỏ phần kiểm tra định dạng JSON cho meta_data và options
@@ -160,7 +159,7 @@ class ProductsController extends Controller
         $data['is_recurring'] = $request->has('is_recurring') ? 1 : 0;
         $data['auto_renew'] = $request->has('auto_renew') ? 1 : 0;
 
-        // Xử lý upload hình ảnh
+        // Xử lý upload hình ảnh (không dùng store() để tránh phụ thuộc fileinfo)
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             // Xóa hình ảnh cũ
             if ($product->image) {
@@ -168,8 +167,7 @@ class ProductsController extends Controller
             }
 
             // Upload hình ảnh mới
-            $path = $request->file('image')->store('products', 'public');
-            $data['image'] = $path;
+            $data['image'] = $this->storeImageWithoutFileinfo($request->file('image'));
         }
 
         // Bỏ phần kiểm tra định dạng JSON cho meta_data và options
@@ -247,5 +245,27 @@ class ProductsController extends Controller
             return redirect()->back()
                 ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
         }
+    }
+
+    /**
+     * Lưu ảnh upload mà không dùng store()/hashName() (vốn cần ext fileinfo).
+     * Dùng phần mở rộng từ tên file gốc và move() thủ công.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $file
+     * @return string  Đường dẫn tương đối trong disk public (vd: products/xxx.png)
+     */
+    private function storeImageWithoutFileinfo($file): string
+    {
+        $extension = strtolower($file->getClientOriginalExtension()) ?: 'png';
+
+        $destinationPath = storage_path('app/public/products');
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        $fileName = 'product_' . time() . '_' . Str::random(8) . '.' . $extension;
+        $file->move($destinationPath, $fileName);
+
+        return 'products/' . $fileName;
     }
 }

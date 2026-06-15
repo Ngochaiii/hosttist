@@ -1010,3 +1010,11 @@
 #56 /Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Foundation/resources/server.php(16): require_once('/Users/Shared/d...')
 #57 {main}
 "} 
+[2026-06-15 14:54:48] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-06-15 14:54:48] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-06-15 14:54:54] local.INFO: App\Services\ServiceLifecycleService - Renewal order created {"order_id":19,"invoice_id":19,"customer_service_id":1,"total":342000.0} 
+[2026-06-15 14:54:54] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":21,"order_id":19,"transaction_code":"PAY-1781535294TLZKW"} 
+[2026-06-15 15:05:46] local.INFO: App\Services\ServiceLifecycleService - Renewal order created {"order_id":20,"invoice_id":20,"customer_service_id":1,"total":342000.0} 
+[2026-06-15 15:05:46] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":22,"order_id":20,"transaction_code":"PAY-1781535946UJZU5"} 
+[2026-06-15 15:06:42] local.INFO: App\Services\ServiceLifecycleService - Renewal order created {"order_id":21,"invoice_id":21,"customer_service_id":1,"total":342000.0} 
+[2026-06-15 15:06:42] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":23,"order_id":21,"transaction_code":"PAY-1781536002LFYF6"} 

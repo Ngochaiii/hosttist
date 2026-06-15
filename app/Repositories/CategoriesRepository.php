@@ -115,7 +115,7 @@ class CategoriesRepository extends AbstractRepository
             'slug' => 'nullable|max:255|unique:categories,slug',
             'parent_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|string|max:255', // đã là đường dẫn (controller xử lý upload), không validate bằng rule image để tránh fileinfo
             'sort_order' => 'nullable|integer|min:0',
             'status' => 'nullable|in:active,inactive',
         ];
@@ -152,7 +152,7 @@ class CategoriesRepository extends AbstractRepository
             'slug' => 'nullable|max:255|unique:categories,slug,' . $id,
             'parent_id' => 'nullable|exists:categories,id',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|string|max:255', // đã là đường dẫn (controller xử lý upload), không validate bằng rule image để tránh fileinfo
             'sort_order' => 'nullable|integer|min:0',
             'status' => 'nullable|in:active,inactive',
         ];

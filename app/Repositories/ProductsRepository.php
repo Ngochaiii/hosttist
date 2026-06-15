@@ -163,7 +163,7 @@ class ProductsRepository extends AbstractRepository
             'short_description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|string|max:255', // đã là đường dẫn (controller xử lý upload), không validate bằng rule image để tránh fileinfo
             'type' => 'required|in:product,service,ssl,domain,hosting',
             'product_status' => 'nullable|in:active,inactive,draft',
             'stock' => 'nullable|integer',
@@ -225,7 +225,7 @@ class ProductsRepository extends AbstractRepository
             'short_description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'sale_price' => 'nullable|numeric|min:0',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|string|max:255', // đã là đường dẫn (controller xử lý upload), không validate bằng rule image để tránh fileinfo
             'type' => 'required|in:product,service,ssl,domain,hosting',
             'product_status' => 'nullable|in:active,inactive,draft',
             'stock' => 'nullable|integer',

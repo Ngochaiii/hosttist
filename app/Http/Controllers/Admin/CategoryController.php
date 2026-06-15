@@ -67,10 +67,9 @@ class CategoryController extends Controller
         }
         $data['meta_data'] = !empty($metaData) ? json_encode($metaData) : null;
 
-        // Handle image upload
+        // Handle image upload (không dùng store() để tránh phụ thuộc fileinfo)
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
-            $path = $request->file('image')->store('categories', 'public');
-            $data['image'] = $path;
+            $data['image'] = $this->storeImageWithoutFileinfo($request->file('image'));
         }
 
         try {
@@ -103,14 +102,13 @@ class CategoryController extends Controller
         }
         $data['meta_data'] = !empty($metaData) ? json_encode($metaData) : null;
 
-        // Handle image upload
+        // Handle image upload (không dùng store() để tránh phụ thuộc fileinfo)
         if ($request->hasFile('image') && $request->file('image')->isValid()) {
             $category = $this->categoryRepository->find($id);
             if ($category->image) {
                 Storage::disk('public')->delete($category->image);
             }
-            $path = $request->file('image')->store('categories', 'public');
-            $data['image'] = $path;
+            $data['image'] = $this->storeImageWithoutFileinfo($request->file('image'));
         }
 
         try {
@@ -214,5 +212,27 @@ class CategoryController extends Controller
             return redirect()->back()
                 ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
         }
+    }
+
+    /**
+     * Lưu ảnh upload mà không dùng store()/hashName() (vốn cần ext fileinfo).
+     * Dùng phần mở rộng từ tên file gốc và move() thủ công.
+     *
+     * @param  \Illuminate\Http\UploadedFile  $file
+     * @return string  Đường dẫn tương đối trong disk public (vd: categories/xxx.png)
+     */
+    private function storeImageWithoutFileinfo($file): string
+    {
+        $extension = strtolower($file->getClientOriginalExtension()) ?: 'png';
+
+        $destinationPath = storage_path('app/public/categories');
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
+        }
+
+        $fileName = 'category_' . time() . '_' . Str::random(8) . '.' . $extension;
+        $file->move($destinationPath, $fileName);
+
+        return 'categories/' . $fileName;
     }
 }
