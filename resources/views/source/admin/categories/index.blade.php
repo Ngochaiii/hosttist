@@ -74,10 +74,13 @@
                                         id="service_type" name="service_type">
                                         <option value="">-- Không yêu cầu thông tin đặc biệt --</option>
                                         @php
-                                            $currentType =
-                                                isset($category) && $category->meta_data
-                                                    ? json_decode($category->meta_data, true)['service_type'] ?? ''
-                                                    : '';
+                                            $currentType = '';
+                                            if (isset($category) && $category->meta_data) {
+                                                $metaData = is_string($category->meta_data)
+                                                    ? json_decode($category->meta_data, true)
+                                                    : $category->meta_data;
+                                                $currentType = $metaData['service_type'] ?? '';
+                                            }
                                         @endphp
                                         <option value="ssl"
                                             {{ old('service_type', $currentType) == 'ssl' ? 'selected' : '' }}>
@@ -243,7 +246,9 @@
                                             <td>
                                                 @php
                                                     $metaData = $cat->meta_data
-                                                        ? json_decode($cat->meta_data, true)
+                                                        ? (is_string($cat->meta_data)
+                                                            ? json_decode($cat->meta_data, true)
+                                                            : $cat->meta_data)
                                                         : null;
                                                     $serviceType = $metaData['service_type'] ?? null;
                                                     $serviceLabels = [
