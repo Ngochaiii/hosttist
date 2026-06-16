@@ -592,7 +592,11 @@ class ServiceController extends Controller
 
             $downloadName = $this->getSSLFilename($provision, 'ssl_files.tar.gz');
 
-            return response()->download($gzPath, $downloadName)->deleteFileAfterSend(true);
+            // Set sẵn Content-Type để BinaryFileResponse khỏi tự đoán MIME bằng finfo
+            // (extension fileinfo không có trên VPS).
+            return response()->download($gzPath, $downloadName, [
+                'Content-Type' => 'application/gzip',
+            ])->deleteFileAfterSend(true);
 
         } catch (\Exception $e) {
             foreach (glob($tempDir . '/*') as $f) {

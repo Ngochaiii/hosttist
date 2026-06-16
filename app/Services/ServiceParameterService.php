@@ -8,7 +8,6 @@ use App\Models\ServiceProvision;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * Đọc/ghi thông số kỹ thuật của một CustomerService đang chạy.
@@ -29,8 +28,6 @@ class ServiceParameterService
         'private_key' => 'private_key.enc',
         'ca_bundle'   => 'ca_bundle.pem',
     ];
-
-    private const SSL_DISK = 'local';
 
     public function schema(CustomerService $service): array
     {
@@ -229,10 +226,16 @@ class ServiceParameterService
     public function readSslFile(CustomerService $service, string $kind): ?string
     {
         $path = $this->sslFilePath($service, $kind);
-        if (!$path || !Storage::disk(self::SSL_DISK)->exists($path)) {
+        if (!$path) {
             return null;
         }
-        $raw = Storage::disk(self::SSL_DISK)->get($path);
+        // Dùng hàm file thuần thay cho Storage facade — Storage::disk('local') kích hoạt
+        // bộ dò MIME (finfo) vốn không có trên VPS (Class "finfo" not found).
+        $abs = storage_path('app/' . $path);
+        if (!is_file($abs)) {
+            return null;
+        }
+        $raw = file_get_contents($abs);
         if ($kind === 'private_key') {
             return $this->safeDecrypt($raw);
         }
@@ -244,7 +247,12 @@ class ServiceParameterService
     private function storeSslFile(CustomerService $service, string $kind, string $content, bool $encrypt): string
     {
         $path = 'ssl/' . $service->id . '/' . (self::SSL_FILES[$kind] ?? ($kind . '.pem'));
-        Storage::disk(self::SSL_DISK)->put($path, $encrypt ? Crypt::encryptString($content) : $content);
+        // Ghi bằng hàm file thuần (tránh Storage facade → finfo).
+        $abs = storage_path('app/' . $path);
+        if (!is_dir(dirname($abs))) {
+            mkdir(dirname($abs), 0755, true);
+        }
+        file_put_contents($abs, $encrypt ? Crypt::encryptString($content) : $content);
         return $path;
     }
 

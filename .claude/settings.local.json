@@ -112,7 +112,9 @@
       "Bash(php -l app/Services/LegacyServiceBackfiller.php)",
       "Bash(php -l app/Console/Commands/BackfillLegacyProducts.php)",
       "Bash(git check-ignore *)",
-      "Bash(php -l app/Console/Commands/BackfillFromProvisions.php)"
+      "Bash(php -l app/Console/Commands/BackfillFromProvisions.php)",
+      "Bash(php --ri fileinfo)",
+      "Bash(php -l app/Services/ServiceParameterService.php)"
     ]
   }
 }
