@@ -376,41 +376,16 @@ class ServiceController extends Controller
         }
 
         // 3) Backfill: tạo CustomerService từ legacy Products record
-        return $this->backfillCustomerServiceFromLegacy($product, $customer->id);
+        return $this->backfillCustomerServiceFromLegacy($product);
     }
 
     /**
      * Tạo CustomerService record cho legacy Products sold (pre-customer_services table).
      * Không sửa dữ liệu Products cũ; chỉ thêm CustomerService để lifecycle hoạt động.
      */
-    private function backfillCustomerServiceFromLegacy(Products $product, int $customerId): CustomerService
+    private function backfillCustomerServiceFromLegacy(Products $product): CustomerService
     {
-        $templateId  = $product->parent_product_id ?: $product->id;
-        $template    = $product->parent_product_id ? Products::find($product->parent_product_id) : $product;
-        $priceBase   = (float) ($template->sale_price ?: $template->price ?: $product->price ?: 0);
-        $period      = (int) ($template->recurring_period ?? $product->recurring_period ?? 12);
-        $cycle       = $period <= 1 ? 'monthly' : 'yearly';
-
-        $expiresAt   = $product->end_date ? \Carbon\Carbon::parse($product->end_date) : null;
-        $startedAt   = $product->start_date ? \Carbon\Carbon::parse($product->start_date) : now();
-
-        return CustomerService::create([
-            'customer_id'       => $customerId,
-            'provision_id'      => null,
-            'product_id'        => $templateId,
-            'legacy_product_id' => $product->id,
-            'order_item_id'     => null,
-            'status'            => in_array($product->service_status, ['active', 'expired', 'suspended', 'cancelled'])
-                ? $product->service_status : 'active',
-            'started_at'        => $startedAt,
-            'expires_at'        => $expiresAt,
-            'next_renewal_date' => $expiresAt ? $expiresAt->copy()->subDays(7) : null,
-            'auto_renew'        => (bool) $product->auto_renew,
-            'renewal_price'     => $priceBase,
-            'renewal_price_locked_at' => $startedAt,
-            'billing_cycle'     => $cycle,
-            'notes'             => 'Backfilled từ Products#' . $product->id,
-        ]);
+        return app(\App\Services\LegacyServiceBackfiller::class)->create($product);
     }
 
     /**
