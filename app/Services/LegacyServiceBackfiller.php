@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\CustomerService;
 use App\Models\Products;
+use App\Models\ServiceProvision;
 use Carbon\Carbon;
 
 /**
@@ -71,6 +72,61 @@ class LegacyServiceBackfiller
             'renewal_price_locked_at' => $startedAt,
             'billing_cycle'           => $cycle,
             'notes'                   => 'Backfilled từ Products#' . $product->id,
+        ]);
+    }
+
+    /**
+     * Đã có CustomerService gắn với provision này chưa?
+     */
+    public function existingForProvision(ServiceProvision $provision): ?CustomerService
+    {
+        return CustomerService::where('provision_id', $provision->id)->first();
+    }
+
+    /**
+     * Tạo CustomerService từ một ServiceProvision đã hoàn tất nhưng thiếu CustomerService
+     * (provision có ở /admin/provisions nhưng không hiện ở /admin/services).
+     *
+     * Mirror logic ServiceLifecycleService::activate() nhưng dùng ngày tháng LỊCH SỬ
+     * (provisioned_at) thay vì now(), và không throw khi giá <= 0 (admin sửa sau).
+     */
+    public function createFromProvision(ServiceProvision $provision): CustomerService
+    {
+        $product   = $provision->product;
+        $orderItem = $provision->orderItem;
+
+        $pdata = is_array($provision->provision_data)
+            ? $provision->provision_data
+            : (json_decode($provision->provision_data ?? '', true) ?: []);
+
+        // Cùng quy tắc với ServiceLifecycleService::detectBillingCycle()
+        $cycle = ($product && isset($product->recurring_period) && $product->recurring_period >= 12)
+            ? 'yearly' : 'monthly';
+
+        $started = $provision->provisioned_at
+            ? Carbon::parse($provision->provisioned_at)
+            : Carbon::parse($provision->created_at ?? now());
+        $expires = $cycle === 'yearly'
+            ? $started->copy()->addYear()
+            : $started->copy()->addMonth();
+
+        $leadDays     = (int) config('services.renewal.reminder_lead_days', 7);
+        $renewalPrice = (float) ($orderItem->unit_price ?? $product->price ?? 0);
+
+        return CustomerService::create([
+            'customer_id'             => $provision->customer_id,
+            'provision_id'            => $provision->id,
+            'product_id'              => $provision->product_id,
+            'order_item_id'           => $provision->order_item_id,
+            'status'                  => $expires->isPast() ? 'expired' : 'active',
+            'started_at'              => $started,
+            'expires_at'              => $expires,
+            'next_renewal_date'       => $expires->copy()->subDays($leadDays),
+            'auto_renew'              => (bool) ($pdata['auto_renew'] ?? false),
+            'renewal_price'           => $renewalPrice,
+            'renewal_price_locked_at' => $started,
+            'billing_cycle'           => $cycle,
+            'notes'                   => 'Backfilled từ ServiceProvision#' . $provision->id,
         ]);
     }
 }

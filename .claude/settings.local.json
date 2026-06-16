@@ -110,7 +110,9 @@
       "Bash(grep -n 'storage_path\\('\\\\''app/public/products'\\\\''\\)\\\\|Storage::disk\\('\\\\''public'\\\\''\\)->delete\\($product->image\\)' app/Http/Controllers/Admin/ProductsController.php)",
       "Bash(grep -n 'function \\\\|customer_service_id\\\\|product_id\\\\|protected $table' app/Models/CustomerService.php)",
       "Bash(php -l app/Services/LegacyServiceBackfiller.php)",
-      "Bash(php -l app/Console/Commands/BackfillLegacyProducts.php)"
+      "Bash(php -l app/Console/Commands/BackfillLegacyProducts.php)",
+      "Bash(git check-ignore *)",
+      "Bash(php -l app/Console/Commands/BackfillFromProvisions.php)"
     ]
   }
 }
