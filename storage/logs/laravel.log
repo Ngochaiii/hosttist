@@ -1020,3 +1020,682 @@
 [2026-06-15 15:06:42] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":23,"order_id":21,"transaction_code":"PAY-1781536002LFYF6"} 
 [2026-06-15 15:11:44] local.INFO: App\Services\ServiceLifecycleService - Renewal order created {"order_id":22,"invoice_id":22,"customer_service_id":1,"total":342000.0} 
 [2026-06-15 15:11:44] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":24,"order_id":22,"transaction_code":"PAY-1781536304G03IP"} 
+[2026-07-03 02:51:22] testing.INFO: [email_approved_6a4723aaf0962] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-NOTIF-001"} 
+[2026-07-03 02:51:23] testing.INFO: [email_rejected_6a4723ab08312] Starting payment rejected email {"payment_id":1,"reason":"Sai nội dung chuyển khoản"} 
+[2026-07-03 02:51:23] testing.ERROR: [email_rejected_6a4723ab08312] Payment rejected email failed {"payment_id":1,"error":"SMTP connection refused"} 
+[2026-07-03 02:51:23] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-03 02:51:23] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-03 02:51:23] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-03 02:51:23] testing.INFO: [email_approved_6a4723ab0ea7a] Starting payment approved email {"payment_id":2,"payment_number":"PAY-1783047083BECPU"} 
+[2026-07-03 02:51:23] testing.DEBUG: [email_approved_6a4723ab0ea7a] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 02:51:23] testing.INFO: [email_approved_6a4723ab0ea7a] Payment approved email sent successfully {"payment_id":2,"customer_email":"khach@example.com"} 
+[2026-07-03 02:59:50] testing.INFO: [email_approved_6a4725a69a979] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-NOTIF-001"} 
+[2026-07-03 02:59:50] testing.DEBUG: [email_approved_6a4725a69a979] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 02:59:50] testing.ERROR: [email_approved_6a4725a69a979] Payment approved email failed {"payment_id":1,"error":"SMTP connection refused","file":"/Users/Shared/dự án /hostist-vps/tests/Feature/NotificationFlowTest.php","line":52} 
+[2026-07-03 02:59:50] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 02:59:50] testing.INFO: [email_rejected_6a4725a6a58fe] Starting payment rejected email {"payment_id":1,"reason":"Sai nội dung chuyển khoản"} 
+[2026-07-03 02:59:50] testing.ERROR: [email_rejected_6a4725a6a58fe] Payment rejected email failed {"payment_id":1,"error":"SMTP connection refused"} 
+[2026-07-03 02:59:50] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-03 02:59:50] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-03 02:59:50] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-03 02:59:50] testing.INFO: [email_approved_6a4725a6ab1a0] Starting payment approved email {"payment_id":2,"payment_number":"PAY-1783047590A9EXP"} 
+[2026-07-03 02:59:50] testing.DEBUG: [email_approved_6a4725a6ab1a0] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 02:59:50] testing.INFO: [email_approved_6a4725a6ab1a0] Payment approved email sent successfully {"payment_id":2,"customer_email":"khach@example.com"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 02:59:56] testing.INFO: [email_approved_6a4725ac5fbdc] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-NOTIF-001"} 
+[2026-07-03 02:59:56] testing.DEBUG: [email_approved_6a4725ac5fbdc] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 02:59:56] testing.ERROR: [email_approved_6a4725ac5fbdc] Payment approved email failed {"payment_id":1,"error":"SMTP connection refused","file":"/Users/Shared/dự án /hostist-vps/tests/Feature/NotificationFlowTest.php","line":52} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 02:59:56] testing.INFO: [email_rejected_6a4725ac65dc9] Starting payment rejected email {"payment_id":1,"reason":"Sai nội dung chuyển khoản"} 
+[2026-07-03 02:59:56] testing.ERROR: [email_rejected_6a4725ac65dc9] Payment rejected email failed {"payment_id":1,"error":"SMTP connection refused"} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-03 02:59:56] testing.INFO: [email_approved_6a4725ac69dbb] Starting payment approved email {"payment_id":2,"payment_number":"PAY-178304759647LJF"} 
+[2026-07-03 02:59:56] testing.DEBUG: [email_approved_6a4725ac69dbb] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 02:59:56] testing.INFO: [email_approved_6a4725ac69dbb] Payment approved email sent successfully {"payment_id":2,"customer_email":"khach@example.com"} 
+[2026-07-03 02:59:56] testing.INFO: [email_approved_6a4725ac7db25] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-DUP-001"} 
+[2026-07-03 02:59:56] testing.ERROR: [email_approved_6a4725ac7db25] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 02:59:56] testing.INFO: [email_approved_6a4725ac810e6] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-OK-002"} 
+[2026-07-03 02:59:56] testing.ERROR: [email_approved_6a4725ac810e6] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 02:59:56] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-03 02:59:56] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-03 03:10:47] local.INFO: [email_rejected_6a47283760684] Starting payment rejected email {"payment_id":25,"reason":"Sai noi dung chuyen khoan (verify e2e)"} 
+[2026-07-03 03:10:47] local.DEBUG: From: Laravel <no-reply@hostist.local>
+To: verifybot-customer@example.test
+Subject: =?utf-8?Q?Th=C3=B4ng_b=C3=A1o_t=E1=BB=AB_ch=E1=BB=91i?= thanh
+ =?utf-8?Q?to=C3=A1n?= #TXN-VERIFYBOT-1
+MIME-Version: 1.0
+Date: Fri, 03 Jul 2026 03:10:47 +0000
+Message-ID: <93348da7a5e051658eaf5ccb185f9e36@hostist.local>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .error-box { background-color: #f8d7da; border-color: #f5c6cb; color: #721c24; padding: 15px; margin-bottom: 20px; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
+        .footer { margin-top: 30px; border-top: 1px solid #eee; padding-top: 10px; font-size: 12px; color: #777; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1>Hostist Company</h1>
+            <p>Thông báo thanh toán</p>
+        </div>
+        
+        <div class='error-box'>
+            <p><strong>Thanh toán của bạn đã bị từ chối</strong></p>
+        </div>
+        
+        <p>Kính gửi VerifyBot Customer,</p>
+        <p>Chúng tôi rất tiếc phải thông báo rằng thanh toán của bạn đã bị từ chối với lý do:</p>
+        
+        <table>
+            <tr><th>Mã giao dịch:</th><td>TXN-VERIFYBOT-1</td></tr>
+            <tr><th>Số tiền:</th><td>150.000 đ</td></tr>
+            <tr><th>Lý do từ chối:</th><td>Sai noi dung chuyen khoan (verify e2e)</td></tr>
+            <tr><th>Ngày từ chối:</th><td>03/07/2026 03:10:47</td></tr>
+        </table>
+        
+        <p>Vui lòng kiểm tra lại thông tin thanh toán và thực hiện lại giao dịch, hoặc liên hệ với chúng tôi để được hỗ trợ.</p>
+        
+        <p>Trân trọng,<br>Hostist Company</p>
+        
+        <div class='footer'>
+            <p>© 2026 Hostist Company. Tất cả các quyền được bảo lưu.</p>
+        </div>
+    </div>
+</body>
+</html>  
+[2026-07-03 03:10:47] local.INFO: [email_rejected_6a47283760684] Payment rejected email sent successfully {"payment_id":25,"customer_email":"verifybot-customer@example.test","reason":"Sai noi dung chuyen khoan (verify e2e)"} 
+[2026-07-03 03:10:47] local.INFO: App\Services\PaymentService - Payment rejected {"payment_id":25,"order_id":23,"reason":"Sai noi dung chuyen khoan (verify e2e)","verified_by":9} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 03:19:40] testing.INFO: [email_approved_6a472a4c985ad] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-NOTIF-001"} 
+[2026-07-03 03:19:40] testing.DEBUG: [email_approved_6a472a4c985ad] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 03:19:40] testing.ERROR: [email_approved_6a472a4c985ad] Payment approved email failed {"payment_id":1,"error":"SMTP connection refused","file":"/Users/Shared/dự án /hostist-vps/tests/Feature/NotificationFlowTest.php","line":52} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 03:19:40] testing.INFO: [email_rejected_6a472a4c9fc02] Starting payment rejected email {"payment_id":1,"reason":"Sai nội dung chuyển khoản"} 
+[2026-07-03 03:19:40] testing.ERROR: [email_rejected_6a472a4c9fc02] Payment rejected email failed {"payment_id":1,"error":"SMTP connection refused"} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-03 03:19:40] testing.INFO: [email_approved_6a472a4ca43c8] Starting payment approved email {"payment_id":2,"payment_number":"PAY-17830487805AFWN"} 
+[2026-07-03 03:19:40] testing.DEBUG: [email_approved_6a472a4ca43c8] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 03:19:40] testing.INFO: [email_approved_6a472a4ca43c8] Payment approved email sent successfully {"payment_id":2,"customer_email":"khach@example.com"} 
+[2026-07-03 03:19:40] testing.INFO: [email_approved_6a472a4cb9cab] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-DUP-001"} 
+[2026-07-03 03:19:40] testing.ERROR: [email_approved_6a472a4cb9cab] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 03:19:40] testing.INFO: [email_approved_6a472a4cbe617] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-OK-002"} 
+[2026-07-03 03:19:40] testing.ERROR: [email_approved_6a472a4cbe617] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 03:19:40] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-03 03:19:40] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-03 03:27:31] local.INFO: Service type: ssl  
+[2026-07-03 03:27:31] local.INFO: Service type: ssl  
+[2026-07-03 03:27:50] local.INFO: Service type: ssl  
+[2026-07-03 03:27:50] local.INFO: Service type: ssl  
+[2026-07-03 03:29:22] local.INFO: Service type: ssl  
+[2026-07-03 03:29:22] local.INFO: Service type: ssl  
+[2026-07-03 03:29:22] local.INFO: Service type: ssl  
+[2026-07-03 03:29:22] local.INFO: Service type: ssl  
+[2026-07-03 03:29:22] local.ERROR: Add to cart error: The options.domain field is required.  
+[2026-07-03 03:32:50] local.INFO: Service type: ssl  
+[2026-07-03 03:32:50] local.INFO: Service type: ssl  
+[2026-07-03 03:32:50] local.INFO: Service type: ssl  
+[2026-07-03 03:32:50] local.INFO: Service type: ssl  
+[2026-07-03 03:32:50] local.INFO: [quote_data_6a472d6230264] Generating quote data {"cart_id":15,"items_count":1,"cart_subtotal":"450000.00"} 
+[2026-07-03 03:32:50] local.DEBUG: [quote_data_6a472d6230264] Quote data calculation completed {"quote_number":"QUOTE-1783049570Jmygm","subtotal":450000.0,"total":450000.0,"expire_date":"10/07/2026"} 
+[2026-07-03 03:32:50] local.INFO: [quote_data_6a472d6230264] Quote data generated successfully {"quote_number":"QUOTE-1783049570Jmygm","customer_name":"Tester 501","total_amount":450000.0,"items_count":1} 
+[2026-07-03 03:32:50] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":26,"order_id":24,"transaction_code":"PAY-1783049570SKJNM"} 
+[2026-07-03 03:35:44] local.INFO: [provision_form_6a472e105c312] Showing provision form for payment {"payment_id":"26","admin_id":1} 
+[2026-07-03 03:35:44] local.INFO: [provision_form_6a472e105c312] Provision form prepared {"payment_id":26,"order_items_count":1,"product_types":["ssl"]} 
+[2026-07-03 03:35:44] local.ERROR: [provision_form_6a472e105c312] Error showing provision form {"payment_id":"26","error":"View [source.admin.payments.provision-form] not found."} 
+[2026-07-03 03:35:44] local.INFO: [provision_form_6a472e106764c] Showing provision form for payment {"payment_id":"26","admin_id":1} 
+[2026-07-03 03:35:44] local.INFO: [provision_form_6a472e106764c] Provision form prepared {"payment_id":26,"order_items_count":1,"product_types":["ssl"]} 
+[2026-07-03 03:35:44] local.ERROR: [provision_form_6a472e106764c] Error showing provision form {"payment_id":"26","error":"View [source.admin.payments.provision-form] not found."} 
+[2026-07-03 03:36:04] local.INFO: [provision_form_6a472e24be3db] Showing provision form for payment {"payment_id":"26","admin_id":1} 
+[2026-07-03 03:36:04] local.INFO: [provision_form_6a472e24be3db] Provision form prepared {"payment_id":26,"order_items_count":1,"product_types":["ssl"]} 
+[2026-07-03 03:36:04] local.ERROR: [provision_form_6a472e24be3db] Error showing provision form {"payment_id":"26","error":"View [source.admin.payments.provision-form] not found."} 
+[2026-07-03 03:38:18] local.INFO: [provision_form_6a472eaaeae1f] Showing provision form for payment {"payment_id":"26","admin_id":1} 
+[2026-07-03 03:38:18] local.INFO: [provision_form_6a472eaaeae1f] Provision form prepared {"payment_id":26,"order_items_count":1,"product_types":["ssl"]} 
+[2026-07-03 03:38:18] local.ERROR: [provision_form_6a472eaaeae1f] Error showing provision form {"payment_id":"26","error":"View [source.admin.payments.provision-form] not found."} 
+[2026-07-03 03:38:19] local.INFO: [payment_approve_provision_6a472eab09b6f] Payment approval with provision requested {"payment_id":"26","admin_id":1} 
+[2026-07-03 03:38:19] local.INFO: Request debug {"all_inputs":{"_token":"BayRKjcBFKy9CIwwWu5dqqs5scS1MmOvIfaiDIOS","provision":{"24":{"service_type":"ssl","domain":"h501test.com","notes":"Cấp SSL tự động (test e2e)"}},"provision_files":{"24":{"certificate":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phpsZL9am"},"private_key":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phpQY6tjd"}}}},"provision_input":{"24":{"service_type":"ssl","domain":"h501test.com","notes":"Cấp SSL tự động (test e2e)"}},"files":"no"} 
+[2026-07-03 03:38:19] local.INFO: Processing order item {"item_id":24,"product_type":"ssl","has_product":true} 
+[2026-07-03 03:38:19] local.INFO: Provision data check {"item_id":24,"has_provision_data":true,"provision_data_keys":["service_type","domain","notes"],"provision_data":{"service_type":"ssl","domain":"h501test.com","notes":"Cấp SSL tự động (test e2e)"}} 
+[2026-07-03 03:38:19] local.INFO: Service type from provision data {"item_id":24,"service_type":"ssl","is_provisionable":true} 
+[2026-07-03 03:38:19] local.INFO: [payment_approve_provision_6a472eab09b6f] Provision created {"provision_id":9,"service_type":"ssl","order_item_id":24} 
+[2026-07-03 03:38:19] local.INFO: [payment_approve_provision_6a472eab09b6f] Payment approved with provisions {"payment_id":26,"provisions_count":1} 
+[2026-07-03 03:38:19] local.INFO: App\Services\ServiceLifecycleService - CustomerService activated {"customer_service_id":9,"provision_id":9,"expires_at":"2027-07-03"} 
+[2026-07-03 03:38:19] local.INFO: [email_approved_6a472eab0e3f9] Starting payment approved email {"payment_id":26,"payment_number":"PAY-1783049570AMWH6"} 
+[2026-07-03 03:38:19] local.DEBUG: [email_approved_6a472eab0e3f9] Sending payment approved email {"recipient":"h501tester+1783049569@example.test","template":"emails.payment_approved"} 
+[2026-07-03 03:38:19] local.DEBUG: From: Laravel <no-reply@hostist.local>
+To: h501tester+1783049569@example.test
+Subject: =?utf-8?Q?X=C3=A1c_nh=E1=BA=ADn?= thanh
+ =?utf-8?Q?to=C3=A1n_h=C3=B3a_=C4=91=C6=A1n?= #INV-1783049570640GN
+MIME-Version: 1.0
+Date: Fri, 03 Jul 2026 03:38:19 +0000
+Message-ID: <32ce0d632dcbc860f30a46f34657b879@hostist.local>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .success-box { background-color: #d4edda; border-color: #c3e6cb; color: #155724; padding: 15px; margin-bottom: 20px; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
+        th { font-weight: bold; }
+        .footer { margin-top: 30px; border-top: 1px solid #eee; padding-top: 10px; font-size: 12px; color: #777; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1>Hostist Company</h1>
+            <p>Xác nhận thanh toán</p>
+        </div>
+        
+        <div class='success-box'>
+            <p><strong>Thanh toán của bạn đã được xác nhận!</strong> Cảm ơn bạn đã thanh toán.</p>
+        </div>
+        
+        <p>Kính gửi Tester 501,</p>
+        <p>Chúng tôi xác nhận đã nhận được thanh toán của bạn với thông tin như sau:</p>
+        
+        <table>
+            <tr><th>Mã hóa đơn:</th><td>INV-1783049570640GN</td></tr>
+            <tr><th>Mã đơn hàng:</th><td>ORD-1783049570RLR02</td></tr>
+            <tr><th>Số tiền:</th><td>450.000 đ</td></tr>
+            <tr><th>Phương thức:</th><td>Chuyển khoản ngân hàng</td></tr>
+            <tr><th>Ngày xác nhận:</th><td>03/07/2026 03:38:19</td></tr>
+            <tr><th>Mã giao dịch:</th><td>PAY-1783049570SKJNM</td></tr>
+        </table>
+        
+        <h3>Chi tiết dịch vụ:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dịch vụ</th>
+                    <th>Thời hạn</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                                                        <tr>
+                        <td>Comodo Positive (1 năm)</td>
+                        <td>1 năm</td>
+                        <td>450.000 đ</td>
+                    </tr>
+                            </tbody>
+        </table>
+        
+        <p>Đơn hàng của bạn đang được xử lý. Bạn có thể theo dõi tình trạng đơn hàng tại trang quản lý của bạn.</p>
+        
+        <p>Trân trọng,<br>Hostist Company</p>
+        
+        <div class='footer'>
+            <p>© 2026 Hostist Company. Tất cả các quyền được bảo lưu.</p>
+        </div>
+    </div>
+</body>
+</html>  
+[2026-07-03 03:38:19] local.INFO: [email_approved_6a472eab0e3f9] Payment approved email sent successfully {"payment_id":26,"customer_email":"h501tester+1783049569@example.test"} 
+[2026-07-03 03:39:43] local.DEBUG: From: Laravel <no-reply@hostist.local>
+To: h501tester+1783049569@example.test
+Subject: =?utf-8?Q?Y=C3=AAu_c=E1=BA=A7u_n=E1=BA=A1p_ti=E1=BB=81n?=
+ #DEP1783049983IeHnP
+MIME-Version: 1.0
+Date: Fri, 03 Jul 2026 03:39:43 +0000
+Message-ID: <3ddca489a164ee0d0b62edbf537bd926@hostist.local>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Yêu cầu nạp tiền</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #0066cc;
+            margin: 0;
+        }
+
+        .transaction-info {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .transaction-info p {
+            margin: 5px 0;
+        }
+
+        .payment-info {
+            margin-bottom: 20px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .qr-code {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .note {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Yêu cầu nạp tiền</h1>
+            <p>Cảm ơn bạn đã gửi yêu cầu nạp tiền</p>
+        </div>
+
+        <p>Kính gửi Tester 501,</p>
+
+        <p>Chúng tôi đã nhận được yêu cầu nạp tiền từ bạn. Dưới đây là thông tin chi tiết:</p>
+
+        <div class="transaction-info">
+            <p><strong>Mã giao dịch:</strong> DEP1783049983IeHnP</p>
+            <p><strong>Ngày yêu cầu:</strong> 03/07/2026 03:39:43</p>
+            <p><strong>Số tiền:</strong> 2.000.000 đ</p>
+            <p><strong>Phương thức thanh toán:</strong>
+                                    Chuyển khoản ngân hàng
+                            </p>
+        </div>
+
+        <div class="payment-info">
+            <h3>Thông tin thanh toán</h3>
+
+                                                <p>Thông tin ngân hàng đang được cập nhật. Vui lòng liên hệ với chúng tôi để biết chi tiết.</p>
+                            
+            <p><strong>Nội dung chuyển khoản:</strong> DEP9</p>
+
+                    </div>
+
+        <div class="note">
+            <p><strong>Lưu ý quan trọng:</strong></p>
+            <ul>
+                <li>Vui lòng sử dụng đúng nội dung chuyển khoản <strong>DEP9</strong> khi
+                    thực hiện thanh toán.</li>
+                <li>Số dư tài khoản của bạn sẽ được cập nhật sau khi chúng tôi xác nhận giao dịch (thường trong vòng 24
+                    giờ làm việc).</li>
+                <li>Nếu bạn đã thanh toán nhưng chưa nhận được xác nhận sau 24 giờ, vui lòng liên hệ với chúng tôi.</li>
+            </ul>
+        </div>
+
+        <p>Nếu bạn có bất kỳ câu hỏi nào, vui lòng liên hệ với chúng tôi qua email hoặc hotline.</p>
+
+        <p>Trân trọng,<br>Đội ngũ hỗ trợ Laravel</p>
+
+        <div class="footer">
+            <p>Email này được gửi tự động, vui lòng không trả lời.</p>
+            <p>&copy; 2026 Laravel. Tất cả các quyền được bảo lưu.</p>
+        </div>
+    </div>
+</body>
+
+</html>
+  
+[2026-07-03 03:40:04] local.ERROR: Lỗi gửi email xác nhận: View [emails.deposit.approved] not found.  
+[2026-07-03 03:40:33] local.INFO: Service type: ssl  
+[2026-07-03 03:40:33] local.INFO: Service type: ssl  
+[2026-07-03 03:40:33] local.INFO: [quote_data_6a472f3148ccc] Generating quote data {"cart_id":15,"items_count":1,"cart_subtotal":"342000.00"} 
+[2026-07-03 03:40:33] local.DEBUG: [quote_data_6a472f3148ccc] Quote data calculation completed {"quote_number":"QUOTE-1783050033W4Ej0","subtotal":342000.0,"total":342000.0,"expire_date":"10/07/2026"} 
+[2026-07-03 03:40:33] local.INFO: [quote_data_6a472f3148ccc] Quote data generated successfully {"quote_number":"QUOTE-1783050033W4Ej0","customer_name":"Tester 501","total_amount":342000.0,"items_count":1} 
+[2026-07-03 03:40:33] local.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":25,"order_number":"ORD-1783050033UEKML","customer_id":9,"total_items":1} 
+[2026-07-03 03:40:33] local.ERROR: Provision email dispatch failed {"provision_id":10,"stage":"created","error":"Call to a member function format() on null (View: /Users/Shared/dự án /hostist-vps/resources/views/emails/provision/created.blade.php)"} 
+[2026-07-03 03:40:33] local.INFO: App\Services\OrderService - Provision created for order item {"provision_id":10,"order_id":25,"item_id":25,"provision_type":"ssl","priority":7,"estimated_completion":"2026-07-03 05:40:33"} 
+[2026-07-03 03:40:33] local.INFO: App\Services\OrderService - Order provisions created {"order_id":25,"provisions_created":1,"provision_ids":[10]} 
+[2026-07-03 03:40:33] local.INFO: [email_approved_6a472f3158a0d] Starting payment approved email {"payment_id":27,"payment_number":"PAY-1783050033JLYHM"} 
+[2026-07-03 03:40:33] local.DEBUG: [email_approved_6a472f3158a0d] Sending payment approved email {"recipient":"h501tester+1783049569@example.test","template":"emails.payment_approved"} 
+[2026-07-03 03:40:33] local.DEBUG: From: Laravel <no-reply@hostist.local>
+To: h501tester+1783049569@example.test
+Subject: =?utf-8?Q?X=C3=A1c_nh=E1=BA=ADn?= thanh
+ =?utf-8?Q?to=C3=A1n_h=C3=B3a_=C4=91=C6=A1n?= #INV-1783050033VE7AA
+MIME-Version: 1.0
+Date: Fri, 03 Jul 2026 03:40:33 +0000
+Message-ID: <90e65533c535eb8d32dabce019ef4349@hostist.local>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .success-box { background-color: #d4edda; border-color: #c3e6cb; color: #155724; padding: 15px; margin-bottom: 20px; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
+        th { font-weight: bold; }
+        .footer { margin-top: 30px; border-top: 1px solid #eee; padding-top: 10px; font-size: 12px; color: #777; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1>Hostist Company</h1>
+            <p>Xác nhận thanh toán</p>
+        </div>
+        
+        <div class='success-box'>
+            <p><strong>Thanh toán của bạn đã được xác nhận!</strong> Cảm ơn bạn đã thanh toán.</p>
+        </div>
+        
+        <p>Kính gửi Tester 501,</p>
+        <p>Chúng tôi xác nhận đã nhận được thanh toán của bạn với thông tin như sau:</p>
+        
+        <table>
+            <tr><th>Mã hóa đơn:</th><td>INV-1783050033VE7AA</td></tr>
+            <tr><th>Mã đơn hàng:</th><td>ORD-1783050033UEKML</td></tr>
+            <tr><th>Số tiền:</th><td>342.000 đ</td></tr>
+            <tr><th>Phương thức:</th><td>Thanh toán từ số dư tài khoản</td></tr>
+            <tr><th>Ngày xác nhận:</th><td>03/07/2026 03:40:33</td></tr>
+            <tr><th>Mã giao dịch:</th><td>WALLET-1783050033GXDSZ</td></tr>
+        </table>
+        
+        <h3>Chi tiết dịch vụ:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dịch vụ</th>
+                    <th>Thời hạn</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                                                        <tr>
+                        <td>Comodo Essential (1 năm)</td>
+                        <td>1 năm</td>
+                        <td>342.000 đ</td>
+                    </tr>
+                            </tbody>
+        </table>
+        
+        <p>Đơn hàng của bạn đang được xử lý. Bạn có thể theo dõi tình trạng đơn hàng tại trang quản lý của bạn.</p>
+        
+        <p>Trân trọng,<br>Hostist Company</p>
+        
+        <div class='footer'>
+            <p>© 2026 Hostist Company. Tất cả các quyền được bảo lưu.</p>
+        </div>
+    </div>
+</body>
+</html>  
+[2026-07-03 03:40:33] local.INFO: [email_approved_6a472f3158a0d] Payment approved email sent successfully {"payment_id":27,"customer_email":"h501tester+1783049569@example.test"} 
+[2026-07-03 03:42:10] local.INFO: Service type: ssl  
+[2026-07-03 03:42:10] local.INFO: Service type: ssl  
+[2026-07-03 03:42:10] local.ERROR: Add to cart error: The quantity field must be at least 1. (and 1 more error)  
+[2026-07-03 03:42:10] local.INFO: Service type: ssl  
+[2026-07-03 03:42:10] local.INFO: Service type: ssl  
+[2026-07-03 03:42:10] local.ERROR: Add to cart error: The quantity field must not be greater than 100. (and 1 more error)  
+[2026-07-03 04:02:12] local.INFO: Service type: ssl  
+[2026-07-03 04:02:12] local.INFO: Service type: ssl  
+[2026-07-03 04:03:20] local.INFO: Service type: ssl  
+[2026-07-03 04:03:20] local.INFO: Service type: ssl  
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 06:46:57] testing.INFO: [email_approved_6a475ae1c7ec6] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-NOTIF-001"} 
+[2026-07-03 06:46:57] testing.DEBUG: [email_approved_6a475ae1c7ec6] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 06:46:57] testing.ERROR: [email_approved_6a475ae1c7ec6] Payment approved email failed {"payment_id":1,"error":"SMTP connection refused","file":"/Users/Shared/dự án /hostist-vps/tests/Feature/NotificationFlowTest.php","line":52} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 06:46:57] testing.INFO: [email_rejected_6a475ae1d07a6] Starting payment rejected email {"payment_id":1,"reason":"Sai nội dung chuyển khoản"} 
+[2026-07-03 06:46:57] testing.ERROR: [email_rejected_6a475ae1d07a6] Payment rejected email failed {"payment_id":1,"error":"SMTP connection refused"} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-03 06:46:57] testing.INFO: [email_approved_6a475ae1d4f40] Starting payment approved email {"payment_id":2,"payment_number":"PAY-1783061217EGMJD"} 
+[2026-07-03 06:46:57] testing.DEBUG: [email_approved_6a475ae1d4f40] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 06:46:57] testing.INFO: [email_approved_6a475ae1d4f40] Payment approved email sent successfully {"payment_id":2,"customer_email":"khach@example.com"} 
+[2026-07-03 06:46:57] testing.INFO: [email_approved_6a475ae1eb135] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-DUP-001"} 
+[2026-07-03 06:46:57] testing.ERROR: [email_approved_6a475ae1eb135] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 06:46:57] testing.INFO: [email_approved_6a475ae1ee7d9] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-OK-002"} 
+[2026-07-03 06:46:57] testing.ERROR: [email_approved_6a475ae1ee7d9] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 06:46:57] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-03 06:46:57] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-03 06:48:52] local.INFO: Service type: ssl  
+[2026-07-03 06:48:52] local.INFO: Service type: ssl  
+[2026-07-03 07:16:03] local.INFO: Service type: ssl  
+[2026-07-03 07:16:03] local.INFO: Service type: ssl  
+[2026-07-03 07:16:38] local.INFO: Service type: ssl  
+[2026-07-03 07:16:38] local.INFO: Service type: ssl  
+[2026-07-03 07:16:38] local.INFO: Service type: ssl  
+[2026-07-03 07:16:38] local.INFO: Service type: ssl  
+[2026-07-03 07:16:57] local.INFO: Service type: ssl  
+[2026-07-03 07:16:57] local.INFO: Service type: ssl  
+[2026-07-03 07:16:57] local.INFO: Service type: ssl  
+[2026-07-03 07:16:57] local.INFO: Service type: ssl  
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:17:11] testing.INFO: [email_approved_6a4761f75ebfa] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-NOTIF-001"} 
+[2026-07-03 07:17:11] testing.DEBUG: [email_approved_6a4761f75ebfa] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 07:17:11] testing.ERROR: [email_approved_6a4761f75ebfa] Payment approved email failed {"payment_id":1,"error":"SMTP connection refused","file":"/Users/Shared/dự án /hostist-vps/tests/Feature/NotificationFlowTest.php","line":52} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 07:17:11] testing.INFO: [email_rejected_6a4761f7663c4] Starting payment rejected email {"payment_id":1,"reason":"Sai nội dung chuyển khoản"} 
+[2026-07-03 07:17:11] testing.ERROR: [email_rejected_6a4761f7663c4] Payment rejected email failed {"payment_id":1,"error":"SMTP connection refused"} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-03 07:17:11] testing.INFO: [email_approved_6a4761f76a761] Starting payment approved email {"payment_id":2,"payment_number":"PAY-1783063031IXNUM"} 
+[2026-07-03 07:17:11] testing.DEBUG: [email_approved_6a4761f76a761] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 07:17:11] testing.INFO: [email_approved_6a4761f76a761] Payment approved email sent successfully {"payment_id":2,"customer_email":"khach@example.com"} 
+[2026-07-03 07:17:11] testing.INFO: [email_approved_6a4761f77f7c6] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-DUP-001"} 
+[2026-07-03 07:17:11] testing.ERROR: [email_approved_6a4761f77f7c6] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 07:17:11] testing.INFO: [email_approved_6a4761f782cb1] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-OK-002"} 
+[2026-07-03 07:17:11] testing.ERROR: [email_approved_6a4761f782cb1] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 07:17:11] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-03 07:17:11] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-03"} 
+[2026-07-03 07:43:35] testing.INFO: [email_approved_6a4768279b149] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-NOTIF-001"} 
+[2026-07-03 07:43:35] testing.DEBUG: [email_approved_6a4768279b149] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 07:43:35] testing.ERROR: [email_approved_6a4768279b149] Payment approved email failed {"payment_id":1,"error":"SMTP connection refused","file":"/Users/Shared/dự án /hostist-vps/tests/Feature/NotificationFlowTest.php","line":52} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 07:43:35] testing.INFO: [email_rejected_6a476827a304d] Starting payment rejected email {"payment_id":1,"reason":"Sai nội dung chuyển khoản"} 
+[2026-07-03 07:43:35] testing.ERROR: [email_rejected_6a476827a304d] Payment rejected email failed {"payment_id":1,"error":"SMTP connection refused"} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-03 07:43:35] testing.INFO: [email_approved_6a476827a76b0] Starting payment approved email {"payment_id":2,"payment_number":"PAY-1783064615UJVCR"} 
+[2026-07-03 07:43:35] testing.DEBUG: [email_approved_6a476827a76b0] Sending payment approved email {"recipient":"khach@example.com","template":"emails.payment_approved"} 
+[2026-07-03 07:43:35] testing.INFO: [email_approved_6a476827a76b0] Payment approved email sent successfully {"payment_id":2,"customer_email":"khach@example.com"} 
+[2026-07-03 07:43:35] testing.INFO: [email_approved_6a476827bc62d] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-DUP-001"} 
+[2026-07-03 07:43:35] testing.ERROR: [email_approved_6a476827bc62d] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-03 07:43:35] testing.INFO: [email_approved_6a476827c0133] Starting payment approved email {"payment_id":1,"payment_number":"PAY-TXN-OK-002"} 
+[2026-07-03 07:43:35] testing.ERROR: [email_approved_6a476827c0133] Payment approved email failed {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)","file":"/Users/Shared/dự án /hostist-vps/vendor/laravel/framework/src/Illuminate/Database/Connection.php","line":829} 
+[2026-07-03 07:43:35] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-03 07:43:35] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-03 07:43:55] local.INFO: Service type: ssl  
+[2026-07-03 07:43:55] local.INFO: Service type: ssl  
+[2026-07-03 07:43:55] local.INFO: Service type: ssl  
+[2026-07-03 07:43:55] local.INFO: Service type: ssl  
+[2026-07-03 07:43:55] local.INFO: [quote_data_6a47683be58a2] Generating quote data {"cart_id":16,"items_count":1,"cart_subtotal":"450000.00"} 
+[2026-07-03 07:43:55] local.DEBUG: [quote_data_6a47683be58a2] Quote data calculation completed {"quote_number":"QUOTE-1783064635uwjm3","subtotal":450000.0,"total":450000.0,"expire_date":"10/07/2026"} 
+[2026-07-03 07:43:55] local.INFO: [quote_data_6a47683be58a2] Quote data generated successfully {"quote_number":"QUOTE-1783064635uwjm3","customer_name":"Tester 501","total_amount":450000.0,"items_count":1} 
+[2026-07-03 07:43:55] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":28,"order_id":26,"transaction_code":"PAY-1783064635INTF3"} 
+[2026-07-03 07:44:11] local.INFO: [payment_approve_provision_6a47684be1331] Payment approval with provision requested {"payment_id":"28","admin_id":1} 
+[2026-07-03 07:44:11] local.INFO: Request debug {"all_inputs":{"_token":"OuOfRD8mFnH16DeoAhUKkOkMH6btaGsMNdKHx2Em","provision":{"26":{"service_type":"ssl","domain":"h501test.com","notes":"Cấp SSL tự động (test e2e)"}},"provision_files":{"26":{"certificate":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phpyP3H6B"},"private_key":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phpFkPX5c"}}}},"provision_input":{"26":{"service_type":"ssl","domain":"h501test.com","notes":"Cấp SSL tự động (test e2e)"}},"files":"no"} 
+[2026-07-03 07:44:11] local.INFO: Processing order item {"item_id":26,"product_type":"ssl","has_product":true} 
+[2026-07-03 07:44:11] local.INFO: Provision data check {"item_id":26,"has_provision_data":true,"provision_data_keys":["service_type","domain","notes"],"provision_data":{"service_type":"ssl","domain":"h501test.com","notes":"Cấp SSL tự động (test e2e)"}} 
+[2026-07-03 07:44:11] local.INFO: Service type from provision data {"item_id":26,"service_type":"ssl","is_provisionable":true} 
+[2026-07-03 07:44:11] local.INFO: [payment_approve_provision_6a47684be1331] Provision created {"provision_id":11,"service_type":"ssl","order_item_id":26} 
+[2026-07-03 07:44:11] local.INFO: [payment_approve_provision_6a47684be1331] Payment approved with provisions {"payment_id":28,"provisions_count":1} 
+[2026-07-03 07:44:11] local.INFO: App\Services\ServiceLifecycleService - CustomerService activated {"customer_service_id":10,"provision_id":11,"expires_at":"2027-07-03"} 
+[2026-07-03 07:44:11] local.INFO: [email_approved_6a47684bea8f8] Starting payment approved email {"payment_id":28,"payment_number":"PAY-1783064635VBQOF"} 
+[2026-07-03 07:44:11] local.DEBUG: [email_approved_6a47684bea8f8] Sending payment approved email {"recipient":"h501tester+1783064635@example.test","template":"emails.payment_approved"} 
+[2026-07-03 07:44:11] local.DEBUG: From: Laravel <no-reply@hostist.local>
+To: h501tester+1783064635@example.test
+Subject: =?utf-8?Q?X=C3=A1c_nh=E1=BA=ADn?= thanh
+ =?utf-8?Q?to=C3=A1n_h=C3=B3a_=C4=91=C6=A1n?= #INV-1783064635B8JGS
+MIME-Version: 1.0
+Date: Fri, 03 Jul 2026 07:44:11 +0000
+Message-ID: <c796235101de3a510df62bee3572d867@hostist.local>
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .success-box { background-color: #d4edda; border-color: #c3e6cb; color: #155724; padding: 15px; margin-bottom: 20px; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
+        th { font-weight: bold; }
+        .footer { margin-top: 30px; border-top: 1px solid #eee; padding-top: 10px; font-size: 12px; color: #777; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='header'>
+            <h1>Hostist Company</h1>
+            <p>Xác nhận thanh toán</p>
+        </div>
+        
+        <div class='success-box'>
+            <p><strong>Thanh toán của bạn đã được xác nhận!</strong> Cảm ơn bạn đã thanh toán.</p>
+        </div>
+        
+        <p>Kính gửi Tester 501,</p>
+        <p>Chúng tôi xác nhận đã nhận được thanh toán của bạn với thông tin như sau:</p>
+        
+        <table>
+            <tr><th>Mã hóa đơn:</th><td>INV-1783064635B8JGS</td></tr>
+            <tr><th>Mã đơn hàng:</th><td>ORD-1783064635USB5F</td></tr>
+            <tr><th>Số tiền:</th><td>450.000 đ</td></tr>
+            <tr><th>Phương thức:</th><td>Chuyển khoản ngân hàng</td></tr>
+            <tr><th>Ngày xác nhận:</th><td>03/07/2026 07:44:11</td></tr>
+            <tr><th>Mã giao dịch:</th><td>PAY-1783064635INTF3</td></tr>
+        </table>
+        
+        <h3>Chi tiết dịch vụ:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dịch vụ</th>
+                    <th>Thời hạn</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                                                        <tr>
+                        <td>Comodo Positive (1 năm)</td>
+                        <td>1 năm</td>
+                        <td>450.000 đ</td>
+                    </tr>
+                            </tbody>
+        </table>
+        
+        <p>Đơn hàng của bạn đang được xử lý. Bạn có thể theo dõi tình trạng đơn hàng tại trang quản lý của bạn.</p>
+        
+        <p>Trân trọng,<br>Hostist Company</p>
+        
+        <div class='footer'>
+            <p>© 2026 Hostist Company. Tất cả các quyền được bảo lưu.</p>
+        </div>
+    </div>
+</body>
+</html>  
+[2026-07-03 07:44:11] local.INFO: [email_approved_6a47684bea8f8] Payment approved email sent successfully {"payment_id":28,"customer_email":"h501tester+1783064635@example.test"} 

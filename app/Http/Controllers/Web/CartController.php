@@ -34,19 +34,28 @@ class CartController extends Controller
                 'options.period' => 'nullable|integer|min:1|max:10',
             ];
 
+            // Messages/attributes tiếng Việt để lỗi hiện đúng tên field ("Tên miền là bắt buộc")
+            // thay vì "The options.domain field is required".
+            $messages = [];
+            $attributes = [];
             if ($product->category && $product->category->hasServiceFields()) {
                 foreach ($product->category->getServiceFields() as $field) {
                     if ($field['required'] ?? false) {
                         $fieldKey = "options.{$field['name']}";
                         $rules[$fieldKey] = 'required';
+                        $label = $field['label'] ?? $field['name'];
+                        $attributes[$fieldKey] = $label;
+                        $messages["{$fieldKey}.required"] = "Vui lòng nhập {$label}.";
 
                         if (isset($field['validation'])) {
                             switch ($field['validation']) {
                                 case 'domain':
                                     $rules[$fieldKey] .= '|regex:/^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](\.[a-zA-Z]{2,})+$/';
+                                    $messages["{$fieldKey}.regex"] = "{$label} không hợp lệ (vd: example.com).";
                                     break;
                                 case 'phone_vn':
                                     $rules[$fieldKey] .= '|regex:/^(0[3|5|7|8|9])+([0-9]{8})$/';
+                                    $messages["{$fieldKey}.regex"] = "{$label} không đúng định dạng số điện thoại.";
                                     break;
                                 case 'url':
                                     $rules[$fieldKey] .= '|url';
@@ -57,7 +66,7 @@ class CartController extends Controller
                 }
             }
 
-            $request->validate($rules);
+            $request->validate($rules, $messages, $attributes);
 
             $cart = $this->getCart();
 
@@ -118,6 +127,10 @@ class CartController extends Controller
             $this->updateCartTotals($cart);
 
             return redirect()->route('cart.index')->with('success', 'Đã thêm vào giỏ hàng');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Để lỗi validation bong lên: Laravel tự trả về withErrors + old input
+            // (vd "Vui lòng nhập tên miền") thay vì thông báo chung vô nghĩa.
+            throw $e;
         } catch (\Exception $e) {
             Log::error('Add to cart error: ' . $e->getMessage());
             return back()->with('error', 'Không thể thêm vào giỏ hàng. Vui lòng thử lại.');

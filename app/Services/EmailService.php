@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\{Payments, Config};
+use App\Notifications\CustomerAlert;
 use Illuminate\Support\Facades\{Mail, Log};
 use Exception;
 
@@ -23,6 +24,18 @@ class EmailService extends BaseService
         try {
             $user = $payment->order->customer->user;
             $config = Config::current();
+
+            // Thông báo in-app TRƯỚC khi gửi mail — SMTP lỗi không được làm mất thông báo UI
+            if ($user) {
+                $this->notifyInApp($user, new CustomerAlert(
+                    'payment_approved',
+                    'Thanh toán đã được xác nhận',
+                    'Hóa đơn #' . ($payment->invoice->invoice_number ?? $payment->payment_number ?? $payment->id)
+                        . ' đã được thanh toán thành công. Dịch vụ của bạn đang được kích hoạt.',
+                    route('customer.invoices'),
+                    'success'
+                ), $emailId);
+            }
 
             if (!$user || !$user->email) {
                 Log::error("[{$emailId}] Customer email not found", [
@@ -63,7 +76,7 @@ class EmailService extends BaseService
 
             return true;
 
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             Log::error("[{$emailId}] Payment approved email failed", [
                 'payment_id' => $payment->id,
                 'error' => $e->getMessage(),
@@ -89,6 +102,17 @@ class EmailService extends BaseService
         try {
             $user = $payment->order->customer->user;
             $config = Config::current();
+
+            // Thông báo in-app TRƯỚC khi gửi mail — SMTP lỗi không được làm mất thông báo UI
+            if ($user) {
+                $this->notifyInApp($user, new CustomerAlert(
+                    'payment_rejected',
+                    'Thanh toán bị từ chối',
+                    'Thanh toán #' . ($payment->transaction_id ?? $payment->id) . ' đã bị từ chối. Lý do: ' . $reason,
+                    route('customer.invoices'),
+                    'danger'
+                ), $emailId);
+            }
 
             if (!$user || !$user->email) {
                 Log::error("[{$emailId}] Customer email not found", [
@@ -118,7 +142,7 @@ class EmailService extends BaseService
 
             return true;
 
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             Log::error("[{$emailId}] Payment rejected email failed", [
                 'payment_id' => $payment->id,
                 'error' => $e->getMessage()
@@ -177,7 +201,7 @@ class EmailService extends BaseService
 
             return true;
 
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             Log::error("[{$emailId}] Deposit request email failed", [
                 'deposit_id' => $deposit->id ?? 'unknown',
                 'error' => $e->getMessage()
@@ -227,7 +251,7 @@ class EmailService extends BaseService
 
             return true;
 
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             Log::error("[{$emailId}] Admin deposit notification failed", [
                 'deposit_id' => $deposit->id,
                 'admin_email' => $adminEmail,
@@ -280,10 +304,29 @@ class EmailService extends BaseService
 
             return true;
 
-        } catch (Exception $e) {
+        } catch (\Throwable $e) {
             Log::error("[{$emailId}] Order confirmation email failed", [
                 'order_id' => $order->id,
                 'error' => $e->getMessage()
+            ]);
+            return false;
+        }
+    }
+
+    /**
+     * Gửi thông báo in-app (kênh database). Không bao giờ throw —
+     * thông báo lỗi không được phép chặn luồng nghiệp vụ hay luồng email.
+     */
+    public function notifyInApp($user, CustomerAlert $alert, string $context = ''): bool
+    {
+        try {
+            $user->notify($alert);
+            return true;
+        } catch (\Throwable $e) {
+            Log::error("[{$context}] In-app notification failed", [
+                'user_id' => $user->id ?? null,
+                'type'    => $alert->type,
+                'error'   => $e->getMessage(),
             ]);
             return false;
         }

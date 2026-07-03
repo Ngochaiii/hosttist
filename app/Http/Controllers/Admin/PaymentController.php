@@ -60,84 +60,6 @@ class PaymentController extends Controller
     }
 
     /**
-     * Show provision form khi approve payment
-     */
-    public function showProvisionForm($id)
-    {
-        $requestId = uniqid('provision_form_');
-
-        Log::info("[{$requestId}] Showing provision form for payment", [
-            'payment_id' => $id,
-            'admin_id' => Auth::id()
-        ]);
-
-        try {
-            $payment = Payments::with([
-                'invoice.order.items.product',
-                'order.customer.user'
-            ])->findOrFail($id);
-
-            // Kiểm tra payment status
-            if ($payment->status !== 'pending') {
-                return back()->with('error', 'Thanh toán đã được xử lý trước đó');
-            }
-
-            // Đơn gia hạn không cần form provision (dịch vụ đã tồn tại & đã cấp credentials)
-            $order = $payment->order ?? ($payment->invoice->order ?? null);
-            if ($order && $order->renewal_of_service_id) {
-                Log::info("[{$requestId}] Renewal payment - skip provision form", [
-                    'payment_id' => $id,
-                    'order_id'   => $order->id,
-                    'service_id' => $order->renewal_of_service_id,
-                ]);
-                return $this->approveDirectly($payment);
-            }
-
-            // Lấy order items
-            $orderItems = [];
-            if ($payment->invoice && $payment->invoice->order) {
-                $orderItems = Order_items::where('order_id', $payment->invoice->order->id)
-                    ->with('product')
-                    ->get();
-            }
-
-            // Xác định product types cần provision
-            $needsProvision = false;
-            $productTypes = [];
-            foreach ($orderItems as $item) {
-                if ($item->product) {
-                    $type = $item->product->type;
-                    // Chỉ cần provision cho SSL, VPS, Hosting, Domain
-                    if (in_array($type, OrderService::PROVISIONABLE_TYPES)) {
-                        $needsProvision = true;
-                        $productTypes[$type] = true;
-                    }
-                }
-            }
-
-            // Nếu không cần provision, approve luôn
-            if (!$needsProvision) {
-                return $this->approveDirectly($payment);
-            }
-
-            Log::info("[{$requestId}] Provision form prepared", [
-                'payment_id' => $payment->id,
-                'order_items_count' => count($orderItems),
-                'product_types' => array_keys($productTypes)
-            ]);
-
-            return view('source.admin.payments.provision-form', compact('payment', 'orderItems', 'productTypes'));
-        } catch (\Exception $e) {
-            Log::error("[{$requestId}] Error showing provision form", [
-                'payment_id' => $id,
-                'error' => $e->getMessage()
-            ]);
-
-            return back()->with('error', 'Lỗi hiển thị form: ' . $e->getMessage());
-        }
-    }
-
-    /**
      * Approve payment với provision data - FIXED
      */
     public function approveWithProvision(Request $request, $id)
@@ -306,12 +228,27 @@ class PaymentController extends Controller
                 'provisions_count' => count($provisions),
             ]);
 
-            // Kích hoạt CustomerService lifecycle cho từng provision vừa tạo
+            // Kích hoạt CustomerService lifecycle + báo cho khách "dịch vụ đã sẵn sàng"
+            // (provision ở nhánh này tạo với status=completed ngay). Trước đây khách chỉ
+            // nhận "Thanh toán đã xác nhận", không có thông báo dịch vụ sẵn sàng trên UI.
             foreach ($provisions as $provision) {
                 try {
                     $this->lifecycle->activateFromProvision($provision);
                 } catch (\Exception $e) {
                     Log::error("[{$requestId}] activateFromProvision failed", [
+                        'provision_id' => $provision->id,
+                        'error'        => $e->getMessage(),
+                    ]);
+                }
+
+                // Thông báo in-app "dịch vụ sẵn sàng" — không throw, không chặn flow duyệt.
+                try {
+                    $customerUser = $provision->customer?->user ?? $payment->order?->customer?->user;
+                    if ($customerUser) {
+                        $customerUser->notify(new \App\Notifications\CustomerServiceReady($provision));
+                    }
+                } catch (\Throwable $e) {
+                    Log::error("[{$requestId}] CustomerServiceReady notify failed", [
                         'provision_id' => $provision->id,
                         'error'        => $e->getMessage(),
                     ]);
@@ -534,14 +471,6 @@ class PaymentController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Lỗi: ' . $e->getMessage());
         }
-    }
-
-    /**
-     * Original approve method - redirect to provision form
-     */
-    public function approve($id)
-    {
-        return redirect()->route('admin.payments.provision-form', $id);
     }
 
     public function reject(Request $request, $id)

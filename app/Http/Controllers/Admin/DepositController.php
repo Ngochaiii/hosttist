@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Mail\DepositApproved;
 use App\Mail\DepositRejected;
 use App\Models\deposits;
+use App\Notifications\CustomerAlert;
+use App\Services\EmailService;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
@@ -102,6 +104,19 @@ class DepositController extends Controller
         $customer->balance += $deposit->amount;
         $customer->save();
 
+        // Thông báo in-app cho khách (không phụ thuộc email)
+        if ($deposit->customer && $deposit->customer->user) {
+            app(EmailService::class)->notifyInApp($deposit->customer->user, new CustomerAlert(
+                'deposit_approved',
+                'Nạp tiền thành công',
+                'Yêu cầu nạp tiền #' . $deposit->transaction_code . ' ('
+                    . number_format($deposit->amount) . ' đ) đã được duyệt. Số dư mới: '
+                    . number_format($customer->balance) . ' đ.',
+                route('customer.profile'),
+                'success'
+            ), 'deposit_approve_' . $deposit->id);
+        }
+
         // Gửi email thông báo cho khách hàng
         if ($deposit->customer && $deposit->customer->user && $deposit->customer->user->email) {
             try {
@@ -143,6 +158,18 @@ class DepositController extends Controller
         $deposit->verified_by = Auth::id();
         $deposit->verified_at = now();
         $deposit->save();
+
+        // Thông báo in-app cho khách (không phụ thuộc email)
+        if ($deposit->customer && $deposit->customer->user) {
+            app(EmailService::class)->notifyInApp($deposit->customer->user, new CustomerAlert(
+                'deposit_rejected',
+                'Yêu cầu nạp tiền bị từ chối',
+                'Yêu cầu nạp tiền #' . $deposit->transaction_code . ' ('
+                    . number_format($deposit->amount) . ' đ) đã bị từ chối. Lý do: ' . $request->reason,
+                route('customer.profile'),
+                'danger'
+            ), 'deposit_reject_' . $deposit->id);
+        }
 
         // Gửi email thông báo cho khách hàng
         if ($deposit->customer && $deposit->customer->user && $deposit->customer->user->email) {

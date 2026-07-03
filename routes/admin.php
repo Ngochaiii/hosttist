@@ -78,14 +78,10 @@ Route::group([
     Route::group(['prefix' => 'payments'], function () {
         Route::get('/', [PaymentController::class, 'index'])->name('admin.payments.index');
 
-        // Thêm 2 routes mới cho provision form
-        Route::get('/{id}/provision-form', [PaymentController::class, 'showProvisionForm'])
-            ->name('admin.payments.provision-form');
+        // Duyệt thanh toán kèm nhập thông tin provision (modal trong index.blade.php)
         Route::post('/{id}/approve-with-provision', [PaymentController::class, 'approveWithProvision'])
             ->name('admin.payments.approve-with-provision');
 
-        // Routes cũ
-        Route::post('/{id}/approve', [PaymentController::class, 'approve'])->name('admin.payments.approve');
         Route::post('/{id}/reject', [PaymentController::class, 'reject'])->name('admin.payments.reject');
     });
 

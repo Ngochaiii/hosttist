@@ -239,6 +239,19 @@ class PaymentService extends BaseService
                 // processCompletedOrder đã tự set order.status = 'processing' khi có provision
             }
 
+            // Gửi email + thông báo in-app xác nhận cho khách (nhánh wallet trước đây
+            // không gửi gì cả). EmailService tự nuốt lỗi nên không rollback transaction.
+            try {
+                $this->emailService->sendPaymentApprovedEmail(
+                    $payment->fresh()->load(['order.customer.user', 'order.items', 'invoice'])
+                );
+            } catch (\Exception $e) {
+                Log::error('processWalletPayment: gửi thông báo thất bại', [
+                    'payment_id' => $payment->id,
+                    'error'      => $e->getMessage(),
+                ]);
+            }
+
             return [
                 'success'     => true,
                 'payment'     => $payment,

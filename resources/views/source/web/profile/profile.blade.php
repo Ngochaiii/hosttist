@@ -21,6 +21,10 @@
                                 class="list-group-item list-group-item-action {{ request()->routeIs('customer.invoices') ? 'active' : '' }}">
                                 Hóa đơn chưa thanh toán
                             </a>
+                            <a href="{{ route('notifications.index') }}"
+                                class="list-group-item list-group-item-action {{ request()->routeIs('notifications.*') ? 'active' : '' }}">
+                                Thông báo
+                            </a>
                             <form action="{{ route('logout') }}" method="POST" class="d-none" id="logout-form">
                                 @csrf
                             </form>

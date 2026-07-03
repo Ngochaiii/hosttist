@@ -108,6 +108,14 @@ Route::group(['middleware' => ['frontend.auth']], function () {
             ->where('type', 'certificate|private_key|ca_bundle|all');
     });
 
+    // ===== NOTIFICATIONS (thông báo in-app) =====
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [\App\Http\Controllers\Web\NotificationController::class, 'index'])->name('notifications.index');
+        Route::get('/{id}/go', [\App\Http\Controllers\Web\NotificationController::class, 'go'])->name('notifications.go');
+        Route::post('/{id}/read', [\App\Http\Controllers\Web\NotificationController::class, 'markRead'])->name('notifications.read');
+        Route::post('/read-all', [\App\Http\Controllers\Web\NotificationController::class, 'markAllRead'])->name('notifications.readAll');
+    });
+
     // ===== WALLET & PAYMENT =====
     Route::group(['prefix' => 'wallet'], function () {
         Route::get('/deposit', [WalletController::class, 'deposit'])->name('deposit');

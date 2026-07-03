@@ -42,6 +42,51 @@
                 </a>
             </li>
         @else
+            <!-- Chuông thông báo in-app -->
+            @php
+                $navUnreadCount = Auth::user()->unreadNotifications()->count();
+                $navNotifications = Auth::user()->notifications()->latest()->take(5)->get();
+            @endphp
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="#" id="notifDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" title="Thông báo">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                    @if ($navUnreadCount > 0)
+                        <span class="badge badge-pill badge-danger">{{ $navUnreadCount > 9 ? '9+' : $navUnreadCount }}</span>
+                    @endif
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="notifDropdown"
+                    style="min-width: 320px; max-width: 360px;">
+                    <div class="d-flex justify-content-between align-items-center px-3 py-1">
+                        <strong>Thông báo</strong>
+                        @if ($navUnreadCount > 0)
+                            <form action="{{ route('notifications.readAll') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-link btn-sm p-0">Đọc tất cả</button>
+                            </form>
+                        @endif
+                    </div>
+                    <div class="dropdown-divider my-1"></div>
+                    @forelse ($navNotifications as $notif)
+                        <a class="dropdown-item py-2 {{ is_null($notif->read_at) ? 'font-weight-bold' : 'text-muted' }}"
+                            href="{{ route('notifications.go', $notif->id) }}"
+                            style="white-space: normal; border-left: 3px solid
+                                {{ ($notif->data['level'] ?? 'info') === 'success' ? '#28a745' : (($notif->data['level'] ?? 'info') === 'danger' ? '#dc3545' : '#17a2b8') }};">
+                            <div class="small">{{ $notif->data['title'] ?? 'Thông báo' }}</div>
+                            <div class="small text-truncate" style="max-width: 300px; font-weight: normal;">
+                                {{ $notif->data['message'] ?? '' }}
+                            </div>
+                            <div class="small text-muted" style="font-weight: normal;">{{ $notif->created_at->diffForHumans() }}</div>
+                        </a>
+                    @empty
+                        <div class="dropdown-item text-muted small">Chưa có thông báo nào.</div>
+                    @endforelse
+                    <div class="dropdown-divider my-1"></div>
+                    <a class="dropdown-item text-center small" href="{{ route('notifications.index') }}">
+                        Xem tất cả thông báo
+                    </a>
+                </div>
+            </li>
             <!-- Hiển thị khi đã đăng nhập -->
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"

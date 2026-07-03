@@ -116,6 +116,19 @@
                                         @endif
 
                                         <div class="action_buttons mt-4">
+                                            {{-- Hiển thị lỗi validate/flash khi thêm giỏ (vd thiếu tên miền) --}}
+                                            @if ($errors->any())
+                                                <div class="alert alert-danger">
+                                                    <ul class="mb-0 pl-3">
+                                                        @foreach ($errors->all() as $err)
+                                                            <li>{{ $err }}</li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endif
+                                            @if (session('error'))
+                                                <div class="alert alert-danger">{{ session('error') }}</div>
+                                            @endif
                                             {{-- Thay thế phần form cũ bằng code này --}}
                                             <form action="{{ route('cart.add') }}" method="POST" id="add-to-cart-form">
                                                 @csrf

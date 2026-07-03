@@ -131,10 +131,19 @@ class ProvisionEmailService
      */
     private function notifyAdmins(ServiceProvision $provision, string $type): void
     {
-        $admins = User::whereIn('role', ['admin', 'super_admin'])->get();
-        
-        if ($admins->isNotEmpty()) {
-            Notification::send($admins, new AdminProvisionAlert($provision, $type));
+        try {
+            $admins = User::whereIn('role', ['admin', 'super_admin'])->get();
+
+            if ($admins->isNotEmpty()) {
+                Notification::send($admins, new AdminProvisionAlert($provision, $type));
+            }
+        } catch (\Throwable $e) {
+            // Mail admin lỗi (SMTP down...) không được chặn flow gửi thông báo cho khách
+            Log::error('notifyAdmins failed', [
+                'provision_id' => $provision->id,
+                'type'         => $type,
+                'error'        => $e->getMessage(),
+            ]);
         }
     }
 

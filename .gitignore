@@ -21,3 +21,6 @@ yarn-error.log
 
 # SSL certificates - dữ liệu nhạy cảm
 /storage/app/ssl_certificates/
+
+DANH_GIA.MD
+.claude 

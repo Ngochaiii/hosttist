@@ -145,3 +145,39 @@ Nói cách khác: **bạn không xây một website dịch vụ. Bạn đang xâ
 3. **(Ngắn hạn)** Tách `ProvisionService` theo từng provider/loại sản phẩm.
 4. **(Trung hạn)** Đẩy provisioning thật sang Queue + cơ chế retry/idempotency.
 5. **(Dọn dẹp)** Chuẩn hóa tên model, bỏ track `.DS_Store`, viết README hệ thống thật.
+
+---
+
+## 8. Nhật ký tiến độ (Progress Log)
+
+> Ghi nhận các thay đổi **sau** ngày lập tài liệu (2026-06-01), để theo dõi tiến độ và lý do thay đổi. Mục mới nhất ở trên cùng.
+
+### 2026-06-15 → 2026-06-17 — Ổn định môi trường VPS (production) & backfill dữ liệu legacy
+
+Bối cảnh chung: VPS production (BaoTa/aaPanel, PHP chạy user `www`) **không có extension `fileinfo`**, và dữ liệu được tích lũy qua nhiều giai đoạn nâng cấp web nên tồn tại nhiều bản ghi "legacy" thiếu liên kết. Đợt này tập trung làm hệ thống chạy đúng trên VPS, chưa đụng tới logic nghiệp vụ lõi.
+
+#### 8.1. Bỏ phụ thuộc `fileinfo` cho upload ảnh — ✅ Xong
+- **Vấn đề:** `UploadedFile::store()`/`hashName()` và rule validate `image`/`mimes` đều cần `fileinfo` → lỗi trên VPS.
+- **Xử lý:** Upload thủ công — lấy đuôi từ `getClientOriginalExtension()` + `move()`; bỏ rule `image` (đổi sang `string` vì tới repository giá trị đã là đường dẫn).
+- **File:** `ProductsController`, `CategoryController` (thêm helper `storeImageWithoutFileinfo`), `ProductsRepository`, `CategoriesRepository`, `ConfigController` (4 khối QR — đã có sẵn).
+
+#### 8.2. Ảnh không hiển thị trên VPS (404) — ✅ Xong
+- **Nguyên nhân:** symlink `public/storage` bị commit vào git với **đường dẫn tuyệt đối của máy Mac** → trên VPS là symlink hỏng → mọi `/storage/...` trả 404.
+- **Xử lý:** Gỡ symlink khỏi git; **ghi ảnh thẳng vào thư mục thật `public/storage/...`** (không qua symlink), giữ nguyên tiền tố `storage/` nên không phải đổi code hiển thị. Đọc QR cho PDF cũng đổi sang `public_path()`.
+- **File:** `ProductsController`, `CategoryController`, `ConfigController`, `InvoiceService`, `QuoteController`, `payment/bank_transfer.blade.php`.
+- **Thao tác VPS:** `chown -R www:www public/storage && chmod -R 755 public/storage` (PHP user phải ghi được — nếu không sẽ `mkdir(): Permission denied`).
+
+#### 8.3. `/admin/services` thiếu dịch vụ so với thực tế — ✅ Có công cụ
+- **Nguyên nhân:** trang admin chỉ đọc bảng `customer_services`. Dịch vụ đang chạy thực tế biểu diễn ở **`service_provisions`** (xem ở `/admin/provisions`); nhiều provision đã `completed` nhưng **thiếu `CustomerService`** nên không hiện/không quản lý được (trang show/edit dùng `findOrFail`).
+- **Xử lý:** Tách logic tạo CustomerService-từ-legacy ra service dùng chung `LegacyServiceBackfiller`; thêm 2 command backfill **idempotent + `--dry-run`**:
+  - `services:backfill-legacy-products` — từ `products` có `customer_id` (legacy bán trực tiếp).
+  - `services:backfill-from-provisions` — từ `ServiceProvision` đã `completed` còn thiếu CustomerService (mirror `ServiceLifecycleService::activate()` nhưng dùng ngày tháng lịch sử).
+- **File:** `app/Services/LegacyServiceBackfiller.php` (mới), `app/Console/Commands/BackfillLegacyProducts.php` (mới), `app/Console/Commands/BackfillFromProvisions.php` (mới), `Web/ServiceController` (gọi service chung).
+- **Lưu ý:** dịch vụ backfill thiếu thông số kỹ thuật (provision rỗng) là bình thường — admin bổ sung sau.
+
+#### 8.4. `Class "finfo" not found` khi mở dịch vụ SSL ở admin — ✅ Xong
+- **Nguyên nhân:** `ServiceParameterService::readSslFile()` dùng `Storage::disk('local')->exists()/get()`; trên Flysystem của VPS thao tác này khởi tạo bộ dò MIME (`finfo`). Chỉ dịch vụ SSL (có field file) mới đụng đường này.
+- **Xử lý:** Đọc/ghi file SSL bằng hàm file thuần (`is_file`/`file_get_contents`/`file_put_contents` trên `storage_path('app/...')`), bỏ facade `Storage`. Vá thêm tải bộ SSL `.tar.gz` (`response()->download(... ['Content-Type' => 'application/gzip'])`) để khỏi đoán MIME.
+- **File:** `app/Services/ServiceParameterService.php`, `Web/ServiceController.php`.
+
+> **Ghi chú kỹ thuật:** Các mục trên là *workaround* do VPS thiếu `fileinfo`. Cách dứt điểm là **bật extension `fileinfo`** (BaoTa → PHP → Cài tiện ích mở rộng), khi đó không cần né `Storage`/`store()` nữa. Đã chọn workaround theo yêu cầu giữ nguyên môi trường hiện tại.

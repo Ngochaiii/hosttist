@@ -22,6 +22,13 @@ class Payments extends Model
         'verified_at', // thời điểm xác nhận
     ];
 
+    // Thiếu cast này thì verified_at/payment_date là string →
+    // ->format() trong EmailService fatal (Error, lọt qua catch Exception)
+    protected $casts = [
+        'payment_date' => 'datetime',
+        'verified_at'  => 'datetime',
+    ];
+
     // Relationship với Order
     public function order()
     {
