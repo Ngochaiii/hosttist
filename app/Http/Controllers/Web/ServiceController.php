@@ -113,21 +113,41 @@ class ServiceController extends Controller
      * Hiển thị chi tiết service provision
      */
     public function showProvision($id)
-{
-    $provision = $this->findProvision($id);
-    $provision->markAsViewed();
-    $logs = $provision->logs()->latest()->limit(10)->get();
-    
-    // DEBUG: Kiểm tra provision data
-    $provisionData = json_decode($provision->provision_data, true) ?? [];
-    Log::info('Provision data debug', [
-        'provision_id' => $provision->id,
-        'provision_data' => $provisionData,
-        'credentials' => $provisionData['credentials'] ?? 'not found'
-    ]);
-    $service = $provision;
-    return view('source.web.services.show', compact('service', 'logs', 'provisionData'));
-}
+    {
+        $provision = $this->findProvision($id);
+        $provision->markAsViewed();
+        $logs = $provision->logs()->latest()->limit(10)->get();
+
+        $provisionData = json_decode($provision->provision_data, true) ?? [];
+
+        // View services.show viết cho Products legacy (đọc name/type/start_date/end_date/
+        // next_due_date/price...). ServiceProvision KHÔNG có các field đó → ngày hiển thị
+        // loạn/N/A. Chuẩn hoá về đúng NGUỒN: hạn dùng lấy từ CustomerService (nguồn chân lý),
+        // ngày cung cấp lấy từ provisioned_at, giá/định kỳ lấy từ product.
+        $cs      = $provision->customerService;
+        $product = $provision->product;
+
+        $provision->setAttribute('name', $product?->name ?? ('Dịch vụ #' . $provision->id));
+        $provision->setAttribute('sku', $product?->sku);
+        $provision->setAttribute('type', $provision->provision_type);
+        $provision->setAttribute('service_status', $cs?->status
+            ?? ($provision->provision_status === 'completed' ? 'active' : $provision->provision_status));
+        // Ngày bắt đầu = ngày CUNG CẤP thực tế (provisioned_at) để khớp với trang
+        // credentials ("Ngày kích hoạt"); fallback started_at của CustomerService.
+        $provision->setAttribute('start_date', $provision->provisioned_at ?? $cs?->started_at);
+        $provision->setAttribute('end_date', $cs?->expires_at);
+        $provision->setAttribute('next_due_date', $cs?->next_renewal_date);
+        $provision->setAttribute('auto_renew', (bool) ($cs?->auto_renew ?? false));
+        $provision->setAttribute('is_recurring', (bool) ($product?->is_recurring ?? true));
+        $provision->setAttribute('recurring_period', $product?->recurring_period ?? 12);
+        $provision->setAttribute('price', $cs?->renewal_price ?? $product?->price ?? 0);
+        $provision->setAttribute('description', $product?->description);
+        // Cho phần "Thông tin đơn hàng" hiển thị (view check quan hệ orderItems số nhiều).
+        $provision->setRelation('orderItems', collect(array_filter([$provision->orderItem])));
+
+        $service = $provision;
+        return view('source.web.services.show', compact('service', 'logs', 'provisionData'));
+    }
 
     /**
      * Hiển thị chi tiết customer service

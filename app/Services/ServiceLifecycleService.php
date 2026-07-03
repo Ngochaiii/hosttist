@@ -296,11 +296,9 @@ class ServiceLifecycleService extends BaseService
             ]);
 
             $product      = $service->product;
-            $durationMonths = match ($service->billing_cycle) {
-                'monthly' => 1,
-                'yearly'  => 12,
-                default   => null,
-            };
+            // Kỳ hạn khớp với recurring_period của sản phẩm (khớp số tiền thu) —
+            // xem renewalMonths(). Tránh lệch "trả giá năm nhưng chỉ +1 tháng".
+            $durationMonths = $this->renewalMonths($service);
             Order_items::create([
                 'order_id'    => $order->id,
                 'product_id'  => $service->product_id,
@@ -429,10 +427,23 @@ class ServiceLifecycleService extends BaseService
             ? $service->expires_at
             : now();
 
-        return match ($service->billing_cycle) {
-            'monthly' => $base->copy()->addMonth(),
-            'yearly'  => $base->copy()->addYear(),
-            default   => $base->copy()->addYear(),
-        };
+        return $base->copy()->addMonths($this->renewalMonths($service));
+    }
+
+    /**
+     * Số THÁNG cho 1 kỳ gia hạn — nguồn chân lý là product.recurring_period
+     * (số tháng của 1 chu kỳ tính giá). billing_cycle trên CustomerService có thể
+     * bị lệch (vd sản phẩm year=12 nhưng CS lưu 'monthly' do backfill legacy) → nếu
+     * dùng billing_cycle sẽ gia hạn +1 tháng dù khách trả giá cả năm. Ưu tiên
+     * recurring_period để KỲ HẠN luôn khớp SỐ TIỀN đã thu (currentRenewalPrice = giá 1 chu kỳ).
+     */
+    private function renewalMonths(CustomerService $service): int
+    {
+        $rp = $service->product?->recurring_period;
+        if (is_numeric($rp) && (int) $rp > 0) {
+            return (int) $rp;
+        }
+        // Fallback khi product không có recurring_period: theo billing_cycle đã lưu.
+        return $service->billing_cycle === 'monthly' ? 1 : 12;
     }
 }

@@ -345,6 +345,9 @@
                                                                             @php
                                                                                 $needsProvision = false;
                                                                                 $provisionItems = [];
+                                                                                // Đơn gia hạn: KHÔNG nhập provision (server bỏ qua input này,
+                                                                                // chỉ extend dịch vụ đã có). Ẩn form để admin khỏi nhầm là phải nhập lại.
+                                                                                $isRenewalOrder = $payment->order && $payment->order->renewal_of_service_id;
 
                                                                                 if (
                                                                                     $payment->invoice &&
@@ -386,7 +389,7 @@
                                                                                 }
                                                                             @endphp
 
-                                                                            @if ($needsProvision && count($provisionItems) > 0)
+                                                                            @if (!$isRenewalOrder && $needsProvision && count($provisionItems) > 0)
                                                                                 <!-- Tabs cho từng dịch vụ cần provision -->
                                                                                 <ul class="nav nav-tabs"
                                                                                     id="serviceTab{{ $payment->id }}"
@@ -873,6 +876,14 @@
                                                                                             </div>
                                                                                         </div>
                                                                                     @endforeach
+                                                                                </div>
+                                                                            @elseif ($isRenewalOrder)
+                                                                                <!-- Đơn gia hạn: chỉ cần xác nhận, không nhập lại thông tin -->
+                                                                                <div class="alert alert-info">
+                                                                                    <i class="fas fa-sync-alt"></i>
+                                                                                    <strong>Đơn gia hạn dịch vụ #{{ $payment->order->renewal_of_service_id }}.</strong>
+                                                                                    Không cần nhập lại thông tin — hệ thống sẽ tự động
+                                                                                    gia hạn thời hạn dịch vụ đang có sau khi xác nhận.
                                                                                 </div>
                                                                             @else
                                                                                 <!-- Không cần provision -->
