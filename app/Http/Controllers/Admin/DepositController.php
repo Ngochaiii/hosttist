@@ -7,13 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Deposit;
 use App\Models\Customers;
 use Illuminate\Support\Facades\Auth;
-use App\Mail\DepositApproved;
-use App\Mail\DepositRejected;
 use App\Models\deposits;
 use App\Notifications\CustomerAlert;
 use App\Services\EmailService;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class DepositController extends Controller
@@ -117,22 +113,6 @@ class DepositController extends Controller
             ), 'deposit_approve_' . $deposit->id);
         }
 
-        // Gửi email thông báo cho khách hàng
-        if ($deposit->customer && $deposit->customer->user && $deposit->customer->user->email) {
-            try {
-                Mail::to($deposit->customer->user->email)
-                    ->send(new DepositApproved([
-                        'transaction_code' => $deposit->transaction_code,
-                        'amount' => $deposit->amount,
-                        'customer_name' => $deposit->customer->user->name,
-                        'date' => $deposit->verified_at->format('d/m/Y H:i:s'),
-                        'new_balance' => $customer->balance,
-                    ]));
-            } catch (\Exception $e) {
-                Log::error('Lỗi gửi email xác nhận: ' . $e->getMessage());
-            }
-        }
-
         return redirect()->route('deposits.index')
             ->with('success', 'Yêu cầu nạp tiền đã được xác nhận và số dư khách hàng đã được cập nhật.');
     }
@@ -169,22 +149,6 @@ class DepositController extends Controller
                 route('customer.profile'),
                 'danger'
             ), 'deposit_reject_' . $deposit->id);
-        }
-
-        // Gửi email thông báo cho khách hàng
-        if ($deposit->customer && $deposit->customer->user && $deposit->customer->user->email) {
-            try {
-                Mail::to($deposit->customer->user->email)
-                    ->send(new DepositRejected([
-                        'transaction_code' => $deposit->transaction_code,
-                        'amount' => $deposit->amount,
-                        'customer_name' => $deposit->customer->user->name,
-                        'reason' => $request->reason,
-                        'date' => $deposit->verified_at->format('d/m/Y H:i:s'),
-                    ]));
-            } catch (\Exception $e) {
-                Log::error('Lỗi gửi email từ chối: ' . $e->getMessage());
-            }
         }
 
         return redirect()->route('admin.deposits.index')

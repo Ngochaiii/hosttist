@@ -154,8 +154,6 @@ Route::group(['middleware' => ['frontend.auth']], function () {
     Route::group(['prefix' => 'quote'], function () {
         Route::get('/', [InvoiceController::class, 'showQuote'])->name('quote');
         Route::get('/download', [QuoteController::class, 'downloadPdf'])->name('quote.download');
-        Route::get('/email', [QuoteController::class, 'sendEmail'])->name('quote.email');
-        Route::post('/email', [QuoteController::class, 'sendEmail'])->name('quote.email.post');
         Route::post('/proceed-to-payment', [InvoiceController::class, 'proceedToPayment'])->name('proceed.payment');
     });
 

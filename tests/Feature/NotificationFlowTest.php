@@ -13,16 +13,15 @@ use App\Services\PaymentService;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
 /**
  * Kiểm thử luồng thông báo in-app sau khi hoàn thành hoá đơn/thanh toán.
  *
- * Bối cảnh: SMTP của hệ thống có thể lỗi (mailhog/production SMTP down). Yêu cầu
- * nghiệp vụ: dù email chết, khách hàng VẪN PHẢI nhận được thông báo trên UI
- * (bảng notifications, kênh database). Test chốt hợp đồng đó.
+ * In-app (bảng notifications, kênh database) là kênh thông báo duy nhất —
+ * luồng email đã được gỡ bỏ. Khách hàng PHẢI nhận được thông báo trên UI.
+ * Test chốt hợp đồng đó.
  *
  * Dùng SQLite :memory: với schema tối thiểu dựng tay — theo pattern của
  * PaymentWebhookIdempotencyTest, KHÔNG đụng tới DB MySQL dev.
@@ -44,13 +43,11 @@ class NotificationFlowTest extends TestCase
     }
 
     /**
-     * MẤU CHỐT: SMTP chết hoàn toàn (Mail::send throw) → payment vẫn completed
-     * và khách vẫn có thông báo payment_approved trong DB để hiển thị trên UI.
+     * MẤU CHỐT: xác nhận thanh toán từ gateway → payment completed
+     * và khách có thông báo payment_approved trong DB để hiển thị trên UI.
      */
-    public function test_gateway_confirmation_creates_in_app_notification_even_when_mail_fails(): void
+    public function test_gateway_confirmation_creates_in_app_notification(): void
     {
-        Mail::shouldReceive('send')->andThrow(new \Exception('SMTP connection refused'));
-
         $payment = $this->seedPendingPayment('TXN-NOTIF-001');
         $user = User::first();
 
@@ -60,7 +57,7 @@ class NotificationFlowTest extends TestCase
         $this->assertSame('completed', $payment->fresh()->status);
 
         $notifications = $user->notifications;
-        $this->assertCount(1, $notifications, 'Email lỗi nhưng thông báo in-app phải vẫn được tạo');
+        $this->assertCount(1, $notifications, 'Thông báo in-app phải được tạo khi thanh toán được xác nhận');
 
         $data = $notifications->first()->data;
         $this->assertSame('payment_approved', $data['type']);
@@ -71,11 +68,9 @@ class NotificationFlowTest extends TestCase
         $this->assertNull($notifications->first()->read_at, 'Thông báo mới phải ở trạng thái chưa đọc');
     }
 
-    /** Từ chối thanh toán → thông báo payment_rejected kèm lý do, dù mail chết. */
-    public function test_reject_payment_creates_in_app_notification_even_when_mail_fails(): void
+    /** Từ chối thanh toán → thông báo payment_rejected kèm lý do. */
+    public function test_reject_payment_creates_in_app_notification(): void
     {
-        Mail::shouldReceive('send')->andThrow(new \Exception('SMTP connection refused'));
-
         $payment = $this->seedPendingPayment('TXN-NOTIF-002');
         $user = User::first();
 
@@ -93,8 +88,6 @@ class NotificationFlowTest extends TestCase
     /** Nhánh ví: trước đây không gửi gì — giờ phải trừ tiền + tạo thông báo. */
     public function test_wallet_payment_creates_in_app_notification(): void
     {
-        Mail::fake();
-
         $payment = $this->seedPendingPayment('TXN-NOTIF-003');
         $customer = Customers::first();
         $customer->update(['balance' => 500000]);

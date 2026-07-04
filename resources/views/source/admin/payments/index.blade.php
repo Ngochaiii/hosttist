@@ -143,7 +143,7 @@
                                                                                 <td>{{ $payment->invoice->vat_company_email ?? 'N/A' }}</td>
                                                                             </tr>
                                                                             <tr>
-                                                                                <th>VAT (10%)</th>
+                                                                                <th>VAT (8%)</th>
                                                                                 <td>{{ number_format($payment->invoice->tax_amount ?? 0, 0, ',', '.') }} đ</td>
                                                                             </tr>
                                                                         </table>
@@ -319,7 +319,7 @@
                                                                                 <div class="alert alert-warning">
                                                                                     <h6 class="mb-2">
                                                                                         <i class="fas fa-file-invoice"></i>
-                                                                                        <strong>Khách yêu cầu xuất hoá đơn VAT công ty (10%)</strong>
+                                                                                        <strong>Khách yêu cầu xuất hoá đơn VAT công ty (8%)</strong>
                                                                                     </h6>
                                                                                     <div class="row small">
                                                                                         <div class="col-md-6">

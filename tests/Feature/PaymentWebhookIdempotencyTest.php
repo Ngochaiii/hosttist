@@ -11,7 +11,6 @@ use App\Models\ServiceProvision;
 use App\Services\PaymentService;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
@@ -44,7 +43,6 @@ class PaymentWebhookIdempotencyTest extends TestCase
         ]);
         DB::purge('sqlite');
 
-        Mail::fake();
         $this->createSchema();
     }
 

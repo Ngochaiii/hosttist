@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Log;
 
 class ServiceLifecycleService extends BaseService
 {
-    public const RENEWAL_VAT_RATE = 0.10;
+    public const RENEWAL_VAT_RATE = 0.08;
 
     public function __construct(
         private PaymentService $paymentService,

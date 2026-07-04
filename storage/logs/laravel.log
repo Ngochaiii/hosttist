@@ -1865,3 +1865,41 @@ Content-Transfer-Encoding: quoted-printable
 [2026-07-03 16:39:14] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
 [2026-07-03 16:39:22] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
 [2026-07-03 16:39:22] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-04 01:51:06] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-04 01:51:06] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-04 01:51:06] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-04 01:51:06] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-04"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-04 02:00:42] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-04 02:00:42] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-04 02:00:42] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-04 02:00:42] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 

@@ -121,10 +121,10 @@
                         <input class="form-check-input" type="checkbox" id="vatInvoiceToggle"
                                {{ $vatInvoice ? 'checked' : '' }}>
                         <label class="form-check-label" for="vatInvoiceToggle">
-                            <strong>Xuất hoá đơn công ty (VAT 10%)</strong>
+                            <strong>Xuất hoá đơn công ty (VAT 8%)</strong>
                         </label>
                         <div class="small text-muted">
-                            Tick nếu cần xuất hoá đơn VAT. Tổng cộng sẽ cộng thêm 10% VAT.
+                            Tick nếu cần xuất hoá đơn VAT. Tổng cộng sẽ cộng thêm 8% VAT.
                         </div>
                     </div>
 

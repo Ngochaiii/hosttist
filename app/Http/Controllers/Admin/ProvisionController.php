@@ -8,7 +8,6 @@ use App\Models\ServiceProvision;
 use App\Services\AuditLogService;
 use App\Services\ProvisionService;
 use Illuminate\Http\Request;
-use App\Services\{ProvisionEmailService};
 
 class ProvisionController extends Controller
 {
@@ -406,36 +405,6 @@ class ProvisionController extends Controller
 
             default:
                 return $currentData;
-        }
-    }
-    // Thêm method mới để resend email:
-    public function resendEmail($id)
-    {
-        $provision = ServiceProvision::findOrFail($id);
-
-        try {
-            $success = $this->emailService->resendNotification($provision);
-
-            if ($success) {
-                AuditLogService::log($id, 'email_resent', ['admin_id' => auth()->id()]);
-
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Email thông báo đã được gửi lại.'
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Không thể gửi email thông báo.'
-                ]);
-            }
-        } catch (\Exception $e) {
-            AuditLogService::logError($id, 'resend_email_failed', $e->getMessage());
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Có lỗi xảy ra khi gửi email.'
-            ]);
         }
     }
 }

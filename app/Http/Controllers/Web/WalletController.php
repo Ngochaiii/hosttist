@@ -6,11 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Config;
 use App\Models\Customers;
-use App\Mail\DepositRequest;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Log;
 use App\Models\deposits;
 
 class WalletController extends Controller
@@ -59,15 +56,12 @@ class WalletController extends Controller
         // Lấy thông tin thanh toán - sử dụng fields có sẵn hoặc hard code
         $paymentInfo = $this->getPaymentInfo($config, $request->payment_method, $customer);
         
-        // Tạo deposit data đầy đủ cho session và email
+        // Tạo deposit data đầy đủ cho session
         $depositData = $this->createDepositData($transactionCode, $amounts, $request, $customer, $paymentInfo, $locale, $config);
-        
+
         // Lưu vào database
         $this->saveDeposit($transactionCode, $amounts, $request, $customer->id, $paymentInfo);
-        
-        // Gửi email
-        $this->sendDepositEmail($depositData, Auth::user()->email);
-        
+
         // Lưu session
         session(['deposit_data' => $depositData]);
 
@@ -309,17 +303,6 @@ class WalletController extends Controller
             'status' => 'pending',
             'payment_details' => $paymentDetails,
         ]);
-    }
-
-    private function sendDepositEmail(array $depositData, string $email): void
-    {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            try {
-                Mail::to($email)->send(new DepositRequest($depositData));
-            } catch (\Exception $e) {
-                Log::error('Email sending failed: ' . $e->getMessage());
-            }
-        }
     }
 
     private function getStatusInfo(deposits $deposit): array

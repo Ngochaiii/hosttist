@@ -21,9 +21,8 @@ class CustomerServiceReady extends Notification
     }
 
     /**
-     * Chỉ kênh database: email hoàn thành đã gửi qua ProvisionCompletedMail,
-     * giữ 'mail' ở đây sẽ gửi trùng 2 email — và khi SMTP lỗi, exception của
-     * kênh mail chặn luôn kênh database (mất thông báo UI).
+     * Chỉ kênh database — luồng email đã được gỡ bỏ, mọi thông báo
+     * hiển thị trên chuông thông báo UI.
      */
     public function via($notifiable)
     {

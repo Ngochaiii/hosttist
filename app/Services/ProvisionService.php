@@ -8,16 +8,10 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use App\Models\ServiceProvision;
 use App\Events\{ProvisionCreated, ProvisionCompleted, ProvisionFailed};
-use App\Services\{ProvisionEmailService, ServiceLifecycleService, OrderService};
+use App\Services\{ServiceLifecycleService, OrderService};
 
 class ProvisionService extends BaseService
 {
-    protected $emailService;
-    public function __construct()
-    {
-        $this->emailService = new ProvisionEmailService();
-    }
-
     /**
      * Handle specific provisioning logic based on product type
      *
@@ -588,7 +582,7 @@ class ProvisionService extends BaseService
         return $metaData;
     }
     /**
-     * Create new service provision with email notification
+     * Create new service provision with in-app notification
      */
     public function createServiceProvision(array $data): ServiceProvision
     {
@@ -606,7 +600,7 @@ class ProvisionService extends BaseService
                 'provision_notes' => $data['notes'] ?? null,
             ]);
 
-            // Fire event for email notifications
+            // Fire event for in-app notifications
             event(new ProvisionCreated($provision));
 
             $this->logActivity('Service provision created', [
@@ -620,7 +614,7 @@ class ProvisionService extends BaseService
     }
 
     /**
-     * Mark provision as completed with email notification
+     * Mark provision as completed with in-app notification
      */
     public function markProvisionCompleted(ServiceProvision $provision, array $data = []): bool
     {
@@ -655,7 +649,7 @@ class ProvisionService extends BaseService
                 app(OrderService::class)->updateOrderOnProvisionComplete($order->fresh()->load('items'));
             }
 
-            // Fire event for email notifications
+            // Fire event for in-app notifications
             event(new ProvisionCompleted($provision));
 
             $this->logActivity('Service provision completed', [
@@ -669,7 +663,7 @@ class ProvisionService extends BaseService
     }
 
     /**
-     * Mark provision as failed with email notification
+     * Mark provision as failed with in-app notification
      */
     public function markProvisionFailed(ServiceProvision $provision, string $reason): bool
     {
@@ -681,7 +675,7 @@ class ProvisionService extends BaseService
                 'provisioned_at' => now()
             ]);
 
-            // Fire event for email notifications
+            // Fire event for in-app notifications
             event(new ProvisionFailed($provision));
 
             $this->logActivity('Service provision failed', [

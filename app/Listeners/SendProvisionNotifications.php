@@ -3,58 +3,73 @@
 namespace App\Listeners;
 
 use App\Events\{ProvisionCreated, ProvisionCompleted, ProvisionFailed};
-use App\Mail\ProvisionCreated as ProvisionCreatedMail;
-use App\Mail\ProvisionCompleted as ProvisionCompletedMail;
-use App\Mail\ProvisionFailed as ProvisionFailedMail;
+use App\Notifications\CustomerAlert;
+use App\Notifications\CustomerServiceReady;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class SendProvisionNotifications
 {
     public function handleProvisionCreated(ProvisionCreated $event): void
     {
-        $this->dispatchMail($event->provision, ProvisionCreatedMail::class, 'created');
+        $provision = $event->provision;
+        $this->notify($provision, new CustomerAlert(
+            'provision_created',
+            'Yêu cầu thiết lập dịch vụ đã được tạo',
+            'Dịch vụ ' . ($provision->product->name ?? '#' . $provision->id)
+                . ' đang được thiết lập. Chúng tôi sẽ thông báo khi hoàn tất.',
+            route('customer.services.provision.show', $provision->id),
+            'info'
+        ), 'created');
     }
 
     public function handleProvisionCompleted(ProvisionCompleted $event): void
     {
-        $this->dispatchMail($event->provision, ProvisionCompletedMail::class, 'completed');
+        $provision = $event->provision;
+        $this->notify($provision, new CustomerServiceReady($provision), 'completed');
     }
 
     public function handleProvisionFailed(ProvisionFailed $event): void
     {
+        $provision = $event->provision;
         Log::warning('Provision failed', [
-            'provision_id'   => $event->provision->id,
-            'failure_reason' => $event->provision->failure_reason ?? null,
+            'provision_id'   => $provision->id,
+            'failure_reason' => $provision->failure_reason ?? null,
         ]);
-        $this->dispatchMail($event->provision, ProvisionFailedMail::class, 'failed');
+        $this->notify($provision, new CustomerAlert(
+            'provision_failed',
+            'Thiết lập dịch vụ gặp sự cố',
+            'Dịch vụ ' . ($provision->product->name ?? '#' . $provision->id)
+                . ' chưa thể thiết lập. Chúng tôi đang xử lý và sẽ liên hệ với bạn.',
+            route('customer.services.provision.show', $provision->id),
+            'danger'
+        ), 'failed');
     }
 
     /**
-     * Gửi mail tới email khách + admin (BCC). Không throw — email không được phép
+     * Gửi thông báo in-app cho khách. Không throw — thông báo không được phép
      * làm fail flow nghiệp vụ chính (provision/payment).
      */
-    private function dispatchMail($provision, string $mailClass, string $stage): void
+    private function notify($provision, $notification, string $stage): void
     {
         try {
-            $email = $provision->customer?->user?->email;
-            if (!$email) {
-                Log::warning('Provision email skip: no recipient', [
+            $user = $provision->customer?->user;
+            if (!$user) {
+                Log::warning('Provision notification skip: no user', [
                     'provision_id' => $provision->id,
                     'stage'        => $stage,
                 ]);
                 return;
             }
 
-            Mail::to($email)->queue(new $mailClass($provision));
+            $user->notify($notification);
 
-            Log::info('Provision email queued', [
+            Log::info('Provision notification sent', [
                 'provision_id' => $provision->id,
                 'stage'        => $stage,
-                'to'           => $email,
+                'user_id'      => $user->id,
             ]);
         } catch (\Throwable $e) {
-            Log::error('Provision email dispatch failed', [
+            Log::error('Provision notification failed', [
                 'provision_id' => $provision->id,
                 'stage'        => $stage,
                 'error'        => $e->getMessage(),

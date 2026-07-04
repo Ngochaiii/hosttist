@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\ServiceExpiryReminder;
 use App\Models\CustomerService;
+use App\Notifications\CustomerAlert;
 use App\Services\ServiceLifecycleService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class CheckServiceExpiry extends Command
 {
@@ -73,23 +72,31 @@ class CheckServiceExpiry extends Command
 
         $sent = 0;
         foreach ($services as $service) {
-            $email = $service->customer->user->email ?? null;
+            $user = $service->customer->user ?? null;
 
-            if (!$email) {
-                Log::warning("CheckServiceExpiry: không tìm thấy email cho service #{$service->id}");
+            if (!$user) {
+                Log::warning("CheckServiceExpiry: không tìm thấy user cho service #{$service->id}");
                 continue;
             }
 
             try {
-                Mail::to($email)->queue(new ServiceExpiryReminder($service, $days));
+                $user->notify(new CustomerAlert(
+                    'service_expiry',
+                    'Dịch vụ sắp hết hạn (' . $days . ' ngày)',
+                    'Dịch vụ ' . ($service->product->name ?? '#' . $service->id)
+                        . ' sẽ hết hạn ngày ' . $service->expires_at->format('d/m/Y')
+                        . '. Vui lòng gia hạn để không bị gián đoạn.',
+                    route('customer.services.service.renew.quote', $service->id),
+                    $days <= 7 ? 'warning' : 'info'
+                ));
                 $service->update([$notifiedField => now()]);
-                $this->line("  📧 Đã gửi nhắc {$days}d: service #{$service->id} → {$email}");
+                $this->line("  🔔 Đã nhắc {$days}d: service #{$service->id} → user #{$user->id}");
                 $sent++;
             } catch (\Exception $e) {
-                Log::error("CheckServiceExpiry: gửi email thất bại cho service #{$service->id}: " . $e->getMessage());
+                Log::error("CheckServiceExpiry: gửi thông báo thất bại cho service #{$service->id}: " . $e->getMessage());
             }
         }
 
-        $this->info("Đã gửi {$sent} email nhắc {$days} ngày.");
+        $this->info("Đã gửi {$sent} thông báo nhắc {$days} ngày.");
     }
 }

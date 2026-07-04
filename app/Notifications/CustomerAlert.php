@@ -7,10 +7,7 @@ use Illuminate\Notifications\Notification;
 
 /**
  * Thông báo in-app (kênh database) hiển thị trên chuông thông báo của khách.
- *
- * CHỦ ĐÍCH chỉ dùng kênh 'database' — email đã được gửi riêng qua
- * EmailService/Mailable. Tách 2 kênh để SMTP lỗi không bao giờ làm mất
- * thông báo trên UI (và ngược lại).
+ * Chỉ dùng kênh 'database' — luồng email đã được gỡ bỏ khỏi hệ thống.
  */
 class CustomerAlert extends Notification
 {

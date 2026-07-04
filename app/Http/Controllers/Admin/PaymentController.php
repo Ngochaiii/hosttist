@@ -255,8 +255,8 @@ class PaymentController extends Controller
                 }
             }
 
-            // Luôn gửi email xác nhận thanh toán cho khách sau khi approve
-            $this->emailService->sendPaymentApprovedEmail(
+            // Luôn gửi thông báo in-app xác nhận thanh toán cho khách sau khi approve
+            $this->emailService->notifyPaymentApproved(
                 $payment->fresh()->load(['order.customer.user', 'order.items', 'invoice'])
             );
 
@@ -458,8 +458,8 @@ class PaymentController extends Controller
             $result = $this->paymentService->approvePayment($payment, Auth::id());
 
             if ($result['success']) {
-                // Gửi email xác nhận
-                $this->emailService->sendPaymentApprovedEmail(
+                // Thông báo in-app xác nhận
+                $this->emailService->notifyPaymentApproved(
                     $payment->fresh()->load(['order.customer.user', 'order.items', 'invoice'])
                 );
 

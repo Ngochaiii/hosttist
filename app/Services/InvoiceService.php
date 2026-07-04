@@ -12,14 +12,14 @@ use Exception;
 class InvoiceService extends BaseService
 {
     // VAT chỉ áp dụng khi khách yêu cầu xuất hoá đơn công ty.
-    public const VAT_RATE_COMPANY = 0.10;
+    public const VAT_RATE_COMPANY = 0.08;
     public const DISCOUNT_RATE    = 0.0;
 
     /**
      * Compute canonical quote amounts for a cart.
      *
      * @param Cart $cart
-     * @param bool $vatInvoice  true nếu khách yêu cầu xuất hoá đơn công ty (áp VAT 10%)
+     * @param bool $vatInvoice  true nếu khách yêu cầu xuất hoá đơn công ty (áp VAT 8%)
      */
     public function computeQuoteAmounts(Cart $cart, bool $vatInvoice = false): array
     {

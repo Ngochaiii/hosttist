@@ -162,8 +162,8 @@ class PaymentService extends BaseService
             // Update payment status
             $this->updatePaymentStatus($payment, 'failed', $verifiedBy, "Rejected: {$reason}");
 
-            // Send rejection email
-            $this->emailService->sendPaymentRejectedEmail($payment, $reason);
+            // Thông báo in-app cho khách
+            $this->emailService->notifyPaymentRejected($payment, $reason);
 
             $this->logActivity('Payment rejected', [
                 'payment_id' => $payment->id,
@@ -239,10 +239,10 @@ class PaymentService extends BaseService
                 // processCompletedOrder đã tự set order.status = 'processing' khi có provision
             }
 
-            // Gửi email + thông báo in-app xác nhận cho khách (nhánh wallet trước đây
+            // Thông báo in-app xác nhận cho khách (nhánh wallet trước đây
             // không gửi gì cả). EmailService tự nuốt lỗi nên không rollback transaction.
             try {
-                $this->emailService->sendPaymentApprovedEmail(
+                $this->emailService->notifyPaymentApproved(
                     $payment->fresh()->load(['order.customer.user', 'order.items', 'invoice'])
                 );
             } catch (\Exception $e) {
@@ -523,12 +523,12 @@ class PaymentService extends BaseService
                 }
             }
 
-            // Gửi email xác nhận cho khách
+            // Thông báo in-app xác nhận cho khách
             try {
-                $this->emailService->sendPaymentApprovedEmail($payment->fresh());
+                $this->emailService->notifyPaymentApproved($payment->fresh());
             } catch (\Exception $e) {
-                // Email lỗi không nên rollback cả transaction
-                Log::error('confirmPaymentFromGateway: gửi email thất bại', [
+                // Thông báo lỗi không nên rollback cả transaction
+                Log::error('confirmPaymentFromGateway: gửi thông báo thất bại', [
                     'payment_id' => $payment->id,
                     'error'      => $e->getMessage(),
                 ]);

@@ -209,10 +209,10 @@
                         <input class="form-check-input" type="checkbox" id="vatInvoiceToggle"
                                {{ !empty($vatInvoice) ? 'checked' : '' }}>
                         <label class="form-check-label" for="vatInvoiceToggle">
-                            <strong>Xuất hoá đơn công ty (VAT 10%)</strong>
+                            <strong>Xuất hoá đơn công ty (VAT 8%)</strong>
                         </label>
                         <div class="small text-muted">
-                            Tick vào ô này nếu bạn cần xuất hoá đơn VAT cho công ty. Tổng cộng sẽ cộng thêm 10% VAT.
+                            Tick vào ô này nếu bạn cần xuất hoá đơn VAT cho công ty. Tổng cộng sẽ cộng thêm 8% VAT.
                         </div>
                     </div>
 
@@ -257,23 +257,16 @@
                 </div>
             </div>
 
-            <!-- Nút tải PDF và gửi email -->
+            <!-- Nút tải PDF và thanh toán -->
             <div class="row mb-4">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <a href="{{ route('quote.download') }}" id="downloadPdfBtn"
                        class="btn btn-outline-primary btn-block">
                         <i class="fa fa-download mr-2"></i> Tải PDF báo giá
                     </a>
                 </div>
 
-                <div class="col-md-4">
-                    <a href="{{ route('quote.email') }}" id="emailQuoteBtn"
-                       class="btn btn-outline-info btn-block">
-                        <i class="fa fa-envelope mr-2"></i> Gửi báo giá qua email
-                    </a>
-                </div>
-
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <form action="{{ route('process.payment') }}" method="post" id="paymentForm">
                         @csrf
                         <input type="hidden" name="vat_invoice" id="vatInvoiceHidden" value="{{ !empty($vatInvoice) ? '1' : '0' }}">
@@ -315,7 +308,6 @@
                     const fields = document.getElementById('vatCompanyFields');
                     const hidden = document.getElementById('vatInvoiceHidden');
                     const dlBtn  = document.getElementById('downloadPdfBtn');
-                    const emBtn  = document.getElementById('emailQuoteBtn');
                     const quoteUrl = @json(route('quote'));
 
                     function apply() {
@@ -324,7 +316,6 @@
                         hidden.value = on ? '1' : '0';
                         const qs = on ? '?vat_invoice=1' : '';
                         dlBtn.href = @json(route('quote.download')) + qs;
-                        emBtn.href = @json(route('quote.email'))    + qs;
                     }
                     toggle.addEventListener('change', function () {
                         apply();
