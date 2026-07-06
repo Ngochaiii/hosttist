@@ -26,6 +26,11 @@ class ConfigController extends Controller
     public function updatePaymentSettings(Request $request)
     {
         $request->validate([
+            'company_name' => 'nullable|string|max:255',
+            'company_tax_code' => 'nullable|string|max:50',
+            'company_address' => 'nullable|string|max:255',
+            'company_phone' => 'nullable|string|max:30',
+            'company_email' => 'nullable|email|max:255',
             'company_bank_name' => 'nullable|string|max:255',
             'company_bank_account_number' => 'nullable|string|max:50',
             'company_bank_account_name' => 'nullable|string|max:255',
@@ -57,6 +62,11 @@ class ConfigController extends Controller
 
         // Chuẩn bị dữ liệu cập nhật
         $updateData = [
+            'company_name' => $request->company_name,
+            'company_tax_code' => $request->company_tax_code,
+            'company_address' => $request->company_address,
+            'company_phone' => $request->company_phone,
+            'company_email' => $request->company_email,
             'company_bank_name' => $request->company_bank_name,
             'company_bank_account_number' => $request->company_bank_account_number,
             'company_bank_account_name' => $request->company_bank_account_name,

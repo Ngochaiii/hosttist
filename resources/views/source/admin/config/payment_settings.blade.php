@@ -37,6 +37,59 @@
                 @endif
 
                 <div class="row">
+                    <!-- Thông tin công ty (in trên báo giá) -->
+                    <div class="col-md-12">
+                        <div class="card card-secondary">
+                            <div class="card-header">
+                                <h3 class="card-title">Thông tin công ty (hiển thị trên báo giá PDF)</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="company_name">Tên công ty</label>
+                                            <input type="text" class="form-control" id="company_name"
+                                                name="company_name"
+                                                value="{{ old('company_name', $config->company_name) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="company_tax_code">Mã số thuế</label>
+                                            <input type="text" class="form-control" id="company_tax_code"
+                                                name="company_tax_code"
+                                                value="{{ old('company_tax_code', $config->company_tax_code) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="company_address">Địa chỉ</label>
+                                            <input type="text" class="form-control" id="company_address"
+                                                name="company_address"
+                                                value="{{ old('company_address', $config->company_address) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="company_phone">Điện thoại</label>
+                                            <input type="text" class="form-control" id="company_phone"
+                                                name="company_phone"
+                                                value="{{ old('company_phone', $config->company_phone) }}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="company_email">Email</label>
+                                            <input type="text" class="form-control" id="company_email"
+                                                name="company_email"
+                                                value="{{ old('company_email', $config->company_email) }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Ngân hàng -->
                     <div class="col-md-6">
                         <div class="card card-primary">

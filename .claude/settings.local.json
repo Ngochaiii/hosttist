@@ -262,7 +262,11 @@
       "Bash(grep -rn '\\\\$categories' '/Users/Shared/dự án /hostist-vps/resources/views/source/web/homepage/' '/Users/Shared/dự án /hostist-vps/resources/views/layouts/web/')",
       "Bash(php -l app/Http/Controllers/Web/HomepageController.php)",
       "Bash(php -l app/Models/Products.php)",
-      "WebFetch(domain:longvan.net)"
+      "WebFetch(domain:longvan.net)",
+      "Bash(python3 -c \"import pypdf; print\\('pypdf ok'\\)\")",
+      "Bash(python3 -c \"import fitz; print\\('pymupdf ok'\\)\")",
+      "Bash(brew install *)",
+      "Bash(python3 -)"
     ]
   }
 }

@@ -1,502 +1,361 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Báo Giá Dịch Vụ</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<title>Báo giá {{ $quoteNumber }}</title>
+<style>
+    @page { margin: 18px 22px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'DejaVu Sans', sans-serif;
+        font-size: 10px;
+        color: #1a1a2e;
+        line-height: 1.45;
+    }
+    /* Khung viền ngoài kiểu hoá đơn — min-height để viền phủ kín trang A4 */
+    .frame {
+        border: 3px double #2c5aa0;
+        padding: 14px 16px;
+        min-height: 1660px; /* ~cao A4 với dpi 150 của dompdf */
+        position: relative;
+    }
+    table { width: 100%; border-collapse: collapse; }
 
-        body {
-            font-family: 'DejaVu Sans', Arial, sans-serif;
-            font-size: 12px;
-            line-height: 1.4;
-            background: white;
-            color: #333;
-        }
+    /* ===== Header ===== */
+    .header td { vertical-align: top; }
+    .brand {
+        font-size: 15px;
+        font-weight: bold;
+        color: #2c5aa0;
+        text-transform: uppercase;
+    }
+    .brand-sub { font-size: 8.5px; color: #666; }
+    .doc-title {
+        text-align: center;
+        font-size: 19px;
+        font-weight: bold;
+        letter-spacing: 2px;
+        color: #1a1a2e;
+    }
+    .doc-date { text-align: center; font-style: italic; font-size: 10px; margin-top: 2px; }
+    .doc-meta { font-size: 9.5px; text-align: left; }
+    .doc-meta .num { color: #c0392b; font-weight: bold; }
 
-        .container {
-            max-width: 210mm;
-            margin: 0 auto;
-            padding: 20px;
-            background: white;
-        }
+    /* ===== Khối bên bán / bên mua ===== */
+    .party {
+        border-top: 1px solid #444;
+        padding: 6px 0;
+    }
+    .party-last { border-bottom: 1px solid #444; }
+    .party .name {
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #1a1a2e;
+    }
+    .party td { vertical-align: top; }
+    .party .line { padding: 1px 0; }
+    .party .lbl { color: #444; }
+    .qr-cell { width: 88px; text-align: right; }
+    .qr-cell img { width: 82px; height: 82px; }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            position: relative;
-        }
+    /* ===== Bảng hàng hoá ===== */
+    .items { margin-top: 10px; }
+    .items th {
+        border: 1px solid #444;
+        background: #eef3fa;
+        padding: 5px 4px;
+        font-size: 9.5px;
+        text-align: center;
+    }
+    .items td {
+        border: 1px solid #444;
+        padding: 5px 4px;
+        vertical-align: top;
+    }
+    .items .c { text-align: center; }
+    .items .r { text-align: right; }
+    .item-name { font-weight: bold; }
+    .item-detail { color: #555; font-size: 8.5px; padding-top: 2px; }
 
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    /* ===== Tổng hợp ===== */
+    .summary { margin-top: -1px; }
+    .summary td {
+        border: 1px solid #444;
+        padding: 5px 6px;
+    }
+    .summary .lbl { width: 55%; }
+    .summary .val { text-align: right; }
+    .summary .grand td {
+        font-weight: bold;
+        font-size: 11px;
+        background: #eef3fa;
+    }
+    .in-words {
+        border: 1px solid #444;
+        border-top: none;
+        padding: 5px 6px;
+        font-size: 10px;
+    }
+    .in-words em { font-weight: bold; }
 
-        .logo {
-            width: 60px;
-            height: 40px;
-            background: linear-gradient(45deg, #ff6b35, #4dabf7, #69db7c);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 8px;
-            text-align: center;
-            border-radius: 4px;
-        }
+    /* ===== Thanh toán / điều khoản ===== */
+    .pay-box {
+        margin-top: 10px;
+        border: 1px solid #2c5aa0;
+        padding: 7px 9px;
+    }
+    .pay-box .title {
+        font-weight: bold;
+        color: #2c5aa0;
+        text-transform: uppercase;
+        font-size: 10px;
+        margin-bottom: 3px;
+    }
+    .terms { margin-top: 8px; font-size: 8.8px; color: #444; }
+    .terms .title { font-weight: bold; color: #1a1a2e; font-size: 9.5px; }
+    .terms ol { margin: 3px 0 0 14px; }
+    .terms li { margin-bottom: 1px; }
 
-        .company-info {
-            font-size: 14px;
-            font-weight: bold;
-            color: #4dabf7;
-        }
-
-        .stamp {
-            position: absolute;
-            top: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 120px;
-            height: 120px;
-            border: 3px solid #e74c3c;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
-            color: #e74c3c;
-            font-weight: bold;
-            text-align: center;
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        .quote-title {
-            position: absolute;
-            top: 0;
-            right: 0;
-            text-align: right;
-        }
-
-        .quote-title h1 {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .quote-date {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .company-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 40px 0 20px 0;
-        }
-
-        .company-box {
-            border: 1px solid #ddd;
-            padding: 15px;
-            background: #f9f9f9;
-            border-radius: 4px;
-        }
-
-        .company-box h3 {
-            font-size: 12px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            background: #e9ecef;
-            padding: 5px;
-            text-align: center;
-            border-radius: 2px;
-        }
-
-        .company-details-content {
-            font-size: 10px;
-            line-height: 1.6;
-        }
-
-        .quotation-content {
-            margin-top: 20px;
-        }
-
-        .section-title {
-            background: #6c757d;
-            color: white;
-            padding: 8px;
-            font-weight: bold;
-            font-size: 11px;
-            margin-bottom: 10px;
-            text-align: center;
-            border-radius: 4px;
-        }
-
-        .quotation-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 10px;
-            margin-bottom: 20px;
-        }
-
-        .quotation-table th,
-        .quotation-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-            vertical-align: top;
-        }
-
-        .quotation-table th {
-            background: #f8f9fa;
-            font-weight: bold;
-            font-size: 9px;
-        }
-
-        .quotation-table td:first-child {
-            text-align: left;
-        }
-
-        .item-details {
-            text-align: left;
-            font-size: 9px;
-            line-height: 1.5;
-        }
-
-        .price-column {
-            text-align: right;
-            font-weight: bold;
-        }
-
-        .total-section {
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-        }
-
-        .total-row {
-            background: #e9ecef;
-        }
-
-        .payment-info {
-            display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            background-color: #f8f9fa;
-            padding: 15px;
-            border: 1px solid #e9ecef;
-            margin: 20px 0;
-            border-radius: 4px;
-        }
-
-        .payment-details {
-            flex: 1;
-        }
-
-        .payment-details table {
-            margin: 0;
-            width: 100%;
-        }
-
-        .payment-details td {
-            border: none;
-            padding: 8px 0;
-        }
-
-        .qr-section {
-            flex: 0 0 200px;
-            text-align: center;
-        }
-
-        .qr-code {
-            width: 150px;
-            height: 150px;
-            margin: 0 auto;
-        }
-
-        .qr-code img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .footer {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            text-align: center;
-            font-size: 11px;
-            color: #666;
-        }
-
-        @media print {
-            .container {
-                max-width: none;
-                padding: 10px;
-            }
-        }
-    </style>
+    /* ===== Chữ ký ===== */
+    .signs { margin-top: 16px; }
+    .signs td { width: 50%; text-align: center; vertical-align: top; }
+    .signs .role { font-weight: bold; font-size: 10.5px; }
+    .signs .hint { font-style: italic; font-size: 8.8px; color: #555; }
+    .footer {
+        position: absolute;
+        bottom: 12px;
+        left: 16px;
+        right: 16px;
+        border-top: 1px solid #999;
+        padding-top: 5px;
+        text-align: center;
+        font-size: 8.8px;
+        color: #555;
+    }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <div class="logo-section">
-                <div class="logo">LOGO</div>
-                <div>
-                    <div class="company-info">{{ $config->company_name ?? 'CÔNG TY CỦA BẠN' }}</div>
-                    <div style="font-size: 10px; color: #666;">Technology Solutions</div>
-                </div>
-            </div>
-            
-            @if($config && $config->company_tax_code)
-            <div class="stamp">
-                <div>MST: {{ $config->company_tax_code }}</div>
-                <div style="margin: 5px 0;">★★★</div>
-                <div>{{ strtoupper($config->company_name ?? 'CÔNG TY') }}</div>
-            </div>
-            @endif
+@php
+    $companyName  = $config->company_name ?: ($config->site_name ?? 'Công ty chúng tôi');
+    $sellerEmail  = $config->company_email;
+    $sellerPhone  = $config->company_phone;
+    $website      = $config->url ? preg_replace('#^https?://#', '', rtrim($config->url, '/')) : null;
+    $now          = \Carbon\Carbon::now();
+@endphp
+<div class="frame">
 
-            <div class="quote-title">
-                <h1>
-                    @if(isset($invoice))
-                        HÓA ĐƠN
-                    @else
-                        BÁO GIÁ
-                    @endif
-                </h1>
-                <div class="quote-date">
-                    @if(isset($invoice))
-                        MÃ: {{ $invoice->invoice_number }}<br>
-                    @else
-                        MÃ: {{ $quoteNumber }}<br>
-                    @endif
-                    NGÀY TẠO: {{ $quoteDate }}<br>
-                    HẾT HẠN: {{ $expireDate }}
-                </div>
-            </div>
-        </div>
-
-        <div class="company-details">
-            <div class="company-box">
-                <h3>BÊN CUNG CẤP DỊCH VỤ</h3>
-                <div class="company-details-content">
-                    <strong>{{ $config->company_name ?? 'CÔNG TY TNHH DỊCH VỤ' }}</strong><br>
-                    @if($config->company_address)
-                        Địa chỉ: {{ $config->company_address }}<br>
-                    @endif
-                    @if($config->support_phone)
-                        Điện thoại: {{ $config->support_phone }}<br>
-                    @endif
-                    @if($config->support_email)
-                        Email: {{ $config->support_email }}<br>
-                    @endif
-                    @if($config->company_website)
-                        Website: {{ $config->company_website }}
-                    @endif
-                </div>
-            </div>
-
-            <div class="company-box">
-                <h3>KHÁCH HÀNG</h3>
-                <div class="company-details-content">
-                    <strong>{{ $user->name ?? 'KHÁCH HÀNG' }}</strong><br>
-                    @if($user->customer)
-                        @if($user->customer->company_name)
-                            Công ty: {{ $user->customer->company_name }}<br>
-                        @endif
-                        @if($user->customer->address)
-                            Địa chỉ: {{ $user->customer->address }}<br>
-                        @endif
-                    @endif
-                    @if($user->phone)
-                        Điện thoại: {{ $user->phone }}<br>
-                    @endif
-                    Email: {{ $user->email }}
-                </div>
-            </div>
-        </div>
-
-        <div class="quotation-content">
-            <div class="section-title">
-                NỘI DUNG: 
-                @if(isset($invoice))
-                    CHI TIẾT HÓA ĐƠN DỊCH VỤ
-                @else
-                    BÁO GIÁ DỊCH VỤ
+    {{-- ===== HEADER ===== --}}
+    <table class="header">
+        <tr>
+            <td style="width: 28%;">
+                <div class="brand">{{ $companyName }}</div>
+                @if ($website)
+                    <div class="brand-sub">{{ $website }}</div>
                 @endif
-            </div>
+            </td>
+            <td style="width: 44%;">
+                <div class="doc-title">BÁO GIÁ</div>
+                <div class="doc-date">Ngày {{ $now->format('d') }} tháng {{ $now->format('m') }} năm {{ $now->format('Y') }}</div>
+            </td>
+            <td style="width: 28%;">
+                <div class="doc-meta">
+                    Số: <span class="num">{{ $quoteNumber }}</span><br>
+                    Hiệu lực đến: <strong>{{ $expireDate }}</strong>
+                </div>
+            </td>
+        </tr>
+    </table>
 
-            <table class="quotation-table">
-                <thead>
-                    <tr>
-                        <th style="width: 60%;">SẢN PHẨM / DỊCH VỤ</th>
-                        <th style="width: 15%; text-align: center;">THỜI HẠN</th>
-                        <th style="width: 25%; text-align: right;">THÀNH TIỀN (VNĐ)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $items = isset($invoice) ? $invoice->order->items : $cart->items;
-                    @endphp
-                    
-                    @foreach($items as $item)
+    {{-- ===== BÊN BÁN ===== --}}
+    <table class="party" style="margin-top: 8px;">
+        <tr>
+            <td>
+                <div class="name">{{ $companyName }}</div>
+                @if ($config->company_tax_code)
+                    <div class="line"><span class="lbl">Mã số thuế:</span> {{ $config->company_tax_code }}</div>
+                @endif
+                @if ($config->company_address)
+                    <div class="line"><span class="lbl">Địa chỉ:</span> {{ $config->company_address }}</div>
+                @endif
+                @if ($sellerPhone)
+                    <div class="line"><span class="lbl">Điện thoại:</span> {{ $sellerPhone }}</div>
+                @endif
+                @if ($sellerEmail)
+                    <div class="line"><span class="lbl">Email:</span> {{ $sellerEmail }}</div>
+                @endif
+                @if (!empty($bank['account_number']))
+                    <div class="line">
+                        <span class="lbl">Số tài khoản:</span>
+                        {{ $bank['account_number'] }} - {{ $bank['name'] }}{{ !empty($bank['branch']) ? ' - ' . $bank['branch'] : '' }}
+                    </div>
+                @endif
+            </td>
+            @if (!empty($qrBase64))
+                <td class="qr-cell"><img src="{{ $qrBase64 }}" alt="QR thanh toán"></td>
+            @endif
+        </tr>
+    </table>
+
+    {{-- ===== BÊN MUA ===== --}}
+    <table class="party party-last">
+        <tr>
+            <td>
+                <div class="line"><span class="lbl">Kính gửi:</span> <strong>{{ $user->name ?? 'Quý khách hàng' }}</strong></div>
+                @if (!empty($user->email))
+                    <div class="line"><span class="lbl">Email:</span> {{ $user->email }}</div>
+                @endif
+                <div class="line">
+                    <span class="lbl">Hình thức thanh toán:</span>
+                    @if ($vatInvoice)
+                        <strong>Chuyển khoản — xuất hoá đơn GTGT (thuế suất {{ (int) round($vatRate * 100) }}%)</strong>
+                    @else
+                        Chuyển khoản / Ví — thanh toán thường (không xuất hoá đơn GTGT)
+                    @endif
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    {{-- ===== BẢNG HÀNG HOÁ, DỊCH VỤ ===== --}}
+    <table class="items">
+        <thead>
+            <tr>
+                <th style="width: 5%;">STT</th>
+                <th>Tên hàng hóa, dịch vụ</th>
+                <th style="width: 9%;">Đơn vị<br>tính</th>
+                <th style="width: 8%;">Số<br>lượng</th>
+                <th style="width: 13%;">Đơn giá<br>(VNĐ)</th>
+                <th style="width: 13%;">Thành tiền<br>(VNĐ)</th>
+                @if ($vatInvoice)
+                    <th style="width: 8%;">Thuế suất<br>GTGT</th>
+                    <th style="width: 12%;">Tiền thuế GTGT<br>(VNĐ)</th>
+                @endif
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($cart->items as $i => $item)
+                @php
+                    $options   = json_decode($item->options, true) ?: [];
+                    $period    = $options['period'] ?? null;
+                    $domain    = $options['domain'] ?? null;
+                    $type      = $item->product->type ?? null;
+                    $unit      = match ($type) {
+                        'domain'  => 'Tên miền',
+                        'ssl'     => 'Chứng thư',
+                        'hosting' => 'Gói',
+                        default   => 'Gói',
+                    };
+                    $unitPrice = (float) ($item->unit_price ?? $item->price ?? 0);
+                    $lineTotal = (float) ($item->subtotal ?? $unitPrice * $item->quantity);
+                    $lineVat   = $vatInvoice ? round($lineTotal * $vatRate) : 0;
+                @endphp
+                <tr>
+                    <td class="c">{{ $i + 1 }}</td>
+                    <td>
+                        <div class="item-name">{{ $item->product->name ?? $item->name }}</div>
                         @php
-                            $options = json_decode($item->options, true) ?: [];
-                            $period = $options['period'] ?? $item->duration ?? 1;
-                            $productName = isset($item->product) ? $item->product->name : ($item->name ?? 'Sản phẩm');
-                            $domain = $item->domain ?? ($options['domain'] ?? null);
-                            
-                            // Get product details
-                            $productDetails = [];
-                            if(isset($item->product)) {
-                                if($item->product->type == 'ssl') {
-                                    $productDetails[] = "• Domain: " . ($domain ?: 'www.domain.com');
-                                    $productDetails[] = "• Loại SSL: " . $item->product->name;
-                                    $productDetails[] = "• Thời hạn: $period năm";
-                                }
-                                elseif($item->product->type == 'hosting') {
-                                    $productDetails[] = "• Domain: " . ($domain ?: 'www.nissan.net');
-                                    $productDetails[] = "• Dung lượng: " . ($item->product->disk_space ?? '10GB') . " SSD";
-                                    $productDetails[] = "• Băng thông: " . ($item->product->bandwidth ?? 'Unlimited');
-                                    $productDetails[] = "• Email: " . ($item->product->email_accounts ?? '50') . " tài khoản";
-                                    $productDetails[] = "• Database: " . ($item->product->databases ?? '10') . " MySQL";
-                                    $productDetails[] = "• Control Panel: cPanel";
-                                }
-                                elseif($item->product->type == 'vps') {
-                                    $productDetails[] = "• CPU: " . ($item->product->cpu_cores ?? '2') . " vCPU";
-                                    $productDetails[] = "• RAM: " . ($item->product->ram ?? '4') . "GB";
-                                    $productDetails[] = "• SSD: " . ($item->product->disk_space ?? '80') . "GB";
-                                    $productDetails[] = "• Băng thông: " . ($item->product->bandwidth ?? '2TB');
-                                    $productDetails[] = "• IP: 1 IPv4";
-                                    $productDetails[] = "• OS: " . ($item->product->os ?? 'CentOS/Ubuntu');
-                                }
-                            }
+                            $detailParts = array_filter([
+                                $domain ? 'Tên miền: ' . $domain : null,
+                                $period ? 'Thời hạn: ' . $period . ' năm' : null,
+                            ]);
                         @endphp
-                        <tr>
-                            <td class="item-details">
-                                <strong>{{ $productName }}</strong><br>
-                                @if(!empty($productDetails))
-                                    <div style="margin-top: 5px; color: #666; font-size: 9px; line-height: 1.4;">
-                                        {!! implode('<br>', $productDetails) !!}
-                                    </div>
-                                @elseif($domain)
-                                    <div style="margin-top: 5px; color: #666; font-size: 9px;">
-                                        • Domain: {{ $domain }}
-                                    </div>
-                                @endif
-                            </td>
-                            <td style="text-align: center;">{{ $period }} năm</td>
-                            <td class="price-column">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                        </tr>
-                    @endforeach
-                    
-                    <tr class="total-section">
-                        <td colspan="2" style="text-align: right; font-weight: bold;">Tổng cộng</td>
-                        <td class="price-column">{{ number_format($subtotal, 0, ',', '.') }}</td>
-                    </tr>
-                    
-                    @if($vatAmount > 0)
-                    <tr class="total-section">
-                        <td colspan="2" style="text-align: right;">Thuế VAT {{ $vatRate }}%</td>
-                        <td class="price-column">{{ number_format($vatAmount, 0, ',', '.') }}</td>
-                    </tr>
+                        @if ($detailParts)
+                            <div class="item-detail">{{ implode(' | ', $detailParts) }}</div>
+                        @endif
+                    </td>
+                    <td class="c">{{ $unit }}</td>
+                    <td class="c">{{ $item->quantity }}</td>
+                    <td class="r">{{ number_format($unitPrice, 0, ',', '.') }}</td>
+                    <td class="r">{{ number_format($lineTotal, 0, ',', '.') }}</td>
+                    @if ($vatInvoice)
+                        <td class="c">{{ (int) round($vatRate * 100) }}%</td>
+                        <td class="r">{{ number_format($lineVat, 0, ',', '.') }}</td>
                     @endif
-                    
-                    <tr class="total-row">
-                        <td colspan="2" style="text-align: right; font-weight: bold; font-size: 11px;">TỔNG THANH TOÁN</td>
-                        <td class="price-column" style="font-weight: bold; font-size: 11px;">{{ number_format($total, 0, ',', '.') }}</td>
-                    </tr>
-                </tbody>
-            </table>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-            <div class="section-title">THÔNG TIN THANH TOÁN</div>
-
-            <div class="payment-info">
-                <div class="payment-details">
-                    <table>
-                        <tr>
-                            <td style="width: 35%; font-weight: bold;">Số tiền:</td>
-                            <td style="color: #dc3545; font-weight: bold; font-size: 14px;">
-                                {{ number_format($total, 0, ',', '.') }} VNĐ
-                            </td>
-                        </tr>
-                        @if(!empty($bank['name']))
-                        <tr>
-                            <td style="font-weight: bold;">Ngân hàng:</td>
-                            <td>{{ $bank['name'] }}</td>
-                        </tr>
-                        @endif
-                        @if(!empty($bank['account_number']))
-                        <tr>
-                            <td style="font-weight: bold;">Số tài khoản:</td>
-                            <td style="font-weight: bold; color: #007bff;">{{ $bank['account_number'] }}</td>
-                        </tr>
-                        @endif
-                        @if(!empty($bank['account_name']))
-                        <tr>
-                            <td style="font-weight: bold;">Chủ tài khoản:</td>
-                            <td>{{ $bank['account_name'] }}</td>
-                        </tr>
-                        @endif
-                        <tr>
-                            <td style="font-weight: bold;">Nội dung CK:</td>
-                            <td style="color: #28a745; font-weight: bold;">
-                                @if(isset($invoice))
-                                    ThanhToan{{ $invoice->invoice_number }}
-                                @else
-                                    {{ $quoteNumber }}
-                                @endif
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style="font-weight: bold;">Hạn thanh toán:</td>
-                            <td style="color: #dc3545; font-weight: bold;">{{ $expireDate }}</td>
-                        </tr>
-                    </table>
-                </div>
-
-                @if(isset($qrBase64))
-                <div class="qr-section">
-                    <div class="qr-code">
-                        <img src="{{ $qrBase64 }}" alt="QR Code thanh toán">
-                    </div>
-                    <div style="margin-top: 10px; font-size: 10px; color: #666;">
-                        Quét mã QR để thanh toán nhanh
-                    </div>
-                </div>
-                @endif
-            </div>
-        </div>
-
-        <div class="footer">
-            <p style="margin: 5px 0;"><strong>Cảm ơn quý khách đã tin tưởng dịch vụ của chúng tôi!</strong></p>
-            @if($config->support_email || $config->support_phone)
-            <p style="margin: 5px 0;">
-                Mọi thắc mắc xin liên hệ: 
-                {{ $config->support_email ?? '' }} 
-                @if($config->support_phone)
-                    | {{ $config->support_phone }}
-                @endif
-            </p>
-            @endif
-            <p style="margin: 5px 0;">
-                @if(isset($invoice))
-                    Hóa đơn này có hiệu lực đến ngày {{ $expireDate }}
-                @else
-                    Báo giá này có hiệu lực đến ngày {{ $expireDate }}
-                @endif
-            </p>
-        </div>
+    {{-- ===== TỔNG HỢP ===== --}}
+    <table class="summary">
+        <tr>
+            <td class="lbl">Cộng tiền hàng, dịch vụ (chưa gồm thuế GTGT)</td>
+            <td class="val">{{ number_format($subtotal, 0, ',', '.') }} VNĐ</td>
+        </tr>
+        @if ($discount > 0)
+            <tr>
+                <td class="lbl">Chiết khấu</td>
+                <td class="val">-{{ number_format($discount, 0, ',', '.') }} VNĐ</td>
+            </tr>
+        @endif
+        @if ($vatInvoice)
+            <tr>
+                <td class="lbl">Tiền thuế GTGT (thuế suất {{ (int) round($vatRate * 100) }}%)</td>
+                <td class="val">{{ number_format($vat, 0, ',', '.') }} VNĐ</td>
+            </tr>
+        @endif
+        <tr class="grand">
+            <td class="lbl">TỔNG CỘNG TIỀN THANH TOÁN</td>
+            <td class="val">{{ number_format($total, 0, ',', '.') }} VNĐ</td>
+        </tr>
+    </table>
+    <div class="in-words">
+        Số tiền viết bằng chữ: <em>{{ $totalInWords }}</em>
     </div>
+
+    {{-- ===== THÔNG TIN CHUYỂN KHOẢN ===== --}}
+    @if (!empty($bank['account_number']))
+        <div class="pay-box">
+            <div class="title">Thông tin chuyển khoản</div>
+            <table>
+                <tr>
+                    <td style="width: 50%;">
+                        Ngân hàng: <strong>{{ $bank['name'] }}</strong><br>
+                        Số tài khoản: <strong>{{ $bank['account_number'] }}</strong>
+                    </td>
+                    <td>
+                        Chủ tài khoản: <strong>{{ $bank['account_name'] }}</strong><br>
+                        Nội dung: <strong>THANH TOAN {{ $quoteNumber }}</strong>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    @endif
+
+    {{-- ===== ĐIỀU KHOẢN ===== --}}
+    <div class="terms">
+        <div class="title">Điều khoản báo giá</div>
+        <ol>
+            <li>Báo giá có hiệu lực đến hết ngày {{ $expireDate }}.</li>
+            @if ($vatInvoice)
+                <li>Đơn giá chưa bao gồm thuế GTGT; tổng cộng thanh toán đã bao gồm thuế GTGT {{ (int) round($vatRate * 100) }}%. Hoá đơn GTGT sẽ được phát hành sau khi thanh toán được xác nhận.</li>
+            @else
+                <li>Giá trên áp dụng cho hình thức thanh toán thường, không xuất hoá đơn GTGT.</li>
+            @endif
+            <li>Dịch vụ được kích hoạt sau khi thanh toán được xác nhận.</li>
+            <li>Báo giá này không thay thế hoá đơn tài chính.</li>
+        </ol>
+    </div>
+
+    {{-- ===== CHỮ KÝ ===== --}}
+    <table class="signs">
+        <tr>
+            <td>
+                <div class="role">Xác nhận của khách hàng</div>
+                <div class="hint">(Ký, ghi rõ họ tên)</div>
+            </td>
+            <td>
+                <div class="role">Người lập báo giá</div>
+                <div class="hint">(Ký, ghi rõ họ tên)</div>
+            </td>
+        </tr>
+    </table>
+
+    <div class="footer">
+        {{ $companyName }}@if ($website) | {{ $website }}@endif @if ($sellerPhone) | {{ $sellerPhone }}@endif @if ($sellerEmail) | {{ $sellerEmail }}@endif
+        <br>Trân trọng cảm ơn Quý khách đã quan tâm tới dịch vụ của chúng tôi!
+    </div>
+</div>
 </body>
 </html>
