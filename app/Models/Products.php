@@ -131,6 +131,23 @@ class Products extends Model
         $this->attributes['options'] = is_array($value) ? json_encode($value) : $value;
     }
 
+    // Danh sách thông số hiển thị trên card sản phẩm:
+    // ưu tiên meta_data['features'], nếu không có thì tách từ các thẻ <li>
+    // trong description (nội dung CKEditor có HTML entities cần decode)
+    public function featureList($limit = 6)
+    {
+        $features = $this->meta_data['features'] ?? null;
+
+        if (!is_array($features) || empty($features)) {
+            preg_match_all('/<li[^>]*>(.*?)<\/li>/is', (string) $this->description, $matches);
+            $features = array_filter(array_map(function ($item) {
+                return trim(html_entity_decode(strip_tags($item), ENT_QUOTES, 'UTF-8'));
+            }, $matches[1]));
+        }
+
+        return array_slice(array_values($features), 0, $limit);
+    }
+
     public function serviceProvisions()
     {
         return $this->hasMany(ServiceProvision::class, 'product_id');

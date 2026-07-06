@@ -1903,3 +1903,9 @@ Content-Transfer-Encoding: quoted-printable
 [2026-07-04 02:00:42] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
 [2026-07-04 02:00:42] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
 [2026-07-04 02:00:42] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-05 01:37:38] local.INFO: Service type: vps  
+[2026-07-05 01:37:38] local.INFO: Service type: vps  
+[2026-07-05 02:51:39] local.INFO: Service type: vps  
+[2026-07-05 02:51:39] local.INFO: Service type: vps  
+[2026-07-05 02:51:39] local.INFO: Service type: vps  
+[2026-07-05 02:51:39] local.INFO: Service type: vps  

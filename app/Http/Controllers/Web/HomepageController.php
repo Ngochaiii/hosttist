@@ -34,47 +34,20 @@ class HomepageController extends Controller
      */
     public function index()
     {
-        // Lấy các danh mục dịch vụ cho phần "Our Services"
+        // Danh mục dịch vụ đang hoạt động cho khối "Dịch vụ"
         $services = Categories::where('status', 'active')
             ->orderBy('sort_order')
             ->take(6)
             ->get();
 
-        // Lấy danh sách tất cả các danh mục
-        $categories = Categories::where('status', 'active')->get();
+        // Sản phẩm nổi bật cho khối "Gói dịch vụ nổi bật"
         $featuredProducts = Products::forSale()
             ->where('is_featured', true)
-            ->with('category')
             ->orderBy('sort_order')
             ->limit(6)
             ->get();
-        // Phần hosting solutions giữ nguyên
-        $hostingSolutions = collect();
-        foreach ($categories as $category) {
-            $product = $this->productsRepository->getByCategory($category->id, 1)
-                ->where('product_status', 'active')
-                ->sortByDesc('is_featured')
-                ->sortBy('sort_order')
-                ->first();
 
-            if ($product) {
-                $product->categoryObject = $category;
-                $hostingSolutions->push($product);
-            }
-
-            if ($hostingSolutions->count() >= 6) {
-                break;
-            }
-        }
-
-        $compacts = [
-            'services' => $services,
-            'hostingSolutions' => $hostingSolutions,
-            'categories' => $categories,
-            'featuredProducts' => $featuredProducts
-        ];
-
-        return view('source.web.homepage.homepage', $compacts);
+        return view('source.web.homepage.homepage', compact('services', 'featuredProducts'));
     }
 
 

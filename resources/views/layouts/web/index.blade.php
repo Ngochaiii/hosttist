@@ -10,6 +10,7 @@
     <link rel="icon" href="{{ asset('assets/web/hostit/images/fevicon.png') }}" type="image/gif" />
     <title>Hostist</title>
     @include('layouts.web.header_css')
+    <link href="{{ asset('assets/web/hostit/css/homepage.css') }}" rel="stylesheet" />
     @include('layouts.web.seo_meta')
     @stack('header_css')
 </head>

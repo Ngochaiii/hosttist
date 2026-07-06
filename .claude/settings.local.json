@@ -256,7 +256,13 @@
       "Bash(/usr/bin/grep -rn \"'duration'\" app/Services app/Http/Controllers)",
       "Bash(/usr/bin/grep -oiE '\\(Ngày bắt đầu|Ngày kết thúc|Gia hạn tiếp theo|Ngày đặt|Ngày cung cấp|Trạng thái\\)[^<]*</td>|[0-9]{2}/[0-9]{2}/[0-9]{4}[ 0-9:]*' __TRACKED_VAR__/prov5.html)",
       "Bash(/usr/bin/perl -ne 'if\\(/\\(Ngày bắt đầu|Ngày kết thúc|Gia hạn tiếp theo|Ngày đặt|Ngày cung cấp|Trạng thái|Thời hạn đặt\\)/\\){$c=1} if\\($c\\){s/<[^>]+>//g; s/^\\\\s+//; print if /\\\\S/; if\\(/\\\\d{2}\\\\/\\\\d{2}\\\\/\\\\d{4}|N\\\\/A|active|năm|tháng/\\){$c=0}}' /private/tmp/claude-501/-Users-Shared-d---n--hostist-vps/45b98a4a-0dd8-4394-981c-c3e89939fda9/scratchpad/prov5.html)",
-      "Bash(/usr/bin/perl -ne 'if\\(/\\(Ngày bắt đầu|Ngày kết thúc|Gia hạn tiếp theo|Ngày đặt|Thời gian còn lại\\)/\\){$l=$&;$c=3} if\\($c-->0\\){s/<[^>]+>//g;s/^\\\\s+//;chomp; print \"$l => $_\\\\n\" if /\\\\d{2}\\\\/\\\\d{2}\\\\/\\\\d{4}|\\\\d+ ngày/}' __TRACKED_VAR__/prov5b.html)"
+      "Bash(/usr/bin/perl -ne 'if\\(/\\(Ngày bắt đầu|Ngày kết thúc|Gia hạn tiếp theo|Ngày đặt|Thời gian còn lại\\)/\\){$l=$&;$c=3} if\\($c-->0\\){s/<[^>]+>//g;s/^\\\\s+//;chomp; print \"$l => $_\\\\n\" if /\\\\d{2}\\\\/\\\\d{2}\\\\/\\\\d{4}|\\\\d+ ngày/}' __TRACKED_VAR__/prov5b.html)",
+      "Bash(grep -rn 'hostingSolutions\\\\|$categories' '/Users/Shared/dự án /hostist-vps/resources/views/source/web/homepage/')",
+      "Bash(echo \"exit:$?\")",
+      "Bash(grep -rn '\\\\$categories' '/Users/Shared/dự án /hostist-vps/resources/views/source/web/homepage/' '/Users/Shared/dự án /hostist-vps/resources/views/layouts/web/')",
+      "Bash(php -l app/Http/Controllers/Web/HomepageController.php)",
+      "Bash(php -l app/Models/Products.php)",
+      "WebFetch(domain:longvan.net)"
     ]
   }
 }

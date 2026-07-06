@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             AdminUserSeeder::class,
-            ConfigSeeder::class
+            ConfigSeeder::class,
+            CloudServerSeeder::class,
         ]);
     }
 }
