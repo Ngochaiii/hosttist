@@ -51,16 +51,18 @@ class CustomerController extends Controller
             'wallet_id' => 'nullable|string|max:255',
         ]);
 
-        // Tạo user mới
-        $user = User::create([
+        // Tạo user mới. role/is_active ngoài $fillable (thuộc tính đặc quyền)
+        // → gán tường minh sau khi khởi tạo.
+        $user = new User([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'phone' => $request->phone,
             'address' => $request->address,
-            'role' => 'user',
-            'is_active' => true,
         ]);
+        $user->role = 'user';
+        $user->is_active = true;
+        $user->save();
 
         // Tạo customer liên kết với user
         $customer = Customers::create([

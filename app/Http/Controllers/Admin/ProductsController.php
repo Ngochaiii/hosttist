@@ -88,9 +88,10 @@ class ProductsController extends Controller
             return redirect()->route('admin.products.index')
                 ->with('success', 'Sản phẩm đã được tạo thành công!');
         } catch (\Exception $e) {
+            Log::error('Product action failed: ' . $e->getMessage());
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Đã xảy ra lỗi. Vui lòng kiểm tra log hoặc thử lại.']);
         }
     }
 
@@ -179,9 +180,10 @@ class ProductsController extends Controller
             return redirect()->route('admin.products.index')
                 ->with('success', 'Sản phẩm đã được cập nhật thành công!');
         } catch (\Exception $e) {
+            Log::error('Product action failed: ' . $e->getMessage());
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Đã xảy ra lỗi. Vui lòng kiểm tra log hoặc thử lại.']);
         }
     }
     /**
@@ -230,7 +232,7 @@ class ProductsController extends Controller
         } catch (\Exception $e) {
             Log::error('Product deletion error: ' . $e->getMessage());
             return redirect()->back()
-                ->withErrors(['error' => 'Lỗi xóa sản phẩm: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Không thể xóa sản phẩm. Vui lòng kiểm tra log hoặc thử lại.']);
         }
     }
 
@@ -247,8 +249,9 @@ class ProductsController extends Controller
             return redirect()->back()
                 ->with('success', 'Trạng thái sản phẩm đã được thay đổi!');
         } catch (\Exception $e) {
+            Log::error('Product action failed: ' . $e->getMessage());
             return redirect()->back()
-                ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Đã xảy ra lỗi. Vui lòng kiểm tra log hoặc thử lại.']);
         }
     }
 

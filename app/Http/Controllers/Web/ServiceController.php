@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\{ServiceProvision, ProvisionLog, Products, CustomerService, Config, Invoices};
-use App\Services\{ProvisionService, ServiceLifecycleService, PaymentService};
+use App\Services\{ProvisionService, ServiceLifecycleService, PaymentService, QuotePdfService};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -240,7 +240,54 @@ class ServiceController extends Controller
         } catch (\Exception $e) {
             Log::error('Show renew quote failed: ' . $e->getMessage(), ['id' => $id]);
             return redirect()->route('customer.services.index')
-                ->with('error', 'Không thể hiển thị trang gia hạn: ' . $e->getMessage());
+                ->with('error', 'Không thể hiển thị trang gia hạn. Vui lòng thử lại hoặc liên hệ hỗ trợ.');
+        }
+    }
+
+    /**
+     * Tải PDF báo giá gia hạn — cùng mẫu với báo giá giỏ hàng,
+     * biến thể thường/VAT theo ?vat_invoice.
+     */
+    public function downloadRenewQuotePdf(Request $request, $id)
+    {
+        try {
+            $customerService = $this->findOwnedCustomerService($id);
+            $customerService->load('product');
+
+            if (!$this->lifecycle->currentRenewalPrice($customerService)) {
+                return redirect()->route('customer.services.index')
+                    ->with('error', 'Dịch vụ này chưa cấu hình giá gia hạn. Vui lòng liên hệ hỗ trợ.');
+            }
+
+            $vatInvoice = $request->boolean('vat_invoice');
+            $amounts    = $this->lifecycle->computeRenewalAmounts($customerService, $vatInvoice);
+
+            $productName = $customerService->product->name ?? ('Dịch vụ #' . $customerService->id);
+            $cycleLabel  = $customerService->billing_cycle === 'monthly' ? '1 tháng' : '1 năm';
+            $detail      = 'Gia hạn dịch vụ #' . $customerService->id . ' thêm ' . $cycleLabel;
+            if ($customerService->expires_at) {
+                $detail .= ' | Hết hạn hiện tại: ' . $customerService->expires_at->format('d/m/Y');
+            }
+
+            $rows = [[
+                'name'      => $productName . ' (Gia hạn)',
+                'detail'    => $detail,
+                'unit'      => 'Kỳ',
+                'qty'       => 1,
+                'unitPrice' => $amounts['subtotal'],
+                'lineTotal' => $amounts['subtotal'],
+            ]];
+
+            $quoteNumber = 'QUOTE-REN-' . date('Ymd') . '-' . str_pad($customerService->id, 4, '0', STR_PAD_LEFT);
+            $expireDate  = now()->addDays(10)->format('d/m/Y');
+
+            $pdf = app(QuotePdfService::class)
+                ->build($rows, $amounts, $vatInvoice, $quoteNumber, Auth::user(), $expireDate);
+
+            return $pdf->download('bao-gia-gia-han-' . $customerService->id . '-' . date('Ymd') . '.pdf');
+        } catch (\Exception $e) {
+            Log::error('Download renew quote PDF failed: ' . $e->getMessage(), ['id' => $id]);
+            return back()->with('error', 'Không thể tạo báo giá PDF. Vui lòng thử lại sau.');
         }
     }
 
@@ -324,7 +371,7 @@ class ServiceController extends Controller
             throw $e;
         } catch (\Exception $e) {
             Log::error('Renew service failed: ' . $e->getMessage(), ['id' => $id]);
-            return back()->with('error', 'Lỗi gia hạn: ' . $e->getMessage());
+            return back()->with('error', 'Không thể gia hạn dịch vụ. Vui lòng thử lại hoặc liên hệ hỗ trợ.');
         }
     }
 
@@ -342,7 +389,7 @@ class ServiceController extends Controller
             return back()->with('success', 'Yêu cầu hủy dịch vụ đã được ghi nhận.');
         } catch (\Exception $e) {
             Log::error('Cancel service failed: ' . $e->getMessage(), ['id' => $id]);
-            return back()->with('error', 'Không thể hủy dịch vụ: ' . $e->getMessage());
+            return back()->with('error', 'Không thể hủy dịch vụ. Vui lòng thử lại sau.');
         }
     }
 
@@ -626,7 +673,8 @@ class ServiceController extends Controller
             @unlink($tarPath);
             @unlink($gzPath);
 
-            abort(500, 'Không thể tạo file tải xuống: ' . $e->getMessage());
+            Log::error('SSL file download failed: ' . $e->getMessage(), ['provision_id' => $provision->id ?? null]);
+            abort(500, 'Không thể tạo file tải xuống. Vui lòng thử lại hoặc liên hệ hỗ trợ.');
         }
     }
 

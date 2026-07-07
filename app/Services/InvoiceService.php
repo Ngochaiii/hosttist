@@ -6,7 +6,6 @@ use App\Models\{Cart, Config};
 use Illuminate\Support\Facades\{Auth, Log};
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 
 class InvoiceService extends BaseService
@@ -102,70 +101,6 @@ class InvoiceService extends BaseService
             Log::error("[{$requestId}] Quote data generation failed", [
                 'cart_id' => $cart->id,
                 'error' => $e->getMessage()
-            ]);
-            throw $e;
-        }
-    }
-
-    /**
-     * Generate PDF from quote data
-     */
-    public function generatePDF(array $data, string $fileName): \Illuminate\Http\Response
-    {
-        $requestId = uniqid('pdf_gen_');
-        Log::info("[{$requestId}] Starting PDF generation", [
-            'filename' => $fileName,
-            'has_cart' => isset($data['cart']),
-            'has_invoice' => isset($data['invoice']),
-            'data_keys' => array_keys($data)
-        ]);
-
-        try {
-            // Add QR code if available (chọn tài khoản theo việc có xuất hóa đơn VAT hay không)
-            $config = $data['config'] ?? Config::current();
-            $vat = isset($data['invoice']) && $data['invoice']->vat_invoice_requested;
-            $bank = $config ? $config->bankInfo($vat) : [];
-            $data['bank'] = $bank;
-            if (!empty($bank['qr_code'])) {
-                $qrPath = public_path('storage/' . $bank['qr_code']);
-                if (file_exists($qrPath)) {
-                    $data['qrBase64'] = 'data:image/png;base64,' . base64_encode(file_get_contents($qrPath));
-                    Log::debug("[{$requestId}] QR code added to PDF data", [
-                        'qr_path' => $qrPath
-                    ]);
-                } else {
-                    Log::debug("[{$requestId}] QR code file not found", [
-                        'qr_path' => $qrPath
-                    ]);
-                }
-            }
-
-            Log::debug("[{$requestId}] Loading PDF view", [
-                'view' => 'source.web.quote.pdf',
-                'paper_size' => 'a4'
-            ]);
-
-            $pdf = PDF::loadView('source.web.quote.pdf', $data);
-            $pdf->setPaper('a4', 'portrait');
-            $pdf->setOptions([
-                'isHtml5ParserEnabled' => true,
-                'isRemoteEnabled' => true,
-                'defaultFont' => 'sans-serif',
-            ]);
-
-            Log::info("[{$requestId}] PDF generated successfully", [
-                'filename' => $fileName,
-                'view_template' => 'source.web.quote.pdf'
-            ]);
-
-            return $pdf->download($fileName);
-
-        } catch (Exception $e) {
-            Log::error("[{$requestId}] PDF generation failed", [
-                'filename' => $fileName,
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine()
             ]);
             throw $e;
         }

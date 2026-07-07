@@ -1928,3 +1928,174 @@ Content-Transfer-Encoding: quoted-printable
 [2026-07-06 14:22:16] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
 [2026-07-06 14:22:16] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
 [2026-07-06 14:22:16] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-06 14:38:53] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-06 14:38:53] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-06 14:39:08] local.INFO: App\Services\ServiceLifecycleService - Renewal order created {"order_id":29,"invoice_id":29,"customer_service_id":2,"total":10800000.0} 
+[2026-07-06 14:39:08] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":30,"order_id":29,"transaction_code":"PAY-1783348748ALMJU"} 
+[2026-07-06 15:02:18] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-06 15:02:18] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-06 15:02:18] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-06 15:02:18] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-06"} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-06"} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-06"} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-06"} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-06"} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-06"} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-06 15:02:19] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-06 15:02:19] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-06 15:02:19] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-06 15:02:19] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-06 15:24:51] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-06 15:24:51] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-06 15:24:57] local.INFO: Processing order #REN-1783089196RDYEV  
+[2026-07-06 15:24:57] local.INFO: Item #27 - Product Type: product  
+[2026-07-06 15:24:57] local.INFO: Found duration in item: 1  
+[2026-07-06 15:24:57] local.INFO: Calculated expiration: 2027-07-03  
+[2026-07-06 15:24:57] local.INFO: Final expiration for order #REN-1783089196RDYEV: 2027-07-03  
+[2026-07-06 15:24:57] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-07-06 15:24:57] local.INFO: Item #13 - Product Type: ssl  
+[2026-07-06 15:24:57] local.INFO: Found duration in item: 1  
+[2026-07-06 15:24:57] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-06 15:24:57] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-07-06 15:24:57] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-07-06 15:24:57] local.INFO: Item #12 - Product Type: ssl  
+[2026-07-06 15:24:57] local.INFO: Found duration in item: 1  
+[2026-07-06 15:24:57] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-06 15:24:57] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-07-06 15:24:57] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-07-06 15:24:57] local.INFO: Item #2 - Product Type: product  
+[2026-07-06 15:24:57] local.INFO: Found duration in item: 1  
+[2026-07-06 15:24:57] local.INFO: Calculated expiration: 2026-08-08  
+[2026-07-06 15:24:57] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-07-06 15:24:57] local.INFO: Processing order #REN-1783089196RDYEV  
+[2026-07-06 15:24:57] local.INFO: Item #27 - Product Type: product  
+[2026-07-06 15:24:57] local.INFO: Found duration in item: 1  
+[2026-07-06 15:24:57] local.INFO: Calculated expiration: 2027-07-03  
+[2026-07-06 15:24:57] local.INFO: Final expiration for order #REN-1783089196RDYEV: 2027-07-03  
+[2026-07-06 15:24:57] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-07-06 15:24:57] local.INFO: Item #13 - Product Type: ssl  
+[2026-07-06 15:24:57] local.INFO: Found duration in item: 1  
+[2026-07-06 15:24:57] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-06 15:24:57] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-07-06 15:24:57] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-07-06 15:24:57] local.INFO: Item #12 - Product Type: ssl  
+[2026-07-06 15:24:57] local.INFO: Found duration in item: 1  
+[2026-07-06 15:24:57] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-06 15:24:57] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-07-06 15:24:57] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-07-06 15:24:57] local.INFO: Item #2 - Product Type: product  
+[2026-07-06 15:24:57] local.INFO: Found duration in item: 1  
+[2026-07-06 15:24:57] local.INFO: Calculated expiration: 2026-08-08  
+[2026-07-06 15:24:57] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-07-06 15:25:26] local.INFO: Processing order #REN-1783089196RDYEV  
+[2026-07-06 15:25:26] local.INFO: Item #27 - Product Type: product  
+[2026-07-06 15:25:26] local.INFO: Found duration in item: 1  
+[2026-07-06 15:25:26] local.INFO: Calculated expiration: 2027-07-03  
+[2026-07-06 15:25:26] local.INFO: Final expiration for order #REN-1783089196RDYEV: 2027-07-03  
+[2026-07-06 15:25:26] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-07-06 15:25:26] local.INFO: Item #13 - Product Type: ssl  
+[2026-07-06 15:25:26] local.INFO: Found duration in item: 1  
+[2026-07-06 15:25:26] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-06 15:25:26] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-07-06 15:25:26] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-07-06 15:25:26] local.INFO: Item #12 - Product Type: ssl  
+[2026-07-06 15:25:26] local.INFO: Found duration in item: 1  
+[2026-07-06 15:25:26] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-06 15:25:26] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-07-06 15:25:26] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-07-06 15:25:26] local.INFO: Item #2 - Product Type: product  
+[2026-07-06 15:25:26] local.INFO: Found duration in item: 1  
+[2026-07-06 15:25:26] local.INFO: Calculated expiration: 2026-08-08  
+[2026-07-06 15:25:26] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-07-06 15:25:26] local.INFO: Processing order #REN-1783089196RDYEV  
+[2026-07-06 15:25:26] local.INFO: Item #27 - Product Type: product  
+[2026-07-06 15:25:26] local.INFO: Found duration in item: 1  
+[2026-07-06 15:25:26] local.INFO: Calculated expiration: 2027-07-03  
+[2026-07-06 15:25:26] local.INFO: Final expiration for order #REN-1783089196RDYEV: 2027-07-03  
+[2026-07-06 15:25:26] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-07-06 15:25:26] local.INFO: Item #13 - Product Type: ssl  
+[2026-07-06 15:25:26] local.INFO: Found duration in item: 1  
+[2026-07-06 15:25:26] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-06 15:25:26] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-07-06 15:25:26] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-07-06 15:25:26] local.INFO: Item #12 - Product Type: ssl  
+[2026-07-06 15:25:26] local.INFO: Found duration in item: 1  
+[2026-07-06 15:25:26] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-06 15:25:26] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-07-06 15:25:26] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-07-06 15:25:26] local.INFO: Item #2 - Product Type: product  
+[2026-07-06 15:25:26] local.INFO: Found duration in item: 1  
+[2026-07-06 15:25:26] local.INFO: Calculated expiration: 2026-08-08  
+[2026-07-06 15:25:26] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-07-07 00:46:00] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-07-07 00:53:07] local.INFO: [pdf_gen_6a4c4df32fa2b] Starting PDF generation {"filename":"test.pdf","has_cart":false,"has_invoice":true,"data_keys":["invoice","user","config","quoteNumber","quoteDate","expireDate","subtotal","vatRate","vatAmount","total"]} 
+[2026-07-07 00:53:07] local.DEBUG: [pdf_gen_6a4c4df32fa2b] QR code added to PDF data {"qr_path":"/Users/Shared/dự án /hostist-vps/public/storage/qrcodes/qr_bank_1781536297.jpeg"} 
+[2026-07-07 00:53:07] local.DEBUG: [pdf_gen_6a4c4df32fa2b] Loading PDF view {"view":"source.web.quote.pdf","paper_size":"a4"} 
+[2026-07-07 00:53:07] local.INFO: [pdf_gen_6a4c4df32fa2b] PDF generated successfully {"filename":"test.pdf","view_template":"source.web.quote.pdf"} 
+[2026-07-07 01:16:22] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-07 01:16:22] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-07 01:16:22] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-07 01:16:22] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:16:22] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-07 01:16:23] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-07 01:16:23] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-07 01:16:23] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-07 01:16:23] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-07 01:45:16] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-07 01:45:16] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-07 01:45:16] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-07 01:45:16] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-07 02:13:39] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"example.com","profit":"70000.00"} 
+[2026-07-07 02:13:39] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"auto.com","profit":"70000.00"} 
+[2026-07-07 02:13:39] testing.INFO: App\Services\DomainCatalogService - Domain imported {"domain_id":1,"domain_name":"secure.com","profit":"70000.00"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-12-31"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":2,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\DomainProvisioningService - Domain activated from provision {"provision_id":1,"customer_service_id":1,"domain":"khachdat.com","expires_at":"2028-07-07"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\PaymentService - Payment rejected {"payment_id":1,"order_id":1,"reason":"Sai nội dung chuyển khoản","verified_by":99} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\OrderService - Processing completed order for provisions {"order_id":1,"order_number":"ORD-TXN-NOTIF-003","customer_id":1,"total_items":1} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\OrderService - Order provisions created {"order_id":1,"provisions_created":0,"provision_ids":[]} 
+[2026-07-07 02:13:40] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"vnpay","provisions":1} 
+[2026-07-07 02:13:40] testing.ERROR: confirmPaymentFromGateway: gửi thông báo thất bại {"payment_id":1,"error":"SQLSTATE[HY000]: General error: 1 no such table: users (Connection: sqlite, SQL: select * from \"users\" where \"users\".\"id\" = 1 and \"users\".\"deleted_at\" is null limit 1)"} 
+[2026-07-07 02:13:40] testing.INFO: App\Services\PaymentService - Payment confirmed from gateway {"payment_id":1,"provider":"momo","provisions":1} 
+[2026-07-07 02:13:40] testing.ERROR: confirmPaymentFromGateway: không tìm thấy payment {"transaction_id":"TXN-MISSING","provider":"zalopay"} 
+[2026-07-07 02:19:35] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-07-07 02:19:35] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-07-07 02:19:42] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-07-07 02:19:42] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 

@@ -155,7 +155,7 @@
                 @endif
             </td>
             <td style="width: 44%;">
-                <div class="doc-title">BÁO GIÁ</div>
+                <div class="doc-title">{{ $docTitle ?? 'BÁO GIÁ' }}</div>
                 <div class="doc-date">Ngày {{ $now->format('d') }} tháng {{ $now->format('m') }} năm {{ $now->format('Y') }}</div>
             </td>
             <td style="width: 28%;">
@@ -234,43 +234,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($cart->items as $i => $item)
-                @php
-                    $options   = json_decode($item->options, true) ?: [];
-                    $period    = $options['period'] ?? null;
-                    $domain    = $options['domain'] ?? null;
-                    $type      = $item->product->type ?? null;
-                    $unit      = match ($type) {
-                        'domain'  => 'Tên miền',
-                        'ssl'     => 'Chứng thư',
-                        'hosting' => 'Gói',
-                        default   => 'Gói',
-                    };
-                    $unitPrice = (float) ($item->unit_price ?? $item->price ?? 0);
-                    $lineTotal = (float) ($item->subtotal ?? $unitPrice * $item->quantity);
-                    $lineVat   = $vatInvoice ? round($lineTotal * $vatRate) : 0;
-                @endphp
+            @foreach ($rows as $i => $row)
                 <tr>
                     <td class="c">{{ $i + 1 }}</td>
                     <td>
-                        <div class="item-name">{{ $item->product->name ?? $item->name }}</div>
-                        @php
-                            $detailParts = array_filter([
-                                $domain ? 'Tên miền: ' . $domain : null,
-                                $period ? 'Thời hạn: ' . $period . ' năm' : null,
-                            ]);
-                        @endphp
-                        @if ($detailParts)
-                            <div class="item-detail">{{ implode(' | ', $detailParts) }}</div>
+                        <div class="item-name">{{ $row['name'] }}</div>
+                        @if (!empty($row['detail']))
+                            <div class="item-detail">{{ $row['detail'] }}</div>
                         @endif
                     </td>
-                    <td class="c">{{ $unit }}</td>
-                    <td class="c">{{ $item->quantity }}</td>
-                    <td class="r">{{ number_format($unitPrice, 0, ',', '.') }}</td>
-                    <td class="r">{{ number_format($lineTotal, 0, ',', '.') }}</td>
+                    <td class="c">{{ $row['unit'] }}</td>
+                    <td class="c">{{ $row['qty'] }}</td>
+                    <td class="r">{{ number_format($row['unitPrice'], 0, ',', '.') }}</td>
+                    <td class="r">{{ number_format($row['lineTotal'], 0, ',', '.') }}</td>
                     @if ($vatInvoice)
                         <td class="c">{{ (int) round($vatRate * 100) }}%</td>
-                        <td class="r">{{ number_format($lineVat, 0, ',', '.') }}</td>
+                        <td class="r">{{ number_format(round($row['lineTotal'] * $vatRate), 0, ',', '.') }}</td>
                     @endif
                 </tr>
             @endforeach

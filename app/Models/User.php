@@ -18,12 +18,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    // 'role' và 'is_active' CỐ Ý không nằm ở đây: là thuộc tính đặc quyền
+    // (leo thang quyền / mở khoá tài khoản). Chỉ được gán tường minh ở code
+    // tin cậy (AuthRepository::register, Admin\CustomerController::store) —
+    // không bao giờ qua mass-assignment từ input người dùng.
     protected $fillable = [
         'name',
         'email',
         'password',
-        'role',
-        'is_active',
         'last_login_at',
         'username',
         'phone',

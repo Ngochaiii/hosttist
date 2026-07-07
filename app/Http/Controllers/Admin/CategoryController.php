@@ -76,9 +76,10 @@ class CategoryController extends Controller
             return redirect()->route('admin.categories.index')
                 ->with('success', 'Danh mục đã được tạo thành công!');
         } catch (\Exception $e) {
+            Log::error('Category action failed: ' . $e->getMessage());
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Đã xảy ra lỗi. Vui lòng kiểm tra log hoặc thử lại.']);
         }
     }
 
@@ -118,9 +119,10 @@ class CategoryController extends Controller
             return redirect()->route('admin.categories.index')
                 ->with('success', 'Danh mục đã được cập nhật thành công!');
         } catch (\Exception $e) {
+            Log::error('Category action failed: ' . $e->getMessage());
             return redirect()->back()
                 ->withInput()
-                ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Đã xảy ra lỗi. Vui lòng kiểm tra log hoặc thử lại.']);
         }
     }
 
@@ -197,7 +199,7 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             Log::error('Lỗi xóa danh mục: ' . $e->getMessage());
             return redirect()->back()
-                ->withErrors(['error' => 'Lỗi xóa danh mục: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Không thể xóa danh mục. Vui lòng kiểm tra log hoặc thử lại.']);
         }
     }
 
@@ -214,8 +216,9 @@ class CategoryController extends Controller
             return redirect()->back()
                 ->with('success', 'Trạng thái danh mục đã được thay đổi!');
         } catch (\Exception $e) {
+            Log::error('Category action failed: ' . $e->getMessage());
             return redirect()->back()
-                ->withErrors(['error' => 'Lỗi: ' . $e->getMessage()]);
+                ->withErrors(['error' => 'Đã xảy ra lỗi. Vui lòng kiểm tra log hoặc thử lại.']);
         }
     }
 

@@ -270,7 +270,7 @@ class PaymentController extends Controller
                 'error' => $e->getMessage()
             ]);
 
-            return back()->with('error', 'Lỗi xử lý: ' . $e->getMessage());
+            return back()->with('error', 'Không thể xử lý thanh toán. Vui lòng kiểm tra log hoặc thử lại.');
         }
     }
 
@@ -469,7 +469,8 @@ class PaymentController extends Controller
 
             return back()->with('error', 'Không thể xác nhận thanh toán.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Lỗi: ' . $e->getMessage());
+            Log::error('approveDirectly failed: ' . $e->getMessage(), ['payment_id' => $payment->id ?? null]);
+            return back()->with('error', 'Không thể xác nhận thanh toán. Vui lòng kiểm tra log hoặc thử lại.');
         }
     }
 
@@ -494,7 +495,8 @@ class PaymentController extends Controller
             return redirect()->route('admin.payments.index')
                 ->with('success', 'Thanh toán đã bị từ chối.');
         } catch (\Exception $e) {
-            return back()->with('error', 'Lỗi: ' . $e->getMessage());
+            Log::error('Reject payment failed: ' . $e->getMessage(), ['payment_id' => $id]);
+            return back()->with('error', 'Không thể từ chối thanh toán. Vui lòng kiểm tra log hoặc thử lại.');
         }
     }
 }

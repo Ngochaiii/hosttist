@@ -7,7 +7,7 @@ use App\Models\{Config, Invoices, Cart, CartItem};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth, DB, Log};
 use Carbon\Carbon;
-use App\Services\{OrderService, PaymentService, InvoiceService};
+use App\Services\{OrderService, PaymentService, InvoiceService, QuotePdfService};
 
 class InvoiceController extends Controller
 {
@@ -40,7 +40,9 @@ class InvoiceController extends Controller
 
             return view('source.web.invoice.quote', $this->invoiceService->generateQuoteData($cart, $vatInvoice));
         } catch (\Exception $e) {
-            return redirect()->route('cart.index')->with('error', $e->getMessage());
+            Log::error('Show quote failed: ' . $e->getMessage());
+            return redirect()->route('cart.index')
+                ->with('error', 'Không thể tạo báo giá. Vui lòng kiểm tra lại giỏ hàng và thử lại.');
         }
     }
 
@@ -54,12 +56,57 @@ class InvoiceController extends Controller
                     ->with('error', 'Bạn không có quyền truy cập hóa đơn này');
             }
 
-            return $this->invoiceService->generatePDF(
-                $this->prepareInvoicePdfData($invoice),
-                'hoa-don-' . $invoice->invoice_number . '.pdf'
-            );
+            $vatInvoice = (bool) $invoice->vat_invoice_requested;
+            $subtotal   = (float) $invoice->subtotal;
+            $vatAmount  = (float) $invoice->tax_amount;
+            // Suy ra thuế suất từ số tiền thuế thực lưu (khỏi lệ thuộc hằng số nếu sau này đổi).
+            $vatRate    = $vatInvoice && $subtotal > 0 ? round($vatAmount / $subtotal, 2) : 0.0;
+
+            $rows = [];
+            foreach ($invoice->order->items as $item) {
+                $options = json_decode($item->options, true) ?: [];
+                $domain  = $options['domain'] ?? null;
+                $period  = $options['period'] ?? ($item->duration ?? null);
+
+                $detailParts = array_filter([
+                    $domain ? 'Tên miền: ' . $domain : null,
+                    $period ? 'Thời hạn: ' . $period . ' năm' : null,
+                ]);
+
+                $unitPrice = (float) ($item->price ?? 0);
+
+                $rows[] = [
+                    'name'      => $item->name ?? $item->product->name ?? 'Dịch vụ',
+                    'detail'    => implode(' | ', $detailParts),
+                    'unit'      => match ($item->product->type ?? null) {
+                        'domain' => 'Tên miền',
+                        'ssl'    => 'Chứng thư',
+                        default  => 'Gói',
+                    },
+                    'qty'       => $item->quantity,
+                    'unitPrice' => $unitPrice,
+                    'lineTotal' => (float) ($item->subtotal ?? $unitPrice * $item->quantity),
+                ];
+            }
+
+            $amounts = [
+                'subtotal'  => $subtotal,
+                'discount'  => (float) ($invoice->discount_amount ?? 0),
+                'vatRate'   => $vatRate,
+                'vatAmount' => $vatAmount,
+                'total'     => (float) $invoice->total_amount,
+            ];
+
+            $expireDate = $invoice->due_date
+                ? Carbon::parse($invoice->due_date)->format('d/m/Y')
+                : Carbon::now()->addDays(7)->format('d/m/Y');
+
+            return app(QuotePdfService::class)
+                ->build($rows, $amounts, $vatInvoice, $invoice->invoice_number, Auth::user(), $expireDate, 'HÓA ĐƠN')
+                ->download('hoa-don-' . $invoice->invoice_number . '.pdf');
         } catch (\Exception $e) {
-            return back()->with('error', 'Lỗi tạo PDF: ' . $e->getMessage());
+            Log::error('Invoice PDF download failed: ' . $e->getMessage(), ['invoice_id' => $id]);
+            return back()->with('error', 'Không thể tạo file PDF hóa đơn. Vui lòng thử lại sau.');
         }
     }
 
@@ -167,25 +214,7 @@ class InvoiceController extends Controller
             throw $e;
         } catch (\Exception $e) {
             Log::error('Payment process failed: ' . $e->getMessage(), ['invoice_id' => $invoiceId]);
-            return back()->with('error', 'Lỗi xử lý thanh toán: ' . $e->getMessage());
+            return back()->with('error', 'Không thể xử lý thanh toán. Vui lòng thử lại hoặc liên hệ hỗ trợ.');
         }
-    }
-
-    private function prepareInvoicePdfData(Invoices $invoice): array
-    {
-        return [
-            'invoice'     => $invoice,
-            'user'        => Auth::user(),
-            'config'      => Config::current(),
-            'quoteNumber' => $invoice->invoice_number,
-            'quoteDate'   => $invoice->created_at->format('d/m/Y'),
-            'expireDate'  => $invoice->due_date
-                ? Carbon::parse($invoice->due_date)->format('d/m/Y')
-                : Carbon::now()->addDays(7)->format('d/m/Y'),
-            'subtotal'    => $invoice->order->subtotal,
-            'vatRate'     => 0,
-            'vatAmount'   => 0,
-            'total'       => $invoice->order->total_amount,
-        ];
     }
 }

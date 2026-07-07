@@ -3,61 +3,7 @@
 @section('content')
     <div class="container py-5">
         <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Tài khoản của tôi</h5>
-                        <div class="list-group">
-                            <a href="{{ route('customer.profile') }}"
-                                class="list-group-item list-group-item-action {{ request()->routeIs('customer.profile') ? 'active' : '' }}">
-                                Thông tin cá nhân
-                            </a>
-                            <a href="{{ route('customer.orders') }}"
-                                class="list-group-item list-group-item-action {{ request()->routeIs('customer.orders') ? 'active' : '' }}">
-                                Lịch sử đơn hàng
-                            </a>
-                            <a href="{{ route('customer.invoices') }}"
-                                class="list-group-item list-group-item-action {{ request()->routeIs('customer.invoices') ? 'active' : '' }}">
-                                Hóa đơn chưa thanh toán
-                            </a>
-                            <a href="{{ route('notifications.index') }}"
-                                class="list-group-item list-group-item-action {{ request()->routeIs('notifications.*') ? 'active' : '' }}">
-                                Thông báo
-                            </a>
-                            <form action="{{ route('logout') }}" method="POST" class="d-none" id="logout-form">
-                                @csrf
-                            </form>
-                            <a href="#" class="list-group-item list-group-item-action text-danger"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Đăng xuất
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hiển thị số dư tài khoản -->
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Thông tin tài chính</h5>
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Số dư tài khoản:</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="balanceDisplay"
-                                    value="{{ optional($customer)->formatted_balance ?? '0 đ' }}" readonly>
-                                <button class="btn btn-outline-secondary" type="button" id="toggleBalance">
-                                    <i class="fa fa-eye" id="balanceToggleIcon"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="d-grid">
-                            <a href="{{ route('deposit') }}" class="btn btn-success btn-sm">
-                                <i class="fa fa-plus-circle"></i> Nạp tiền
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            @include('source.web.profile.partials.sidebar')
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center">
@@ -148,47 +94,4 @@
     </div>
 
     <!-- Script cho tính năng ẩn hiện số dư -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const balanceDisplay = document.getElementById('balanceDisplay');
-            const toggleBalance = document.getElementById('toggleBalance');
-            const balanceToggleIcon = document.getElementById('balanceToggleIcon');
-
-            // Giá trị thật của số dư
-            const actualBalance = "{{ optional($customer)->formatted_balance ?? '0 đ' }}";
-            // Giá trị ẩn của số dư
-            const hiddenBalance = "•••••••••••";
-
-            // Mặc định hiển thị giá trị thật
-            let isBalanceVisible = true;
-
-            // Lưu trạng thái hiển thị trong localStorage nếu có
-            const savedVisibility = localStorage.getItem('balanceVisibility');
-            if (savedVisibility !== null) {
-                isBalanceVisible = savedVisibility === 'true';
-
-                // Cập nhật hiển thị dựa trên trạng thái đã lưu
-                if (!isBalanceVisible) {
-                    balanceDisplay.value = hiddenBalance;
-                    balanceToggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
-                }
-            }
-
-            // Xử lý sự kiện khi click vào nút toggle
-            toggleBalance.addEventListener('click', function() {
-                isBalanceVisible = !isBalanceVisible;
-
-                // Lưu trạng thái hiển thị vào localStorage
-                localStorage.setItem('balanceVisibility', isBalanceVisible);
-
-                if (isBalanceVisible) {
-                    balanceDisplay.value = actualBalance;
-                    balanceToggleIcon.classList.replace('fa-eye-slash', 'fa-eye');
-                } else {
-                    balanceDisplay.value = hiddenBalance;
-                    balanceToggleIcon.classList.replace('fa-eye', 'fa-eye-slash');
-                }
-            });
-        });
-    </script>
 @endsection

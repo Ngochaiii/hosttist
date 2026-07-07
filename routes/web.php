@@ -28,9 +28,10 @@ Route::get('/service/{slug}', [HomepageController::class, 'detail'])->name('serv
 
 // Authentication Routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+// throttle:5,1 → tối đa 5 lần POST/phút/IP để chặn brute-force mật khẩu.
+Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
-Route::post('/register', [AuthController::class, 'register']);
+Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:5,1');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Static Pages
@@ -92,6 +93,10 @@ Route::group(['middleware' => ['frontend.auth']], function () {
             // Service management actions
             Route::get('/{id}/renew', [ServiceController::class, 'showRenewQuote'])
                 ->name('customer.services.service.renew.quote')
+                ->where('id', '[0-9]+');
+
+            Route::get('/{id}/renew/pdf', [ServiceController::class, 'downloadRenewQuotePdf'])
+                ->name('customer.services.service.renew.pdf')
                 ->where('id', '[0-9]+');
 
             Route::post('/{id}/renew', [ServiceController::class, 'renewService'])

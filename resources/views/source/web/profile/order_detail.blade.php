@@ -3,39 +3,7 @@
 @section('content')
 <div class="container py-5">
     <div class="row">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Tài khoản của tôi</h5>
-                    <div class="list-group">
-                        <a href="{{ route('customer.profile') }}"
-                           class="list-group-item list-group-item-action {{ request()->routeIs('customer.profile') ? 'active' : '' }}">
-                            Thông tin cá nhân
-                        </a>
-                        <a href="{{ route('customer.orders') }}"
-                           class="list-group-item list-group-item-action {{ request()->routeIs('customer.orders') || request()->routeIs('customer.order.detail') ? 'active' : '' }}">
-                            Lịch sử đơn hàng
-                        </a>
-                        <a href="{{ route('customer.invoices') }}"
-                           class="list-group-item list-group-item-action {{ request()->routeIs('customer.invoices') ? 'active' : '' }}">
-                            Hóa đơn chưa thanh toán
-                        </a>
-                        <a href="{{ route('notifications.index') }}"
-                            class="list-group-item list-group-item-action {{ request()->routeIs('notifications.*') ? 'active' : '' }}">
-                            Thông báo
-                        </a>
-                        <form action="{{ route('logout') }}" method="POST" class="d-none" id="logout-form">
-                            @csrf
-                        </form>
-                        <a href="#" class="list-group-item list-group-item-action text-danger"
-                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            Đăng xuất
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        @include('source.web.profile.partials.sidebar')
         <div class="col-md-8">
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">

@@ -10,6 +10,7 @@ use App\Services\DomainAvailabilityService;
 use App\Services\DomainCatalogService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Quản lý kho tên miền: danh sách + báo cáo lãi + import domain đã mua sẵn từ Nhân Hòa.
@@ -111,7 +112,8 @@ class DomainController extends Controller
             return redirect()->route('admin.domains.index')
                 ->with('success', 'Đã import tên miền ' . $domain->domain_name . ' (lãi ' . number_format($domain->profit) . 'đ).');
         } catch (\Exception $e) {
-            return back()->withInput()->withErrors(['error' => 'Lỗi import: ' . $e->getMessage()]);
+            Log::error('Domain import failed: ' . $e->getMessage());
+            return back()->withInput()->withErrors(['error' => 'Không thể import tên miền. Vui lòng kiểm tra log hoặc thử lại.']);
         }
     }
 

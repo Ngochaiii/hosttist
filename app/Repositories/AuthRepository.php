@@ -7,6 +7,7 @@ use App\Repositories\Support\AbstractRepository;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AuthRepository extends AbstractRepository
 {
@@ -34,9 +35,10 @@ class AuthRepository extends AbstractRepository
                 'token' => $token
             ];
         } catch (\Exception $e) {
+            Log::error('Login failed: ' . $e->getMessage());
             return [
                 'success' => false,
-                'message' => 'Đăng nhập thất bại: ' . $e->getMessage()
+                'message' => 'Đăng nhập thất bại. Vui lòng thử lại sau.'
             ];
         }
     }
@@ -45,16 +47,18 @@ class AuthRepository extends AbstractRepository
     public function register(array $data)
     {
         try {
-            // Tạo user
-            $user = User::create([
+            // Tạo user. role/is_active không mass-assign được (ngoài $fillable)
+            // → gán tường minh sau khi khởi tạo.
+            $user = new User([
                 'name' => $data['name'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'phone' => $data['phone'] ?? null,
                 'address' => $data['address'] ?? null,
-                'role' => 'user', // Mặc định là user thường
-                'is_active' => true,
             ]);
+            $user->role = 'user'; // Mặc định là user thường
+            $user->is_active = true;
+            $user->save();
 
             // Tạo customer cho user
             $customer = Customers::create([
@@ -74,9 +78,10 @@ class AuthRepository extends AbstractRepository
                 'customer' => $customer
             ];
         } catch (\Exception $e) {
+            Log::error('Register failed: ' . $e->getMessage());
             return [
                 'success' => false,
-                'message' => 'Đăng ký thất bại: ' . $e->getMessage()
+                'message' => 'Đăng ký thất bại. Vui lòng thử lại sau.'
             ];
         }
     }
@@ -92,9 +97,10 @@ class AuthRepository extends AbstractRepository
                 'message' => 'Đăng xuất thành công'
             ];
         } catch (\Exception $e) {
+            Log::error('Logout failed: ' . $e->getMessage());
             return [
                 'success' => false,
-                'message' => 'Đăng xuất thất bại: ' . $e->getMessage()
+                'message' => 'Đăng xuất thất bại. Vui lòng thử lại sau.'
             ];
         }
     }

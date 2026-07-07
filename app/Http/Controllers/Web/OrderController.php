@@ -64,7 +64,7 @@ class OrderController extends Controller
                 : back()->with('error', 'Không thể hủy đơn hàng');
         } catch (\Exception $e) {
             Log::error('Cancel order failed: ' . $e->getMessage(), ['order_id' => $id]);
-            return back()->with('error', 'Lỗi hủy đơn hàng: ' . $e->getMessage());
+            return back()->with('error', 'Không thể hủy đơn hàng. Vui lòng thử lại hoặc liên hệ hỗ trợ.');
         }
     }
 
@@ -91,7 +91,7 @@ class OrderController extends Controller
             return back()->withErrors($e->errors())->withInput();
         } catch (\Exception $e) {
             Log::error('Update order status failed: ' . $e->getMessage(), ['order_id' => $id]);
-            return back()->with('error', 'Lỗi cập nhật trạng thái: ' . $e->getMessage());
+            return back()->with('error', 'Không thể cập nhật trạng thái đơn hàng. Vui lòng thử lại sau.');
         }
     }
 

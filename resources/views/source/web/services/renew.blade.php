@@ -225,6 +225,11 @@
                         </button>
                     </form>
 
+                    <a href="{{ route('customer.services.service.renew.pdf', $service->id) }}{{ $vatInvoice ? '?vat_invoice=1' : '' }}"
+                       class="btn btn-outline-primary btn-block mt-2">
+                        <i class="fa fa-download mr-1"></i> Tải báo giá PDF
+                    </a>
+
                     <a href="{{ route('customer.services.index') }}?tab=services"
                        class="btn btn-outline-secondary btn-block mt-2">
                         <i class="fa fa-arrow-left mr-1"></i> Huỷ và quay lại
