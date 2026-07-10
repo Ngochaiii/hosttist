@@ -8,9 +8,9 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
         font-family: 'DejaVu Sans', sans-serif;
-        font-size: 10px;
+        font-size: 13.5px;
         color: #1a1a2e;
-        line-height: 1.45;
+        line-height: 1.5;
     }
     /* Khung viền ngoài kiểu hoá đơn — min-height để viền phủ kín trang A4 */
     .frame {
@@ -24,113 +24,115 @@
     /* ===== Header ===== */
     .header td { vertical-align: top; }
     .brand {
-        font-size: 15px;
+        font-size: 20px;
         font-weight: bold;
         color: #2c5aa0;
         text-transform: uppercase;
     }
-    .brand-sub { font-size: 8.5px; color: #666; }
+    .brand-sub { font-size: 11px; color: #666; }
     .doc-title {
         text-align: center;
-        font-size: 19px;
+        font-size: 28px;
         font-weight: bold;
-        letter-spacing: 2px;
+        letter-spacing: 3px;
         color: #1a1a2e;
     }
-    .doc-date { text-align: center; font-style: italic; font-size: 10px; margin-top: 2px; }
-    .doc-meta { font-size: 9.5px; text-align: left; }
+    .doc-date { text-align: center; font-style: italic; font-size: 13px; margin-top: 3px; }
+    .doc-meta { font-size: 12.5px; text-align: left; }
     .doc-meta .num { color: #c0392b; font-weight: bold; }
 
     /* ===== Khối bên bán / bên mua ===== */
     .party {
         border-top: 1px solid #444;
-        padding: 6px 0;
+        padding: 9px 0;
     }
     .party-last { border-bottom: 1px solid #444; }
     .party .name {
-        font-size: 12px;
+        font-size: 16px;
         font-weight: bold;
         text-transform: uppercase;
         color: #1a1a2e;
     }
     .party td { vertical-align: top; }
-    .party .line { padding: 1px 0; }
+    .party .line { padding: 2px 0; }
     .party .lbl { color: #444; }
-    .qr-cell { width: 88px; text-align: right; }
-    .qr-cell img { width: 82px; height: 82px; }
 
     /* ===== Bảng hàng hoá ===== */
-    .items { margin-top: 10px; }
+    .items { margin-top: 14px; }
     .items th {
         border: 1px solid #444;
         background: #eef3fa;
-        padding: 5px 4px;
-        font-size: 9.5px;
+        padding: 8px 6px;
+        font-size: 12.5px;
         text-align: center;
     }
     .items td {
         border: 1px solid #444;
-        padding: 5px 4px;
+        padding: 8px 6px;
         vertical-align: top;
     }
     .items .c { text-align: center; }
     .items .r { text-align: right; }
     .item-name { font-weight: bold; }
-    .item-detail { color: #555; font-size: 8.5px; padding-top: 2px; }
+    .item-detail { color: #555; font-size: 11px; padding-top: 3px; }
 
     /* ===== Tổng hợp ===== */
     .summary { margin-top: -1px; }
     .summary td {
         border: 1px solid #444;
-        padding: 5px 6px;
+        padding: 8px 9px;
     }
     .summary .lbl { width: 55%; }
     .summary .val { text-align: right; }
     .summary .grand td {
         font-weight: bold;
-        font-size: 11px;
+        font-size: 15.5px;
         background: #eef3fa;
     }
     .in-words {
         border: 1px solid #444;
         border-top: none;
-        padding: 5px 6px;
-        font-size: 10px;
+        padding: 8px 9px;
+        font-size: 13.5px;
     }
     .in-words em { font-weight: bold; }
 
     /* ===== Thanh toán / điều khoản ===== */
     .pay-box {
-        margin-top: 10px;
+        margin-top: 14px;
         border: 1px solid #2c5aa0;
-        padding: 7px 9px;
+        padding: 10px 12px;
     }
     .pay-box .title {
         font-weight: bold;
         color: #2c5aa0;
         text-transform: uppercase;
-        font-size: 10px;
-        margin-bottom: 3px;
+        font-size: 14px;
+        margin-bottom: 6px;
     }
-    .terms { margin-top: 8px; font-size: 8.8px; color: #444; }
-    .terms .title { font-weight: bold; color: #1a1a2e; font-size: 9.5px; }
-    .terms ol { margin: 3px 0 0 14px; }
-    .terms li { margin-bottom: 1px; }
+    .pay-box .line { padding: 3px 0; }
+    /* QR to, giữ nguyên tỷ lệ ảnh gốc (chỉ khoá chiều rộng) để không méo mã */
+    .pay-qr { width: 250px; text-align: center; vertical-align: middle; }
+    .pay-qr img { width: 240px; height: auto; }
+    .terms { margin-top: 12px; font-size: 12px; color: #444; }
+    .terms .title { font-weight: bold; color: #1a1a2e; font-size: 13px; }
+    .terms ol { margin: 4px 0 0 18px; }
+    .terms li { margin-bottom: 2px; }
 
     /* ===== Chữ ký ===== */
-    .signs { margin-top: 16px; }
+    .signs { margin-top: 24px; }
     .signs td { width: 50%; text-align: center; vertical-align: top; }
-    .signs .role { font-weight: bold; font-size: 10.5px; }
-    .signs .hint { font-style: italic; font-size: 8.8px; color: #555; }
+    .signs .role { font-weight: bold; font-size: 14px; }
+    .signs .hint { font-style: italic; font-size: 11.5px; color: #555; }
     .footer {
         position: absolute;
         bottom: 12px;
         left: 16px;
         right: 16px;
         border-top: 1px solid #999;
-        padding-top: 5px;
+        padding-top: 6px;
         text-align: center;
-        font-size: 8.8px;
+        font-size: 11px;
         color: #555;
     }
 </style>
@@ -191,9 +193,6 @@
                     </div>
                 @endif
             </td>
-            @if (!empty($qrBase64))
-                <td class="qr-cell"><img src="{{ $qrBase64 }}" alt="QR thanh toán"></td>
-            @endif
         </tr>
     </table>
 
@@ -289,14 +288,18 @@
             <div class="title">Thông tin chuyển khoản</div>
             <table>
                 <tr>
-                    <td style="width: 50%;">
-                        Ngân hàng: <strong>{{ $bank['name'] }}</strong><br>
-                        Số tài khoản: <strong>{{ $bank['account_number'] }}</strong>
+                    <td style="vertical-align: middle;">
+                        <div class="line">Ngân hàng: <strong>{{ $bank['name'] }}</strong></div>
+                        <div class="line">Số tài khoản: <strong>{{ $bank['account_number'] }}</strong></div>
+                        <div class="line">Chủ tài khoản: <strong>{{ $bank['account_name'] }}</strong></div>
+                        <div class="line">Nội dung chuyển khoản: <strong>THANH TOAN {{ $quoteNumber }}</strong></div>
+                        @if (!empty($qrBase64))
+                            <div class="line" style="color: #555;">Hoặc quét mã QR bên cạnh để chuyển khoản nhanh.</div>
+                        @endif
                     </td>
-                    <td>
-                        Chủ tài khoản: <strong>{{ $bank['account_name'] }}</strong><br>
-                        Nội dung: <strong>THANH TOAN {{ $quoteNumber }}</strong>
-                    </td>
+                    @if (!empty($qrBase64))
+                        <td class="pay-qr"><img src="{{ $qrBase64 }}" alt="QR thanh toán"></td>
+                    @endif
                 </tr>
             </table>
         </div>
