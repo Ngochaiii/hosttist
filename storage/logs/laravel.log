@@ -2099,3 +2099,66 @@ Content-Transfer-Encoding: quoted-printable
 [2026-07-07 02:19:35] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
 [2026-07-07 02:19:42] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
 [2026-07-07 02:19:42] local.INFO: Customer services debug {"user_id":2,"customer_id":1,"has_customer":true} 
+[2026-07-20 14:45:54] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-20 14:45:54] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-20 14:46:03] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-20 14:46:03] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-20 14:46:11] local.INFO: Processing order #REN-1783089196RDYEV  
+[2026-07-20 14:46:11] local.INFO: Item #27 - Product Type: product  
+[2026-07-20 14:46:11] local.INFO: Found duration in item: 1  
+[2026-07-20 14:46:11] local.INFO: Calculated expiration: 2027-07-03  
+[2026-07-20 14:46:11] local.INFO: Final expiration for order #REN-1783089196RDYEV: 2027-07-03  
+[2026-07-20 14:46:11] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-07-20 14:46:11] local.INFO: Item #13 - Product Type: ssl  
+[2026-07-20 14:46:11] local.INFO: Found duration in item: 1  
+[2026-07-20 14:46:11] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-20 14:46:11] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-07-20 14:46:11] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-07-20 14:46:11] local.INFO: Item #12 - Product Type: ssl  
+[2026-07-20 14:46:11] local.INFO: Found duration in item: 1  
+[2026-07-20 14:46:11] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-20 14:46:11] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-07-20 14:46:11] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-07-20 14:46:11] local.INFO: Item #2 - Product Type: product  
+[2026-07-20 14:46:11] local.INFO: Found duration in item: 1  
+[2026-07-20 14:46:11] local.INFO: Calculated expiration: 2026-08-08  
+[2026-07-20 14:46:11] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-07-20 14:46:11] local.INFO: Processing order #REN-1783089196RDYEV  
+[2026-07-20 14:46:11] local.INFO: Item #27 - Product Type: product  
+[2026-07-20 14:46:11] local.INFO: Found duration in item: 1  
+[2026-07-20 14:46:11] local.INFO: Calculated expiration: 2027-07-03  
+[2026-07-20 14:46:11] local.INFO: Final expiration for order #REN-1783089196RDYEV: 2027-07-03  
+[2026-07-20 14:46:11] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-07-20 14:46:11] local.INFO: Item #13 - Product Type: ssl  
+[2026-07-20 14:46:11] local.INFO: Found duration in item: 1  
+[2026-07-20 14:46:11] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-20 14:46:11] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-07-20 14:46:11] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-07-20 14:46:11] local.INFO: Item #12 - Product Type: ssl  
+[2026-07-20 14:46:11] local.INFO: Found duration in item: 1  
+[2026-07-20 14:46:11] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-20 14:46:11] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-07-20 14:46:11] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-07-20 14:46:11] local.INFO: Item #2 - Product Type: product  
+[2026-07-20 14:46:11] local.INFO: Found duration in item: 1  
+[2026-07-20 14:46:11] local.INFO: Calculated expiration: 2026-08-08  
+[2026-07-20 14:46:11] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-07-20 14:46:16] local.INFO: Order Detail ID: 27, Number: REN-1783089196RDYEV  
+[2026-07-20 14:46:16] local.INFO: Order Items Count: 1  
+[2026-07-20 14:46:16] local.INFO: Item #1 - ID: 27, Name: VPS Vietnam - 1 (Gia hạn)  
+[2026-07-20 14:46:16] local.INFO: Product ID: 1, Type: product  
+[2026-07-20 14:46:16] local.INFO: Meta Data Type: array  
+[2026-07-20 14:46:16] local.INFO: Meta Data Keys:   
+[2026-07-20 14:46:16] local.INFO: Meta Data Content: []  
+[2026-07-20 14:46:16] local.INFO: Raw Meta Data from DB: []  
+[2026-07-20 14:46:16] local.INFO: Order Detail ID: 27, Number: REN-1783089196RDYEV  
+[2026-07-20 14:46:16] local.INFO: Order Items Count: 1  
+[2026-07-20 14:46:16] local.INFO: Item #1 - ID: 27, Name: VPS Vietnam - 1 (Gia hạn)  
+[2026-07-20 14:46:16] local.INFO: Product ID: 1, Type: product  
+[2026-07-20 14:46:16] local.INFO: Meta Data Type: array  
+[2026-07-20 14:46:16] local.INFO: Meta Data Keys:   
+[2026-07-20 14:46:16] local.INFO: Meta Data Content: []  
+[2026-07-20 14:46:16] local.INFO: Raw Meta Data from DB: []  
+[2026-07-20 14:46:28] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-20 14:46:28] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-20 15:08:02] local.INFO: App\Services\ServiceLifecycleService - Renewal order created {"order_id":30,"invoice_id":30,"customer_service_id":2,"total":10000000.0} 

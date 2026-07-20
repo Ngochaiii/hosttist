@@ -299,6 +299,11 @@ class ServiceLifecycleService extends BaseService
             // Kỳ hạn khớp với recurring_period của sản phẩm (khớp số tiền thu) —
             // xem renewalMonths(). Tránh lệch "trả giá năm nhưng chỉ +1 tháng".
             $durationMonths = $this->renewalMonths($service);
+            // order_items.duration quy ước lưu theo NĂM (giống đơn mua mới ở
+            // OrderService::createFromCart) vì mọi nơi hiển thị (order detail,
+            // provision, hóa đơn) đều gắn cứng nhãn "năm". Không được lưu thẳng
+            // số tháng ở đây, nếu không sẽ hiện sai "12 năm" thay vì "1 năm".
+            $durationYears = max(1, (int) round($durationMonths / 12));
             Order_items::create([
                 'order_id'    => $order->id,
                 'product_id'  => $service->product_id,
@@ -308,7 +313,7 @@ class ServiceLifecycleService extends BaseService
                 'subtotal'    => $amounts['subtotal'],
                 'total'       => $amounts['total'],
                 'options'     => json_encode(['renewal' => true, 'customer_service_id' => $service->id]),
-                'duration'    => $durationMonths,
+                'duration'    => $durationYears,
             ]);
 
             $invoice = Invoices::create([
