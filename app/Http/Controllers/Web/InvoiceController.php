@@ -66,7 +66,7 @@ class InvoiceController extends Controller
             foreach ($invoice->order->items as $item) {
                 $options = json_decode($item->options, true) ?: [];
                 $domain  = $options['domain'] ?? null;
-                $period  = $options['period'] ?? ($item->duration ?? null);
+                $period  = \App\Helpers\ServiceHelper::orderItemDurationYears($item);
 
                 $detailParts = array_filter([
                     $domain ? 'Tên miền: ' . $domain : null,
