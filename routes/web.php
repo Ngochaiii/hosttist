@@ -148,7 +148,9 @@ Route::group(['middleware' => ['frontend.auth']], function () {
     // ===== INVOICES =====
     Route::group(['prefix' => 'invoice'], function () {
         Route::get('/', [InvoiceController::class, 'index'])->name('invoice.index');
+        // download = biên nhận (đã trả tiền); payment-request = đề nghị thanh toán (chưa trả)
         Route::get('/{id}/download', [InvoiceController::class, 'downloadPdf'])->name('invoice.download');
+        Route::get('/{id}/payment-request', [InvoiceController::class, 'downloadPaymentRequest'])->name('invoice.paymentRequest');
         Route::get('/{id}/payment', [InvoiceController::class, 'proceedToPayment'])->name('invoice.payment');
     });
 

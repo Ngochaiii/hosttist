@@ -237,7 +237,15 @@ class ServiceParameterService
         }
         $raw = file_get_contents($abs);
         if ($kind === 'private_key') {
-            return $this->safeDecrypt($raw);
+            // Hai luồng ghi file cùng tồn tại: module "Dịch vụ đang chạy" mã hoá key
+            // (storeSslFile), còn form duyệt thanh toán của admin lưu nguyên bản.
+            // Giải mã khi mã hoá được, ngược lại trả nội dung gốc — nếu không key
+            // upload từ form duyệt sẽ tải về rỗng.
+            try {
+                return Crypt::decryptString($raw);
+            } catch (\Throwable $e) {
+                return $raw;
+            }
         }
         return $raw;
     }

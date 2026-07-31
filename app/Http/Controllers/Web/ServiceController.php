@@ -27,11 +27,6 @@ class ServiceController extends Controller
     public function index(Request $request)
     {
         $customer = auth()->user()->customer;
-        Log::info('Customer services debug', [
-            'user_id' => auth()->id(),
-            'customer_id' => $customer->id ?? null,
-            'has_customer' => !is_null($customer)
-        ]);
         if (!$customer) {
             return redirect()->route('customer.profile')
                 ->with('error', 'Vui lòng cập nhật thông tin khách hàng để xem dịch vụ.');
@@ -145,8 +140,25 @@ class ServiceController extends Controller
         // Cho phần "Thông tin đơn hàng" hiển thị (view check quan hệ orderItems số nhiều).
         $provision->setRelation('orderItems', collect(array_filter([$provision->orderItem])));
 
+        // File SSL admin đã upload — liệt kê để trang chi tiết hiện nút tải trực tiếp,
+        // khách không phải lần sang trang "thông tin truy cập" mới thấy.
+        $sslDownloads = [];
+        if ($provision->provision_type === 'ssl' && $cs) {
+            $sp = app(\App\Services\ServiceParameterService::class);
+            $labels = [
+                'certificate' => ['Certificate', 'Chứng chỉ chính cho domain (.crt)'],
+                'private_key' => ['Private Key', 'Khoá riêng — tuyệt đối không chia sẻ (.key)'],
+                'ca_bundle'   => ['CA Bundle', 'Chứng chỉ trung gian của nhà cung cấp (.crt)'],
+            ];
+            foreach ($labels as $kind => [$label, $desc]) {
+                if ($sp->sslFilePath($cs, $kind)) {
+                    $sslDownloads[] = ['kind' => $kind, 'label' => $label, 'desc' => $desc];
+                }
+            }
+        }
+
         $service = $provision;
-        return view('source.web.services.show', compact('service', 'logs', 'provisionData'));
+        return view('source.web.services.show', compact('service', 'logs', 'provisionData', 'sslDownloads'));
     }
 
     /**

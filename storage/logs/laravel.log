@@ -2323,3 +2323,586 @@ Content-Transfer-Encoding: quoted-printable
 [2026-07-20 16:27:57] local.INFO: Raw Meta Data from DB: []  
 [2026-07-20 16:28:06] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
 [2026-07-20 16:28:06] local.INFO: Customer services debug {"user_id":5,"customer_id":4,"has_customer":true} 
+[2026-07-31 15:34:29] local.INFO: Service type: ssl  
+[2026-07-31 15:34:29] local.INFO: Service type: ssl  
+[2026-07-31 15:34:29] local.INFO: Service type: ssl  
+[2026-07-31 15:34:29] local.INFO: Service type: ssl  
+[2026-07-31 15:34:54] local.INFO: Service type: ssl  
+[2026-07-31 15:34:54] local.INFO: Service type: ssl  
+[2026-07-31 15:34:56] local.ERROR: Show quote failed: Giỏ hàng đã hết hạn, vui lòng tạo lại  
+[2026-07-31 15:36:21] local.ERROR: Show quote failed: Giỏ hàng đã hết hạn, vui lòng tạo lại  
+[2026-07-31 15:45:59] local.INFO: [quote_data_6a6cc337b6783] Generating quote data {"cart_id":13,"items_count":1,"cart_subtotal":"960000.00"} 
+[2026-07-31 15:45:59] local.DEBUG: [quote_data_6a6cc337b6783] Quote data calculation completed {"quote_number":"QUOTE-1785512759A4olU","subtotal":960000.0,"total":960000.0,"expire_date":"07/08/2026"} 
+[2026-07-31 15:45:59] local.INFO: [quote_data_6a6cc337b6783] Quote data generated successfully {"quote_number":"QUOTE-1785512759A4olU","customer_name":"Phạm Ngọc Hải","total_amount":960000.0,"items_count":1} 
+[2026-07-31 15:45:59] local.INFO: [quote_data_6a6cc337cd7a8] Generating quote data {"cart_id":13,"items_count":1,"cart_subtotal":"960000.00"} 
+[2026-07-31 15:45:59] local.DEBUG: [quote_data_6a6cc337cd7a8] Quote data calculation completed {"quote_number":"QUOTE-1785512759HUOw2","subtotal":960000.0,"total":960000.0,"expire_date":"07/08/2026"} 
+[2026-07-31 15:45:59] local.INFO: [quote_data_6a6cc337cd7a8] Quote data generated successfully {"quote_number":"QUOTE-1785512759HUOw2","customer_name":"Phạm Ngọc Hải","total_amount":960000.0,"items_count":1} 
+[2026-07-31 15:46:19] local.INFO: App\Services\PaymentService - Bank transfer payment created {"payment_id":32,"order_id":32,"transaction_code":"PAY-17855127793BYP3"} 
+[2026-07-31 15:48:24] local.INFO: [payment_approve_provision_6a6cc3c8f1437] Payment approval with provision requested {"payment_id":"32","admin_id":1} 
+[2026-07-31 15:48:25] local.INFO: Request debug {"all_inputs":{"_token":"3gbIkb46siegqpPT9F8Sje9ynXNQqlKIAHiceeQj","provision":{"32":{"service_type":"ssl","domain":"tuvangiaxelexus.com","expiry_date":"2027-08-01","ssl_provider":"globalsign","notes":null}},"provision_files":{"32":{"certificate":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phptvzrkq"},"private_key":{"Illuminate\\Http\\UploadedFile":"/private/var/folders/54/nqwtxffj24z9zd7_025vvl4c0000gn/T/phpSZNpKp"}}}},"provision_input":{"32":{"service_type":"ssl","domain":"tuvangiaxelexus.com","expiry_date":"2027-08-01","ssl_provider":"globalsign","notes":null}},"files":"no"} 
+[2026-07-31 15:48:25] local.INFO: Processing order item {"item_id":32,"product_type":"ssl","has_product":true} 
+[2026-07-31 15:48:25] local.INFO: Provision data check {"item_id":32,"has_provision_data":true,"provision_data_keys":["service_type","domain","expiry_date","ssl_provider","notes"],"provision_data":{"service_type":"ssl","domain":"tuvangiaxelexus.com","expiry_date":"2027-08-01","ssl_provider":"globalsign","notes":null}} 
+[2026-07-31 15:48:25] local.INFO: Service type from provision data {"item_id":32,"service_type":"ssl","is_provisionable":true} 
+[2026-07-31 15:48:25] local.INFO: [payment_approve_provision_6a6cc3c8f1437] Provision created {"provision_id":12,"service_type":"ssl","order_item_id":32} 
+[2026-07-31 15:48:25] local.INFO: [payment_approve_provision_6a6cc3c8f1437] Payment approved with provisions {"payment_id":32,"provisions_count":1} 
+[2026-07-31 15:48:25] local.INFO: App\Services\ServiceLifecycleService - CustomerService activated {"customer_service_id":12,"provision_id":12,"expires_at":"2027-07-31"} 
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 15:49:08] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 15:49:08] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 15:49:08] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 15:49:08] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 15:49:08] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 15:49:08] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 15:49:08] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 15:49:08] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 15:49:08] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 15:49:08] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 15:49:08] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 15:49:08] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 15:49:08] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 15:49:08] local.INFO: Found duration in item: 1  
+[2026-07-31 15:49:08] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 15:49:08] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 15:49:12] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 15:49:12] local.INFO: Order Items Count: 1  
+[2026-07-31 15:49:12] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 15:49:12] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 15:49:12] local.INFO: Meta Data Type: array  
+[2026-07-31 15:49:12] local.INFO: Meta Data Keys:   
+[2026-07-31 15:49:12] local.INFO: Meta Data Content: []  
+[2026-07-31 15:49:12] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 15:49:12] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 15:49:12] local.INFO: Order Items Count: 1  
+[2026-07-31 15:49:12] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 15:49:12] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 15:49:12] local.INFO: Meta Data Type: array  
+[2026-07-31 15:49:12] local.INFO: Meta Data Keys:   
+[2026-07-31 15:49:12] local.INFO: Meta Data Content: []  
+[2026-07-31 15:49:12] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 15:49:22] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 15:49:22] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 15:49:47] local.WARNING: IDOR attempt on legacy customer service {"requested_id":"12","auth_user_id":4,"customer_id":3,"ip":"127.0.0.1"} 
+[2026-07-31 15:50:59] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 15:50:59] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 15:52:20] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 15:52:20] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 15:52:25] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 15:52:26] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 15:52:32] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 15:52:32] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 15:52:32] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 15:52:32] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 15:52:32] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 15:52:32] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 15:52:32] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 15:52:32] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 15:52:32] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 15:52:32] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 15:52:32] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 15:52:32] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 15:52:32] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 15:52:32] local.INFO: Found duration in item: 1  
+[2026-07-31 15:52:32] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 15:52:32] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 15:52:34] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 15:52:34] local.INFO: Order Items Count: 1  
+[2026-07-31 15:52:34] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 15:52:34] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 15:52:34] local.INFO: Meta Data Type: array  
+[2026-07-31 15:52:34] local.INFO: Meta Data Keys:   
+[2026-07-31 15:52:34] local.INFO: Meta Data Content: []  
+[2026-07-31 15:52:34] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 15:52:34] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 15:52:34] local.INFO: Order Items Count: 1  
+[2026-07-31 15:52:34] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 15:52:34] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 15:52:34] local.INFO: Meta Data Type: array  
+[2026-07-31 15:52:34] local.INFO: Meta Data Keys:   
+[2026-07-31 15:52:34] local.INFO: Meta Data Content: []  
+[2026-07-31 15:52:34] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:03:38] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:03:38] local.INFO: Order Items Count: 1  
+[2026-07-31 16:03:38] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:03:38] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:03:38] local.INFO: Meta Data Type: array  
+[2026-07-31 16:03:38] local.INFO: Meta Data Keys:   
+[2026-07-31 16:03:38] local.INFO: Meta Data Content: []  
+[2026-07-31 16:03:38] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:03:38] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:03:38] local.INFO: Order Items Count: 1  
+[2026-07-31 16:03:38] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:03:38] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:03:38] local.INFO: Meta Data Type: array  
+[2026-07-31 16:03:38] local.INFO: Meta Data Keys:   
+[2026-07-31 16:03:38] local.INFO: Meta Data Content: []  
+[2026-07-31 16:03:38] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:03:39] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:03:39] local.INFO: Order Items Count: 1  
+[2026-07-31 16:03:39] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:03:39] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:03:39] local.INFO: Meta Data Type: array  
+[2026-07-31 16:03:39] local.INFO: Meta Data Keys:   
+[2026-07-31 16:03:39] local.INFO: Meta Data Content: []  
+[2026-07-31 16:03:39] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:03:39] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:03:39] local.INFO: Order Items Count: 1  
+[2026-07-31 16:03:39] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:03:39] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:03:39] local.INFO: Meta Data Type: array  
+[2026-07-31 16:03:39] local.INFO: Meta Data Keys:   
+[2026-07-31 16:03:39] local.INFO: Meta Data Content: []  
+[2026-07-31 16:03:39] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:03:40] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:03:40] local.INFO: Order Items Count: 1  
+[2026-07-31 16:03:40] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:03:40] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:03:40] local.INFO: Meta Data Type: array  
+[2026-07-31 16:03:40] local.INFO: Meta Data Keys:   
+[2026-07-31 16:03:40] local.INFO: Meta Data Content: []  
+[2026-07-31 16:03:40] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:03:40] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:03:40] local.INFO: Order Items Count: 1  
+[2026-07-31 16:03:40] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:03:40] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:03:40] local.INFO: Meta Data Type: array  
+[2026-07-31 16:03:40] local.INFO: Meta Data Keys:   
+[2026-07-31 16:03:40] local.INFO: Meta Data Content: []  
+[2026-07-31 16:03:40] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:04:17] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:04:17] local.INFO: Order Items Count: 1  
+[2026-07-31 16:04:17] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:04:17] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:04:17] local.INFO: Meta Data Type: array  
+[2026-07-31 16:04:17] local.INFO: Meta Data Keys:   
+[2026-07-31 16:04:17] local.INFO: Meta Data Content: []  
+[2026-07-31 16:04:17] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:04:17] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:04:17] local.INFO: Order Items Count: 1  
+[2026-07-31 16:04:17] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:04:17] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:04:17] local.INFO: Meta Data Type: array  
+[2026-07-31 16:04:17] local.INFO: Meta Data Keys:   
+[2026-07-31 16:04:17] local.INFO: Meta Data Content: []  
+[2026-07-31 16:04:17] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:04:36] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:04:36] local.INFO: Order Items Count: 1  
+[2026-07-31 16:04:36] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:04:36] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:04:36] local.INFO: Meta Data Type: array  
+[2026-07-31 16:04:36] local.INFO: Meta Data Keys:   
+[2026-07-31 16:04:36] local.INFO: Meta Data Content: []  
+[2026-07-31 16:04:36] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:05:03] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:05:03] local.INFO: Order Items Count: 1  
+[2026-07-31 16:05:03] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:05:03] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:05:03] local.INFO: Meta Data Type: array  
+[2026-07-31 16:05:03] local.INFO: Meta Data Keys:   
+[2026-07-31 16:05:03] local.INFO: Meta Data Content: []  
+[2026-07-31 16:05:03] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:05:03] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:05:03] local.INFO: Order Items Count: 1  
+[2026-07-31 16:05:03] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:05:03] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:05:03] local.INFO: Meta Data Type: array  
+[2026-07-31 16:05:03] local.INFO: Meta Data Keys:   
+[2026-07-31 16:05:03] local.INFO: Meta Data Content: []  
+[2026-07-31 16:05:03] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:05:05] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 16:05:05] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 16:09:24] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:09:24] local.INFO: Order Items Count: 1  
+[2026-07-31 16:09:24] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:09:24] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:09:24] local.INFO: Meta Data Type: array  
+[2026-07-31 16:09:24] local.INFO: Meta Data Keys:   
+[2026-07-31 16:09:24] local.INFO: Meta Data Content: []  
+[2026-07-31 16:09:24] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:11:37] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:11:37] local.INFO: Order Items Count: 1  
+[2026-07-31 16:11:37] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:11:37] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:11:37] local.INFO: Meta Data Type: array  
+[2026-07-31 16:11:37] local.INFO: Meta Data Keys:   
+[2026-07-31 16:11:37] local.INFO: Meta Data Content: []  
+[2026-07-31 16:11:37] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:13:04] local.INFO: Processing order #REN-1784562906SKNM3  
+[2026-07-31 16:13:04] local.INFO: Item #31 - Product Type: product  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2027-07-20  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #REN-1784562906SKNM3: 2027-07-20  
+[2026-07-31 16:13:04] local.INFO: Processing order #REN-1783089196RDYEV  
+[2026-07-31 16:13:04] local.INFO: Item #27 - Product Type: product  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2027-07-03  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #REN-1783089196RDYEV: 2027-07-03  
+[2026-07-31 16:13:04] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-07-31 16:13:04] local.INFO: Item #13 - Product Type: ssl  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-07-31 16:13:04] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-07-31 16:13:04] local.INFO: Item #12 - Product Type: ssl  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-07-31 16:13:04] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-07-31 16:13:04] local.INFO: Item #2 - Product Type: product  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2026-08-08  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-07-31 16:13:04] local.INFO: Processing order #REN-1784562906SKNM3  
+[2026-07-31 16:13:04] local.INFO: Item #31 - Product Type: product  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2027-07-20  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #REN-1784562906SKNM3: 2027-07-20  
+[2026-07-31 16:13:04] local.INFO: Processing order #REN-1783089196RDYEV  
+[2026-07-31 16:13:04] local.INFO: Item #27 - Product Type: product  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2027-07-03  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #REN-1783089196RDYEV: 2027-07-03  
+[2026-07-31 16:13:04] local.INFO: Processing order #ORD-1756657669EI5JT  
+[2026-07-31 16:13:04] local.INFO: Item #13 - Product Type: ssl  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #ORD-1756657669EI5JT: 2026-08-31  
+[2026-07-31 16:13:04] local.INFO: Processing order #ORD-17566576051UUMX  
+[2026-07-31 16:13:04] local.INFO: Item #12 - Product Type: ssl  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #ORD-17566576051UUMX: 2026-08-31  
+[2026-07-31 16:13:04] local.INFO: Processing order #ORD-1754642563Pzzuf  
+[2026-07-31 16:13:04] local.INFO: Item #2 - Product Type: product  
+[2026-07-31 16:13:04] local.INFO: Found duration in item: 1  
+[2026-07-31 16:13:04] local.INFO: Calculated expiration: 2026-08-08  
+[2026-07-31 16:13:04] local.INFO: Final expiration for order #ORD-1754642563Pzzuf: 2026-08-08  
+[2026-07-31 16:15:57] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:15:57] local.INFO: Order Items Count: 1  
+[2026-07-31 16:15:57] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:15:57] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:15:57] local.INFO: Meta Data Type: array  
+[2026-07-31 16:15:57] local.INFO: Meta Data Keys:   
+[2026-07-31 16:15:57] local.INFO: Meta Data Content: []  
+[2026-07-31 16:15:57] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:20:14] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 16:20:14] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 16:21:18] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:21:18] local.INFO: Order Items Count: 1  
+[2026-07-31 16:21:18] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:21:18] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:21:18] local.INFO: Meta Data Type: array  
+[2026-07-31 16:21:18] local.INFO: Meta Data Keys:   
+[2026-07-31 16:21:18] local.INFO: Meta Data Content: []  
+[2026-07-31 16:21:18] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:21:18] local.INFO: Order Detail ID: 32, Number: ORD-1785512779ESWUQ  
+[2026-07-31 16:21:18] local.INFO: Order Items Count: 1  
+[2026-07-31 16:21:18] local.INFO: Item #1 - ID: 32, Name: PositiveSSL (1 năm)  
+[2026-07-31 16:21:18] local.INFO: Product ID: 7, Type: ssl  
+[2026-07-31 16:21:18] local.INFO: Meta Data Type: array  
+[2026-07-31 16:21:18] local.INFO: Meta Data Keys:   
+[2026-07-31 16:21:18] local.INFO: Meta Data Content: []  
+[2026-07-31 16:21:18] local.INFO: Raw Meta Data from DB: []  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 16:21:27] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 16:21:27] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 16:21:27] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 16:21:27] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 16:21:27] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 16:21:27] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 16:21:27] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 16:21:27] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 16:21:27] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 16:21:27] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 16:21:27] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 16:21:27] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 16:21:27] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 16:21:27] local.INFO: Found duration in item: 1  
+[2026-07-31 16:21:27] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 16:21:27] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 16:27:23] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 16:27:23] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 16:27:23] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:23] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 16:27:23] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 16:27:23] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 16:27:23] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 16:27:23] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:23] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:27:23] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 16:27:23] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 16:27:23] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 16:27:23] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:23] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:27:23] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 16:27:23] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 16:27:23] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 16:27:23] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:23] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:27:23] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 16:27:23] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 16:27:23] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 16:27:23] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:23] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:27:23] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 16:27:23] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 16:27:23] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 16:27:23] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:23] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 16:27:23] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 16:27:24] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 16:27:24] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 16:27:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:24] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 16:27:24] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 16:27:24] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 16:27:24] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 16:27:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:24] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:27:24] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 16:27:24] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 16:27:24] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 16:27:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:24] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:27:24] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 16:27:24] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 16:27:24] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 16:27:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:24] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:27:24] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 16:27:24] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 16:27:24] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 16:27:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:24] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:27:24] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 16:27:24] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 16:27:24] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 16:27:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:27:24] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 16:27:24] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 16:28:14] local.INFO: App\Services\OrderService - Order fully provisioned {"order_id":16,"order_number":"ORD-1775116798QDO1R","completion_time":"2026-07-31 16:28:14"} 
+[2026-07-31 16:28:14] local.INFO: App\Services\OrderService - Order fully provisioned {"order_id":17,"order_number":"ORD-1775122735ERMJQ","completion_time":"2026-07-31 16:28:14"} 
+[2026-07-31 16:28:14] local.INFO: App\Services\OrderService - Order fully provisioned {"order_id":18,"order_number":"ORD-1775140605EHN4F","completion_time":"2026-07-31 16:28:14"} 
+[2026-07-31 16:28:14] local.INFO: App\Services\OrderService - Order fully provisioned {"order_id":32,"order_number":"ORD-1785512779ESWUQ","completion_time":"2026-07-31 16:28:14"} 
+[2026-07-31 16:28:24] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 16:28:24] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 16:28:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:28:24] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 16:28:24] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 16:28:24] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 16:28:24] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 16:28:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:28:24] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:28:24] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 16:28:24] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 16:28:24] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 16:28:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:28:24] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:28:24] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 16:28:24] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 16:28:24] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 16:28:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:28:24] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:28:24] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 16:28:24] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 16:28:24] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 16:28:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:28:24] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:28:24] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 16:28:24] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 16:28:24] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 16:28:24] local.INFO: Found duration in item: 1  
+[2026-07-31 16:28:24] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 16:28:24] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 16:29:58] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 16:29:58] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 16:29:58] local.INFO: Found duration in item: 1  
+[2026-07-31 16:29:58] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 16:29:58] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 16:29:58] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 16:29:58] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 16:29:58] local.INFO: Found duration in item: 1  
+[2026-07-31 16:29:58] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:29:58] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 16:29:58] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 16:29:58] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 16:29:58] local.INFO: Found duration in item: 1  
+[2026-07-31 16:29:58] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:29:58] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 16:29:58] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 16:29:58] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 16:29:58] local.INFO: Found duration in item: 1  
+[2026-07-31 16:29:58] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:29:58] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 16:29:58] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 16:29:58] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 16:29:58] local.INFO: Found duration in item: 1  
+[2026-07-31 16:29:58] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:29:58] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 16:29:58] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 16:29:58] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 16:29:58] local.INFO: Found duration in item: 1  
+[2026-07-31 16:29:58] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 16:29:58] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 16:31:03] local.INFO: Processing order #ORD-1785512779ESWUQ  
+[2026-07-31 16:31:03] local.INFO: Item #32 - Product Type: ssl  
+[2026-07-31 16:31:03] local.INFO: Found duration in item: 1  
+[2026-07-31 16:31:03] local.INFO: Calculated expiration: 2027-07-31  
+[2026-07-31 16:31:03] local.INFO: Final expiration for order #ORD-1785512779ESWUQ: 2027-07-31  
+[2026-07-31 16:31:03] local.INFO: Processing order #ORD-1775140605EHN4F  
+[2026-07-31 16:31:03] local.INFO: Item #18 - Product Type: ssl  
+[2026-07-31 16:31:03] local.INFO: Found duration in item: 1  
+[2026-07-31 16:31:03] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:31:03] local.INFO: Final expiration for order #ORD-1775140605EHN4F: 2027-04-02  
+[2026-07-31 16:31:03] local.INFO: Processing order #ORD-1775122735ERMJQ  
+[2026-07-31 16:31:03] local.INFO: Item #17 - Product Type: ssl  
+[2026-07-31 16:31:03] local.INFO: Found duration in item: 1  
+[2026-07-31 16:31:03] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:31:03] local.INFO: Final expiration for order #ORD-1775122735ERMJQ: 2027-04-02  
+[2026-07-31 16:31:03] local.INFO: Processing order #ORD-1775116798QDO1R  
+[2026-07-31 16:31:03] local.INFO: Item #16 - Product Type: ssl  
+[2026-07-31 16:31:03] local.INFO: Found duration in item: 1  
+[2026-07-31 16:31:03] local.INFO: Calculated expiration: 2027-04-02  
+[2026-07-31 16:31:03] local.INFO: Final expiration for order #ORD-1775116798QDO1R: 2027-04-02  
+[2026-07-31 16:31:03] local.INFO: Processing order #ORD-1756654861OZJ5U  
+[2026-07-31 16:31:03] local.INFO: Item #4 - Product Type: ssl  
+[2026-07-31 16:31:03] local.INFO: Found duration in item: 1  
+[2026-07-31 16:31:03] local.INFO: Calculated expiration: 2026-08-31  
+[2026-07-31 16:31:03] local.INFO: Final expiration for order #ORD-1756654861OZJ5U: 2026-08-31  
+[2026-07-31 16:31:03] local.INFO: Processing order #ORD-1750035058UHAOh  
+[2026-07-31 16:31:03] local.INFO: Item #1 - Product Type: ssl  
+[2026-07-31 16:31:03] local.INFO: Found duration in item: 1  
+[2026-07-31 16:31:03] local.INFO: Calculated expiration: 2026-06-16  
+[2026-07-31 16:31:03] local.INFO: Final expiration for order #ORD-1750035058UHAOh: 2026-06-16  
+[2026-07-31 16:52:56] local.ERROR: Download renew quote PDF failed: Không tìm thấy dịch vụ để gia hạn. {"id":"2"} 
+[2026-07-31 16:54:45] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 
+[2026-07-31 16:54:45] local.INFO: Customer services debug {"user_id":4,"customer_id":3,"has_customer":true} 

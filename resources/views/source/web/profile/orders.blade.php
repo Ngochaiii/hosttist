@@ -2,6 +2,17 @@
 @extends('layouts.web.default')
 
 @section('content')
+    <style>
+        /* Bảng 7 cột vốn rộng hơn khung col-md-8 nên bị cắt mất cột Thao tác.
+           Thu nhỏ chữ và padding để vừa khung thay vì phải kéo ngang. */
+        .orders-table { font-size: .84rem; }
+        .orders-table th,
+        .orders-table td { padding: .5rem; vertical-align: middle; }
+        .orders-table .badge { font-size: .68rem; font-weight: 500; }
+        .orders-table .btn { font-size: .74rem; padding: .2rem .4rem; }
+        .orders-table .order-code { word-break: break-all; }
+    </style>
+
     <div class="container py-5">
         <div class="row">
             @include('source.web.profile.partials.sidebar')
@@ -35,7 +46,7 @@
                             </div>
                         @else
                             <div class="table-responsive">
-                                <table class="table table-bordered table-hover">
+                                <table class="table table-bordered table-hover orders-table">
                                     <thead class="table-light">
                                         <tr>
                                             <th>Mã đơn hàng</th>
@@ -50,7 +61,7 @@
                                     <tbody>
                                         @foreach ($orders as $order)
                                             <tr>
-                                                <td>{{ $order->order_number }}</td>
+                                                <td class="order-code">{{ $order->order_number }}</td>
                                                 <td>{{ $order->created_at->format('d/m/Y') }}</td>
                                                 <td>
                                                     @if (count($order->domains) > 0)
@@ -85,7 +96,8 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <div class="btn-group btn-group-sm">
+                                                    {{-- Xếp dọc: 3 nút nằm ngang làm bảng 7 cột tràn khỏi khung col-md-8. --}}
+                                                    <div class="d-flex flex-column btn-group-sm" style="min-width:120px;">
                                                         {{-- @if ($order->status == 'completed' && $order->total_amount >= 9000000)
                                                             @php
                                                                 $cashback = App\Models\Cashbacks::where(
@@ -117,12 +129,18 @@
 
                                                         @endif
                                                                                                                     <!-- Hiển thị các nút mặc định cho đơn hàng không đủ điều kiện --> --}}
-                                                        <a href="{{ route('homepage') }}" class="btn btn-info">
-                                                            <i class="fa fa-eye"></i> Tiếp tục mua hàng
-                                                        </a>
                                                         <a href="{{ route('customer.order.detail', $order->id) }}"
-                                                            class="btn btn-success">
-                                                            <i class="fa fa-eye"></i> Xem chi tiết
+                                                            class="btn btn-success mb-1">
+                                                            <i class="fa fa-eye"></i> Chi tiết
+                                                        </a>
+                                                        @if ($order->invoice && $order->invoice->status === 'paid')
+                                                            <a href="{{ route('invoice.download', $order->invoice->id) }}"
+                                                                class="btn btn-outline-primary mb-1">
+                                                                <i class="fa fa-file-pdf-o"></i> Biên nhận
+                                                            </a>
+                                                        @endif
+                                                        <a href="{{ route('homepage') }}" class="btn btn-info">
+                                                            <i class="fa fa-shopping-cart"></i> Mua tiếp
                                                         </a>
                                                     </div>
                                                 </td>

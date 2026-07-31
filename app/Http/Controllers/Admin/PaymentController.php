@@ -255,6 +255,15 @@ class PaymentController extends Controller
                 }
             }
 
+            // Nhánh này tạo provision với status=completed ngay nên order phải được
+            // chốt luôn. markProvisionCompleted() có gọi bước này, còn nhánh duyệt kèm
+            // provision thì không → order kẹt ở 'processing' dù dịch vụ đã bàn giao.
+            if ($payment->order) {
+                app(OrderService::class)->updateOrderOnProvisionComplete(
+                    $payment->order->fresh()->load('items')
+                );
+            }
+
             // Luôn gửi thông báo in-app xác nhận thanh toán cho khách sau khi approve
             $this->emailService->notifyPaymentApproved(
                 $payment->fresh()->load(['order.customer.user', 'order.items', 'invoice'])

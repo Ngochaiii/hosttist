@@ -67,7 +67,7 @@
                                                             class="btn btn-info">
                                                             <i class="fa fa-eye"></i> Xem
                                                         </a>
-                                                        <a href="{{ route('invoice.download', $invoice->id) }}"
+                                                        <a href="{{ route('invoice.paymentRequest', $invoice->id) }}"
                                                             class="btn btn-secondary">
                                                             <i class="fa fa-download"></i> PDF
                                                         </a>

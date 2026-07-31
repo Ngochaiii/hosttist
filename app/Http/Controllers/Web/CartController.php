@@ -222,6 +222,10 @@ class CartController extends Controller
         $cart->tax_amount      = $taxAmount;
         $cart->discount_amount = $discountAmount;
         $cart->total_amount    = $subtotal + $taxAmount - $discountAmount;
+        // Cart là bản ghi cố định theo user (firstOrCreate), expires_at chỉ set lúc tạo.
+        // Gia hạn theo mỗi lần thao tác để hạn 7 ngày tính từ lần hoạt động cuối,
+        // nếu không giỏ hàng sẽ hết hạn vĩnh viễn và chặn checkout.
+        $cart->expires_at      = now()->addDays(7);
         $cart->save();
 
         session(['cart_count' => $items->sum('quantity')]);

@@ -5,15 +5,15 @@
   <!-- custom js -->
   <script src="{{asset('assets/web/hostit/js/custom.js')}}"></script>
   <script>
-// Tự động ẩn thông báo sau 5 giây
+// Tự động ẩn thông báo sau 5 giây.
+// CHỈ áp cho .alert-dismissible (flash message / lỗi validate). Trước đây chọn mọi
+// .alert nên nội dung tĩnh cũng biến mất sau 5 giây: mô tả dịch vụ, cảnh báo sắp
+// hết hạn, ghi chú bảo mật, thông báo "chưa có đơn hàng nào"...
 document.addEventListener('DOMContentLoaded', function() {
-    // Chọn tất cả các alert
-    var alerts = document.querySelectorAll('.alert');
+    var alerts = document.querySelectorAll('.alert-dismissible');
 
-    // Đặt timeout để ẩn sau 5 giây
     alerts.forEach(function(alert) {
         setTimeout(function() {
-            // Sử dụng Bootstrap để ẩn alert
             $(alert).alert('close');
         }, 5000);
     });

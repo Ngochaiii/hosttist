@@ -7,7 +7,7 @@ use App\Models\{Config, Invoices, Cart, CartItem};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\{Auth, DB, Log};
 use Carbon\Carbon;
-use App\Services\{OrderService, PaymentService, InvoiceService, QuotePdfService};
+use App\Services\{OrderService, PaymentService, InvoiceService, QuotePdfService, PaymentReceiptPdfService};
 
 class InvoiceController extends Controller
 {
@@ -46,7 +46,43 @@ class InvoiceController extends Controller
         }
     }
 
+    /**
+     * Biên nhận thanh toán (PDF) — chứng từ xác nhận đã nhận tiền.
+     * Chỉ phát hành cho hóa đơn đã thanh toán; hóa đơn chưa trả tiền thì không có
+     * gì để xác nhận, khách cần đi tiếp luồng thanh toán.
+     */
     public function downloadPdf($id)
+    {
+        try {
+            $invoice = Invoices::with([
+                'order.items.product',
+                'order.customer.user',
+                'order.payments',
+            ])->findOrFail($id);
+
+            if (Auth::user()->customer->id != $invoice->order->customer_id) {
+                return redirect()->route('customer.invoices')
+                    ->with('error', 'Bạn không có quyền truy cập hóa đơn này');
+            }
+
+            if ($invoice->status !== 'paid') {
+                return back()->with('error', 'Hóa đơn chưa được thanh toán nên chưa có biên nhận.');
+            }
+
+            return app(PaymentReceiptPdfService::class)
+                ->build($invoice)
+                ->download('bien-nhan-' . $invoice->invoice_number . '.pdf');
+        } catch (\Exception $e) {
+            Log::error('Payment receipt PDF failed: ' . $e->getMessage(), ['invoice_id' => $id]);
+            return back()->with('error', 'Không thể tạo file PDF biên nhận. Vui lòng thử lại sau.');
+        }
+    }
+
+    /**
+     * Đề nghị thanh toán (PDF) cho hóa đơn CHƯA trả — bản này mới cần thông tin
+     * chuyển khoản + QR + hạn thanh toán, nên vẫn dùng mẫu của QuotePdfService.
+     */
+    public function downloadPaymentRequest($id)
     {
         try {
             $invoice = Invoices::with(['order.items.product', 'order.customer'])->findOrFail($id);
@@ -54,6 +90,10 @@ class InvoiceController extends Controller
             if (Auth::user()->customer->id != $invoice->order->customer_id) {
                 return redirect()->route('customer.invoices')
                     ->with('error', 'Bạn không có quyền truy cập hóa đơn này');
+            }
+
+            if ($invoice->status === 'paid') {
+                return redirect()->route('invoice.download', $invoice->id);
             }
 
             $vatInvoice = (bool) $invoice->vat_invoice_requested;
@@ -102,11 +142,11 @@ class InvoiceController extends Controller
                 : Carbon::now()->addDays(7)->format('d/m/Y');
 
             return app(QuotePdfService::class)
-                ->build($rows, $amounts, $vatInvoice, $invoice->invoice_number, Auth::user(), $expireDate, 'HÓA ĐƠN')
-                ->download('hoa-don-' . $invoice->invoice_number . '.pdf');
+                ->build($rows, $amounts, $vatInvoice, $invoice->invoice_number, Auth::user(), $expireDate, 'ĐỀ NGHỊ THANH TOÁN')
+                ->download('de-nghi-thanh-toan-' . $invoice->invoice_number . '.pdf');
         } catch (\Exception $e) {
-            Log::error('Invoice PDF download failed: ' . $e->getMessage(), ['invoice_id' => $id]);
-            return back()->with('error', 'Không thể tạo file PDF hóa đơn. Vui lòng thử lại sau.');
+            Log::error('Payment request PDF failed: ' . $e->getMessage(), ['invoice_id' => $id]);
+            return back()->with('error', 'Không thể tạo file PDF. Vui lòng thử lại sau.');
         }
     }
 

@@ -306,17 +306,23 @@
     @endif
 
     {{-- ===== ĐIỀU KHOẢN ===== --}}
+    @php
+        // Template dùng chung cho BÁO GIÁ và ĐỀ NGHỊ THANH TOÁN — nhãn bám theo $docTitle
+        // để bản đề nghị thanh toán không còn tự xưng là "báo giá".
+        $docWord = mb_strtolower($docTitle ?? 'BÁO GIÁ');
+        $docWordUc = mb_strtoupper(mb_substr($docWord, 0, 1)) . mb_substr($docWord, 1);
+    @endphp
     <div class="terms">
-        <div class="title">Điều khoản báo giá</div>
+        <div class="title">Điều khoản {{ $docWord }}</div>
         <ol>
-            <li>Báo giá có hiệu lực đến hết ngày {{ $expireDate }}.</li>
+            <li>{{ $docWordUc }} có hiệu lực đến hết ngày {{ $expireDate }}.</li>
             @if ($vatInvoice)
                 <li>Đơn giá chưa bao gồm thuế GTGT; tổng cộng thanh toán đã bao gồm thuế GTGT {{ (int) round($vatRate * 100) }}%. Hoá đơn GTGT sẽ được phát hành sau khi thanh toán được xác nhận.</li>
             @else
                 <li>Giá trên áp dụng cho hình thức thanh toán thường, không xuất hoá đơn GTGT.</li>
             @endif
             <li>Dịch vụ được kích hoạt sau khi thanh toán được xác nhận.</li>
-            <li>Báo giá này không thay thế hoá đơn tài chính.</li>
+            <li>{{ $docWordUc }} này không thay thế hoá đơn tài chính.</li>
         </ol>
     </div>
 
@@ -328,7 +334,7 @@
                 <div class="hint">(Ký, ghi rõ họ tên)</div>
             </td>
             <td>
-                <div class="role">Người lập báo giá</div>
+                <div class="role">Người lập {{ $docWord }}</div>
                 <div class="hint">(Ký, ghi rõ họ tên)</div>
             </td>
         </tr>

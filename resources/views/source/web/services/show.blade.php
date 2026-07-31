@@ -54,6 +54,21 @@
         .svc-tech .btn-copy-tech { background: linear-gradient(135deg, var(--tech-accent), var(--tech-accent-2)); border: none; color: #fff; }
         .svc-tech .btn-copy-tech:hover { color: #fff; opacity: .9; }
         .svc-tech .status-ring { padding: 20px; text-align: center; }
+        .svc-tech .ssl-file-row {
+            display: flex; align-items: center;
+            border: 1px solid rgba(15, 23, 42, .06); border-radius: 12px;
+            padding: 12px 14px; margin-bottom: 10px; background: #fff;
+        }
+        .svc-tech .ssl-file-row:last-child { margin-bottom: 0; }
+        .svc-tech .ssl-note {
+            background: #fff8e6; border: 1px solid #f5d78e; border-radius: 10px;
+            padding: 10px 14px; color: #7a5c11;
+        }
+        .svc-tech .ssl-file-row .icon {
+            width: 38px; height: 38px; border-radius: 10px; margin-right: 12px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            background: rgba(99, 102, 241, .1); color: var(--tech-accent);
+        }
     </style>
 
     <section class="service_detail_section layout_padding svc-tech">
@@ -229,6 +244,48 @@
                             @endif
                         </div>
                     </div>
+
+                    <!-- File chứng chỉ SSL -->
+                    @if (!empty($sslDownloads ?? []))
+                        <div class="card tech-card mb-4">
+                            <div class="card-header bg-white border-bottom">
+                                <h5 class="m-0">
+                                    <i class="fa fa-certificate" style="color:var(--tech-accent);"></i>
+                                    File chứng chỉ SSL
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-unstyled mb-3">
+                                    @foreach ($sslDownloads as $file)
+                                        <li class="ssl-file-row">
+                                            <span class="icon"><i class="fa {{ $file['kind'] === 'private_key' ? 'fa-key' : 'fa-file-text-o' }}"></i></span>
+                                            <div class="flex-grow-1">
+                                                <div class="tile-value">{{ $file['label'] }}</div>
+                                                <div class="small text-muted">{{ $file['desc'] }}</div>
+                                            </div>
+                                            <a href="{{ route('customer.services.ssl.download', [$service->id, $file['kind']]) }}"
+                                                class="btn btn-sm btn-copy-tech">
+                                                <i class="fa fa-download"></i> Tải về
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+
+                                <a href="{{ route('customer.services.ssl.download', [$service->id, 'all']) }}"
+                                    class="btn btn-outline-primary btn-sm">
+                                    <i class="fa fa-file-archive-o"></i> Tải tất cả kèm hướng dẫn cài đặt (.tar.gz)
+                                </a>
+
+                                {{-- Không dùng class .alert: layout tự đóng mọi .alert sau 5 giây
+                                     (dành cho flash message), ghi chú tĩnh sẽ biến mất theo. --}}
+                                <div class="ssl-note mt-3 small">
+                                    <i class="fa fa-shield"></i>
+                                    <strong>Lưu ý bảo mật:</strong> Private Key chỉ dùng trên máy chủ của bạn,
+                                    không gửi cho bất kỳ ai kể cả nhân viên hỗ trợ.
+                                </div>
+                            </div>
+                        </div>
+                    @endif
 
                     <!-- Parent Product Information -->
                     @if ($service->parentProduct)
@@ -423,7 +480,11 @@
                         </div>
                         <div class="card-body d-grid gap-2">
                             @if (in_array($service->service_status, ['active', 'suspended']))
-                                <a href="{{ route('customer.services.service.credentials', $service->id) }}"
+                                {{-- Trang này dùng chung cho ServiceProvision và CustomerService; id không
+                                     trùng nhau nên phải trỏ đúng route theo nguồn đang xem. --}}
+                                <a href="{{ isset($provisionData)
+                                    ? route('customer.services.provision.credentials', $service->id)
+                                    : route('customer.services.service.credentials', $service->id) }}"
                                     class="btn btn-copy-tech btn-block">
                                     <i class="fa fa-info-circle"></i> Xem thông tin dịch vụ
                                 </a>
