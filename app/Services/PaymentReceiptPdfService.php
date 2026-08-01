@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\Models\Config;
+use App\Models\CustomerService;
 use App\Models\Invoices;
+use App\Models\ServiceProvision;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 
@@ -30,16 +32,42 @@ class PaymentReceiptPdfService
         $subtotal   = (float) $invoice->subtotal;
         $vat        = (float) $invoice->tax_amount;
 
+        // Dịch vụ đã cấp cho từng dòng hàng — nguồn của tên miền và ngày hết hạn.
+        $provisions = ServiceProvision::whereIn('order_item_id', $order?->items->pluck('id') ?? [])
+            ->with('customerService')
+            ->get()
+            ->keyBy('order_item_id');
+
+        // Đơn gia hạn không sinh provision mới; dịch vụ đích nằm ở renewal_of_service_id.
+        $renewalService = $order?->renewal_of_service_id
+            ? CustomerService::with('provision')->find($order->renewal_of_service_id)
+            : null;
+
         $rows = [];
         foreach ($order?->items ?? [] as $item) {
-            $options = json_decode($item->options, true) ?: [];
-            $domain  = $options['domain'] ?? $item->domain ?? null;
-            $period  = \App\Helpers\ServiceHelper::orderItemDurationYears($item);
+            $options   = json_decode($item->options, true) ?: [];
+            $provision = $provisions[$item->id] ?? null;
+            $service   = $provision?->customerService ?? $renewalService;
+            $data      = $this->provisionData($provision ?? $renewalService?->provision);
+            $period    = \App\Helpers\ServiceHelper::orderItemDurationYears($item);
+
+            $domain = $item->domain ?: ($options['domain'] ?? ($data['domain'] ?? null));
+
+            // Hạn dùng lấy từ CustomerService (nguồn chân lý), lùi về expiry_date trong
+            // provision_data, cuối cùng mới suy ra từ ngày bắt đầu + số năm đã mua.
+            $expiresAt = $service?->expires_at
+                ?? (!empty($data['expiry_date']) ? Carbon::parse($data['expiry_date']) : null);
+
+            if (!$expiresAt && $period) {
+                $start = $service?->started_at ?? $provision?->provisioned_at ?? $order?->created_at;
+                $expiresAt = $start ? Carbon::parse($start)->addYears($period) : null;
+            }
 
             $rows[] = [
                 'name'      => $item->name ?? $item->product->name ?? 'Dịch vụ',
-                'detail'    => $domain ?: '',
+                'domain'    => $domain ?: null,
                 'period'    => $period ? $period . ' năm' : '—',
+                'expiresAt' => $expiresAt ? Carbon::parse($expiresAt) : null,
                 'lineTotal' => (float) ($item->subtotal ?? ($item->price * $item->quantity)),
             ];
         }
@@ -95,6 +123,17 @@ class PaymentReceiptPdfService
         ]);
 
         return $pdf;
+    }
+
+    /** provision_data lưu dạng JSON string hoặc array tuỳ nơi ghi. */
+    private function provisionData(?ServiceProvision $provision): array
+    {
+        $data = $provision?->provision_data;
+        if (is_string($data)) {
+            $data = json_decode($data, true);
+        }
+
+        return is_array($data) ? $data : [];
     }
 
     private function methodLabel(?string $method): string

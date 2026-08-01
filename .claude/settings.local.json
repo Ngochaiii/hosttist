@@ -277,7 +277,10 @@
       "Bash(cp __TRACKED_VAR__/provision12.html public/_preview_provision12.html)",
       "Bash(grep -o 'service-row.\\\\{0,900\\\\}' public/_preview_order32.html)",
       "Bash(php -l app/Http/Controllers/Web/CustomerController.php)",
-      "Bash(php -l app/Services/PaymentReceiptPdfService.php)"
+      "Bash(php -l app/Services/PaymentReceiptPdfService.php)",
+      "Bash(php -r ' *)",
+      "Bash(php -r '$c=file_get_contents\\(\"public/_receipt_vat.pdf\"\\); preg_match_all\\(\"/\\\\/Type\\\\s*\\\\/Page[^s]/\",$c,$m\\); echo \"VAT => \".count\\($m[0]\\).\" trang\".PHP_EOL;')",
+      "Bash(php -r '$c=file_get_contents\\(\"public/_receipt.pdf\"\\); preg_match_all\\(\"/\\\\/Type\\\\s*\\\\/Page[^s]/\",$c,$m\\); echo \"thường => \".count\\($m[0]\\).\" trang\".PHP_EOL;')"
     ]
   }
 }

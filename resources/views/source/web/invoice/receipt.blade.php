@@ -4,113 +4,166 @@
 <meta charset="UTF-8">
 <title>Biên nhận thanh toán {{ $receiptNumber }}</title>
 <style>
-    @page { margin: 20px 24px; }
+    /* Dompdf build này BỎ QUA @page { margin } (thử cả px lẫn mm đều không ăn) —
+       lề trang phải đặt bằng margin của body. Ngoài ra dpi=150 khiến 1px = 0.48pt
+       nên px không dùng được cho kích thước: dài dùng mm, chữ dùng pt.
+       Lề trên/dưới chừa chỗ cho header/footer position:fixed (lặp lại mọi trang). */
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
+        margin: 30mm 16mm 22mm 16mm;
         font-family: 'DejaVu Sans', sans-serif;
-        font-size: 13px;
-        color: #1a1a2e;
-        line-height: 1.5;
+        font-size: 10pt;
+        color: #1f2937;
+        line-height: 1.55;
     }
     table { width: 100%; border-collapse: collapse; }
 
-    /* ===== Header ===== */
-    .header { border-bottom: 2px solid #2c5aa0; padding-bottom: 10px; }
-    .header td { vertical-align: top; }
-    .brand { font-size: 19px; font-weight: bold; color: #2c5aa0; text-transform: uppercase; }
-    .seller-line { font-size: 11px; color: #555; margin-top: 2px; }
-    .doc-title { text-align: right; font-size: 20px; font-weight: bold; letter-spacing: 1px; }
-    .doc-sub { text-align: right; font-size: 11px; color: #777; font-style: italic; }
-    .doc-meta { text-align: right; font-size: 11.5px; margin-top: 6px; color: #333; }
-    .doc-meta .num { font-weight: bold; }
+    /* ===== HEADER cố định ===== */
+    /* Dompdf định vị position:fixed theo mép giấy, không theo vùng nội dung —
+       nên dùng offset dương nằm gọn trong phần lề đã chừa. */
+    .page-header {
+        position: fixed;
+        top: 12mm; left: 16mm; right: 16mm;
+        height: 16mm;
+        border-bottom: 0.6mm solid #2c5aa0;
+    }
+    .page-header td { vertical-align: top; }
+    /* Cỡ chữ phải đủ nhỏ để tên công ty và tiêu đề nằm gọn 1 dòng — xuống dòng
+       là tràn khỏi vùng header cố định và đè lên nội dung bên dưới. */
+    .brand {
+        font-size: 11pt;
+        font-weight: bold;
+        color: #2c5aa0;
+        text-transform: uppercase;
+        line-height: 1.2;
+    }
+    .brand-sub { font-size: 8pt; color: #6b7280; margin-top: 0.8mm; }
+    .doc-title {
+        text-align: right;
+        font-size: 12pt;
+        font-weight: bold;
+        letter-spacing: 0.15mm;
+        color: #111827;
+        line-height: 1.2;
+    }
+    .doc-sub { text-align: right; font-size: 8pt; color: #9ca3af; font-style: italic; }
+
+    /* ===== FOOTER cố định ===== */
+    .page-footer {
+        position: fixed;
+        bottom: 10mm; left: 16mm; right: 16mm;
+        height: 12mm;
+        border-top: 0.3mm solid #d1d5db;
+        padding-top: 2mm;
+        text-align: center;
+        font-size: 8pt;
+        color: #6b7280;
+        line-height: 1.5;
+    }
+
+    /* ===== Khối tiêu đề phụ: bên bán + số chứng từ ===== */
+    .meta-bar { margin-bottom: 3mm; }
+    .meta-bar td { vertical-align: top; font-size: 8.5pt; color: #4b5563; }
+    .meta-bar .r { text-align: right; }
+    .meta-bar .lbl { color: #9ca3af; }
+    .meta-bar .num { font-family: 'DejaVu Sans Mono', monospace; font-weight: bold; color: #111827; }
 
     /* ===== Khối số tiền ===== */
     .paid-box {
-        margin-top: 16px;
-        border: 2px solid #1e7e34;
-        border-radius: 6px;
+        border: 0.5mm solid #1e7e34;
+        border-radius: 2mm;
         background: #f2fbf4;
-        padding: 14px 16px;
+        padding: 3.5mm 6mm 3.5mm;
         text-align: center;
+        margin-bottom: 4mm;
     }
     .paid-badge {
-        font-size: 13px;
+        font-size: 9pt;
         font-weight: bold;
         color: #1e7e34;
-        letter-spacing: 2px;
+        letter-spacing: 0.8mm;
         text-transform: uppercase;
     }
-    .paid-amount { font-size: 30px; font-weight: bold; color: #1e7e34; margin: 4px 0 2px; }
-    .paid-words { font-size: 12px; font-style: italic; color: #444; }
+    .paid-amount {
+        font-size: 18pt;
+        font-weight: bold;
+        color: #1e7e34;
+        line-height: 1.2;
+        margin: 1.5mm 0 0.8mm;
+    }
+    .paid-words { font-size: 9pt; font-style: italic; color: #4b5563; }
 
-    /* ===== Hai cột thông tin ===== */
-    .parties { margin-top: 16px; }
-    .parties td { vertical-align: top; width: 50%; padding-right: 14px; }
+    /* ===== Khối thông tin ===== */
+    .section { margin-bottom: 3mm; }
+    .parties td { vertical-align: top; width: 50%; padding-right: 8mm; }
+    .parties td.last { padding-right: 0; }
     .block-title {
-        font-size: 10.5px;
+        font-size: 7.5pt;
         font-weight: bold;
         text-transform: uppercase;
-        letter-spacing: 1px;
-        color: #777;
-        border-bottom: 1px solid #ddd;
-        padding-bottom: 3px;
-        margin-bottom: 5px;
+        letter-spacing: 0.35mm;
+        color: #9ca3af;
+        border-bottom: 0.25mm solid #e5e7eb;
+        padding-bottom: 1mm;
+        margin-bottom: 2mm;
     }
-    .line { margin-bottom: 2px; }
-    .line .lbl { color: #666; }
-    .strong { font-weight: bold; }
-    .mono { font-family: 'DejaVu Sans Mono', monospace; font-size: 11.5px; }
+    .line { margin-bottom: 1mm; }
+    .line .lbl { color: #6b7280; }
+    .strong { font-weight: bold; color: #111827; }
+    .mono { font-family: 'DejaVu Sans Mono', monospace; font-size: 8.5pt; }
 
     /* ===== Bảng dịch vụ ===== */
-    .items { margin-top: 16px; }
+    .items { margin-bottom: 4mm; }
     .items th {
         background: #2c5aa0;
         color: #fff;
-        font-size: 11px;
+        font-size: 8pt;
         text-transform: uppercase;
-        letter-spacing: .5px;
-        padding: 7px 8px;
+        letter-spacing: 0.25mm;
+        padding: 2.6mm 3mm;
         text-align: left;
     }
-    .items td { padding: 8px; border-bottom: 1px solid #e3e3e3; vertical-align: top; }
+    .items td {
+        padding: 2mm 3mm;
+        border-bottom: 0.25mm solid #e5e7eb;
+        vertical-align: top;
+    }
     .items .c { text-align: center; }
     .items .r { text-align: right; }
-    .item-name { font-weight: bold; }
-    .item-detail { font-size: 11px; color: #666; }
+    .item-name { font-weight: bold; color: #111827; }
+    .item-detail { font-size: 8.5pt; color: #6b7280; margin-top: 0.5mm; }
 
     /* ===== Tổng ===== */
-    .summary { margin-top: 10px; }
-    .summary td { padding: 4px 8px; }
-    .summary .lbl { text-align: right; color: #444; }
-    .summary .val { text-align: right; width: 34%; }
+    .summary { margin-bottom: 4mm; }
+    .summary td { padding: 1.2mm 3mm; }
+    .summary .lbl { text-align: right; color: #4b5563; }
+    .summary .val { text-align: right; width: 36%; }
     .summary .grand td {
-        border-top: 2px solid #2c5aa0;
-        font-size: 15px;
+        border-top: 0.5mm solid #2c5aa0;
+        font-size: 12pt;
         font-weight: bold;
         color: #1e7e34;
-        padding-top: 8px;
+        padding-top: 3mm;
     }
 
     /* ===== Giao dịch ===== */
-    .txn { margin-top: 16px; border: 1px solid #ddd; border-radius: 6px; padding: 10px 12px; }
-    .txn td { width: 50%; vertical-align: top; padding: 2px 0; }
+    .txn {
+        border: 0.25mm solid #e5e7eb;
+        border-radius: 2mm;
+        padding: 2.8mm 5mm;
+        margin-bottom: 3mm;
+    }
+    .txn table td { width: 50%; vertical-align: top; padding: 0.8mm 0; }
 
     /* ===== Ghi chú ===== */
     .note {
-        margin-top: 14px;
-        border-left: 3px solid #f0ad4e;
+        border-left: 1mm solid #f0ad4e;
         background: #fffaf0;
-        padding: 8px 12px;
-        font-size: 11.5px;
-        color: #6b5312;
-    }
-    .footer {
-        margin-top: 18px;
-        border-top: 1px solid #ccc;
-        padding-top: 6px;
-        text-align: center;
-        font-size: 11px;
-        color: #666;
+        padding: 2.5mm 4mm;
+        font-size: 8pt;
+        color: #7a5c11;
+        line-height: 1.45;
     }
 </style>
 </head>
@@ -124,27 +177,44 @@
         $config->company_phone ? 'ĐT: ' . $config->company_phone : null,
         $config->company_email,
     ]);
+    $footerBits  = array_filter([$companyName, $website, $config->company_phone, $config->company_email]);
 @endphp
 
-{{-- ===== HEADER ===== --}}
-<table class="header">
+{{-- ===== HEADER (lặp lại mọi trang) ===== --}}
+<div class="page-header">
+    <table>
+        <tr>
+            <td style="width: 58%;">
+                <div class="brand">{{ $companyName }}</div>
+                @if ($website)
+                    <div class="brand-sub">{{ $website }}</div>
+                @endif
+            </td>
+            <td style="width: 42%;">
+                <div class="doc-title">BIÊN NHẬN THANH TOÁN</div>
+                <div class="doc-sub">Payment Receipt</div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+{{-- ===== FOOTER (lặp lại mọi trang) ===== --}}
+<div class="page-footer">
+    Chứng từ được tạo tự động từ hệ thống, không cần chữ ký và con dấu.<br>
+    {{ implode(' · ', $footerBits) }}
+</div>
+
+{{-- ===== BÊN BÁN + SỐ CHỨNG TỪ ===== --}}
+<table class="meta-bar">
     <tr>
-        <td style="width: 55%;">
-            <div class="brand">{{ $companyName }}</div>
-            @if ($website)
-                <div class="seller-line">{{ $website }}</div>
-            @endif
+        <td style="width: 58%;">
             @foreach ($sellerBits as $bit)
-                <div class="seller-line">{{ $bit }}</div>
+                <div>{{ $bit }}</div>
             @endforeach
         </td>
-        <td style="width: 45%;">
-            <div class="doc-title">BIÊN NHẬN THANH TOÁN</div>
-            <div class="doc-sub">Payment Receipt</div>
-            <div class="doc-meta">
-                Số: <span class="num mono">{{ $receiptNumber }}</span><br>
-                Ngày: <strong>{{ $paidAt->format('d/m/Y') }}</strong>
-            </div>
+        <td style="width: 42%;" class="r">
+            <div><span class="lbl">Số biên nhận:</span> <span class="num">{{ $receiptNumber }}</span></div>
+            <div><span class="lbl">Ngày:</span> <span class="strong">{{ $paidAt->format('d/m/Y') }}</span></div>
         </td>
     </tr>
 </table>
@@ -157,9 +227,11 @@
 </div>
 
 {{-- ===== KHÁCH HÀNG / THAM CHIẾU ===== --}}
-<table class="parties">
+{{-- Có VAT thì xếp 3 cột để khối "đơn vị xuất hóa đơn" không tốn thêm một
+     section riêng — bản VAT vốn dài, thêm section là tràn sang trang 2. --}}
+<table class="parties section">
     <tr>
-        <td>
+        <td style="width: {{ $vatInvoice ? '34%' : '50%' }};">
             <div class="block-title">Khách hàng</div>
             <div class="line strong">{{ $customerName }}</div>
             @if ($customerEmail)
@@ -172,44 +244,40 @@
                 <div class="line"><span class="lbl">Địa chỉ:</span> {{ $customerAddress }}</div>
             @endif
         </td>
-        <td style="padding-right: 0;">
+        <td style="width: {{ $vatInvoice ? '33%' : '50%' }};" @class(['last' => !$vatInvoice])>
             <div class="block-title">Tham chiếu</div>
             <div class="line"><span class="lbl">Đơn hàng:</span> <span class="mono">{{ $orderNumber }}</span></div>
             <div class="line"><span class="lbl">Hóa đơn:</span> <span class="mono">{{ $invoiceNumber }}</span></div>
             <div class="line"><span class="lbl">Ngày đặt:</span> {{ $orderedAt->format('d/m/Y H:i') }}</div>
         </td>
-    </tr>
-</table>
-
-{{-- ===== KHỐI VAT (chỉ khi khách yêu cầu xuất hóa đơn GTGT) ===== --}}
-@if ($vatInvoice)
-    <table class="parties">
-        <tr>
-            <td colspan="2" style="padding-right: 0;">
+        @if ($vatInvoice)
+            <td style="width: 33%;" class="last">
                 <div class="block-title">Đơn vị xuất hóa đơn GTGT</div>
                 <div class="line strong">{{ $vatInfo['company_name'] ?: '—' }}</div>
                 @if (!empty($vatInfo['tax_code']))
-                    <div class="line"><span class="lbl">Mã số thuế:</span> {{ $vatInfo['tax_code'] }}</div>
+                    <div class="line"><span class="lbl">MST:</span> {{ $vatInfo['tax_code'] }}</div>
                 @endif
                 @if (!empty($vatInfo['address']))
                     <div class="line"><span class="lbl">Địa chỉ:</span> {{ $vatInfo['address'] }}</div>
                 @endif
                 @if (!empty($vatInfo['email']))
-                    <div class="line"><span class="lbl">Email nhận hóa đơn:</span> {{ $vatInfo['email'] }}</div>
+                    <div class="line"><span class="lbl">Email nhận HĐ:</span> {{ $vatInfo['email'] }}</div>
                 @endif
             </td>
-        </tr>
-    </table>
-@endif
+        @endif
+    </tr>
+</table>
 
 {{-- ===== DỊCH VỤ ===== --}}
+<div class="block-title">Dịch vụ đã thanh toán</div>
 <table class="items">
     <thead>
         <tr>
-            <th style="width: 5%;" class="c">#</th>
-            <th>Dịch vụ</th>
-            <th style="width: 15%;" class="c">Thời hạn</th>
-            <th style="width: 20%;" class="r">Thành tiền</th>
+            <th style="width: 6%;" class="c">#</th>
+            <th>Dịch vụ / Tên miền</th>
+            <th style="width: 14%;" class="c">Thời hạn</th>
+            <th style="width: 17%;" class="c">Hết hạn</th>
+            <th style="width: 21%;" class="r">Thành tiền</th>
         </tr>
     </thead>
     <tbody>
@@ -218,11 +286,12 @@
                 <td class="c">{{ $i + 1 }}</td>
                 <td>
                     <div class="item-name">{{ $row['name'] }}</div>
-                    @if (!empty($row['detail']))
-                        <div class="item-detail">{{ $row['detail'] }}</div>
+                    @if (!empty($row['domain']))
+                        <div class="item-detail">Tên miền: {{ $row['domain'] }}</div>
                     @endif
                 </td>
                 <td class="c">{{ $row['period'] }}</td>
+                <td class="c">{{ $row['expiresAt'] ? $row['expiresAt']->format('d/m/Y') : '—' }}</td>
                 <td class="r">{{ number_format($row['lineTotal'], 0, ',', '.') }}</td>
             </tr>
         @endforeach
@@ -259,8 +328,8 @@
     <div class="block-title">Thông tin giao dịch</div>
     <table>
         <tr>
-            <td><span class="lbl">Hình thức:</span> <strong>{{ $methodLabel }}</strong></td>
-            <td><span class="lbl">Thời điểm:</span> <strong>{{ $paidAt->format('d/m/Y H:i') }}</strong></td>
+            <td><span class="lbl">Hình thức:</span> <span class="strong">{{ $methodLabel }}</span></td>
+            <td><span class="lbl">Thời điểm:</span> <span class="strong">{{ $paidAt->format('d/m/Y H:i') }}</span></td>
         </tr>
         <tr>
             <td><span class="lbl">Mã giao dịch:</span> <span class="mono">{{ $txnCode }}</span></td>
@@ -276,19 +345,14 @@
 {{-- ===== GHI CHÚ ===== --}}
 <div class="note">
     @if ($vatInvoice)
-        Chứng từ này xác nhận {{ $companyName }} đã nhận đủ số tiền nêu trên.
-        Hóa đơn GTGT sẽ được phát hành riêng qua hệ thống hóa đơn điện tử và gửi tới
-        email đăng ký. Biên nhận này <strong>không thay thế hóa đơn GTGT</strong>.
+        Xác nhận {{ $companyName }} đã nhận đủ số tiền nêu trên. Biên nhận này
+        <strong>không thay thế hóa đơn GTGT</strong> — hóa đơn GTGT phát hành riêng
+        qua hệ thống hóa đơn điện tử và gửi tới email đăng ký.
     @else
         Chứng từ này xác nhận {{ $companyName }} đã nhận đủ số tiền nêu trên.
         Đây <strong>không phải hóa đơn GTGT</strong>. Nếu cần xuất hóa đơn GTGT,
         vui lòng liên hệ bộ phận hỗ trợ.
     @endif
-</div>
-
-<div class="footer">
-    Chứng từ được tạo tự động từ hệ thống, không cần chữ ký và con dấu.<br>
-    {{ $companyName }}@if ($config->company_email) &middot; {{ $config->company_email }}@endif
 </div>
 </body>
 </html>
