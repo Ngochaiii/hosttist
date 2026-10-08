@@ -140,7 +140,7 @@
 <body>
 @php
     $companyName  = $config->company_name ?: ($config->site_name ?? 'Công ty chúng tôi');
-    $sellerEmail  = $config->company_email;
+    $sellerEmail  = ($config->company_email ?: 'admin@hosttist.com');
     $sellerPhone  = $config->company_phone;
     $website      = $config->url ? preg_replace('#^https?://#', '', rtrim($config->url, '/')) : null;
     $now          = \Carbon\Carbon::now();

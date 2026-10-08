@@ -23,7 +23,7 @@
                 </li>
                 <li class="mb-2">
                     <strong>Liên hệ hỗ trợ:</strong><br>
-                    <small>Nếu có thắc mắc, liên hệ: <a href="mailto:supposthostit@gmail.com">supposthostit@gmail.com</a></small>
+                    <small>Nếu có thắc mắc, liên hệ: <a href="mailto:admin@hosttist.com">admin@hosttist.com</a></small>
                 </li>
             </ol>
         </div>

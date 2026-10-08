@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!-- Site Metas -->
     <link rel="icon" href="{{ asset('assets/web/hostit/images/fevicon.png') }}" type="image/gif" />
-    <title>Hostist</title>
+    <title>Hosttist</title>
     @include('layouts.web.header_css')
     @include('layouts.web.seo_meta')
     @stack('header_css')

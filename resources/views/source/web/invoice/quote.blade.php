@@ -47,13 +47,11 @@
                         <div class="col-md-6">
                             <h5>Payment to:</h5>
                             <address>
-                                <strong>{{ $config->company_name ?? 'Hostist company' }}</strong><br>
-                                {{ $config->company_address ?? '5335 Gate Pkwy, 2nd Floor, Jacksonville, FL 32256' }}<br>
-                                <strong>Email Services:</strong>
-                                {{ $config->support_phone ?? 'supposthostit@gmail.com' }}<br>
-                                <strong>Email:</strong> {{ $config->support_email ?? 'supposthostit@gmail.com' }}<br>
-                                <strong>Complaint / Feedback:</strong>
-                                {{ $config->complaint_phone ?? 'supposthostit@gmail.com' }}<br>
+                                <strong>{{ $config->company_name ?: 'Hosttist' }}</strong><br>
+                                @if ($config->company_address)
+                                    {{ $config->company_address }}<br>
+                                @endif
+                                <strong>Email:</strong> {{ $config->company_email ?: 'admin@hosttist.com' }}<br>
                             </address>
                         </div>
 

@@ -37,7 +37,7 @@
             </div>
             <div class="col-lg-6 d-none d-lg-block">
                 <div class="hero-visual">
-                    <img src="{{ asset('assets/web/hostit/images/slider-img.png') }}" alt="Hạ tầng cloud HOSTIST">
+                    <img src="{{ asset('assets/web/hostit/images/slider-img.png') }}" alt="Hạ tầng cloud HOSTTIST">
                 </div>
             </div>
         </div>

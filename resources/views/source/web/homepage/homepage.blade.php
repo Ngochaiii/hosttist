@@ -70,11 +70,11 @@
     {{-- Gói dịch vụ nổi bật --}}
     @include('source.web.homepage.our-hosting')
 
-    {{-- Vì sao chọn HOSTIST --}}
+    {{-- Vì sao chọn HOSTTIST --}}
     <section class="home-section">
         <div class="container">
             <div class="home-section-head">
-                <span class="section-badge">Vì sao chọn HOSTIST</span>
+                <span class="section-badge">Vì sao chọn HOSTTIST</span>
                 <h2>Nền tảng ổn định, hỗ trợ tận tâm</h2>
                 <p>Hạ tầng đạt chuẩn quốc tế cùng đội ngũ kỹ thuật luôn sẵn sàng đồng hành với bạn.</p>
             </div>
@@ -119,7 +119,7 @@
                     ['q' => 'Có hỗ trợ chuyển hosting từ nhà cung cấp khác không?', 'a' => 'Có, chúng tôi hỗ trợ miễn phí việc chuyển dữ liệu website, database và email từ nhà cung cấp cũ. Đội ngũ kỹ thuật sẽ đảm bảo quá trình chuyển đổi diễn ra suôn sẻ, không ảnh hưởng đến hoạt động website.'],
                     ['q' => 'Tôi có thể nâng cấp gói hosting bất cứ lúc nào không?', 'a' => 'Hoàn toàn có thể! Bạn có thể nâng cấp hoặc hạ cấp gói hosting bất cứ lúc nào thông qua control panel. Chúng tôi tính phí theo tỷ lệ thời gian sử dụng và không mất phí chuyển đổi.'],
                     ['q' => 'Chính sách hoàn tiền như thế nào?', 'a' => 'Chúng tôi cam kết hoàn tiền 100% trong vòng 30 ngày đầu tiên nếu bạn không hài lòng với dịch vụ (áp dụng cho gói shared hosting và VPS). Không cần lý do, không đặt câu hỏi.'],
-                    ['q' => 'Có hỗ trợ kỹ thuật 24/7 không?', 'a' => 'Đội ngũ kỹ thuật của HOSTIST làm việc 24/7/365. Bạn có thể liên hệ qua live chat, email hoặc hotline bất cứ lúc nào. Thời gian phản hồi trung bình dưới 15 phút.'],
+                    ['q' => 'Có hỗ trợ kỹ thuật 24/7 không?', 'a' => 'Đội ngũ kỹ thuật của HOSTTIST làm việc 24/7/365. Bạn có thể liên hệ qua live chat, email hoặc hotline bất cứ lúc nào. Thời gian phản hồi trung bình dưới 15 phút.'],
                     ['q' => 'Dữ liệu có được backup tự động không?', 'a' => 'Tất cả gói hosting đều có backup tự động hàng ngày và lưu trữ trong 7–30 ngày tùy gói. Bạn có thể restore dữ liệu bất cứ lúc nào thông qua control panel hoặc yêu cầu hỗ trợ từ đội ngũ kỹ thuật.'],
                 ];
             @endphp

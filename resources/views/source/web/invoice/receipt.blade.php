@@ -175,9 +175,9 @@
         $config->company_tax_code ? 'MST: ' . $config->company_tax_code : null,
         $config->company_address,
         $config->company_phone ? 'ĐT: ' . $config->company_phone : null,
-        $config->company_email,
+        ($config->company_email ?: 'admin@hosttist.com'),
     ]);
-    $footerBits  = array_filter([$companyName, $website, $config->company_phone, $config->company_email]);
+    $footerBits  = array_filter([$companyName, $website, $config->company_phone, ($config->company_email ?: 'admin@hosttist.com')]);
 @endphp
 
 {{-- ===== HEADER (lặp lại mọi trang) ===== --}}

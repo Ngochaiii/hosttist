@@ -11,11 +11,13 @@ class ConfigSeeder extends Seeder
     {
         Config::create([
             // Thông tin cơ bản website
-            'site_name' => 'TechAccount Store',
-            'url' => 'https://techaccountstore.com',
-            'description' => 'Chuyên cung cấp các giải pháp công nghệ, tài khoản premium, thiết kế website, lắp đặt PC Gaming. Đem đến những sản phẩm và dịch vụ công nghệ chất lượng cao với giá cả hợp lý.',
-            'keywords' => 'tài khoản premium, thiết kế website, lắp đặt PC, case máy tính, giải pháp công nghệ, account game, tài khoản Netflix, tài khoản Spotify',
-            'author' => 'TechAccount Store',
+            'site_name' => 'Hosttist',
+            'url' => 'https://hosttist.com',
+            'description' => 'Hosttist cung cấp hosting, VPS, tên miền và chứng chỉ SSL cho website và ứng dụng.',
+            'keywords' => 'hosting, VPS, tên miền, SSL, Hosttist',
+            'author' => 'Hosttist',
+            'company_name' => 'Hosttist',
+            'company_email' => 'admin@hosttist.com',
 
             // Theme và Giao diện
             'theme_color' => '#2563eb', // Blue-600
@@ -24,10 +26,10 @@ class ConfigSeeder extends Seeder
             'no_thumb_image' => '/images/no-thumb.jpg',
 
             // Social Media
-            'facebook_author' => 'TechAccountStore',
-            'facebook_page' => 'TechAccountStorePage',
-            'fb_app_id' => '123456789',
-            'twitter_creator' => '@techaccountstore',
+            'facebook_author' => '',
+            'facebook_page' => '',
+            'fb_app_id' => '',
+            'twitter_creator' => '',
 
             // Google Adsense
             'adsense_platform_account' => '',
@@ -38,7 +40,7 @@ class ConfigSeeder extends Seeder
             'related_posts_num' => 4,
             'posts_per_page' => 12,
             'comments_system' => 'facebook',
-            'disqus_shortname' => 'techaccountstore',
+            'disqus_shortname' => '',
 
             // Ngôn ngữ
             'months_name' => json_encode([

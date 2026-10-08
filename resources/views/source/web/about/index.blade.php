@@ -8,23 +8,19 @@
                     <div class="detail-box">
                         <div class="heading_container">
                             <h2>
-                                About Us
+                                Về Hosttist
                             </h2>
                         </div>
                         <p>
-                            Words which don't look even slightly believable. If you are going to use a passage of Lorem
-                            Ipsum, you
-                            need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem
-                            Ipsum
-                            generators on the Internet tend to repeat predefined chunks </p>
-                        <a href="">
-                            Read More
+                            Hosttist cung cấp hosting, VPS, tên miền và chứng chỉ SSL, giúp bạn xây dựng và vận hành website, ứng dụng trên Internet. Liên hệ admin@hosttist.com để được tư vấn dịch vụ phù hợp. </p>
+                        <a href="{{ route('services.index') }}">
+                            Khám phá dịch vụ
                         </a>
                     </div>
                 </div>
                 <div class="col-md-6 ">
                     <div class="img-box">
-                        <img src="images/about-img.png" alt="">
+                        <img src="{{ asset('assets/web/hostit/images/about-img.png') }}" alt="Dịch vụ hosting và VPS Hosttist">
                     </div>
                 </div>
 

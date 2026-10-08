@@ -5,16 +5,16 @@
 
 <!-- Meta tags cơ bản -->
 <meta name="description"
-    content="{{ $config->description ?? 'Shop công nghệ, cung cấp dịch vụ website, tài khoản game, build case và giải pháp chuyển đổi số' }}">
+    content="{{ $config->description ?? 'Hosttist cung cấp hosting, VPS, tên miền và chứng chỉ SSL cho website và ứng dụng.' }}">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
 <!-- Open Graph meta tags -->
 <meta property="og:type" content="website">
-<meta property="og:title" content="{{ $config->site_name ?? 'Shop Công Nghệ' }}">
+<meta property="og:title" content="{{ $config->site_name ?? 'Hosttist' }}">
 <meta property="og:url" content="{{ $config->url ?? url()->current() }}">
 <meta property="og:description"
-    content="{{ $config->description ?? 'Shop công nghệ, cung cấp dịch vụ website, tài khoản game, build case và giải pháp chuyển đổi số' }}">
-<meta property="og:site_name" content="{{ $config->site_name ?? 'Shop Công Nghệ' }}">
+    content="{{ $config->description ?? 'Hosttist cung cấp hosting, VPS, tên miền và chứng chỉ SSL cho website và ứng dụng.' }}">
+<meta property="og:site_name" content="{{ $config->site_name ?? 'Hosttist' }}">
 <meta property="og:image" content="{{ $config->og_image ?? '/images/default-og-image.jpg' }}">
 
 <!-- Alternate Language -->
@@ -22,15 +22,15 @@
 
 <!-- Twitter Card meta tags -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $config->site_name ?? 'Shop Công Nghệ' }}">
+<meta name="twitter:title" content="{{ $config->site_name ?? 'Hosttist' }}">
 <meta name="twitter:domain" content="{{ $config->domain ?? parse_url(url()->current(), PHP_URL_HOST) }}">
 <meta name="twitter:description"
-    content="{{ $config->description ?? 'Shop công nghệ, cung cấp dịch vụ website, tài khoản game, build case và giải pháp chuyển đổi số' }}">
-<meta name="twitter:creator" content="{{ $config->twitter_creator ?? '@yourhandle' }}">
+    content="{{ $config->description ?? 'Hosttist cung cấp hosting, VPS, tên miền và chứng chỉ SSL cho website và ứng dụng.' }}">
+<meta name="twitter:creator" content="{{ $config->twitter_creator ?? '' }}">
 
 <!-- Social Media meta tags -->
-<meta property="article:author" content="{{ $config->facebook_author ?? 'https://facebook.com/your-profile' }}">
-<meta property="article:publisher" content="{{ $config->facebook_page ?? 'https://facebook.com/your-page' }}">
+<meta property="article:author" content="{{ $config->facebook_author ?? '' }}">
+<meta property="article:publisher" content="{{ $config->facebook_page ?? '' }}">
 <meta property="fb:app_id" content="{{ $config->fb_app_id ?? '' }}">
 <meta property="fb:admins" content="{{ $config->fb_admin_id ?? '' }}">
 
@@ -42,7 +42,7 @@
 {
     "@context": "http://schema.org",
     "@type": "WebSite",
-    "name": "{{ $config->site_name ?? 'Shop Công Nghệ' }}",
+    "name": "{{ $config->site_name ?? 'Hosttist' }}",
     "url": "{{ $config->url ?? url()->current() }}",
     "potentialAction": {
         "@type": "SearchAction",
